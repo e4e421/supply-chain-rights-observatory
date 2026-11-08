@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -9,19 +9,21 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; upgrade-insecure-requests">
   <title>Supply Chain Rights Observatory | Research Intelligence</title>
   <link rel="stylesheet" href="./styles.css">
+  <script defer src="./i18n.js"></script>
   <script defer src="./app.js"></script>
 </head>
 <body>
-  <a class="skip-link" href="#signals">跳至情報資料</a>
+  <a class="skip-link" href="#signals">Skip to research intelligence</a>
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="#home" aria-label="Supply Chain Rights Observatory 首頁">
+      <a class="brand" href="#home" aria-label="Supply Chain Rights Observatory home">
         <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
         <span class="brand-name">SUPPLY CHAIN<br><strong>RIGHTS OBSERVATORY</strong></span>
       </a>
-      <nav aria-label="主要選單">
-        <a href="#signals">最新情報</a><a href="#lenses">研究議題</a><a href="#sources">研究來源</a><a href="#method">方法與限制</a>
+      <nav aria-label="Main navigation">
+        <a href="#signals">Latest signals</a><a href="#lenses">Research themes</a><a href="#sources">Sources</a><a href="#method">Methods & limitations</a>
       </nav>
+      <label class="language-picker" for="language-select"><span class="sr-only">Language</span><select id="language-select" aria-label="Select website language"><option value="en">English</option><option value="zh">繁體中文</option><option value="de">Deutsch</option></select></label>
       <span class="top-tag">OPEN RESEARCH INTELLIGENCE</span>
     </div>
   </header>
@@ -32,52 +34,52 @@
         <div class="hero-left">
           <div class="eyebrow"><span class="live-dot"></span> EUROPE · SUPPLY NETWORKS · WORKER RIGHTS</div>
           <h1>Where supply chains<br>meet <em>human rights.</em></h1>
-          <p class="hero-desc">歐洲供應鏈與人權、勞動條件及企業盡職調查的公開研究情報平台。整合每日線索、政策變動與學術研究，追蹤風險可見性、治理機制及勞工實際結果。</p>
-          <div class="hero-actions"><a class="btn btn-primary" href="#signals">瀏覽最新情報 <span aria-hidden="true">↗</span></a><a class="btn btn-outline" href="#sources">研究來源目錄</a></div>
+          <p class="hero-desc">An open research intelligence platform on European supply chains, human rights, working conditions and corporate due diligence. Daily leads, policy developments and research help examine risk visibility, governance and labour outcomes.</p>
+          <div class="hero-actions"><a class="btn btn-primary" href="#signals">Explore the latest signals <span aria-hidden="true">↗</span></a><a class="btn btn-outline" href="#sources">Source directory</a></div>
           <p class="hero-footnote">Public sources only · No tracking · No login · No personal research records</p>
         </div>
-        <aside class="hero-panel" aria-label="追蹤研究重點">
+        <aside class="hero-panel" aria-label="Research priorities">
           <span class="panel-label">RESEARCH SIGNALS / 04</span>
-          <div class="panel-line"><span>01</span><div><strong>Supply-network visibility</strong><small>多層級供應商與資訊缺口</small></div><span class="end-arrow">↗</span></div>
-          <div class="panel-line"><span>02</span><div><strong>Due diligence governance</strong><small>法規要求與買方治理行為</small></div><span class="end-arrow">↗</span></div>
-          <div class="panel-line"><span>03</span><div><strong>Workers' rights & remedy</strong><small>勞動條件、申訴與補救</small></div><span class="end-arrow">↗</span></div>
-          <div class="panel-line"><span>04</span><div><strong>Evidence & causal research</strong><small>資料品質與可檢驗假說</small></div><span class="end-arrow">↗</span></div>
+          <div class="panel-line"><span>01</span><div><strong>Supply-network visibility</strong><small>Multi-tier suppliers and information gaps</small></div><span class="end-arrow">↗</span></div>
+          <div class="panel-line"><span>02</span><div><strong>Due diligence governance</strong><small>Regulatory obligations and buyer governance</small></div><span class="end-arrow">↗</span></div>
+          <div class="panel-line"><span>03</span><div><strong>Workers' rights & remedy</strong><small>Working conditions, grievances and remedy</small></div><span class="end-arrow">↗</span></div>
+          <div class="panel-line"><span>04</span><div><strong>Evidence & causal research</strong><small>Data quality and testable hypotheses</small></div><span class="end-arrow">↗</span></div>
           <div class="panel-bottom">INTELLIGENCE ≠ VERIFIED VIOLATION</div>
         </aside>
       </div>
     </section>
 
-    <div class="container"><section class="metrics" aria-label="情報系統狀態">
-      <div class="metric"><span>已收錄情報</span><strong id="metric-total">—</strong><small>去重後來源線索</small></div>
-      <div class="metric"><span>近 30 天新發布</span><strong id="metric-recent">—</strong><small>依原始發布日期</small></div>
-      <div class="metric"><span>最後成功擷取</span><strong id="metric-updated">尚未執行</strong><small>臺北時間（UTC+8）</small></div>
-      <div class="metric metric-status"><span>更新健康狀態</span><strong id="metric-status" aria-live="polite">待確認</strong><small id="metric-coverage">首次部署後啟動監測</small></div>
+    <div class="container"><section class="metrics" aria-label="Intelligence status">
+      <div class="metric"><span>Recorded signals</span><strong id="metric-total">—</strong><small>Deduplicated research leads</small></div>
+      <div class="metric"><span>Published in last 30 days</span><strong id="metric-recent">—</strong><small>Based on publication date</small></div>
+      <div class="metric"><span>Last successful collection</span><strong id="metric-updated">Not yet run</strong><small>Taipei time (UTC+8)</small></div>
+      <div class="metric metric-status"><span>Collection health</span><strong id="metric-status" aria-live="polite">Pending</strong><small id="metric-coverage">Monitoring starts after first deployment</small></div>
     </section></div>
 
     <div class="container content-layout">
       <section class="main-column" id="signals">
-        <div class="section-heading"><div><div class="section-kicker">01 / LIVE INTELLIGENCE</div><h2>最新研究情報</h2><p>每日自動彙整的公開資訊；原文及證據等級可追溯，分類僅作初步研究索引。</p></div><button class="text-btn" id="download-csv" type="button">匯出 CSV <span aria-hidden="true">↓</span></button></div>
-        <div class="filters"><label class="search-wrap"><span class="sr-only">搜尋標題與來源</span><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="search" type="search" placeholder="搜尋議題、公司、產業、關鍵字…" maxlength="120"></label><label class="sr-only" for="topic">研究議題</label><select id="topic"><option value="all">所有議題</option><option value="policy">法規與治理</option><option value="forced-labour">強迫勞動</option><option value="working-conditions">勞動條件</option><option value="worker-voice">勞工發聲與補救</option><option value="network">供應網絡</option><option value="research">學術研究</option></select><label class="sr-only" for="period">時間範圍</label><select id="period"><option value="all">不限日期</option><option value="7">近 7 天</option><option value="30">近 30 天</option><option value="90">近 90 天</option></select></div>
+        <div class="section-heading"><div><div class="section-kicker">01 / LIVE INTELLIGENCE</div><h2>Latest research intelligence</h2><p>Public information collected daily. Original sources and evidence classes remain traceable; categories are preliminary research tags.</p></div><button title="Data import uses canonical English field names and original article titles." class="text-btn" id="download-csv" type="button">Export CSV <span aria-hidden="true">↓</span></button></div>
+        <div class="filters"><label class="search-wrap"><span class="sr-only">Search titles and sources</span><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="search" type="search" placeholder="Search topics, companies, industries or keywords…" maxlength="120"></label><label class="sr-only" for="topic">Research themes</label><select id="topic"><option value="all">All topics</option><option value="policy">Policy & governance</option><option value="forced-labour">Forced labour</option><option value="working-conditions">Working conditions</option><option value="worker-voice">Worker voice & remedy</option><option value="network">Supply networks</option><option value="research">Academic research</option></select><label class="sr-only" for="period">Date range</label><select id="period"><option value="all">Any date</option><option value="7">Past 7 days</option><option value="30">Past 30 days</option><option value="90">Past 90 days</option></select></div>
         <div id="data-alert" class="data-alert" role="status" aria-live="polite"></div>
-        <div id="results-count" class="results-count">正在讀取公開資料…</div>
-        <div id="signal-list" class="signal-list" aria-live="polite"><div class="empty-state"><strong>資料載入中</strong><p>正在讀取研究情報資料庫。</p></div></div>
-        <div class="pagination"><button type="button" id="show-more" class="btn btn-outline" hidden>顯示更多情報 ↓</button></div>
+        <div id="results-count" class="results-count">Loading public data…</div>
+        <div id="signal-list" class="signal-list" aria-live="polite"><div class="empty-state"><strong>Loading data</strong><p>Retrieving the research intelligence dataset.</p></div></div>
+        <div class="pagination"><button type="button" id="show-more" class="btn btn-outline" hidden>Show more signals ↓</button></div>
       </section>
 
-      <aside class="sidebar" aria-label="政策與研究提示">
-        <div class="side-block"><div class="section-kicker">POLICY WATCH</div><h3>歐盟政策時間軸</h3>
-          <div class="timeline"><div class="timeline-entry"><span class="date-chip">2027.12.14</span><strong>EU Forced Labour Regulation</strong><p>禁止強迫勞動產品進入、流通或出口歐盟市場的規定開始適用。</p><a href="https://single-market-economy.ec.europa.eu/single-market/goods/forced-labour-regulation/what-forced-labour-regulation-and-how-does-it-work_en" target="_blank" rel="noopener noreferrer">歐盟執委會原始資料 ↗</a></div><div class="timeline-entry"><span class="date-chip">2029.07.26</span><strong>EU CSDDD</strong><p>2026 年修正後主要盡職調查規定開始適用；各國轉置與適用範圍仍須逐一核對。</p><a href="https://commission.europa.eu/topics/business-and-industry/company-law-and-corporate-governance/corporate-sustainability-due-diligence_en" target="_blank" rel="noopener noreferrer">歐盟執委會原始資料 ↗</a></div></div>
-          <p class="meta-note">法規摘要人工查核：2026-11-08。請以官網現行文本為準。</p></div>
-        <div class="side-block evidence"><div class="section-kicker">EVIDENCE STANDARD</div><h3>證據分類原則</h3><div class="evidence-row"><i class="bullet bullet-a"></i><div><b>政策／官方文本</b><span>適用日、規範與制度範圍須核對正式版本</span></div></div><div class="evidence-row"><i class="bullet bullet-b"></i><div><b>資訊線索</b><span>新聞聚合結果，不代表已核實違規事實</span></div></div><div class="evidence-row"><i class="bullet bullet-c"></i><div><b>學術書目</b><span>Crossref 書目記錄，不代表已完成全文品質審查</span></div></div></div>
-        <div class="side-block side-cta"><span>RESEARCH DESIGN NOTE</span><h3>從事件走向研究問題</h3><p>區分指控、企業回應、查證結果、法規暴露及勞工結果；觀測到的報導數量不能直接視為實際違規發生率。</p><a href="#method">閱讀研究方法與限制 ↗</a></div>
+      <aside class="sidebar" aria-label="Policy and research notes">
+        <div class="side-block"><div class="section-kicker">POLICY WATCH</div><h3>EU policy timeline</h3>
+          <div class="timeline"><div class="timeline-entry"><span class="date-chip">2027.12.14</span><strong>EU Forced Labour Regulation</strong><p>Rules prohibiting products made with forced labour from entering, circulating in or being exported from the EU market start to apply.</p><a href="https://single-market-economy.ec.europa.eu/single-market/goods/forced-labour-regulation/what-forced-labour-regulation-and-how-does-it-work_en" target="_blank" rel="noopener noreferrer">European Commission source ↗</a></div><div class="timeline-entry"><span class="date-chip">2029.07.26</span><strong>EU CSDDD</strong><p>The principal due-diligence obligations under the 2026 amendments begin to apply; verify national transposition and scope separately.</p><a href="https://commission.europa.eu/topics/business-and-industry/company-law-and-corporate-governance/corporate-sustainability-due-diligence_en" target="_blank" rel="noopener noreferrer">European Commission source ↗</a></div></div>
+          <p class="meta-note">Legal summaries manually checked: 2026-11-08. Consult the current official text.</p></div>
+        <div class="side-block evidence"><div class="section-kicker">EVIDENCE STANDARD</div><h3>Evidence classification</h3><div class="evidence-row"><i class="bullet bullet-a"></i><div><b>Policy / official text</b><span>Verify effective dates, requirements and scope against authoritative versions</span></div></div><div class="evidence-row"><i class="bullet bullet-b"></i><div><b>Discovery leads</b><span>Aggregated news does not establish a verified violation</span></div></div><div class="evidence-row"><i class="bullet bullet-c"></i><div><b>Scholarly metadata</b><span>A Crossref record is not a quality assessment of the full paper</span></div></div></div>
+        <div class="side-block side-cta"><span>RESEARCH DESIGN NOTE</span><h3>From incidents to research questions</h3><p>Distinguish allegations, company responses, verification, regulatory exposure and labour outcomes. Report counts are not the prevalence of violations.</p><a href="#method">Read methods and limitations ↗</a></div>
       </aside>
     </div>
 
-    <section class="research-section" id="lenses"><div class="container"><div class="section-kicker">02 / ETH-ALIGNED RESEARCH LENSES</div><div class="section-heading aligned"><div><h2>研究問題導向的情報分類</h2><p>以永續供應鏈管理、人權盡職調查、社會永續與實證研究為組織架構，不代表 ETH Zurich 官方立場。</p></div></div><div class="lens-grid"><article class="lens-card"><span>01 / NETWORK</span><h3>供應網絡資訊缺口</h3><p>Tier-2/3、供應商評分缺漏、可追溯性與資料涵蓋偏差。</p><small>Network data · Missingness · Predictive modelling</small></article><article class="lens-card"><span>02 / GOVERNANCE</span><h3>盡職調查與治理傳導</h3><p>買方如何將法規壓力轉化為採購規範、稽核、支持與供應商治理。</p><small>HRDD · Buyer–supplier governance</small></article><article class="lens-card"><span>03 / SOCIAL</span><h3>勞動條件與補救機制</h3><p>強迫勞動、職業安全、工會權利、申訴機制與實質改善結果。</p><small>Worker voice · Remedy · Labour outcomes</small></article><article class="lens-card"><span>04 / IDENTIFICATION</span><h3>政策效果與識別策略</h3><p>注意法規生效時點、報導偏差、選擇偏差，以及 DID / DDD 的可用性。</p><small>Difference-in-differences · Event studies</small></article></div></div></section>
+    <section class="research-section" id="lenses"><div class="container"><div class="section-kicker">02 / ETH-ALIGNED RESEARCH LENSES</div><div class="section-heading aligned"><div><h2>Research-question-driven intelligence</h2><p>Organised around sustainable supply chain management, human rights due diligence, social sustainability and empirical research. This is not an official ETH Zurich position.</p></div></div><div class="lens-grid"><article class="lens-card"><span>01 / NETWORK</span><h3>Supply-network information gaps</h3><p>Tier-2/3 suppliers, missing sustainability ratings, traceability and coverage bias.</p><small>Network data · Missingness · Predictive modelling</small></article><article class="lens-card"><span>02 / GOVERNANCE</span><h3>Due diligence and governance transmission</h3><p>How buyers translate regulatory pressure into purchasing rules, audits, supplier support and governance.</p><small>HRDD · Buyer–supplier governance</small></article><article class="lens-card"><span>03 / SOCIAL</span><h3>Working conditions and remedy</h3><p>Forced labour, occupational safety, trade-union rights, grievance mechanisms and actual improvements.</p><small>Worker voice · Remedy · Labour outcomes</small></article><article class="lens-card"><span>04 / IDENTIFICATION</span><h3>Policy effects and identification</h3><p>Consider policy application dates, reporting and selection biases, and the feasibility of DID / DDD.</p><small>Difference-in-differences · Event studies</small></article></div></div></section>
 
-    <section class="sources-section" id="sources"><div class="container"><div class="section-heading"><div><div class="section-kicker">03 / SOURCE DIRECTORY</div><h2>追蹤來源與研究用途</h2><p>優先保留主管機關、國際勞工組織、企業與人權組織及學術來源；自動發現與人工參考分開標示。</p></div></div><div class="source-grid" id="source-list"></div></div></section>
+    <section class="sources-section" id="sources"><div class="container"><div class="section-heading"><div><div class="section-kicker">03 / SOURCE DIRECTORY</div><h2>Sources and research applications</h2><p>Prioritise regulators, labour institutions, business and human rights organisations, and academic sources. Automated discovery and curated references are distinguished.</p></div></div><div class="source-grid" id="source-list"></div></div></section>
 
-    <section class="method-section" id="method"><div class="container method-grid"><div><div class="section-kicker">04 / TRANSPARENCY & SECURITY</div><h2>方法透明，資料可追溯。</h2><p>本網站是公開研究線索的篩選入口，非監管機關裁決系統、非企業人權評分，也不是個案違規認定資料庫。</p></div><div><div class="method-item"><b>01 · 資料來源</b><p>公開 RSS 發現線索、Crossref 書目 API 與人工核對的官方連結；不擷取登入內容或私人資料。</p></div><div class="method-item"><b>02 · 資料處理</b><p>去重、日期正規化、關鍵字初步分類；保留原始標題、來源與外部連結，不進行未經驗證的指控摘要。</p></div><div class="method-item"><b>03 · 更新與失效</b><p>GitHub Actions 預定每日臺北時間 06:23 執行。排程可能延遲；失敗時以實際上次成功時間顯示資訊時效。</p></div><div class="method-item"><b>04 · 隱私與資安</b><p>無登入、Cookie、分析追蹤或前台 API 金鑰。公開資料不可存放研究者個資、未公開訪談及保密協議資料。</p></div></div></div></section>
+    <section class="method-section" id="method"><div class="container method-grid"><div><div class="section-kicker">04 / TRANSPARENCY & SECURITY</div><h2>Transparent methods. Traceable data.</h2><p>This portal supports discovery of public research leads. It is not a regulator's adjudication system, company human rights rating or database of substantiated violations.</p></div><div><div class="method-item"><b>01 · Data sources</b><p>Public RSS discovery feeds, Crossref bibliographic API and manually checked official links. No authenticated or private content is scraped.</p></div><div class="method-item"><b>02 · Processing</b><p>Deduplication, date normalisation and preliminary keyword classification. Original titles, source links and citations are retained; unverified allegations are not summarised as facts.</p></div><div class="method-item"><b>03 · Updates and staleness</b><p>GitHub Actions is scheduled daily at 06:23 Taipei time. Runs may be delayed; freshness is based on the last successful collection.</p></div><div class="method-item"><b>04 · Privacy and security</b><p>No login, cookies, analytics trackers or client-side API keys. Never publish researchers' personal data, unpublished interviews or confidential materials.</p></div></div></div></section>
   </main>
   <footer class="footer"><div class="container footer-inner"><span>© Supply Chain Rights Observatory · Independent public research resource</span><span>Public information only · Verify at source · <a href="https://github.com/e4e421/supply-chain-rights-observatory" target="_blank" rel="noopener noreferrer">View open-source project ↗</a></span></div></footer>
 </body></html>

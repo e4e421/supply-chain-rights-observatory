@@ -147,7 +147,7 @@ def parse_rss(body, config, now):
             'source': clean_text(config['name'], 90), 'source_id': config['id'],
             'kind': 'discovery', 'evidence_status': 'Unverified discovery',
             'topics': classify(title, config.get('topics', [])),
-            'description': '自動發現的新聞聚合線索；請追溯原始新聞與獨立佐證，不代表人權違規已獲證實。',
+            'description': 'Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.',
             'first_seen': iso(now)
         })
     return result
@@ -174,7 +174,7 @@ def parse_crossref(payload, config, now):
             'published_at': published, 'source': 'Crossref · ' + clean_text(config['name'], 65),
             'source_id': config['id'], 'kind': 'academic', 'evidence_status': 'Bibliographic record',
             'topics': classify(title, ('research',)), 'doi': doi,
-            'description': 'Crossref 出版書目資料；DOI 與日期須核對出版商，研究方法與同儕審查狀態尚未人工查證。',
+            'description': 'Crossref bibliographic record. Verify DOI and publication date with the publisher; methods and peer-review status have not been independently reviewed.',
             'first_seen': iso(now)
         })
     return result

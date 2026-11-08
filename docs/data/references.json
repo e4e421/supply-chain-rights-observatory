@@ -1,14 +1,86 @@
 [
-  {"category":"EU LAW","name":"European Commission · CSDDD","mode":"官方／人工核查","url":"https://commission.europa.eu/topics/business-and-industry/company-law-and-corporate-governance/corporate-sustainability-due-diligence_en","use":"追蹤人權盡職調查義務、修正案、適用日期與法規範圍；適用於法規衝擊及治理研究。"},
-  {"category":"EU LAW","name":"EU Forced Labour Regulation","mode":"官方／人工核查","url":"https://single-market-economy.ec.europa.eu/single-market/goods/forced-labour-regulation/what-forced-labour-regulation-and-how-does-it-work_en","use":"追蹤強迫勞動產品限制、執法安排與企業風險暴露，特別區分法規生效與執法結果。"},
-  {"category":"EU LAW","name":"EUR-Lex · EU Legal Documents","mode":"官方／人工核查","url":"https://eur-lex.europa.eu/","use":"核對法規條文、正式版本、修正案、公告與各國轉置資訊；適合作為制度變數的主要依據。"},
-  {"category":"LABOUR","name":"International Labour Organization (ILO)","mode":"官方／人工核查","url":"https://www.ilo.org/","use":"強迫勞動定義、核心勞動標準、職業安全衛生、工會權利及勞工統計。"},
-  {"category":"BUSINESS & HUMAN RIGHTS","name":"Business & Human Rights Resource Centre","mode":"民間組織／事件線索","url":"https://www.business-humanrights.org/","use":"企業與人權指控、企業回應及跨國供應鏈案件線索；資料需對照原始報導與其他證據。"},
-  {"category":"GOVERNANCE","name":"OECD · Responsible Business Conduct","mode":"官方／人工核查","url":"https://www.oecd.org/en/topics/responsible-business-conduct.html","use":"盡職調查指引、供應鏈治理機制、利害關係人參與與補救措施。"},
-  {"category":"LABOUR","name":"European Trade Union Institute (ETUI)","mode":"研究機構／電子報","url":"https://www.etui.org/","use":"歐洲勞動政策、集體協商、職業安全及勞動研究，補足企業揭露中的勞工觀點。"},
-  {"category":"WORKER VOICE","name":"International Trade Union Confederation (ITUC)","mode":"工會組織／研究線索","url":"https://www.ituc-csi.org/","use":"國際勞動權利、工會自由與集體協商動態，支持勞工結果與制度比較。"},
-  {"category":"SUPPLY CHAIN RESEARCH","name":"ETH Zurich · Supply Chain Management Group","mode":"學術／人工核查","url":"https://scm.ethz.ch/","use":"追蹤供應鏈管理、供應網絡治理與社會永續研究方向；本網站與 ETH 無從屬關係。"},
-  {"category":"ACADEMIC","name":"Crossref · Scholarly Metadata","mode":"書目 API／自動","url":"https://www.crossref.org/","use":"搜尋近期期刊與研究出版物的 DOI、標題及日期。記錄品質與研究設計仍需人工審閱。"},
-  {"category":"DISCOVERY","name":"Google News · Topic Monitoring","mode":"RSS 聚合／自動","url":"https://news.google.com/","use":"利用查詢式發現可能相關的新資訊；聚合結果並非原始事實證據，須追溯發稿機構。"},
-  {"category":"EU DATA","name":"Eurostat · Official European Statistics","mode":"官方統計／人工核查","url":"https://ec.europa.eu/eurostat/","use":"供應鏈產業、貿易、勞動市場與相關統計；有助於政策評估中的母體與共變數建構。"}
+  {
+    "category": "EU LAW",
+    "name": "European Commission · CSDDD",
+    "mode": "Official / manually verified",
+    "url": "https://commission.europa.eu/topics/business-and-industry/company-law-and-corporate-governance/corporate-sustainability-due-diligence_en",
+    "use": "Track HRDD duties, amendments, applicability dates and scope; relevant to regulatory impact and governance studies."
+  },
+  {
+    "category": "EU LAW",
+    "name": "EU Forced Labour Regulation",
+    "mode": "Official / manually verified",
+    "url": "https://single-market-economy.ec.europa.eu/single-market/goods/forced-labour-regulation/what-forced-labour-regulation-and-how-does-it-work_en",
+    "use": "Track forced-labour product restrictions, enforcement arrangements and corporate risk exposure, separating applicability from enforcement outcomes."
+  },
+  {
+    "category": "EU LAW",
+    "name": "EUR-Lex · EU Legal Documents",
+    "mode": "Official / manually verified",
+    "url": "https://eur-lex.europa.eu/",
+    "use": "Check legal provisions, consolidated versions, amendments, announcements and national transposition; primary basis for institutional variables."
+  },
+  {
+    "category": "LABOUR",
+    "name": "International Labour Organization (ILO)",
+    "mode": "Official / manually verified",
+    "url": "https://www.ilo.org/",
+    "use": "Forced-labour definitions, fundamental labour standards, OSH, trade-union rights and labour statistics."
+  },
+  {
+    "category": "BUSINESS & HUMAN RIGHTS",
+    "name": "Business & Human Rights Resource Centre",
+    "mode": "NGO / incident leads",
+    "url": "https://www.business-humanrights.org/",
+    "use": "Corporate human rights allegations, company responses and cross-border supply chain case leads; corroborate against primary reporting."
+  },
+  {
+    "category": "GOVERNANCE",
+    "name": "OECD · Responsible Business Conduct",
+    "mode": "Official / manually verified",
+    "url": "https://www.oecd.org/en/topics/responsible-business-conduct.html",
+    "use": "Due diligence guidance, supply chain governance, stakeholder engagement and remediation."
+  },
+  {
+    "category": "LABOUR",
+    "name": "European Trade Union Institute (ETUI)",
+    "mode": "Research institute / newsletter",
+    "url": "https://www.etui.org/",
+    "use": "European labour policy, collective bargaining, OSH and labour research; complement company disclosures with workers' perspectives."
+  },
+  {
+    "category": "WORKER VOICE",
+    "name": "International Trade Union Confederation (ITUC)",
+    "mode": "Trade union / research leads",
+    "url": "https://www.ituc-csi.org/",
+    "use": "Global labour rights, freedom of association and collective bargaining, supporting outcome and institutional comparisons."
+  },
+  {
+    "category": "SUPPLY CHAIN RESEARCH",
+    "name": "ETH Zurich · Supply Chain Management Group",
+    "mode": "Academic / manually verified",
+    "url": "https://scm.ethz.ch/",
+    "use": "Follow research in supply chain management, network governance and social sustainability; this site is independent of ETH."
+  },
+  {
+    "category": "ACADEMIC",
+    "name": "Crossref · Scholarly Metadata",
+    "mode": "Bibliographic API / automated",
+    "url": "https://www.crossref.org/",
+    "use": "Discover recent scholarly publications, DOIs, titles and dates. Publication quality and designs require manual review."
+  },
+  {
+    "category": "DISCOVERY",
+    "name": "Google News · Topic Monitoring",
+    "mode": "RSS aggregation / automated",
+    "url": "https://news.google.com/",
+    "use": "Query-based discovery of potential leads. Aggregated results are not primary evidence; trace the original publisher."
+  },
+  {
+    "category": "EU DATA",
+    "name": "Eurostat · Official European Statistics",
+    "mode": "Official statistics / manually verified",
+    "url": "https://ec.europa.eu/eurostat/",
+    "use": "Supply-chain sectors, trade, labour markets and official statistics for defining populations and covariates in policy evaluation."
+  }
 ]
