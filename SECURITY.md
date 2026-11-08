@@ -6,7 +6,7 @@ This is a **public website and a public repository**. Treat everything under `do
 
 - Allowed: publicly accessible headlines, DOI metadata, source names, publication dates and links, verified official reference URLs.
 - Disallowed: names and contact details of project members, CVs, application files, interviews, unpublished notes, confidential company data, private credentials, API keys, tokens, private GitHub repository URLs and personal records.
-- No frontend authentication, tracking analytics, third-party scripts, hosted fonts, cookies, or HTML from feeds.
+- No frontend authentication, tracking analytics, third-party scripts, hosted fonts, cookies, or HTML from feeds. The language switcher stores only a language code (en/zh/de) in browser localStorage and adds an optional language parameter to the URL. Neither contains a user identifier.
 - The RSS discovery system is **not** a source of verified misconduct claims. Never interpret feed counts as an estimate of the actual prevalence of labour rights violations.
 - Research collaborators should share **only public links**; keep interviews and identifiable records in a separately controlled private research environment.
 

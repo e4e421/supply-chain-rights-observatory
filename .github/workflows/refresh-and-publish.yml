@@ -70,6 +70,11 @@ jobs:
         with:
           ref: main
           persist-credentials: false
+      - name: Verify multilingual frontend and security contracts
+        run: |
+          node --check docs/i18n.js
+          node --check docs/app.js
+          python3 -m unittest discover -s tests -v
       - name: Validate public output
         run: python3 scripts/validate_data.py
       - name: Configure GitHub Pages

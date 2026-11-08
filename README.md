@@ -16,6 +16,18 @@ Public, source-traceable research intelligence for **European supply chain susta
 - `/.github/workflows/refresh-and-publish.yml`: scheduled refresh, validation and Pages deployment.
 - `/SECURITY.md`: security model, threat boundaries and recommended account settings.
 
+
+## Multilingual research interface (English canonical)
+
+The research portal supports **English (default)**, **Traditional Chinese**, and **German**. User-visible copy is authored in English, with audited translation mappings in `docs/i18n.js`. The public feed's source names and descriptions are generated in English, and legacy Chinese records remain readable through backwards-compatible display aliases.
+
+- Switch using the header selector, or share links with `?lang=en`, `?lang=zh` or `?lang=de`. Language choices are saved locally in the browser; no account, cookies or analytics services are involved.
+- The page language and date formatting adapt to the selection. The explicitly labelled last-update time remains in the **Asia/Taipei** time zone.
+- Original newspaper and academic publication titles remain in the language in which they were published. They are **not automatically machine-translated**.
+- UTF-8 CSV downloads retain canonical English field names, stable topic identifiers and original titles for reproducible collaborative analysis. Exported data is not translated in a way that might change its meaning.
+- Static site copy, source descriptions, live status messages, research themes and source cards are translated. The collection workflow remains language-independent and requires no translation API key.
+- The frontend's language preference uses localStorage only for this preference. It does not identify visitors or send telemetry.
+
 ## Manual setup (one-time)
 
 1. Open **[GitHub repository Settings → Pages](https://github.com/e4e421/supply-chain-rights-observatory/settings/pages)**.
