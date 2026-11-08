@@ -9,6 +9,7 @@ class CatalogTests(unittest.TestCase):
   self.old=(c.OUT,c.CATALOG,c.ARCHIVE,a.ARCHIVE,a.MANIFEST,a.PUBLIC_SUMMARY)
   root=Path(self.tmp.name)
   a.ARCHIVE=root/"archive";a.MANIFEST=a.ARCHIVE/"manifest.json";a.PUBLIC_SUMMARY=root/"pages"/"archive-summary.json"
+  a.PUBLIC_SUMMARY.parent.mkdir(parents=True,exist_ok=True)
   c.ARCHIVE=a.ARCHIVE;c.OUT=root/"pages";c.CATALOG=c.OUT/"catalog.json"
  def tearDown(self):
   c.OUT,c.CATALOG,c.ARCHIVE,a.ARCHIVE,a.MANIFEST,a.PUBLIC_SUMMARY=self.old
