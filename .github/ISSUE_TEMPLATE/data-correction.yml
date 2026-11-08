@@ -1,7 +1,6 @@
 name: Report a public metadata correction
 description: Request review of a public headline, record link, date or source classification.
 title: "[Data review] "
-labels: ["data-review"]
 body:
   - type: markdown
     attributes:
