@@ -54,4 +54,4 @@ For event studies / DID / DDD, separate `published_at`, `first_seen`, actual inc
 - Do not add personal contact details, confidential company records, private interviews, credentials, password-bearing URLs, private data extracts or non-public supplier information to this public repository.
 - A source candidate is never auto-promoted or automatically scraped. Source proposals should include independent publisher verification and licence review.
 - GitHub records and historical commits are public; a normal delete commit does not reliably remove previously published data.
-- Schedule periodic off-repository backups and perform restoration tests. GitHub Actions schedule is best effort and may be delayed.
+- Run the offline CSV export tests with `python3 -m unittest discover -s tests -v`. Schedule periodic off-repository backups and perform restoration tests. GitHub Actions schedule is best effort and may be delayed.
