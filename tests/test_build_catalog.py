@@ -6,12 +6,12 @@ import archive_data as a
 class CatalogTests(unittest.TestCase):
  def setUp(self):
   self.tmp=tempfile.TemporaryDirectory()
-  self.old=(c.OUT,c.CATALOG,c.ARCHIVE,a.ARCHIVE,a.MANIFEST)
+  self.old=(c.OUT,c.CATALOG,c.ARCHIVE,a.ARCHIVE,a.MANIFEST,a.PUBLIC_SUMMARY)
   root=Path(self.tmp.name)
-  a.ARCHIVE=root/"archive";a.MANIFEST=a.ARCHIVE/"manifest.json"
+  a.ARCHIVE=root/"archive";a.MANIFEST=a.ARCHIVE/"manifest.json";a.PUBLIC_SUMMARY=root/"pages"/"archive-summary.json"
   c.ARCHIVE=a.ARCHIVE;c.OUT=root/"pages";c.CATALOG=c.OUT/"catalog.json"
  def tearDown(self):
-  c.OUT,c.CATALOG,c.ARCHIVE,a.ARCHIVE,a.MANIFEST=self.old
+  c.OUT,c.CATALOG,c.ARCHIVE,a.ARCHIVE,a.MANIFEST,a.PUBLIC_SUMMARY=self.old
   self.tmp.cleanup()
  def test_archive_month_catalog_reconstructs_metadata(self):
   row={"id":"a"*18,"kind":"discovery","title":"Supply chain worker rights report",
