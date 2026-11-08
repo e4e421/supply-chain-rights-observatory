@@ -17,6 +17,7 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import quote, urlencode, urlparse
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 from xml.etree import ElementTree
+from archive_data import persist as persist_archive
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG_FILE = ROOT / 'sources' / 'queries.json'
@@ -228,6 +229,10 @@ def run():
     success = sum(x['status'] == 'ok' for x in sources)
     status = 'failed' if success == 0 or (not new_items and not previous.get('items')) else 'partial' if success < len(sources) else 'ok'
     merged = merge_items(new_items, previous.get('items', []), now)
+    # Archive all currently retained records before rotating the short-term snapshot.
+    # The archive stores only public research metadata (not personal research records).
+    archived_total, archived_new = persist_archive(merged, iso(now))
+    print(f'Permanent archive: {archived_total} public records, {archived_new} newly archived')
     # Prior successes remain visible even when this collection fails.
     last_success = iso(now) if status in ('ok', 'partial') else previous.get('last_successful_collection')
     output = {'schema_version':1, 'generated_at':iso(now),'last_successful_collection':last_success,
