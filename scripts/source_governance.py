@@ -22,7 +22,7 @@ ALLOWED={
  'www.ilo.org','www.business-humanrights.org','www.oecd.org','www.etui.org',
  'www.ituc-csi.org','scm.ethz.ch','www.crossref.org','news.google.com',
  'ec.europa.eu','www.bmas.bund.de','european-union.europa.eu',
- 'www.worldbenchmarkingalliance.org'
+ 'www.worldbenchmarkingalliance.org','www.ela.europa.eu','www.eurofound.europa.eu'
 }
 
 def validate_link(url):

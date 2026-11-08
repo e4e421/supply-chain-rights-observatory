@@ -117,5 +117,19 @@
     "mode": "Benchmark / manually reviewed",
     "url": "https://www.business-humanrights.org/en/from-us/knowthechain/",
     "use": "Sector benchmarks on corporate action against forced-labour risks in supply chains; assess coverage and scoring limitations."
+  },
+  {
+    "category": "LABOUR",
+    "name": "European Labour Authority (ELA)",
+    "mode": "Official / manually verified",
+    "url": "https://www.ela.europa.eu/en/about/what-we-do",
+    "use": "Official EU labour mobility cooperation, cross-border inspections, enforcement coordination and worker-protection research; not a complete incident database."
+  },
+  {
+    "category": "LABOUR",
+    "name": "Eurofound · European Working Conditions Survey",
+    "mode": "Official / manually verified",
+    "url": "https://www.eurofound.europa.eu/en/surveys-and-data/surveys/european-working-conditions-survey/ewcs-2024/",
+    "use": "Cross-national probability survey of working conditions and worker outcomes; examine questionnaires, weights, country coverage and survey microdata access terms."
   }
 ]
