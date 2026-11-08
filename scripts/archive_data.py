@@ -25,6 +25,24 @@ MAX_LINE_BYTES=8000
 MAX_TOTAL_RECORDS=250000
 PUBLIC_STATUS={'Unverified discovery','Bibliographic record'}
 
+LEGACY_DESCRIPTIONS={
+ '自動發現的新聞聚合線索；請追溯原始新聞與獨立佐證，不代表人權違規已獲證實。':'Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.',
+ 'Crossref 出版書目資料；DOI 與日期須核對出版商，研究方法與同儕審查狀態尚未人工查證。':'Crossref bibliographic record. Verify DOI and publication date with the publisher; methods and peer-review status have not been independently reviewed.'
+}
+
+def english_source_name(item):
+    """Normalize existing Chinese labels to the English canonical feed names."""
+    if not hasattr(english_source_name,'_names'):
+        try:
+            config=json.loads((ROOT/'sources'/'queries.json').read_text(encoding='utf-8'))
+            english_source_name._names={row['id']:row['name'] for row in config['news_queries']+config['academic_queries']}
+        except (OSError,ValueError,KeyError,TypeError):
+            english_source_name._names={}
+    source=english_source_name._names.get(item.get('source_id'))
+    if source:
+        return ('Crossref · ' if item.get('kind')=='academic' else '')+source
+    return item.get('source','Unknown source')
+
 def json_line(record):
     return json.dumps(record,ensure_ascii=False,sort_keys=True,separators=(',',':'))+'\n'
 
@@ -47,12 +65,15 @@ def secure_record(item,now):
         raise ValueError('Out-of-bounds first_seen')
     row={key:item[key] for key in RECORD_KEYS if key in item}
     row['first_seen']=first
+    row['source']=english_source_name(item)
+    row['description']=LEGACY_DESCRIPTIONS.get(row.get('description'), row.get('description',''))
     row['record_id']=row.pop('id')
     row['event_id']=None  # No unreviewed allegation-to-event inference.
     row['archive_schema_version']=1
     row['capture_type']='public_metadata_only'
     row['record_fingerprint']=hashlib.sha256(
-        json.dumps({k:row.get(k) for k in ('kind','url','title','doi')},sort_keys=True,ensure_ascii=False).encode('utf-8')
+        json.dumps({'kind':row['kind'],'url':row['url'],'title':row['title'].casefold(),
+                    'doi':row.get('doi')},sort_keys=True,ensure_ascii=False).encode('utf-8')
     ).hexdigest()
     if len(json_line(row).encode('utf-8'))>MAX_LINE_BYTES: raise ValueError('Record exceeds archive limit')
     return row
