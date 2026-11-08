@@ -8,8 +8,10 @@ const safe=x=>{try{const u=new URL(x);return u.protocol==='https:'&&!u.username&
 function dateText(iso){const d=new Date(iso||'');return Number.isNaN(d.getTime())?t('Date unavailable'):new Intl.DateTimeFormat(({en:'en-GB',zh:'zh-TW',de:'de-DE'})[i18n.language]||'en-GB',{year:'numeric',month:'2-digit',day:'2-digit',timeZone:'UTC'}).format(d)}
 function selected(){
  const q=$('archive-search').value.trim().toLowerCase(),topic=$('archive-topic').value,from=$('archive-from').value,to=$('archive-to').value;
+ const selectedTopics=[...document.querySelectorAll('#archive-multi-topic input:checked')].map(x=>x.value);
  return records.filter(r=>{
-  if(topic!=='all'&&!(r.topics||[]).includes(topic))return false;
+  const requested=[...(topic==='all'?[]:[topic]),...selectedTopics];
+  if(requested.length&&!requested.some(x=>(r.topics||[]).includes(x)))return false;
   if(from&&String(r.published_at||'').slice(0,10)<from)return false;
   if(to&&String(r.published_at||'').slice(0,10)>to)return false;
   const searchable=[r.title,r.publisher_hint,r.source,r.source_id,r.record_id,r.doi].join(' ').toLowerCase();
@@ -68,6 +70,7 @@ async function init(){
 }
 $('archive-month').addEventListener('change',e=>changeMonth(e.target.value));
 for(const id of ['archive-search','archive-topic','archive-from','archive-to']) $(id).addEventListener(id==='archive-search'?'input':'change',()=>{visible=30;render()});
+document.querySelectorAll('#archive-multi-topic input').forEach(x=>x.addEventListener('change',()=>{visible=30;render()}));
 $('archive-show-more').addEventListener('click',()=>{visible+=30;render()});
 $('archive-export').addEventListener('click',exportCSV);
 i18n.onChange(()=>render());

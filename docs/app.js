@@ -106,9 +106,11 @@
   function filteredItems() {
     const query = $('search').value.trim().toLocaleLowerCase();
     const topic = $('topic').value;
+    const selectedTopics=[...document.querySelectorAll('#multi-topic input:checked')].map(x=>x.value);
     const days = $('period').value === 'all' ? Infinity : Number($('period').value);
     return items.filter(item => {
-      if (topic !== 'all' && !(item.topics || []).includes(topic)) return false;
+      const requested=[...(topic==='all'?[]:[topic]),...selectedTopics];
+      if(requested.length && !requested.some(x=>(item.topics||[]).includes(x)))return false;
       if (dateAgeDays(item.published_at) > days) return false;
       if (query) {
         const labels = (item.topics || []).map(code => topics[code] || 'Other information');
@@ -230,6 +232,7 @@
   for(const id of ['search','topic','period']) {
     $(id).addEventListener(id==='search' ? 'input' : 'change',()=>{visibleCount=15;renderSignals();});
   }
+  document.querySelectorAll('#multi-topic input').forEach(x=>x.addEventListener('change',()=>{visibleCount=15;renderSignals();}));
   $('show-more').addEventListener('click',()=>{visibleCount+=15;renderSignals();});
   $('download-csv').addEventListener('click',exportCSV);
   i18n.onChange(()=>render());
