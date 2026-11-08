@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "total_records": 28,
+  "scope": "public_metadata_only_not_verified_incidents",
+  "months": [
+    {
+      "month": "2026-11",
+      "records": 28,
+      "files": [
+        {
+          "file": "2026-11-0001.json",
+          "records": 28
+        }
+      ]
+    }
+  ],
+  "date_basis": "first_seen"
+}
