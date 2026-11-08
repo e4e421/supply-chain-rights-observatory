@@ -11,14 +11,17 @@ CSS=(ROOT/"docs/styles.css").read_text(encoding="utf-8")
 DETAIL=(ROOT/"docs/record.html").read_text(encoding="utf-8")
 class Scan(HTMLParser):
     def __init__(self):
-        super().__init__();self.inputs=[];self.labels=[];self.links=[];self.headings=[];self.lang=None
+        super().__init__();self.inputs=[];self.labels=[];self.links=[];self.headings=[];self.lang=None;self.label_depth=0
     def handle_starttag(self,tag,attrs):
         a=dict(attrs)
         if tag=="html":self.lang=a.get("lang")
-        if tag in ("input","select"):self.inputs.append(a)
+        if tag=="label":self.label_depth+=1
+        if tag in ("input","select"):self.inputs.append({**a,"_wrapped_label":self.label_depth>0})
         if tag=="label":self.labels.append(a)
         if tag=="a":self.links.append(a)
         if tag in ("h1","h2","h3"):self.headings.append(tag)
+    def handle_endtag(self,tag):
+        if tag=="label" and self.label_depth:self.label_depth-=1
 def lum(h):
     rgb=[int(h[k:k+2],16)/255 for k in (1,3,5)]
     rgb=[x/12.92 if x<=.04045 else ((x+.055)/1.055)**2.4 for x in rgb]
@@ -32,10 +35,9 @@ def audit():
     assert v.headings and v.headings[0]=="h1"
     assert "skip-link" in HTML and "href=\"#signals\"" in HTML
     labelled={x.get("for") for x in v.labels if x.get("for")}
-    labels_by_wrap=("search-wrap" in HTML)
     for field in v.inputs:
         if field.get("type")=="hidden":continue
-        assert field.get("id") in labelled or field.get("aria-label") or (labels_by_wrap and field.get("id")=="search"), field
+        assert field.get("id") in labelled or field.get("aria-label") or field["_wrapped_label"], field
     for link in v.links:
         if link.get("target")=="_blank":assert "noopener" in link.get("rel","")
     assert ":focus-visible" in CSS and ":focus-within" in CSS
