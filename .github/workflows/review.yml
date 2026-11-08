@@ -15,6 +15,8 @@ jobs:
           persist-credentials: false
       - name: Python source compilation
         run: python3 -m compileall -q scripts tests
+      - name: Exploratory title-only quality regression
+        run: python3 scripts/evaluate_relevance.py
       - name: JavaScript syntax and offline regression
         run: |
           node --check docs/app.js

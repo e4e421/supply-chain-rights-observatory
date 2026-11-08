@@ -53,6 +53,7 @@ jobs:
           python3 scripts/validate_data.py
           python3 scripts/validate_archive.py
           python3 -m unittest discover -s tests -v
+          python3 scripts/evaluate_relevance.py
       - name: Commit public data only
         run: |
           git config user.name 'github-actions[bot]'

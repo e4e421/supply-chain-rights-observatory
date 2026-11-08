@@ -57,6 +57,13 @@
     status.textContent = failed ? t('Collection incomplete') : stale ? t('Data stale') :
       data.status === 'partial' ? t('Partial source failures') : t('Operational');
     $('metric-coverage').textContent = good + ' / ' + total + ' ' + t('automated sources successful');
+    const quality=data.retrieval_quality;
+    $('quality-summary').textContent=quality ?
+       String(quality.candidate_count)+' '+t('bounded public candidates')+' · '+
+       String(quality.accepted_observations)+' '+t('screened-in leads')+' · '+
+       String(quality.excluded_observations)+' '+t('excluded by preliminary title screen')+' · '+
+       String(quality.academic_records_accepted)+' '+t('academic records found') :
+       t('Legacy records have not yet been evaluated by the updated relevance screen.');
     const alert = $('data-alert');
     if (failed || stale || data.status === 'partial') {
       alert.classList.add('visible');
@@ -88,9 +95,10 @@
     card.append(el('p',t(desc),'signal-desc'));
     const footer = el('div','','signal-foot');
     footer.append(
-      el('span',t('Source') + ': ' + sourceLabel(item.source)),
+      el('span',t('Monitoring query') + ': ' + sourceLabel(item.source)),
       el('span',t('Type') + ': ' + t(item.kind === 'academic' ? 'Scholarly metadata' : 'Discovery lead'))
     );
+    if(item.publisher_hint) footer.append(el('span',t('Publisher credit (unverified)')+': '+item.publisher_hint));
     if(item.doi) footer.append(el('span','DOI: ' + item.doi));
     card.append(footer);
     return card;
