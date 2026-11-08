@@ -171,6 +171,8 @@
       ? String(sourceHealth.approved_reference_count) : String(references.length || 0);
     $('source-overdue').textContent = sourceHealth && Number.isInteger(sourceHealth.review_needed_count ?? sourceHealth.review_overdue)
       ? String(sourceHealth.review_needed_count ?? sourceHealth.review_overdue) : t('Not yet reviewed');
+    $('source-licence').textContent = sourceHealth && Number.isInteger(sourceHealth.licence_review_pending_count)
+      ? String(sourceHealth.licence_review_pending_count) : t('Not yet reviewed');
   }
   function csvCell(value) {
     let valueString=String(value == null ? '' : value).replace(/[\u0000-\u001f\u007f]/g,' ');

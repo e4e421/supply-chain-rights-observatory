@@ -18,7 +18,9 @@
       "verification_level": "existing_curated_reference_not_rechecked",
       "review_due": "2027-02-08",
       "auto_ingest": false,
-      "reason": "Track HRDD duties, amendments, applicability dates and scope; relevant to regulatory impact and governance studies."
+      "reason": "Track HRDD duties, amendments, applicability dates and scope; relevant to regulatory impact and governance studies.",
+      "licence_review_status": "pending",
+      "methodology_review_status": "pending"
     },
     {
       "id": "reference-02",
@@ -31,7 +33,9 @@
       "verification_level": "existing_curated_reference_not_rechecked",
       "review_due": "2027-02-08",
       "auto_ingest": false,
-      "reason": "Track forced-labour product restrictions, enforcement arrangements and corporate risk exposure, separating applicability from enforcement outcomes."
+      "reason": "Track forced-labour product restrictions, enforcement arrangements and corporate risk exposure, separating applicability from enforcement outcomes.",
+      "licence_review_status": "pending",
+      "methodology_review_status": "pending"
     },
     {
       "id": "reference-03",
@@ -44,7 +48,9 @@
       "verification_level": "existing_curated_reference_not_rechecked",
       "review_due": "2027-02-08",
       "auto_ingest": false,
-      "reason": "Check legal provisions, consolidated versions, amendments, announcements and national transposition; primary basis for institutional variables."
+      "reason": "Check legal provisions, consolidated versions, amendments, announcements and national transposition; primary basis for institutional variables.",
+      "licence_review_status": "pending",
+      "methodology_review_status": "pending"
     },
     {
       "id": "reference-04",
@@ -57,7 +63,9 @@
       "verification_level": "existing_curated_reference_not_rechecked",
       "review_due": "2027-02-08",
       "auto_ingest": false,
-      "reason": "Forced-labour definitions, fundamental labour standards, OSH, trade-union rights and labour statistics."
+      "reason": "Forced-labour definitions, fundamental labour standards, OSH, trade-union rights and labour statistics.",
+      "licence_review_status": "pending",
+      "methodology_review_status": "pending"
     },
     {
       "id": "reference-05",
@@ -70,7 +78,9 @@
       "verification_level": "existing_curated_reference_not_rechecked",
       "review_due": "2027-02-08",
       "auto_ingest": false,
-      "reason": "Corporate human rights allegations, company responses and cross-border supply chain case leads; corroborate against primary reporting."
+      "reason": "Corporate human rights allegations, company responses and cross-border supply chain case leads; corroborate against primary reporting.",
+      "licence_review_status": "pending",
+      "methodology_review_status": "pending"
     },
     {
       "id": "reference-06",
@@ -83,7 +93,9 @@
       "verification_level": "existing_curated_reference_not_rechecked",
       "review_due": "2027-02-08",
       "auto_ingest": false,
-      "reason": "Due diligence guidance, supply chain governance, stakeholder engagement and remediation."
+      "reason": "Due diligence guidance, supply chain governance, stakeholder engagement and remediation.",
+      "licence_review_status": "pending",
+      "methodology_review_status": "pending"
     },
     {
       "id": "reference-07",
@@ -96,7 +108,9 @@
       "verification_level": "existing_curated_reference_not_rechecked",
       "review_due": "2027-02-08",
       "auto_ingest": false,
-      "reason": "European labour policy, collective bargaining, OSH and labour research; complement company disclosures with workers' perspectives."
+      "reason": "European labour policy, collective bargaining, OSH and labour research; complement company disclosures with workers' perspectives.",
+      "licence_review_status": "pending",
+      "methodology_review_status": "pending"
     },
     {
       "id": "reference-08",
@@ -109,7 +123,9 @@
       "verification_level": "existing_curated_reference_not_rechecked",
       "review_due": "2027-02-08",
       "auto_ingest": false,
-      "reason": "Global labour rights, freedom of association and collective bargaining, supporting outcome and institutional comparisons."
+      "reason": "Global labour rights, freedom of association and collective bargaining, supporting outcome and institutional comparisons.",
+      "licence_review_status": "pending",
+      "methodology_review_status": "pending"
     },
     {
       "id": "reference-09",
@@ -122,7 +138,9 @@
       "verification_level": "existing_curated_reference_not_rechecked",
       "review_due": "2027-02-08",
       "auto_ingest": false,
-      "reason": "Follow research in supply chain management, network governance and social sustainability; this site is independent of ETH."
+      "reason": "Follow research in supply chain management, network governance and social sustainability; this site is independent of ETH.",
+      "licence_review_status": "pending",
+      "methodology_review_status": "pending"
     },
     {
       "id": "reference-10",
@@ -135,7 +153,9 @@
       "verification_level": "existing_curated_reference_not_rechecked",
       "review_due": "2027-02-08",
       "auto_ingest": false,
-      "reason": "Discover recent scholarly publications, DOIs, titles and dates. Publication quality and designs require manual review."
+      "reason": "Discover recent scholarly publications, DOIs, titles and dates. Publication quality and designs require manual review.",
+      "licence_review_status": "pending",
+      "methodology_review_status": "pending"
     },
     {
       "id": "reference-11",
@@ -148,7 +168,9 @@
       "verification_level": "existing_curated_reference_not_rechecked",
       "review_due": "2027-02-08",
       "auto_ingest": false,
-      "reason": "Query-based discovery of potential leads. Aggregated results are not primary evidence; trace the original publisher."
+      "reason": "Query-based discovery of potential leads. Aggregated results are not primary evidence; trace the original publisher.",
+      "licence_review_status": "pending",
+      "methodology_review_status": "pending"
     },
     {
       "id": "reference-12",
@@ -161,7 +183,9 @@
       "verification_level": "existing_curated_reference_not_rechecked",
       "review_due": "2027-02-08",
       "auto_ingest": false,
-      "reason": "Supply-chain sectors, trade, labour markets and official statistics for defining populations and covariates in policy evaluation."
+      "reason": "Supply-chain sectors, trade, labour markets and official statistics for defining populations and covariates in policy evaluation.",
+      "licence_review_status": "pending",
+      "methodology_review_status": "pending"
     },
     {
       "id": "bmas-lksg",
@@ -174,7 +198,9 @@
       "verification_level": "official_or_primary_publisher_page_checked",
       "review_due": "2027-02-08",
       "auto_ingest": false,
-      "reason": "Official German LkSG requirements and institutional enforcement framework; distinguish applicable law from press summaries."
+      "reason": "Official German LkSG requirements and institutional enforcement framework; distinguish applicable law from press summaries.",
+      "licence_review_status": "pending",
+      "methodology_review_status": "pending"
     },
     {
       "id": "oecd-ncp",
@@ -187,7 +213,9 @@
       "verification_level": "official_or_primary_publisher_page_checked",
       "review_due": "2027-02-08",
       "auto_ingest": false,
-      "reason": "Non-judicial grievance cases, alleged breaches and reported outcomes; case selection and reporting biases must be considered."
+      "reason": "Non-judicial grievance cases, alleged breaches and reported outcomes; case selection and reporting biases must be considered.",
+      "licence_review_status": "pending",
+      "methodology_review_status": "pending"
     },
     {
       "id": "eu-osha",
@@ -200,7 +228,9 @@
       "verification_level": "official_or_primary_publisher_page_checked",
       "review_due": "2027-02-08",
       "auto_ingest": false,
-      "reason": "Occupational health and safety evidence, survey data and risks relevant to worker outcomes in European value chains."
+      "reason": "Occupational health and safety evidence, survey data and risks relevant to worker outcomes in European value chains.",
+      "licence_review_status": "pending",
+      "methodology_review_status": "pending"
     },
     {
       "id": "wba-chrb",
@@ -213,7 +243,9 @@
       "verification_level": "official_or_primary_publisher_page_checked",
       "review_due": "2027-02-08",
       "auto_ingest": false,
-      "reason": "Comparative company HRDD and remedy indicators; scores are methodology-dependent proxies, not confirmed violations."
+      "reason": "Comparative company HRDD and remedy indicators; scores are methodology-dependent proxies, not confirmed violations.",
+      "licence_review_status": "pending",
+      "methodology_review_status": "pending"
     },
     {
       "id": "knowthechain",
@@ -226,7 +258,9 @@
       "verification_level": "official_or_primary_publisher_page_checked",
       "review_due": "2027-02-08",
       "auto_ingest": false,
-      "reason": "Sector benchmarks on corporate action against forced-labour risks in supply chains; assess coverage and scoring limitations."
+      "reason": "Sector benchmarks on corporate action against forced-labour risks in supply chains; assess coverage and scoring limitations.",
+      "licence_review_status": "pending",
+      "methodology_review_status": "pending"
     },
     {
       "id": "european-labour-authority",
@@ -240,7 +274,8 @@
       "review_due": "2027-02-09",
       "auto_ingest": false,
       "licence_review_status": "pending",
-      "reason": "Official EU labour mobility cooperation, cross-border inspections, enforcement coordination and worker-protection research; not a complete incident database."
+      "reason": "Official EU labour mobility cooperation, cross-border inspections, enforcement coordination and worker-protection research; not a complete incident database.",
+      "methodology_review_status": "pending"
     },
     {
       "id": "eurofound-working-conditions",
@@ -254,7 +289,8 @@
       "review_due": "2027-02-09",
       "auto_ingest": false,
       "licence_review_status": "pending",
-      "reason": "Cross-national probability survey of working conditions and worker outcomes; examine questionnaires, weights, country coverage and survey microdata access terms."
+      "reason": "Cross-national probability survey of working conditions and worker outcomes; examine questionnaires, weights, country coverage and survey microdata access terms.",
+      "methodology_review_status": "pending"
     }
   ]
 }

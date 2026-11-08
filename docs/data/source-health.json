@@ -4,7 +4,7 @@
   "editorial_review_is_manual": true,
   "http_reachability_does_not_verify_claims": true,
   "last_probe_run": null,
-  "approved_reference_count": 17,
+  "approved_reference_count": 19,
   "pending_candidate_count": 0,
   "review_needed_count": 12,
   "review_overdue": 0,
@@ -17,6 +17,7 @@
       "last_editorial_review": null,
       "review_due": "2027-02-08",
       "review_needed": true,
+      "licence_review_status": "pending",
       "reachability": "untested",
       "http_status": null,
       "last_probe": null
@@ -29,6 +30,7 @@
       "last_editorial_review": null,
       "review_due": "2027-02-08",
       "review_needed": true,
+      "licence_review_status": "pending",
       "reachability": "untested",
       "http_status": null,
       "last_probe": null
@@ -41,6 +43,7 @@
       "last_editorial_review": null,
       "review_due": "2027-02-08",
       "review_needed": true,
+      "licence_review_status": "pending",
       "reachability": "untested",
       "http_status": null,
       "last_probe": null
@@ -53,6 +56,7 @@
       "last_editorial_review": null,
       "review_due": "2027-02-08",
       "review_needed": true,
+      "licence_review_status": "pending",
       "reachability": "untested",
       "http_status": null,
       "last_probe": null
@@ -65,6 +69,7 @@
       "last_editorial_review": null,
       "review_due": "2027-02-08",
       "review_needed": true,
+      "licence_review_status": "pending",
       "reachability": "untested",
       "http_status": null,
       "last_probe": null
@@ -77,6 +82,7 @@
       "last_editorial_review": null,
       "review_due": "2027-02-08",
       "review_needed": true,
+      "licence_review_status": "pending",
       "reachability": "untested",
       "http_status": null,
       "last_probe": null
@@ -89,6 +95,7 @@
       "last_editorial_review": null,
       "review_due": "2027-02-08",
       "review_needed": true,
+      "licence_review_status": "pending",
       "reachability": "untested",
       "http_status": null,
       "last_probe": null
@@ -101,6 +108,7 @@
       "last_editorial_review": null,
       "review_due": "2027-02-08",
       "review_needed": true,
+      "licence_review_status": "pending",
       "reachability": "untested",
       "http_status": null,
       "last_probe": null
@@ -113,6 +121,7 @@
       "last_editorial_review": null,
       "review_due": "2027-02-08",
       "review_needed": true,
+      "licence_review_status": "pending",
       "reachability": "untested",
       "http_status": null,
       "last_probe": null
@@ -125,6 +134,7 @@
       "last_editorial_review": null,
       "review_due": "2027-02-08",
       "review_needed": true,
+      "licence_review_status": "pending",
       "reachability": "untested",
       "http_status": null,
       "last_probe": null
@@ -137,6 +147,7 @@
       "last_editorial_review": null,
       "review_due": "2027-02-08",
       "review_needed": true,
+      "licence_review_status": "pending",
       "reachability": "untested",
       "http_status": null,
       "last_probe": null
@@ -149,6 +160,7 @@
       "last_editorial_review": null,
       "review_due": "2027-02-08",
       "review_needed": true,
+      "licence_review_status": "pending",
       "reachability": "untested",
       "http_status": null,
       "last_probe": null
@@ -161,6 +173,7 @@
       "last_editorial_review": "2026-11-08",
       "review_due": "2027-02-08",
       "review_needed": false,
+      "licence_review_status": "pending",
       "reachability": "untested",
       "http_status": null,
       "last_probe": null
@@ -173,6 +186,7 @@
       "last_editorial_review": "2026-11-08",
       "review_due": "2027-02-08",
       "review_needed": false,
+      "licence_review_status": "pending",
       "reachability": "untested",
       "http_status": null,
       "last_probe": null
@@ -185,6 +199,7 @@
       "last_editorial_review": "2026-11-08",
       "review_due": "2027-02-08",
       "review_needed": false,
+      "licence_review_status": "pending",
       "reachability": "untested",
       "http_status": null,
       "last_probe": null
@@ -197,6 +212,7 @@
       "last_editorial_review": "2026-11-08",
       "review_due": "2027-02-08",
       "review_needed": false,
+      "licence_review_status": "pending",
       "reachability": "untested",
       "http_status": null,
       "last_probe": null
@@ -209,9 +225,37 @@
       "last_editorial_review": "2026-11-08",
       "review_due": "2027-02-08",
       "review_needed": false,
+      "licence_review_status": "pending",
+      "reachability": "untested",
+      "http_status": null,
+      "last_probe": null
+    },
+    {
+      "id": "european-labour-authority",
+      "name": "European Labour Authority (ELA)",
+      "authority_type": "official",
+      "editorial_status": "curated_reference",
+      "last_editorial_review": "2026-11-09",
+      "review_due": "2027-02-09",
+      "review_needed": false,
+      "licence_review_status": "pending",
+      "reachability": "untested",
+      "http_status": null,
+      "last_probe": null
+    },
+    {
+      "id": "eurofound-working-conditions",
+      "name": "Eurofound · European Working Conditions Survey",
+      "authority_type": "official",
+      "editorial_status": "curated_reference",
+      "last_editorial_review": "2026-11-09",
+      "review_due": "2027-02-09",
+      "review_needed": false,
+      "licence_review_status": "pending",
       "reachability": "untested",
       "http_status": null,
       "last_probe": null
     }
-  ]
+  ],
+  "licence_review_pending_count": 19
 }
