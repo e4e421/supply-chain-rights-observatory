@@ -1,0 +1,29 @@
+name: Report a public metadata correction
+description: Request review of a public headline, record link, date or source classification.
+title: "[Data review] "
+labels: ["data-review"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This repository contains unverified discovery leads. Do not post identifying details about affected people, private evidence, unpublished interviews, sensitive information or credentials.
+        For confidential or security-sensitive content, use private vulnerability reporting rather than a public issue.
+  - type: input
+    id: record
+    attributes:
+      label: Public record_id (18 hex characters)
+      placeholder: "Paste the public metadata ID, not a person's identifier"
+    validations:
+      required: true
+  - type: input
+    id: original
+    attributes:
+      label: Public original source URL
+    validations:
+      required: true
+  - type: textarea
+    id: reason
+    attributes:
+      label: What is incorrect and what independent public evidence supports a correction?
+    validations:
+      required: true
