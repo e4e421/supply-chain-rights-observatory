@@ -30,5 +30,9 @@ jobs:
         run: |
           python3 scripts/validate_data.py
           python3 scripts/validate_archive.py
-      - name: Scan for unsafe frontend patterns
-        run: python3 scripts/scan_frontend.py
+      - name: Static accessibility and security checks
+        run: |
+          python3 scripts/scan_frontend.py
+          python3 scripts/check_accessibility.py
+      - name: Browser language/archive/record smoke (when Chrome available)
+        run: python3 scripts/browser_smoke.py

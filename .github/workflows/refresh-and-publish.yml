@@ -93,6 +93,12 @@ jobs:
           node --check docs/archive.js
           node --check docs/record.js
           python3 -m unittest discover -s tests -v
+      - name: Accessibility and frontend security regression checks
+        run: |
+          node --check docs/archive.js
+          node --check docs/record.js
+          python3 scripts/scan_frontend.py
+          python3 scripts/check_accessibility.py
       - name: Validate public output and archive
         run: |
           python3 scripts/validate_data.py
