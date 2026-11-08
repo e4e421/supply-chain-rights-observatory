@@ -22,7 +22,7 @@ from research_quality import screen_title, publisher_hint, VERSION as SCREEN_VER
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG_FILE = ROOT / 'sources' / 'queries.json'
 OUTPUT_FILE = ROOT / 'docs' / 'data' / 'latest.json'
-ALLOWED_FETCH_HOSTS = frozenset({'news.google.com', 'api.crossref.org'})
+ALLOWED_FETCH_HOSTS = frozenset({'news.google.com', 'api.crossref.org', 'api.openalex.org'})
 MAX_BYTES = 2_000_000
 MAX_ITEMS = 240
 MAX_AGE_DAYS = 150
@@ -174,11 +174,12 @@ def parse_crossref(payload, config, now, candidates=None):
         if not is_recent(published, now, MAX_AGE_DAYS):
             continue
         quality=screen_title(title,academic=True)
+        publisher=clean_text(record.get('publisher'),90) or None
         row = {
             'title': title, 'url': 'https://doi.org/' + quote(doi, safe='/._;():-'),
             'published_at': published, 'source': 'Crossref · ' + clean_text(config['name'], 65),
             'source_id': config['id'], 'discovery_query_id':config['id'],
-            'publisher_hint':None, 'publisher_verified':False, 'canonical_url':None,
+            'publisher_hint':publisher, 'publisher_verified':False, 'canonical_url':None,
             'kind': 'academic', 'evidence_status': 'Bibliographic record',
             'topics': classify(title, ('research',)), 'doi': doi,
             'screening_version':quality['version'], 'screening_status':quality['status'],
@@ -190,6 +191,42 @@ def parse_crossref(payload, config, now, candidates=None):
             candidates.append(row)
         if quality['status'] == 'candidate_relevant':
             result.append(row)
+    return result
+
+
+def parse_openalex(payload, config, now, candidates=None):
+    """Keyless, one-page OpenAlex metadata discovery; no author personal data collected."""
+    result=[]
+    for record in payload.get('results',[])[:50]:
+        title=clean_text(record.get('display_name') or record.get('title'))
+        doi_value=record.get('doi') or ''
+        doi=doi_value.replace('https://doi.org/','').strip()
+        published=record.get('publication_date')
+        if not (title and DOI_PATTERN.fullmatch(doi) and isinstance(published,str)):
+            continue
+        try:
+            date=iso(datetime.fromisoformat(published).replace(tzinfo=timezone.utc))
+        except ValueError:
+            continue
+        if not is_recent(date,now,MAX_AGE_DAYS):
+            continue
+        quality=screen_title(title,academic=True)
+        location=record.get('primary_location') or {}
+        publisher=clean_text((location.get('source') or {}).get('display_name'),90) or None
+        row={
+            'title':title,'url':'https://doi.org/'+quote(doi,safe='/._;():-'),
+            'published_at':date,'source':'OpenAlex · '+clean_text(config['name'],65),
+            'source_id':config['id'],'discovery_query_id':config['id'],
+            'publisher_hint':publisher,'publisher_verified':False,'canonical_url':None,
+            'kind':'academic','evidence_status':'Bibliographic record',
+            'topics':classify(title,('research',)),'doi':doi,
+            'screening_version':quality['version'],'screening_status':quality['status'],
+            'screening_reason':quality['reason'],
+            'description':'OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.',
+            'first_seen':iso(now)
+        }
+        if candidates is not None: candidates.append(row)
+        if quality['status']=='candidate_relevant':result.append(row)
     return result
 
 
@@ -234,11 +271,20 @@ def run():
         url = 'https://news.google.com/rss/search?' + urlencode({'q':query, 'hl':'en-GB', 'gl':'GB', 'ceid':'GB:en'})
         sources.append(process_source(config_item, 'news', lambda: parse_rss(fetch_bytes(url), config_item, now, candidates), new_items, warnings, now))
     for config_item in config['academic_queries']:
-        params = {'query.bibliographic':config_item['query'], 'filter': f'from-pub-date:{(now-timedelta(days=MAX_AGE_DAYS)).date().isoformat()}', 'rows':'75', 'select':'DOI,title,published,published-print,published-online,issued,created,type', 'sort':'published', 'order':'desc'}
+        params = {'query.bibliographic':config_item['query'], 'filter': f'from-pub-date:{(now-timedelta(days=MAX_AGE_DAYS)).date().isoformat()}', 'rows':'75', 'select':'DOI,title,published,published-print,published-online,issued,created,type,publisher,container-title', 'sort':'published', 'order':'desc'}
         url = 'https://api.crossref.org/works?' + urlencode(params)
         def crossref_fetch(url=url, cfg=config_item):
             return parse_crossref(json.loads(fetch_bytes(url).decode('utf-8')), cfg, now, candidates)
         sources.append(process_source(config_item, 'academic', crossref_fetch, new_items, warnings, now))
+    for config_item in config.get('openalex_queries',[]):
+        params={'search':config_item['query'],
+                'filter':f'from_publication_date:{(now-timedelta(days=MAX_AGE_DAYS)).date().isoformat()}',
+                'per_page':'50',
+                'select':'id,display_name,doi,publication_date,type,primary_location'}
+        url='https://api.openalex.org/works?'+urlencode(params)
+        def openalex_fetch(url=url,cfg=config_item):
+            return parse_openalex(json.loads(fetch_bytes(url).decode('utf-8')),cfg,now,candidates)
+        sources.append(process_source(config_item,'academic',openalex_fetch,new_items,warnings,now))
     success = sum(x['status'] == 'ok' for x in sources)
     status = 'failed' if success == 0 or (not new_items and not previous.get('items')) else 'partial' if success < len(sources) else 'ok'
     merged = merge_items(new_items, previous.get('items', []), now)
@@ -258,6 +304,7 @@ def run():
                   'screening_version':SCREEN_VERSION,'candidate_count':len(candidates),
                   'accepted_observations':len(new_items),'excluded_observations':len(candidates)-len(new_items),
                   'academic_records_accepted':sum(x.get('kind')=='academic' for x in new_items),
+                  'source_counts':[{k:meta[k] for k in ('id','status','items')} for meta in sources],
                   'candidate_archive_total':candidate_total,
                   'scope':'bounded RSS and Crossref result windows, not full web coverage'
               }}

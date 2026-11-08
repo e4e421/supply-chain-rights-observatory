@@ -61,5 +61,17 @@
       "name": "Research: social sustainability & labour",
       "query": "supplier social sustainability labour rights"
     }
+  ],
+  "openalex_queries": [
+    {
+      "id": "openalex-human-rights",
+      "name": "Research: human rights and global value chains",
+      "query": "global value chains human rights workers"
+    },
+    {
+      "id": "openalex-supplier-governance",
+      "name": "Research: supplier governance and labour standards",
+      "query": "supply chain labor rights due diligence"
+    }
   ]
 }
