@@ -14,7 +14,7 @@
     'research':'Academic research',
     'other':'Other information'
   };
-  let items = [], references = [], data = null, loadError = false, visibleCount = 15;
+  let items = [], references = [], data = null, archiveInfo = null, sourceHealth = null, loadError = false, visibleCount = 15;
   function safeURL(value) {
     try {
       const url = new URL(value);
@@ -155,6 +155,15 @@
       card.append(link);list.append(card);
     }
   }
+
+  function renderGovernance() {
+    $('archive-total').textContent = archiveInfo && Number.isInteger(archiveInfo.total_records)
+      ? String(archiveInfo.total_records) : t('Pending first archive');
+    $('source-approved').textContent = sourceHealth && Number.isInteger(sourceHealth.approved_reference_count)
+      ? String(sourceHealth.approved_reference_count) : String(references.length || 0);
+    $('source-overdue').textContent = sourceHealth && Number.isInteger(sourceHealth.review_overdue)
+      ? String(sourceHealth.review_overdue) : t('Not yet reviewed');
+  }
   function csvCell(value) {
     let valueString=String(value == null ? '' : value).replace(/[\u0000-\u001f\u007f]/g,' ');
     if (/^\s*[=+@\-\t\r]/.test(valueString)) valueString="'"+valueString;
@@ -189,6 +198,7 @@
     } else if(data) renderMetrics();
     renderSignals();
     renderSources();
+    renderGovernance();
   }
   async function load() {
     try {
@@ -198,6 +208,12 @@
       data=current;references=refs;
       items=current.items.filter(item=>item && typeof item.title==='string' && typeof item.url==='string').slice(0,1000);
       items.sort((a,b)=>Date.parse(b.published_at || '')-Date.parse(a.published_at || ''));
+      // Optional public governance data does not prevent the main news feed from loading.
+      const extras = await Promise.allSettled([
+        loadJSON('./data/archive-summary.json'),loadJSON('./data/source-health.json')
+      ]);
+      archiveInfo = extras[0].status === 'fulfilled' ? extras[0].value : null;
+      sourceHealth = extras[1].status === 'fulfilled' ? extras[1].value : null;
     } catch (_) {loadError=true;}
     render();
   }

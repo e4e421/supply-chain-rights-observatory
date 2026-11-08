@@ -14,3 +14,14 @@
 }
 @media(max-width:360px){.header-inner nav a{font-size:10px}.language-picker select{min-width:95px}.header-inner{gap:6px}}
 .hero h1, .section-heading h2, .lens-card h3, .source-card h3 {overflow-wrap:break-word}
+
+.archive-panel{margin-top:38px;background:#eef3eb;border:1px solid #c6d8ca;padding:27px 30px;border-radius:5px}
+.archive-panel h3{font-family:var(--serif);font-size:25px;font-weight:600;margin:7px 0 8px}
+.archive-panel>p{color:var(--muted);font-size:13px;max-width:760px}
+.archive-panel>a{font-size:12px;font-weight:700;color:var(--green);text-decoration:underline;text-underline-offset:4px}
+.archive-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:22px 0 12px}
+.archive-stats>div{padding:18px 17px;background:white;border:1px solid var(--line);display:flex;flex-direction:column;gap:4px}
+.archive-stats small{font-size:11px;color:var(--muted)}
+.archive-stats strong{font-size:20px;letter-spacing:-.025em;line-height:1.45;overflow-wrap:anywhere}
+.archive-caption{font-size:11px!important}
+@media(max-width:650px){.archive-panel{padding:20px 16px}.archive-stats{grid-template-columns:1fr}.archive-stats>div{padding:12px 14px}}
