@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "generated_at": null,
+  "last_successful_collection": null,
+  "status": "not_started",
+  "sources": [],
+  "items": [],
+  "warnings": ["Initial data collection has not yet run. Run the GitHub Actions workflow manually."]
+}

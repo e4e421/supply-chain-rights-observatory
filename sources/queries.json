@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "news_queries": [
+    {"id":"eu-policy","name":"歐盟盡職調查與供應鏈法規","query":"(CSDDD OR due diligence) (supply chain OR supplier) (EU OR Europe)","topics":["policy"]},
+    {"id":"forced-labour","name":"歐洲強迫勞動與產品規範","query":"(forced labour OR forced labor) (European Union OR Europe) supply chain","topics":["forced-labour"]},
+    {"id":"worker-rights","name":"供應鏈勞工權利與工作條件","query":"(labour rights OR workers rights OR workplace safety) supply chain Europe","topics":["working-conditions"]},
+    {"id":"remedy","name":"申訴、工會與補救機制","query":"(worker voice OR grievance mechanism OR trade union OR remediation) supplier Europe","topics":["worker-voice"]},
+    {"id":"accountability","name":"企業與人權監測組織","query":"site:business-humanrights.org (supplier OR supply chain) (labour OR workers OR human rights)","topics":["worker-voice"]},
+    {"id":"oecd-ilo","name":"ILO 與 OECD 責任企業行為","query":"(site:ilo.org OR site:oecd.org) (supply chains OR due diligence) workers","topics":["policy"]}
+  ],
+  "academic_queries": [
+    {"id":"academic-hrdd","name":"學術：人權盡職調查與供應商治理","query":"supply chain human rights due diligence"},
+    {"id":"academic-labour","name":"學術：供應鏈社會永續與勞工","query":"supplier social sustainability labour rights"}
+  ]
+}

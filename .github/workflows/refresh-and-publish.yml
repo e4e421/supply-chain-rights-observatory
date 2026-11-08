@@ -1,0 +1,82 @@
+name: Refresh public intelligence and deploy
+
+on:
+  schedule:
+    # Daily 06:23 Asia/Taipei; GitHub scheduled runs can be delayed.
+    - cron: '23 22 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'scripts/**'
+      - 'sources/**'
+      - '.github/workflows/refresh-and-publish.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: supply-chain-observatory-pages
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: write
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: true
+      - name: Fetch public metadata
+        run: python3 scripts/update_data.py
+      - name: Validate public schema and URL allowlist
+        run: python3 scripts/validate_data.py
+      - name: Commit public data only
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- docs/data/latest.json
+          if git diff --cached --quiet; then
+            echo 'No data changes.'
+          else
+            git commit -m 'data: refresh public research intelligence [skip ci]'
+            git push origin HEAD:main
+          fi
+
+  deploy:
+    needs: [collect]
+    if: always() && (needs.collect.result == 'success' || needs.collect.result == 'skipped')
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout latest main
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: main
+          persist-credentials: false
+      - name: Validate public output
+        run: python3 scripts/validate_data.py
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Upload static website
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./docs
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+      - name: Flag collection failure after displaying state on site
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: python3 scripts/assert_health.py
