@@ -22,7 +22,8 @@ ALLOWED_HOSTS={'news.google.com','doi.org'}
 RECORD_KEYS=('id','kind','title','url','published_at','first_seen','source','source_id',
              'evidence_status','topics','description','doi','discovery_query_id',
              'publisher_hint','publisher_verified','canonical_url','screening_version',
-             'screening_status','screening_reason')
+             'screening_status','screening_reason','publisher_provenance',
+             'retrieved_at','pipeline_version','original_language')
 MAX_LINE_BYTES=8000
 MAX_TOTAL_RECORDS=250000
 PUBLIC_STATUS={'Unverified discovery','Bibliographic record'}

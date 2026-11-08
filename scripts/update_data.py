@@ -147,14 +147,16 @@ def parse_rss(body, config, now, candidates=None):
         record = {
             'title': title, 'url': link, 'published_at': date,
             'source': clean_text(config['name'], 90), 'source_id': config['id'],
-            'discovery_query_id': config['id'], 'publisher_hint': publisher_hint(title),
+            'discovery_query_id': config['id'], 'publisher_hint': clean_text(node.findtext('source'),90) or publisher_hint(title),
+            'publisher_provenance':'google_news_rss_unverified',
             'publisher_verified': False, 'canonical_url': None,
             'kind': 'discovery', 'evidence_status': 'Unverified discovery',
             'topics': classify(title, config.get('topics', [])),
             'description': 'Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.',
             'screening_version': quality['version'], 'screening_status':quality['status'],
             'screening_reason':quality['reason'],
-            'first_seen': iso(now)
+            'first_seen': iso(now), 'retrieved_at':iso(now),
+            'pipeline_version':'collector-2026.11', 'original_language':None
         }
         if candidates is not None:
             candidates.append(record)
@@ -165,7 +167,7 @@ def parse_rss(body, config, now, candidates=None):
 
 def parse_crossref(payload, config, now, candidates=None):
     result = []
-    for record in payload.get('message', {}).get('items', [])[:35]:
+    for record in payload.get('message', {}).get('items', [])[:75]:
         title = clean_text((record.get('title') or [''])[0])
         doi = str(record.get('DOI') or '').strip()
         published = date_from_crossref(record)
@@ -180,12 +182,14 @@ def parse_crossref(payload, config, now, candidates=None):
             'published_at': published, 'source': 'Crossref · ' + clean_text(config['name'], 65),
             'source_id': config['id'], 'discovery_query_id':config['id'],
             'publisher_hint':publisher, 'publisher_verified':False, 'canonical_url':None,
+            'publisher_provenance':'crossref_bibliographic_metadata',
             'kind': 'academic', 'evidence_status': 'Bibliographic record',
             'topics': classify(title, ('research',)), 'doi': doi,
             'screening_version':quality['version'], 'screening_status':quality['status'],
             'screening_reason':quality['reason'],
             'description': 'Crossref bibliographic record. Verify DOI and publication date with the publisher; methods and peer-review status have not been independently reviewed.',
-            'first_seen': iso(now)
+            'first_seen': iso(now), 'retrieved_at':iso(now),
+            'pipeline_version':'collector-2026.11', 'original_language':None
         }
         if candidates is not None:
             candidates.append(row)
@@ -218,12 +222,14 @@ def parse_openalex(payload, config, now, candidates=None):
             'published_at':date,'source':'OpenAlex · '+clean_text(config['name'],65),
             'source_id':config['id'],'discovery_query_id':config['id'],
             'publisher_hint':publisher,'publisher_verified':False,'canonical_url':None,
+            'publisher_provenance':'openalex_source_venue_metadata',
             'kind':'academic','evidence_status':'Bibliographic record',
             'topics':classify(title,('research',)),'doi':doi,
             'screening_version':quality['version'],'screening_status':quality['status'],
             'screening_reason':quality['reason'],
             'description':'OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.',
-            'first_seen':iso(now)
+            'first_seen':iso(now), 'retrieved_at':iso(now),
+            'pipeline_version':'collector-2026.11', 'original_language':None
         }
         if candidates is not None: candidates.append(row)
         if quality['status']=='candidate_relevant':result.append(row)

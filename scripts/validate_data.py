@@ -27,6 +27,9 @@ def validate(data):
         assert item['kind'] in ('academic','discovery')
         assert item['evidence_status'] in ('Bibliographic record','Unverified discovery')
         assert isinstance(item['topics'],list) and set(item['topics']) <= TOPICS
+        if 'screening_status' in item: assert item['screening_status'] in ('candidate_relevant','excluded')
+        if 'publisher_verified' in item: assert item['publisher_verified'] is False
+        if 'original_language' in item: assert item['original_language'] is None or item['original_language'] in ('en','de','zh-Hant','fr','nl','es','it','pt')
         assert re.fullmatch(r'[0-9a-f]{18}',item['id']) and item['id'] not in ids
         ids.add(item['id'])
         url = urlparse(item['url'])
