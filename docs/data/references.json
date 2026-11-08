@@ -82,5 +82,40 @@
     "mode": "Official statistics / manually verified",
     "url": "https://ec.europa.eu/eurostat/",
     "use": "Supply-chain sectors, trade, labour markets and official statistics for defining populations and covariates in policy evaluation."
+  },
+  {
+    "category": "EU LAW",
+    "name": "German Federal Ministry of Labour and Social Affairs (BMAS) · Supply Chain Due Diligence Act",
+    "mode": "Official / manually verified",
+    "url": "https://www.bmas.bund.de/DE/Service/Gesetze-und-Gesetzesvorhaben/Gesetz-Unternehmerische-Sorgfaltspflichten-Lieferketten/gesetz-unternehmerische-sorgfaltspflichten-lieferketten.html",
+    "use": "Official German LkSG requirements and institutional enforcement framework; distinguish applicable law from press summaries."
+  },
+  {
+    "category": "GOVERNANCE",
+    "name": "OECD · National Contact Points Case Database",
+    "mode": "Official / manually verified",
+    "url": "https://www.oecd.org/en/networks/national-contact-points-for-responsible-business-conduct/database.html",
+    "use": "Non-judicial grievance cases, alleged breaches and reported outcomes; case selection and reporting biases must be considered."
+  },
+  {
+    "category": "LABOUR",
+    "name": "European Agency for Safety and Health at Work (EU-OSHA)",
+    "mode": "Official / manually verified",
+    "url": "https://european-union.europa.eu/institutions-law-budget/institutions-and-bodies/search-all-eu-institutions-and-bodies/european-agency-safety-and-health-work-eu-osha_en",
+    "use": "Occupational health and safety evidence, survey data and risks relevant to worker outcomes in European value chains."
+  },
+  {
+    "category": "BUSINESS & HUMAN RIGHTS",
+    "name": "World Benchmarking Alliance · Corporate Human Rights Benchmark",
+    "mode": "Benchmark / manually reviewed",
+    "url": "https://www.worldbenchmarkingalliance.org/benchmark/corporate-human-rights-benchmark",
+    "use": "Comparative company HRDD and remedy indicators; scores are methodology-dependent proxies, not confirmed violations."
+  },
+  {
+    "category": "BUSINESS & HUMAN RIGHTS",
+    "name": "KnowTheChain · Forced Labour Benchmarks",
+    "mode": "Benchmark / manually reviewed",
+    "url": "https://www.business-humanrights.org/en/from-us/knowthechain/",
+    "use": "Sector benchmarks on corporate action against forced-labour risks in supply chains; assess coverage and scoring limitations."
   }
 ]
