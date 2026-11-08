@@ -18,8 +18,12 @@ jobs:
       - name: JavaScript syntax and offline regression
         run: |
           node --check docs/app.js
+          node --check docs/archive.js
+          node --check docs/record.js
           node --check docs/i18n.js
           python3 -m unittest discover -s tests -v
+      - name: Build archive search index offline
+        run: python3 scripts/build_catalog.py
       - name: Validate published data and archive without network access
         run: |
           python3 scripts/validate_data.py

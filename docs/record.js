@@ -15,6 +15,7 @@ function show(){
  root.replaceChildren();
  if(error||!item){root.append(txt('p',t('Record unavailable. Verify its identifier and month.')));return}
  const title=txt('h1',item.title),meta=txt('p',item.record_id+' · '+(item.published_at||'—'));
+ title.setAttribute('lang','und');
  const evidence=txt('p',t('Unverified discovery / bibliographic lead'));
  const dl=document.createElement('dl');
  const fields=[
