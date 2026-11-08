@@ -6,6 +6,7 @@
   "last_probe_run": null,
   "approved_reference_count": 17,
   "pending_candidate_count": 0,
+  "review_needed_count": 12,
   "review_overdue": 0,
   "sources": [
     {
@@ -212,6 +213,5 @@
       "http_status": null,
       "last_probe": null
     }
-  ],
-  "review_needed_count": 12
+  ]
 }

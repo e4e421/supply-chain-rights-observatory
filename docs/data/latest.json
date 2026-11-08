@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-08T11:11:11Z",
-  "last_successful_collection": "2026-11-08T11:11:11Z",
+  "generated_at": "2026-11-08T15:20:28Z",
+  "last_successful_collection": "2026-11-08T15:20:28Z",
   "status": "ok",
   "sources": [
     {
@@ -9,7 +9,7 @@
       "name": "EU due diligence & supply chain law",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-08T11:11:11Z",
+      "last_attempt": "2026-11-08T15:20:28Z",
       "items": 5
     },
     {
@@ -17,7 +17,7 @@
       "name": "European forced labour & product rules",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-08T11:11:11Z",
+      "last_attempt": "2026-11-08T15:20:28Z",
       "items": 6
     },
     {
@@ -25,15 +25,15 @@
       "name": "Supply chain worker rights & conditions",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-08T11:11:11Z",
-      "items": 8
+      "last_attempt": "2026-11-08T15:20:28Z",
+      "items": 10
     },
     {
       "id": "remedy",
       "name": "Grievances, unions & remedy",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-08T11:11:11Z",
+      "last_attempt": "2026-11-08T15:20:28Z",
       "items": 6
     },
     {
@@ -41,7 +41,7 @@
       "name": "Business & human rights monitors",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-08T11:11:11Z",
+      "last_attempt": "2026-11-08T15:20:28Z",
       "items": 2
     },
     {
@@ -49,7 +49,7 @@
       "name": "ILO & OECD responsible business conduct",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-08T11:11:11Z",
+      "last_attempt": "2026-11-08T15:20:28Z",
       "items": 2
     },
     {
@@ -57,7 +57,7 @@
       "name": "Research: HRDD & supplier governance",
       "type": "academic",
       "status": "ok",
-      "last_attempt": "2026-11-08T11:11:11Z",
+      "last_attempt": "2026-11-08T15:20:28Z",
       "items": 0
     },
     {
@@ -65,11 +65,26 @@
       "name": "Research: social sustainability & labour",
       "type": "academic",
       "status": "ok",
-      "last_attempt": "2026-11-08T11:11:11Z",
+      "last_attempt": "2026-11-08T15:20:28Z",
       "items": 0
     }
   ],
   "items": [
+    {
+      "title": "Dutch government charts its own AI course with €120 million - IO+",
+      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNcHFPdG03YUFET2xSSUptZzBnRmthTmJmZEZnSXFUN2VxQk13NmtSVFVnZi16Zzl6RTdzTC1hVkQ2TlNSczE3V2FTX2xLNk12bWMwZWJkYzFiTFA2RjBKYTZGUjI4cTNsZEZISms3RVQtd0h5TG5fX0hwYkU2RG1sZGRlS0dzX3pHMXVqaFhR?oc=5",
+      "published_at": "2026-11-08T12:18:18Z",
+      "source": "Supply chain worker rights & conditions",
+      "source_id": "worker-rights",
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "working-conditions"
+      ],
+      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "first_seen": "2026-11-08T15:20:28Z",
+      "id": "5948fa7a58625adc51"
+    },
     {
       "title": "ESG Today: Week in Review - ESG Today",
       "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE9WQzBtd19qWmZnaUJJWGVpUnRCZVJ0S1Q4X011aVZ5VWZkYUtKQTBxd3RPT1lER2hWd3hYMXhzWHZNZGJxU0xKYTJPQUZjZjh4bVZKT3VIdzQ5ai1paEhqeXpsTmI?oc=5",
@@ -120,14 +135,14 @@
       "title": "‘Every day, someone loses a hand or a leg’: the brutal reality of India’s textile recycling industry - The Guardian",
       "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxOTTU1X3pfa29LZUFXamV6MnhNUk9fNzZkWVAzSjBaRF95WVlEN1dKTndMcERwWVNHSGZ6OHh1Unozd3EwUVZjTjUydG1teUVYdTlTSUFMa05qWlM1TTRvQjdXUTFxTzFzT3hpRzE3UG9lVDVVVzdoN1FhVW5qbENZdGE0bzYxLU4yZ0NzNnRhbWNEVDdKSVJDSUNJTy1NXzZzdnNmeHk4SFVCQVpka0d0ZzBIN19QWk5BN2FIVGN0MTB1RDIycXZMc2NYWXlkSWh0RGlBVA?oc=5",
       "published_at": "2026-11-06T17:34:00Z",
-      "source": "供應鏈勞工權利與工作條件",
+      "source": "Supply chain worker rights & conditions",
       "source_id": "worker-rights",
       "kind": "discovery",
       "evidence_status": "Unverified discovery",
       "topics": [
         "working-conditions"
       ],
-      "description": "自動發現的新聞聚合線索；請追溯原始新聞與獨立佐證，不代表人權違規已獲證實。",
+      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
       "first_seen": "2026-11-08T10:18:54Z",
       "id": "f8ee3482d0cb951fae"
     },
