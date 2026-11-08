@@ -161,8 +161,8 @@
       ? String(archiveInfo.total_records) : t('Pending first archive');
     $('source-approved').textContent = sourceHealth && Number.isInteger(sourceHealth.approved_reference_count)
       ? String(sourceHealth.approved_reference_count) : String(references.length || 0);
-    $('source-overdue').textContent = sourceHealth && Number.isInteger(sourceHealth.review_overdue)
-      ? String(sourceHealth.review_overdue) : t('Not yet reviewed');
+    $('source-overdue').textContent = sourceHealth && Number.isInteger(sourceHealth.review_needed_count ?? sourceHealth.review_overdue)
+      ? String(sourceHealth.review_needed_count ?? sourceHealth.review_overdue) : t('Not yet reviewed');
   }
   function csvCell(value) {
     let valueString=String(value == null ? '' : value).replace(/[\u0000-\u001f\u007f]/g,' ');
