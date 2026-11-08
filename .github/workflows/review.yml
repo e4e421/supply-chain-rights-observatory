@@ -19,6 +19,8 @@ jobs:
         run: python3 scripts/evaluate_relevance.py
       - name: JavaScript syntax and offline regression
         run: |
+          node --check docs/query.js
+          node --test tests/test_query.mjs
           node --check docs/app.js
           node --check docs/archive.js
           node --check docs/record.js

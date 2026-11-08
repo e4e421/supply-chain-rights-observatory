@@ -117,7 +117,7 @@
           english(item.description),t(item.description || ''),
           ...labels,...labels.map(t), ...(item.topics || [])
         ].join(' ').toLocaleLowerCase();
-        if (!searchable.includes(query)) return false;
+        if (!(window.SCRO_QUERY ? window.SCRO_QUERY.matches(searchable,query) : searchable.includes(query))) return false;
       }
       return true;
     });

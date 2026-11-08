@@ -89,6 +89,8 @@ jobs:
       - name: Verify multilingual frontend and security contracts
         run: |
           node --check docs/i18n.js
+          node --check docs/query.js
+          node --test tests/test_query.mjs
           node --check docs/app.js
           node --check docs/archive.js
           node --check docs/record.js

@@ -12,7 +12,8 @@ function selected(){
   if(topic!=='all'&&!(r.topics||[]).includes(topic))return false;
   if(from&&String(r.published_at||'').slice(0,10)<from)return false;
   if(to&&String(r.published_at||'').slice(0,10)>to)return false;
-  return !q||[r.title,r.publisher_hint,r.source,r.source_id,r.record_id,r.doi].join(' ').toLowerCase().includes(q);
+  const searchable=[r.title,r.publisher_hint,r.source,r.source_id,r.record_id,r.doi].join(' ').toLowerCase();
+  return !q || (window.SCRO_QUERY ? window.SCRO_QUERY.matches(searchable,q) : searchable.includes(q));
  });
 }
 function render(){
