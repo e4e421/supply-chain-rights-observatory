@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "scope": "illustrative_title_only_editorial_labels_not_claim_verification",
+  "notes": "Small regression set. Never cite these title-level judgements as validated ground truth or an estimate of the prevalence of violations.",
+  "cases": [
+    {
+      "title": "Dutch government charts its own AI course with €120 million - IO+",
+      "relevant": false
+    },
+    {
+      "title": "U.K. Bans Further Oil & Gas Drilling in North Sea - SupplyChainBrain",
+      "relevant": false
+    },
+    {
+      "title": "Is Burnham right about joining the EU single market without a referendum? - LSE Blogs",
+      "relevant": false
+    },
+    {
+      "title": "EU Battery Passport 2027: Why a QR Code Outranks the Cell - Intelligent Living",
+      "relevant": false
+    },
+    {
+      "title": "Building an efficient European nuclear energy supply chain: a skills passport",
+      "relevant": false
+    },
+    {
+      "title": "Securing The Supply Chain: Global Approaches To Critical Minerals Strategic Reserves",
+      "relevant": false
+    },
+    {
+      "title": "ESG Today: Week in Review - ESG Today",
+      "relevant": false
+    },
+    {
+      "title": "Why Supply Chain Due Diligence Needs a Shared Approach",
+      "relevant": true
+    },
+    {
+      "title": "Labour Exploitation in the Garment Industry: What Would It Take to Protect Workers?",
+      "relevant": true
+    },
+    {
+      "title": "UK Government to introduce mandatory human rights due diligence legislation",
+      "relevant": true
+    },
+    {
+      "title": "Every day someone loses a hand: the reality of India's textile recycling industry",
+      "relevant": true
+    }
+  ]
+}
