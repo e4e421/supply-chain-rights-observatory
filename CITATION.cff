@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "For research claims, cite the original publication. If referring to the observatory dataset itself, cite this repository and its specific commit or release."
+title: "Supply Chain Rights Observatory: Public Discovery Metadata"
+type: dataset
+authors:
+  - name: "Supply Chain Rights Observatory project"
+version: "0.2.0"
+date-released: 2026-11-09
+repository-code: "https://github.com/e4e421/supply-chain-rights-observatory"
+url: "https://e4e421.github.io/supply-chain-rights-observatory/"
+abstract: "An independent, unverified research-discovery catalogue of public supply chain, human rights and labour-related titles and academic metadata. It is not a dataset of confirmed human rights violations."
