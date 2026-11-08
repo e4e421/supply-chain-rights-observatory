@@ -17,11 +17,12 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import quote, urlencode, urlparse
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 from xml.etree import ElementTree
+from research_quality import screen_title, publisher_hint, VERSION as SCREEN_VERSION
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG_FILE = ROOT / 'sources' / 'queries.json'
 OUTPUT_FILE = ROOT / 'docs' / 'data' / 'latest.json'
-ALLOWED_FETCH_HOSTS = frozenset({'news.google.com', 'api.crossref.org'})
+ALLOWED_FETCH_HOSTS = frozenset({'news.google.com', 'api.crossref.org', 'api.openalex.org'})
 MAX_BYTES = 2_000_000
 MAX_ITEMS = 240
 MAX_AGE_DAYS = 150
@@ -124,7 +125,7 @@ def stable_id(item):
     return hashlib.sha256(key.encode('utf-8')).hexdigest()[:18]
 
 
-def parse_rss(body, config, now):
+def parse_rss(body, config, now, candidates=None):
     upper = body[:1024].upper()
     if b'<!DOCTYPE' in body.upper() or b'<!ENTITY' in body.upper():
         raise ValueError('DTD and external entities are not accepted')
@@ -132,7 +133,7 @@ def parse_rss(body, config, now):
     if root.tag != 'rss' and not root.tag.endswith('}rss'):
         raise ValueError('Expected RSS XML document')
     result = []
-    for node in root.findall('./channel/item')[:35]:
+    for node in root.findall('./channel/item')[:80]:
         title = clean_text(node.findtext('title'))
         link = public_https_url((node.findtext('link') or '').strip(), 'news.google.com')
         if not title or not link:
@@ -142,20 +143,31 @@ def parse_rss(body, config, now):
             continue  # Unknown dates are not silently labelled new.
         if not is_recent(date, now, MAX_AGE_DAYS):
             continue
-        result.append({
+        quality = screen_title(title)
+        record = {
             'title': title, 'url': link, 'published_at': date,
             'source': clean_text(config['name'], 90), 'source_id': config['id'],
+            'discovery_query_id': config['id'], 'publisher_hint': clean_text(node.findtext('source'),90) or publisher_hint(title),
+            'publisher_provenance':'google_news_rss_unverified',
+            'publisher_verified': False, 'canonical_url': None,
             'kind': 'discovery', 'evidence_status': 'Unverified discovery',
             'topics': classify(title, config.get('topics', [])),
             'description': 'Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.',
-            'first_seen': iso(now)
-        })
+            'screening_version': quality['version'], 'screening_status':quality['status'],
+            'screening_reason':quality['reason'],
+            'first_seen': iso(now), 'retrieved_at':iso(now),
+            'pipeline_version':'collector-2026.11', 'original_language':None
+        }
+        if candidates is not None:
+            candidates.append(record)
+        if quality['status'] == 'candidate_relevant':
+            result.append(record)
     return result
 
 
-def parse_crossref(payload, config, now):
+def parse_crossref(payload, config, now, candidates=None):
     result = []
-    for record in payload.get('message', {}).get('items', [])[:35]:
+    for record in payload.get('message', {}).get('items', [])[:75]:
         title = clean_text((record.get('title') or [''])[0])
         doi = str(record.get('DOI') or '').strip()
         published = date_from_crossref(record)
@@ -163,20 +175,64 @@ def parse_crossref(payload, config, now):
             continue
         if not is_recent(published, now, MAX_AGE_DAYS):
             continue
-        lower = title.casefold()
-        # Narrow to social-sustainability and supply chain research. This is a leads filter, not article peer review.
-        has_supply = any(k in lower for k in ('supply chain', 'supplier', 'procurement', 'supply network', 'value chain'))
-        has_social = any(k in lower for k in ('human right', 'labour', 'labor', 'social sustainab', 'forced', 'modern slavery', 'due diligence', 'worker', 'fair work', 'ethical sourcing'))
-        if not (has_supply and has_social):
-            continue
-        result.append({
+        quality=screen_title(title,academic=True)
+        publisher=clean_text(record.get('publisher'),90) or None
+        row = {
             'title': title, 'url': 'https://doi.org/' + quote(doi, safe='/._;():-'),
             'published_at': published, 'source': 'Crossref · ' + clean_text(config['name'], 65),
-            'source_id': config['id'], 'kind': 'academic', 'evidence_status': 'Bibliographic record',
+            'source_id': config['id'], 'discovery_query_id':config['id'],
+            'publisher_hint':publisher, 'publisher_verified':False, 'canonical_url':None,
+            'publisher_provenance':'crossref_bibliographic_metadata',
+            'kind': 'academic', 'evidence_status': 'Bibliographic record',
             'topics': classify(title, ('research',)), 'doi': doi,
+            'screening_version':quality['version'], 'screening_status':quality['status'],
+            'screening_reason':quality['reason'],
             'description': 'Crossref bibliographic record. Verify DOI and publication date with the publisher; methods and peer-review status have not been independently reviewed.',
-            'first_seen': iso(now)
-        })
+            'first_seen': iso(now), 'retrieved_at':iso(now),
+            'pipeline_version':'collector-2026.11', 'original_language':None
+        }
+        if candidates is not None:
+            candidates.append(row)
+        if quality['status'] == 'candidate_relevant':
+            result.append(row)
+    return result
+
+
+def parse_openalex(payload, config, now, candidates=None):
+    """Keyless, one-page OpenAlex metadata discovery; no author personal data collected."""
+    result=[]
+    for record in payload.get('results',[])[:50]:
+        title=clean_text(record.get('display_name') or record.get('title'))
+        doi_value=record.get('doi') or ''
+        doi=doi_value.replace('https://doi.org/','').strip()
+        published=record.get('publication_date')
+        if not (title and DOI_PATTERN.fullmatch(doi) and isinstance(published,str)):
+            continue
+        try:
+            date=iso(datetime.fromisoformat(published).replace(tzinfo=timezone.utc))
+        except ValueError:
+            continue
+        if not is_recent(date,now,MAX_AGE_DAYS):
+            continue
+        quality=screen_title(title,academic=True)
+        location=record.get('primary_location') or {}
+        publisher=clean_text((location.get('source') or {}).get('display_name'),90) or None
+        row={
+            'title':title,'url':'https://doi.org/'+quote(doi,safe='/._;():-'),
+            'published_at':date,'source':'OpenAlex · '+clean_text(config['name'],65),
+            'source_id':config['id'],'discovery_query_id':config['id'],
+            'publisher_hint':publisher,'publisher_verified':False,'canonical_url':None,
+            'publisher_provenance':'openalex_source_venue_metadata',
+            'kind':'academic','evidence_status':'Bibliographic record',
+            'topics':classify(title,('research',)),'doi':doi,
+            'screening_version':quality['version'],'screening_status':quality['status'],
+            'screening_reason':quality['reason'],
+            'description':'OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.',
+            'first_seen':iso(now), 'retrieved_at':iso(now),
+            'pipeline_version':'collector-2026.11', 'original_language':None
+        }
+        if candidates is not None: candidates.append(row)
+        if quality['status']=='candidate_relevant':result.append(row)
     return result
 
 
@@ -197,7 +253,8 @@ def merge_items(new, previous, now):
             continue
         if not isinstance(item.get('title'), str) or not isinstance(item.get('id'), str):
             continue
-        merged[item['id']] = item
+        if item.get('kind') == 'academic' or screen_title(item.get('title'))['status'] == 'candidate_relevant':
+            merged[item['id']] = item
     for item in new:
         item['id'] = stable_id(item)
         old = merged.get(item['id'])
@@ -214,29 +271,49 @@ def run():
         previous = json.loads(OUTPUT_FILE.read_text(encoding='utf-8'))
     except (OSError, ValueError):
         previous = {}
-    new_items, sources, warnings = [], [], []
+    new_items, sources, warnings, candidates = [], [], [], []
     for config_item in config['news_queries']:
         query = config_item['query']
         url = 'https://news.google.com/rss/search?' + urlencode({'q':query, 'hl':'en-GB', 'gl':'GB', 'ceid':'GB:en'})
-        sources.append(process_source(config_item, 'news', lambda: parse_rss(fetch_bytes(url), config_item, now), new_items, warnings, now))
+        sources.append(process_source(config_item, 'news', lambda: parse_rss(fetch_bytes(url), config_item, now, candidates), new_items, warnings, now))
     for config_item in config['academic_queries']:
-        params = {'query.bibliographic':config_item['query'], 'filter': f'from-pub-date:{(now-timedelta(days=MAX_AGE_DAYS)).date().isoformat()}', 'rows':'35', 'select':'DOI,title,published,published-print,published-online,issued,created,type', 'sort':'published', 'order':'desc'}
+        params = {'query.bibliographic':config_item['query'], 'filter': f'from-pub-date:{(now-timedelta(days=MAX_AGE_DAYS)).date().isoformat()}', 'rows':'75', 'select':'DOI,title,published,published-print,published-online,issued,created,type,publisher,container-title', 'sort':'published', 'order':'desc'}
         url = 'https://api.crossref.org/works?' + urlencode(params)
         def crossref_fetch(url=url, cfg=config_item):
-            return parse_crossref(json.loads(fetch_bytes(url).decode('utf-8')), cfg, now)
+            return parse_crossref(json.loads(fetch_bytes(url).decode('utf-8')), cfg, now, candidates)
         sources.append(process_source(config_item, 'academic', crossref_fetch, new_items, warnings, now))
+    for config_item in config.get('openalex_queries',[]):
+        params={'search':config_item['query'],
+                'filter':f'from_publication_date:{(now-timedelta(days=MAX_AGE_DAYS)).date().isoformat()}',
+                'per_page':'50',
+                'select':'id,display_name,doi,publication_date,type,primary_location'}
+        url='https://api.openalex.org/works?'+urlencode(params)
+        def openalex_fetch(url=url,cfg=config_item):
+            return parse_openalex(json.loads(fetch_bytes(url).decode('utf-8')),cfg,now,candidates)
+        sources.append(process_source(config_item,'academic',openalex_fetch,new_items,warnings,now))
     success = sum(x['status'] == 'ok' for x in sources)
     status = 'failed' if success == 0 or (not new_items and not previous.get('items')) else 'partial' if success < len(sources) else 'ok'
     merged = merge_items(new_items, previous.get('items', []), now)
-    # Archive all currently retained records before rotating the short-term snapshot.
-    # The archive stores only public research metadata (not personal research records).
+    # Persist screened and excluded title-only candidates separately before filtering.
+    from candidate_archive import persist_candidates
+    candidate_total, candidate_new = persist_candidates(candidates)
+    print(f'Candidate register: {candidate_total} total; {candidate_new} new; {len(new_items)} screened in')
+    # Archive all accepted observations BEFORE the 240-item recent-snapshot cap.
     from archive_data import persist as persist_archive
-    archived_total, archived_new = persist_archive(merged, iso(now))
+    archived_total, archived_new = persist_archive([*new_items, *merged], iso(now))
     print(f'Permanent archive: {archived_total} public records, {archived_new} newly archived')
     # Prior successes remain visible even when this collection fails.
     last_success = iso(now) if status in ('ok', 'partial') else previous.get('last_successful_collection')
     output = {'schema_version':1, 'generated_at':iso(now),'last_successful_collection':last_success,
-              'status':status,'sources':sources,'items':merged,'warnings':warnings[:20]}
+              'status':status,'sources':sources,'items':merged,'warnings':warnings[:20],
+              'retrieval_quality':{
+                  'screening_version':SCREEN_VERSION,'candidate_count':len(candidates),
+                  'accepted_observations':len(new_items),'excluded_observations':len(candidates)-len(new_items),
+                  'academic_records_accepted':sum(x.get('kind')=='academic' for x in new_items),
+                  'source_counts':[{k:meta[k] for k in ('id','status','items')} for meta in sources],
+                  'candidate_archive_total':candidate_total,
+                  'scope':'bounded RSS and Crossref result windows, not full web coverage'
+              }}
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_FILE.write_text(json.dumps(output, ensure_ascii=False, indent=2)+'\n',encoding='utf-8')
     print(f'Collection status: {status}; sources ok: {success}/{len(sources)}; new: {len(new_items)}; retained: {len(merged)}')

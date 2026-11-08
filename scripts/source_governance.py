@@ -22,7 +22,7 @@ ALLOWED={
  'www.ilo.org','www.business-humanrights.org','www.oecd.org','www.etui.org',
  'www.ituc-csi.org','scm.ethz.ch','www.crossref.org','news.google.com',
  'ec.europa.eu','www.bmas.bund.de','european-union.europa.eu',
- 'www.worldbenchmarkingalliance.org'
+ 'www.worldbenchmarkingalliance.org','www.ela.europa.eu','www.eurofound.europa.eu'
 }
 
 def validate_link(url):
@@ -43,6 +43,8 @@ def validate(registry,candidates,refs):
         ids.add(entry['id'])
         if entry.get('status')!='curated_reference' or entry.get('auto_ingest') is not False:
             raise ValueError('Source promotion must be manual')
+        if entry.get('licence_review_status') not in ('pending','approved_for_metadata','no_redistribution'):
+            raise ValueError('Source licence review status missing or invalid')
         validate_link(entry['url'])
         if entry['url'] in known_urls: raise ValueError('Duplicated approved URL')
         known_urls.add(entry['url'])
@@ -95,6 +97,7 @@ def run(online=False):
             'editorial_status':entry['status'],
             'last_editorial_review':entry.get('verified_on'),
             'review_due':entry.get('review_due'),
+            'licence_review_status':entry.get('licence_review_status','pending'),
             'review_needed':not bool(entry.get('verified_on')) or bool(entry.get('review_due') and entry['review_due']<today),
             'reachability':prior.get('reachability','untested'),
             'http_status':prior.get('http_status'),
@@ -112,6 +115,7 @@ def run(online=False):
         'approved_reference_count':len(entries),'pending_candidate_count':len(candidates.get('candidates',[])),
         'review_needed_count':sum(x['review_needed'] for x in entries),
         'review_overdue':sum(bool(x['review_due'] and x['review_due']<today) for x in entries),
+        'licence_review_pending_count':sum(x['licence_review_status']=='pending' for x in entries),
         'sources':entries
     }
     OUTPUT.parent.mkdir(parents=True,exist_ok=True)

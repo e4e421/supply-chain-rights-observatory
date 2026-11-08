@@ -39,6 +39,8 @@ jobs:
           persist-credentials: true
       - name: Fetch and archive public research metadata
         run: python3 scripts/update_data.py
+      - name: Build monthly public search catalogue
+        run: python3 scripts/build_catalog.py
       - name: Audit curated source registry
         run: |
           if [[ "${{ github.event.schedule }}" == '43 22 * * 0' ]]; then
@@ -51,11 +53,12 @@ jobs:
           python3 scripts/validate_data.py
           python3 scripts/validate_archive.py
           python3 -m unittest discover -s tests -v
+          python3 scripts/evaluate_relevance.py
       - name: Commit public data only
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -- docs/data/latest.json docs/data/archive-summary.json docs/data/source-health.json data/archive
+          git add -- docs/data/latest.json docs/data/archive-summary.json docs/data/source-health.json docs/data/archive data/archive data/candidates
           if git diff --cached --quiet; then
             echo 'No data changes.'
           else
@@ -86,8 +89,18 @@ jobs:
       - name: Verify multilingual frontend and security contracts
         run: |
           node --check docs/i18n.js
+          node --check docs/query.js
+          node --test tests/test_query.mjs
           node --check docs/app.js
+          node --check docs/archive.js
+          node --check docs/record.js
           python3 -m unittest discover -s tests -v
+      - name: Accessibility and frontend security regression checks
+        run: |
+          node --check docs/archive.js
+          node --check docs/record.js
+          python3 scripts/scan_frontend.py
+          python3 scripts/check_accessibility.py
       - name: Validate public output and archive
         run: |
           python3 scripts/validate_data.py

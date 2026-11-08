@@ -1,0 +1,40 @@
+name: Review research data and accessibility changes
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Python source compilation
+        run: python3 -m compileall -q scripts tests
+      - name: Exploratory title-only quality regression
+        run: python3 scripts/evaluate_relevance.py
+      - name: JavaScript syntax and offline regression
+        run: |
+          node --check docs/query.js
+          node --test tests/test_query.mjs
+          node --check docs/app.js
+          node --check docs/archive.js
+          node --check docs/record.js
+          node --check docs/i18n.js
+          python3 -m unittest discover -s tests -v
+      - name: Build archive search index offline
+        run: python3 scripts/build_catalog.py
+      - name: Validate published data and archive without network access
+        run: |
+          python3 scripts/validate_data.py
+          python3 scripts/validate_archive.py
+      - name: Static accessibility and security checks
+        run: |
+          python3 scripts/scan_frontend.py
+          python3 scripts/check_accessibility.py
+      - name: Browser language/archive/record smoke (when Chrome available)
+        run: python3 scripts/browser_smoke.py

@@ -1,11 +1,13 @@
 """Offline tests for the collection perimeter, parsing, classification and exports."""
 import importlib.util
 import json
+import sys
 import unittest
 from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT / 'scripts'))
 spec = importlib.util.spec_from_file_location('collector', ROOT / 'scripts/update_data.py')
 collector = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(collector)
@@ -48,6 +50,21 @@ class CollectorTests(unittest.TestCase):
         self.assertEqual(len(items), 1)
         self.assertEqual(items[0]['kind'], 'academic')
         self.assertEqual(items[0]['doi'], '10.1000/example.1')
+
+    def test_openalex_doi_metadata_and_title_screen(self):
+        payload={"results":[
+            {"display_name":"Global value chains and worker rights in factories",
+             "doi":"https://doi.org/10.1234/research.1",
+             "publication_date":"2026-11-07",
+             "primary_location":{"source":{"display_name":"Example Research Journal"}}},
+            {"display_name":"Physics of clouds","doi":"https://doi.org/10.1234/research.2","publication_date":"2026-11-07"}
+        ]}
+        candidates=[]
+        results=collector.parse_openalex(payload,{"id":"openalex-human-rights","name":"Academic"},NOW,candidates)
+        self.assertEqual(len(results),1)
+        self.assertEqual(len(candidates),2)
+        self.assertEqual(results[0]['doi'],'10.1234/research.1')
+        self.assertFalse(results[0]['publisher_verified'])
 
     def test_merge_preserves_first_seen_and_deduplicates(self):
         previous = {'id':'ignored','title':'Workplace safety at supplier','url':'https://news.google.com/rss/articles/42','published_at':'2026-11-07T00:00:00Z','kind':'discovery','first_seen':'2026-11-07T00:00:00Z'}

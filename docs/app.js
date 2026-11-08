@@ -57,6 +57,13 @@
     status.textContent = failed ? t('Collection incomplete') : stale ? t('Data stale') :
       data.status === 'partial' ? t('Partial source failures') : t('Operational');
     $('metric-coverage').textContent = good + ' / ' + total + ' ' + t('automated sources successful');
+    const quality=data.retrieval_quality;
+    $('quality-summary').textContent=quality ?
+       String(quality.candidate_count)+' '+t('bounded public candidates')+' · '+
+       String(quality.accepted_observations)+' '+t('screened-in leads')+' · '+
+       String(quality.excluded_observations)+' '+t('excluded by preliminary title screen')+' · '+
+       String(quality.academic_records_accepted)+' '+t('academic records found') :
+       t('Legacy records have not yet been evaluated by the updated relevance screen.');
     const alert = $('data-alert');
     if (failed || stale || data.status === 'partial') {
       alert.classList.add('visible');
@@ -76,21 +83,22 @@
     metadata.append(
       el('span',t(topics[group]),'topic-tag'),
       el('span',t(item.evidence_status || 'Unconfirmed'),'type-tag'),
-      el('span',localDate(item.published_at,false))
+      (() => { const time=el('time',localDate(item.published_at,false)); if (item.published_at) time.dateTime=item.published_at; return time; })()
     );
     card.append(metadata);
     const href = safeURL(item.url);
     const title = el(href ? 'a' : 'strong',item.title || 'Untitled signal','signal-title');
     if (href) {title.href=href;title.target='_blank';title.rel='noopener noreferrer';}
-    title.setAttribute('lang','auto');
+    title.setAttribute('lang', /^(en|de|zh-Hant|fr|es|it|nl|sv|pl|pt)$/.test(item.original_language || '') ? item.original_language : 'und');
     card.append(title);
     const desc = item.description || 'Follow the original link to verify context, evidence and applicability.';
     card.append(el('p',t(desc),'signal-desc'));
     const footer = el('div','','signal-foot');
     footer.append(
-      el('span',t('Source') + ': ' + sourceLabel(item.source)),
+      el('span',t('Monitoring query') + ': ' + sourceLabel(item.source)),
       el('span',t('Type') + ': ' + t(item.kind === 'academic' ? 'Scholarly metadata' : 'Discovery lead'))
     );
+    if(item.publisher_hint) footer.append(el('span',t('Publisher credit (unverified)')+': '+item.publisher_hint));
     if(item.doi) footer.append(el('span','DOI: ' + item.doi));
     card.append(footer);
     return card;
@@ -98,9 +106,11 @@
   function filteredItems() {
     const query = $('search').value.trim().toLocaleLowerCase();
     const topic = $('topic').value;
+    const selectedTopics=[...document.querySelectorAll('#multi-topic input:checked')].map(x=>x.value);
     const days = $('period').value === 'all' ? Infinity : Number($('period').value);
     return items.filter(item => {
-      if (topic !== 'all' && !(item.topics || []).includes(topic)) return false;
+      const requested=[...(topic==='all'?[]:[topic]),...selectedTopics];
+      if(requested.length && !requested.some(x=>(item.topics||[]).includes(x)))return false;
       if (dateAgeDays(item.published_at) > days) return false;
       if (query) {
         const labels = (item.topics || []).map(code => topics[code] || 'Other information');
@@ -109,7 +119,7 @@
           english(item.description),t(item.description || ''),
           ...labels,...labels.map(t), ...(item.topics || [])
         ].join(' ').toLocaleLowerCase();
-        if (!searchable.includes(query)) return false;
+        if (!(window.SCRO_QUERY ? window.SCRO_QUERY.matches(searchable,query) : searchable.includes(query))) return false;
       }
       return true;
     });
@@ -163,6 +173,8 @@
       ? String(sourceHealth.approved_reference_count) : String(references.length || 0);
     $('source-overdue').textContent = sourceHealth && Number.isInteger(sourceHealth.review_needed_count ?? sourceHealth.review_overdue)
       ? String(sourceHealth.review_needed_count ?? sourceHealth.review_overdue) : t('Not yet reviewed');
+    $('source-licence').textContent = sourceHealth && Number.isInteger(sourceHealth.licence_review_pending_count)
+      ? String(sourceHealth.licence_review_pending_count) : t('Not yet reviewed');
   }
   function csvCell(value) {
     let valueString=String(value == null ? '' : value).replace(/[\u0000-\u001f\u007f]/g,' ');
@@ -220,6 +232,7 @@
   for(const id of ['search','topic','period']) {
     $(id).addEventListener(id==='search' ? 'input' : 'change',()=>{visibleCount=15;renderSignals();});
   }
+  document.querySelectorAll('#multi-topic input').forEach(x=>x.addEventListener('change',()=>{visibleCount=15;renderSignals();}));
   $('show-more').addEventListener('click',()=>{visibleCount+=15;renderSignals();});
   $('download-csv').addEventListener('click',exportCSV);
   i18n.onChange(()=>render());
