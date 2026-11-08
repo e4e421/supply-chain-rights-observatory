@@ -20,7 +20,9 @@ PUBLIC_SUMMARY=ROOT/'docs'/'data'/'archive-summary.json'
 HEX_ID=re.compile(r'^[0-9a-f]{18}$')
 ALLOWED_HOSTS={'news.google.com','doi.org'}
 RECORD_KEYS=('id','kind','title','url','published_at','first_seen','source','source_id',
-             'evidence_status','topics','description','doi')
+             'evidence_status','topics','description','doi','discovery_query_id',
+             'publisher_hint','publisher_verified','canonical_url','screening_version',
+             'screening_status','screening_reason')
 MAX_LINE_BYTES=8000
 MAX_TOTAL_RECORDS=250000
 PUBLIC_STATUS={'Unverified discovery','Bibliographic record'}

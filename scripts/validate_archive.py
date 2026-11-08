@@ -5,6 +5,7 @@ import json, hashlib, sys
 from pathlib import Path
 from archive_data import ROOT, ARCHIVE, MANIFEST, PUBLIC_SUMMARY, build_manifest
 from source_governance import validate as validate_sources, REGISTRY, CANDIDATES, REFS, OUTPUT
+from candidate_archive import ROOT_DIR as CANDIDATES_DIR, MANIFEST as CANDIDATES_MANIFEST, audit as audit_candidates
 
 def validate_archive():
     if not MANIFEST.exists():
@@ -22,6 +23,19 @@ def validate_archive():
     print('Verified archive records:',reconstructed['total_records'])
     return reconstructed['total_records']
 
+def validate_candidate_archive():
+    if not CANDIDATES_MANIFEST.exists():
+        if any(CANDIDATES_DIR.glob('????-??.jsonl')):
+            raise ValueError('Candidate partitions exist without manifest')
+        print('Candidate archive not initialised yet')
+        return 0
+    expected=json.loads(CANDIDATES_MANIFEST.read_text(encoding='utf-8'))
+    actual=audit_candidates()
+    if expected != actual:
+        raise ValueError('Candidate manifest digest or count mismatch')
+    print('Verified candidate records:',actual['total_candidates'])
+    return actual['total_candidates']
+
 def validate_source_catalog():
     registry=json.loads(REGISTRY.read_text(encoding='utf-8'))
     candidates=json.loads(CANDIDATES.read_text(encoding='utf-8'))
@@ -36,4 +50,5 @@ def validate_source_catalog():
 
 if __name__=='__main__':
     validate_archive()
+    validate_candidate_archive()
     validate_source_catalog()

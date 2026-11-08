@@ -1,11 +1,13 @@
 """Offline tests for the collection perimeter, parsing, classification and exports."""
 import importlib.util
 import json
+import sys
 import unittest
 from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT / 'scripts'))
 spec = importlib.util.spec_from_file_location('collector', ROOT / 'scripts/update_data.py')
 collector = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(collector)
