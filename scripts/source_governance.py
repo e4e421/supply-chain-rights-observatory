@@ -110,11 +110,13 @@ def run(online=False):
         'editorial_review_is_manual':True,'http_reachability_does_not_verify_claims':True,
         'last_probe_run':now if online else previous.get('last_probe_run'),
         'approved_reference_count':len(entries),'pending_candidate_count':len(candidates.get('candidates',[])),
-        'review_overdue':sum(x['review_needed'] for x in entries),'sources':entries
+        'review_needed_count':sum(x['review_needed'] for x in entries),
+        'review_overdue':sum(bool(x['review_due'] and x['review_due']<today) for x in entries),
+        'sources':entries
     }
     OUTPUT.parent.mkdir(parents=True,exist_ok=True)
     OUTPUT.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-    print(f"Source registry: {len(entries)} curated references, {report['review_overdue']} need editorial re-review; online probes: {online}")
+    print(f"Source registry: {len(entries)} curated references, {report['review_needed_count']} need editorial re-review; online probes: {online}")
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser()
