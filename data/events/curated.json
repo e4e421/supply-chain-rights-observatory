@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "description": "Only editorially-reviewed event links belong here. Distinct articles are not automatically the same incident.",
+  "events": [],
+  "links": []
+}
