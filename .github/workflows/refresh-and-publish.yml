@@ -23,7 +23,9 @@ concurrency:
 jobs:
   collect:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
+    # Pin runner to avoid the October-November 2026 ubuntu-latest transition to Ubuntu 26.04.
+    # Reassess after validating collection and deployment on Ubuntu 26.04.
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
     permissions:
       contents: write
@@ -51,7 +53,9 @@ jobs:
   deploy:
     needs: [collect]
     if: always() && (needs.collect.result == 'success' || needs.collect.result == 'skipped')
-    runs-on: ubuntu-latest
+    # Pin runner to avoid the October-November 2026 ubuntu-latest transition to Ubuntu 26.04.
+    # Reassess after validating collection and deployment on Ubuntu 26.04.
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
     permissions:
       contents: read
