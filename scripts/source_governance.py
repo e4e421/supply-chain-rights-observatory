@@ -95,7 +95,7 @@ def run(online=False):
             'editorial_status':entry['status'],
             'last_editorial_review':entry.get('verified_on'),
             'review_due':entry.get('review_due'),
-            'review_needed':bool(entry.get('review_due') and entry['review_due']<today),
+            'review_needed':not bool(entry.get('verified_on')) or bool(entry.get('review_due') and entry['review_due']<today),
             'reachability':prior.get('reachability','untested'),
             'http_status':prior.get('http_status'),
             'last_probe':prior.get('last_probe')
@@ -114,7 +114,7 @@ def run(online=False):
     }
     OUTPUT.parent.mkdir(parents=True,exist_ok=True)
     OUTPUT.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-    print(f"Source registry: {len(entries)} curated references, {report['review_overdue']} review overdue; online probes: {online}")
+    print(f"Source registry: {len(entries)} curated references, {report['review_overdue']} need editorial re-review; online probes: {online}")
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser()
