@@ -4,6 +4,8 @@ on:
   schedule:
     # Daily 06:23 Asia/Taipei; GitHub scheduled runs can be delayed.
     - cron: '23 22 * * *'
+    # Weekly additional source reachability checks, 06:43 Monday Asia/Taipei.
+    - cron: '43 22 * * 0'
   workflow_dispatch:
   push:
     branches: [main]
@@ -11,6 +13,7 @@ on:
       - 'docs/**'
       - 'scripts/**'
       - 'sources/**'
+      - 'data/**'
       - '.github/workflows/refresh-and-publish.yml'
 
 permissions:
@@ -34,15 +37,25 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1 (Node.js 24)
         with:
           persist-credentials: true
-      - name: Fetch public metadata
+      - name: Fetch and archive public research metadata
         run: python3 scripts/update_data.py
-      - name: Validate public schema and URL allowlist
-        run: python3 scripts/validate_data.py
+      - name: Audit curated source registry
+        run: |
+          if [[ "${{ github.event.schedule }}" == '43 22 * * 0' ]]; then
+            python3 scripts/source_governance.py --online
+          else
+            python3 scripts/source_governance.py
+          fi
+      - name: Validate snapshot, archive, and source catalog
+        run: |
+          python3 scripts/validate_data.py
+          python3 scripts/validate_archive.py
+          python3 -m unittest discover -s tests -v
       - name: Commit public data only
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -- docs/data/latest.json
+          git add -- docs/data/latest.json docs/data/archive-summary.json docs/data/source-health.json data/archive
           if git diff --cached --quiet; then
             echo 'No data changes.'
           else
@@ -75,8 +88,10 @@ jobs:
           node --check docs/i18n.js
           node --check docs/app.js
           python3 -m unittest discover -s tests -v
-      - name: Validate public output
-        run: python3 scripts/validate_data.py
+      - name: Validate public output and archive
+        run: |
+          python3 scripts/validate_data.py
+          python3 scripts/validate_archive.py
       - name: Configure GitHub Pages
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0 (Node.js 24)
       - name: Upload static website
