@@ -101,16 +101,27 @@ def build():
           'rule_version':rules()['version'],'available_pool':len(pool),'sample_count':len(sample),
           'target_range':[150,200],'sampling_pool_limit':5000,'metrics':None,'notes':'Keyword-derived strata; never treat machine outputs as human labels. Evaluate after independent annotation.','cases':sample})
     for path in OUT.rglob('*.html'):
-        source=path.read_text();prefix='./' if path.parent==OUT else '../'
+        source=path.read_text(encoding='utf-8')
+        # Root page, one-level section and nested editor all share one data index.
+        depth=len(path.parent.relative_to(OUT).parts)
+        prefix='./' if depth==0 else '../'*depth
         anchor=f'<script defer src="{prefix}query.js"></script>'
         if anchor not in source:continue
         addition=f'<script defer src="{prefix}relevance-client.js"></script>'
-        if 'src="'+prefix+'relevance-client.js"' not in source:source=source.replace(anchor,anchor+addition)
-        if path==OUT/'workbench/index.html':
-            target='<script defer src="./workbench.js"></script>'
-            if target not in source:raise ValueError('Workbench script anchor changed')
-            source=source.replace(target,'<script defer src="./review-panel.js"></script>'+target)
-            source=source.replace('</head>','<link rel="stylesheet" href="./review-panel.css"></head>')
+        if addition not in source:source=source.replace(anchor,anchor+addition)
+        editor=path==OUT/'workbench/edit/index.html'
+        if editor:
+            target='<script defer src="../workbench.js"></script>'
+            if source.count(target)!=1:raise ValueError('Editor workbench script anchor changed')
+            additions=(
+                '<script defer src="../review-store.js"></script>'
+                '<script defer src="../review-panel.js"></script>'
+            )
+            source=source.replace(target,additions+target)
+            source=source.replace('</head>','<link rel="stylesheet" href="../review-panel.css"></head>')
+        elif path==OUT/'workbench/index.html':
+            if '<script defer src="./review-panel.js"></script>' in source:
+                raise ValueError('Read-only Workbench unexpectedly includes editing tools')
         path.write_text(source,encoding='utf-8')
     print('Relevance sidecar:',counts,'; indexed',len(index),'; human validation sample',len(sample),'of',len(pool),'; independently labelled 0')
 if __name__=='__main__':build()
