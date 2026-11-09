@@ -20,8 +20,10 @@ class PublishReviewTests(unittest.TestCase):
             parse_publish_body(envelope(obj).replace('SCRO_PUBLISH_V2','SCRO_REVIEW_V1'))
         with self.assertRaises(ValueError):
             parse_publish_body('SCRO_PUBLISH_V2 '+json.dumps(obj))
+        fence=chr(96)*3
+        duplicate='SCRO_PUBLISH_V2\n'+fence+'json\n{"schema_version":1,"decisions":[],"decisions":[]}\n'+fence
         with self.assertRaises(ValueError):
-            parse_publish_body(envelope(obj).replace('"decisions":[]','"decisions":[],"decisions":[]'))
+            parse_publish_body(duplicate)
 
     def test_only_owner_default_branch_and_allowed_events(self):
         base={'GITHUB_REPOSITORY':'e4e421/supply-chain-rights-observatory',
