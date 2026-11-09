@@ -100,8 +100,77 @@ queue.open=Object.keys(draft).length>0;
 tools.after(queue);
 const info=el('p','','rv-message');info.id='rv-feedback';info.setAttribute('role','status');info.setAttribute('aria-live','polite');queue.after(info);
 function persist(){try{localStorage.setItem(KEY,JSON.stringify(draft));return true;}catch{return false;}}
-function pending(){return Object.entries(draft).filter(([rid,d])=>/^[a-f0-9]{18}$/.test(rid)&&d&&typeof d==='object');}
-function updateTools(){for(const o of filter.options)o.textContent=t(o.dataset.label);filter.setAttribute('aria-label',t('Relevance & review'));count.textContent=pending().length+' '+t('local drafts; not published');exportButton.textContent=t('Export review batch');send.textContent=t('Publish through GitHub');exportButton.disabled=send.disabled=!pending().length;info.textContent=R.failed?t('Keyword analysis unavailable; records remain visible.'):t(feedback);}
+function pending(){return Object.entries(draft).filter(([rid,d])=>/^[a-f0-9]{18}$/.test(rid)&&d&&typeof d==='object'&&!Array.isArray(d));}
+const decisionLabel=value=>t(({include:'Include',exclude:'Exclude',needs_review:'Review needed'})[value]||value||'Unreviewed');
+function draftCurrent(rid,d){
+ const indexed=R.get(rid);
+ return !!(indexed&&d.content_fingerprint===indexed.analysis.content_fingerprint
+   &&d.expected_review_digest===indexed.review_digest);
+}
+function tagLabels(value){
+ if(!Array.isArray(value))return t('Use suggested topics');
+ return value.map(k=>(R.data?.topics?.[k]||{})[I.language]||(R.data?.topics?.[k]||{}).en||k).join(', ')||'—';
+}
+function makeChange(label,before,after){
+ const p=el('p','','rv-change');
+ p.append(el('span',t(label)+': ','rv-change-label'));
+ if(before!==after)p.append(el('span',before,'rv-change-before'),el('span',' → ','rv-change-arrow'));
+ p.append(el('strong',after,'rv-change-after'));return p;
+}
+function renderQueue(){
+ const entries=pending();
+ summary.textContent=t('Pending review changes')+' ('+entries.length+')';
+ queueIntro.textContent=t('Review all edits before publication. Drafts are stored only in this browser.');
+ queueList.setAttribute('aria-label',t('Pending review changes'));
+ queueList.replaceChildren();
+ if(!entries.length)queueList.append(el('li',t('No saved changes yet. Select an article and choose Save local draft.'),'rv-queue-empty'));
+ for(const [rid,d] of entries){
+  const indexed=R.get(rid),source=window.SCRO_WORKBENCH?.getRecord(rid);
+  const prior=indexed?.review_state==='current'?indexed.review:null;
+  const stale=!draftCurrent(rid,d),item=el('li','','rv-queue-item');
+  item.dataset.reviewId=rid;
+  const head=el('div','','rv-queue-item-head');
+  head.append(el('strong',String(d._title||source?.title||rid).slice(0,200),'rv-queue-title'));
+  const badge=el('span',stale?t('Local draft is outdated'):decisionLabel(d.relevance),'rv-queue-status'+(stale?' rv-queue-stale':''));
+  head.append(badge);
+  item.append(head,el('small','Record ID: '+rid,'rv-queue-id'));
+  if(!indexed)item.append(el('p',t('Record unavailable from current index'),'rv-alert'));
+  else{
+   item.append(makeChange('Relevance',prior?decisionLabel(prior.relevance):t('Unreviewed'),decisionLabel(d.relevance)));
+   item.append(makeChange('Topics',prior?tagLabels(prior.topics):t('Use suggested topics'),tagLabels(d.topics)));
+   item.append(makeChange('Publisher',prior?.publisher_confirmed?t('Confirmed'):t('Not confirmed'),d.publisher_confirmed?t('Confirmed'):t('Not confirmed')));
+   if(d.canonical_url)item.append(makeChange('Source URL',prior?.canonical_url||'—',d.canonical_url));
+   if(d.note)item.append(makeChange('Public note',prior?.note||t('No public note'),d.note));
+   if(stale)item.append(el('p',t('Published review has changed. Reopen and save again.'),'rv-alert'));
+  }
+  const actions=el('div','','rv-queue-item-actions');
+  const edit=el('button',t('Edit draft'),'rv-action');edit.type='button';edit.dataset.editRecord=rid;
+  edit.addEventListener('click',()=>{
+   window.dispatchEvent(new CustomEvent('scro:select-record',{detail:{record_id:rid}}));
+  });
+  const remove=el('button',t('Remove draft'),'rv-action rv-action-danger');remove.type='button';remove.dataset.removeRecord=rid;
+  remove.addEventListener('click',()=>{
+   if(!window.confirm(t('Remove this local draft?')))return;
+   delete draft[rid];persist();feedback='Draft removed from this browser.';updateTools();
+   if(current&&(current.record_id||current.id)===rid)inspect(current,true);
+  });
+  actions.append(edit,remove);item.append(actions);queueList.append(item);
+ }
+ const overflow=entries.length>25;
+ const stale=entries.some(([rid,d])=>!draftCurrent(rid,d));
+ if(overflow)queueList.prepend(el('li',t('Too many changes for one Issue (maximum 25). Export your draft and submit smaller groups.'),'rv-alert'));
+ else if(stale)queueList.prepend(el('li',t('Please refresh and re-review stale drafts before submission.'),'rv-alert'));
+ send.disabled=!entries.length||overflow||stale||R.failed;
+}
+function updateTools(){
+ for(const o of filter.options)o.textContent=t(o.dataset.label);
+ filter.setAttribute('aria-label',t('Relevance & review'));
+ count.textContent=pending().length+' '+t('local drafts; not published');
+ exportButton.textContent=t('Export review batch');send.textContent=t('Publish through GitHub');
+ exportButton.disabled=!pending().length;
+ info.textContent=R.failed?t('Keyword analysis unavailable; records remain visible.'):t(feedback);
+ renderQueue();
+}
 function download(name,data){const u=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json;charset=utf-8'}));const a=el('a');a.href=u;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);}
 function batch(limit=25){return {schema_version:1,decisions:pending().slice(0,limit).map(([record_id,d])=>({record_id,...d}))};}
 exportButton.addEventListener('click',()=>download('scro-review-batch.json',batch()));
