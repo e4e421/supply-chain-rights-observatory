@@ -1,1 +1,31 @@
-{"schema_version":1,"records":{}}
+{
+  "schema_version": 1,
+  "records": {
+    "a14ee2760fbb9718a3": {
+      "content_fingerprint": "689ee72871c14f139b0189e8026bfee1b3d878c0f6eb3b519d79843bc4a7fe72",
+      "relevance": "include",
+      "topics": null,
+      "publisher_confirmed": false,
+      "canonical_url": null,
+      "note": "",
+      "reviewed_at": "2026-11-09T14:34:47Z",
+      "reviewed_by": "e4e421",
+      "issue": 19,
+      "issue_digest": "7d3a6431834a8c0241b89f5869cba586bec2e9f1e8205750d214fb606059e6d0"
+    },
+    "320c38e43564cf040d": {
+      "content_fingerprint": "255b40ed20175a2624cd9c6fd7c3de282b281c2ed88bce1433fe638879dc40c5",
+      "relevance": "include",
+      "topics": [
+        "working-conditions"
+      ],
+      "publisher_confirmed": false,
+      "canonical_url": null,
+      "note": "",
+      "reviewed_at": "2026-11-09T14:34:47Z",
+      "reviewed_by": "e4e421",
+      "issue": 19,
+      "issue_digest": "7d3a6431834a8c0241b89f5869cba586bec2e9f1e8205750d214fb606059e6d0"
+    }
+  }
+}
