@@ -165,7 +165,7 @@ async function refreshFromGitHub(index){
 }
 function cancelHandoff(batchId){
   const b=state.batches.find(x=>x.id===batchId);
-  if(!b||!['handoff','submitted','needs_attention'].includes(b.status))return false;
+  if(!b||b.status!=='handoff')return false;
   b.status='cancelled';
   const result=persist();changes();return result;
 }
