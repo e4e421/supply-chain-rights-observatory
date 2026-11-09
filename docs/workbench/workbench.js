@@ -6,6 +6,7 @@ const baseI18n = window.SCRO_I18N || {language:'en', t:x=>x, onChange:()=>{}};
 const locale = () => baseI18n.language || 'en';
 const L = {
 zh:{
+'Previous page':'上一頁','Next page':'下一頁','Page':'第','of':'／','Showing':'顯示','records':'筆','Results pagination':'結果分頁','Paged research results table':'分頁研究結果表格','Full text in record inspector':'完整內容請見右側紀錄詳情',
 'Skip to results':'跳至搜尋結果','Visitor portal':'一般訪客首頁','Research Workbench':'專業研究工作台',
 'Public metadata · not verified incidents':'公開資料 · 非已證實事件','Latest records':'最新情報','Historical records':'歷史紀錄',
 'Collection status':'擷取狀態','Last successful update (Taipei)':'最後成功更新（臺北）','Source directory':'來源目錄',
@@ -68,6 +69,7 @@ zh:{
 'All records are public discovery metadata, not a verified population of incidents.':'所有紀錄均為公開研究線索，不代表已驗證事件母體。'
 },
 de:{
+'Previous page':'Zurück','Next page':'Weiter','Page':'Seite','of':'von','Showing':'Anzeige','records':'Datensätze','Results pagination':'Ergebnisseiten','Paged research results table':'Seitentabelle der Forschungsergebnisse','Full text in record inspector':'Vollständiger Text in den Datensatzdetails',
 'Skip to results':'Zu den Suchergebnissen','Visitor portal':'Besucherportal','Research Workbench':'Forschungsarbeitsplatz',
 'Public metadata · not verified incidents':'Öffentliche Metadaten · keine bestätigten Vorfälle',
 'Latest records':'Aktuelle Meldungen','Historical records':'Historische Datensätze',
@@ -144,9 +146,10 @@ const COLS=[
  {key:'date',label:'Date'},{key:'title',label:'Title'},{key:'publisher',label:'Publisher'},
  {key:'topics',label:'Topics'},{key:'kind',label:'Type'},{key:'evidence',label:'Evidence'},{key:'id',label:'Record ID'}
 ];
-const STORAGE='scro.workbench.views.v1', MAX_FILES=24, MAX_ROWS=10000, PAGE=60;
+const STORAGE='scro.workbench.views.v1', MAX_FILES=24, MAX_ROWS=10000, MAX_PAGE_SIZE=40;
 let live=null,catalog=null,health=null,latest=[],archiveCache=new Map(),activeRecords=[],filtered=[],
-scopeStatus='',loading=false,archiveError=false,coveragePartial=false,visible=PAGE,chosen='',runNumber=0;
+scopeStatus='',loading=false,archiveError=false,coveragePartial=false,chosen='',runNumber=0;
+let pageIndex=0,pageSize=6,pageAnchor=0,locateSelection=false,layoutFrame=0,lastObservedWidth=0;
 const param = new URL(location.href).searchParams;
 const SAFE_SCOPE=['latest','archive','all'],SAFE_SORT=['published-desc','published-asc','observed-desc','title-asc','publisher-asc'];
 const SAFE_KIND=['all','discovery','academic'],SAFE_EVIDENCE=['all','unverified','bibliographic'];
@@ -168,10 +171,12 @@ function readControls(){
  evidence:$('wb-evidence').value,sort:$('wb-sort').value,
  topics:[...document.querySelectorAll('[name="wb-topic"]:checked')].map(x=>x.value),
  cols:[...document.querySelectorAll('[data-column]:checked')].map(x=>x.dataset.column),
- density:$('wb-density').value
+ density:$('wb-density').value,offset:pageIndex*pageSize
  };
 }
 function applyControls(values) {
+ pageAnchor=Math.min(MAX_ROWS,Math.max(0,parseInt(values.offset,10)||0));
+ pageIndex=0;
  $('wb-scope').value=safeValue(values.scope,SAFE_SCOPE,'latest');
  $('wb-sort').value=safeValue(values.sort,SAFE_SORT,'published-desc');
  $('wb-kind').value=safeValue(values.kind,SAFE_KIND,'all');
@@ -193,11 +198,11 @@ function parseURL(){
  return {scope:p.get('scope'),month:p.get('month'),q:p.get('q'),from:p.get('from'),to:p.get('to'),
  kind:p.get('kind'),evidence:p.get('evidence'),sort:p.get('sort'),
  topics:(p.get('topics')||'').split(',').filter(Boolean),cols:p.has('cols')?p.get('cols').split(','):undefined,
- density:p.get('density')};
+ density:p.get('density'),offset:p.get('offset')};
 }
 function syncURL(){
  const s=readControls(),url=new URL(location.href);
- for(const k of ['scope','month','q','from','to','kind','evidence','sort','topics','cols','density','record']) url.searchParams.delete(k);
+ for(const k of ['scope','month','q','from','to','kind','evidence','sort','topics','cols','density','record','offset']) url.searchParams.delete(k);
  url.searchParams.set('scope',s.scope);
  if(s.scope!=='latest'&&s.month)url.searchParams.set('month',s.month);
  if(s.q)url.searchParams.set('q',s.q);
@@ -209,6 +214,7 @@ function syncURL(){
  if(s.cols.join(',')!==COLS.filter(x=>x.key!=='id').map(x=>x.key).join(','))url.searchParams.set('cols',s.cols.join(','));
  if(s.density!=='compact')url.searchParams.set('density',s.density);
  if(chosen)url.searchParams.set('record',chosen);
+ if(pageIndex>0)url.searchParams.set('offset',String(pageIndex*pageSize));
  history.replaceState(null,'',url.pathname+url.search+url.hash);
 }
 function localiseStatic(){
@@ -216,7 +222,7 @@ function localiseStatic(){
  $('wb-search').placeholder=t('Search titles, publishers, DOI, record IDs…');
  $('language-select').setAttribute('aria-label',t('Select website language'));
  document.title=t('Research Workbench')+' | Supply Chain Rights Observatory';
- $('wb-table').parentElement.setAttribute('aria-label',t('Scrollable research results table'));
+ $('wb-table').parentElement.setAttribute('aria-label',t('Paged research results table'));
  render();
 }
 async function fetchJSON(path) {
@@ -331,58 +337,130 @@ function selectedRecords(){
  });
  return arr;
 }
+/* Viewport pagination replaces incremental rendering. Only the current page's
+   rows enter the DOM. Long cells wrap to three lines; full text stays in the
+   inspector and CSV exports always cover the entire filtered selection. */
+function setupPagination(){
+ document.body.classList.add('wb-paged');
+ const stylesheet=document.createElement('link');
+ stylesheet.rel='stylesheet';stylesheet.href='./pagination.css';
+ stylesheet.addEventListener('load',schedulePageLayout);document.head.append(stylesheet);
+ const controls=text('nav','','wb-page-controls');
+ controls.id='wb-page-controls';controls.setAttribute('aria-label',t('Results pagination'));
+ const previous=text('button',t('Previous page'),'wb-action');previous.type='button';previous.id='wb-prev';
+ previous.setAttribute('aria-controls','wb-tbody');
+ const status=text('span','','wb-page-status');status.id='wb-page-status';
+ status.setAttribute('role','status');status.setAttribute('aria-live','polite');status.setAttribute('aria-atomic','true');
+ // Reuse the old more-results button rather than adding another control below.
+ const next=$('wb-more');next.id='wb-next';next.hidden=false;next.textContent=t('Next page');
+ next.removeAttribute('data-l10n');next.setAttribute('aria-controls','wb-tbody');
+ controls.append(previous,status,next);
+ document.querySelector('.wb-head-actions').append(controls);
+ const count=$('wb-count');count.setAttribute('role','status');count.setAttribute('aria-live','polite');count.setAttribute('aria-atomic','true');
+ window.addEventListener('resize',schedulePageLayout,{passive:true});
+ if(window.visualViewport)window.visualViewport.addEventListener('resize',schedulePageLayout,{passive:true});
+ if('ResizeObserver' in window){
+  const observer=new ResizeObserver(entries=>{
+   const width=Math.round(entries[0].contentRect.width);
+   if(width!==lastObservedWidth){lastObservedWidth=width;schedulePageLayout();}
+  });
+  observer.observe($('wb-results'));
+ }
+ if(document.fonts?.ready)document.fonts.ready.then(schedulePageLayout);
+}
+function schedulePageLayout(){
+ if(layoutFrame)return;
+ layoutFrame=requestAnimationFrame(()=>{layoutFrame=0;drawTable();showRecord();});
+}
+function turnPage(direction){
+ const pages=Math.ceil(filtered.length/pageSize);
+ const next=Math.max(0,Math.min(Math.max(0,pages-1),pageIndex+direction));
+ if(loading||next===pageIndex)return;
+ pageAnchor=next*pageSize;
+ drawTable();showRecord();syncURL();
+}
 function drawTable(){
- const c=readControls();
- filtered=selectedRecords();
- const wrap=$('wb-table').parentElement;
+ const c=readControls();filtered=selectedRecords();
+ const table=$('wb-table'),wrap=table.parentElement;
  document.body.classList.toggle('wb-comfortable',c.density==='comfortable');
  const fields=COLS.filter(col=>col.key==='title'||c.cols.includes(col.key));
+ const widths={date:88,title:260,publisher:155,topics:165,kind:110,evidence:125,id:155};
+ let colgroup=table.querySelector('colgroup');
+ if(!colgroup){colgroup=document.createElement('colgroup');table.prepend(colgroup);}
+ colgroup.replaceChildren();
+ const minWidth=fields.reduce((sum,col)=>sum+widths[col.key],0);
+ table.style.minWidth=minWidth+'px';
+ for(const field of fields){const col=document.createElement('col');col.style.width=(100*widths[field.key]/minWidth)+'%';colgroup.append(col);}
  const thead=$('wb-thead'),tbody=$('wb-tbody');thead.replaceChildren();tbody.replaceChildren();
  const tr=document.createElement('tr');
  for(const field of fields){
   const th=document.createElement('th');th.scope='col';
-  const key=field.key;
-  const sort={date:'published',title:'title',publisher:'publisher'}[key];
+  const sort={date:'published',title:'title',publisher:'publisher'}[field.key];
   if(sort){
-   const b=text('button',t(field.label)+(c.sort.startsWith(sort)?' ↓':''));b.type='button';
+   const ascending=c.sort.endsWith('-asc'),active=c.sort.startsWith(sort);
+   const b=text('button',t(field.label)+(active?(ascending?' ↑':' ↓'):''));b.type='button';
    b.addEventListener('click',()=>{
-    const next=sort==='published'?(c.sort==='published-desc'?'published-asc':'published-desc'):sort+'-asc';
-    $('wb-sort').value=next;changed(false);
-   });th.append(b);
-   th.setAttribute('aria-sort',c.sort.startsWith(sort)?(c.sort==='published-asc'?'ascending':'descending'):'none');
+    $('wb-sort').value=sort==='published'?(c.sort==='published-desc'?'published-asc':'published-desc'):sort+'-asc';
+    changed(false);
+   });th.append(b);th.setAttribute('aria-sort',active?(ascending?'ascending':'descending'):'none');
   }else th.textContent=t(field.label);
   tr.append(th);
  }
  thead.append(tr);
- const rows=filtered.slice(0,visible);
- for(const item of rows){
+ const controls=$('wb-page-controls');
+ controls.setAttribute('aria-label',t('Results pagination'));
+ $('wb-prev').textContent=t('Previous page');$('wb-next').textContent=t('Next page');
+ // Fixed-height cells prevent a page from changing shape when long titles wrap.
+ const rowHeight=c.density==='comfortable'?84:68;
+ table.style.setProperty('--wb-page-row-height',rowHeight+'px');
+ const viewport=window.visualViewport?.height||window.innerHeight;
+ const documentTop=wrap.getBoundingClientRect().top+window.scrollY;
+ const footer=document.querySelector('.wb-pagination')?.getBoundingClientRect().height||45;
+ const budget=window.innerWidth<=1000
+  ? Math.max(230,Math.min(760,Math.floor(viewport*.62)))
+  : Math.max(230,Math.min(1200,Math.floor(viewport-documentTop-footer-22)));
+ const headingHeight=Math.ceil(thead.getBoundingClientRect().height)||40;
+ pageSize=Math.max(1,Math.min(MAX_PAGE_SIZE,Math.floor((budget-headingHeight-22)/rowHeight)));
+ if(!loading && live){
+  if(locateSelection){const at=filtered.findIndex(x=>x.record_id===chosen);if(at>=0)pageAnchor=at;locateSelection=false;}
+  pageIndex=Math.min(Math.max(0,Math.ceil(filtered.length/pageSize)-1),Math.floor(pageAnchor/pageSize));
+  pageAnchor=pageIndex*pageSize;
+ }
+ const start=pageIndex*pageSize,end=Math.min(start+pageSize,filtered.length);
+ // Reserve a small gutter for optional horizontal scrolling; no inner Y scroll.
+ wrap.style.height=(headingHeight+pageSize*rowHeight+22)+'px';
+ wrap.scrollTop=0;
+ for(const item of filtered.slice(start,end)){
   const row=document.createElement('tr');row.tabIndex=0;row.dataset.recordId=item.record_id;
   row.setAttribute('aria-label',item.title||'');
   if(item.record_id===chosen)row.classList.add('is-selected');
   for(const field of fields){
-   const td=document.createElement('td');let val='';
+   const td=document.createElement('td');let value='';
    switch(field.key){
-    case 'date':val=dateView(item.published_at,false);td.className='wb-date-cell';break;
-    case 'title':val=item.title||'—';td.className='wb-title-cell';td.lang=item.original_language||'und';break;
-    case 'publisher':val=item.publisher_hint||t('Not independently verified');break;
-    case 'topics':val=(item.topics||[]).map(x=>t(TOPICS[x]||x)).join(', ');break;
-    case 'kind':val=t(item.kind==='academic'?'Academic metadata':'Discovery leads');break;
-    case 'evidence':val=t(item.evidence_status||'Not independently verified');break;
-    case 'id':val=item.record_id;td.className='wb-id-cell';break;
+    case 'date':value=dateView(item.published_at,false);td.className='wb-date-cell';break;
+    case 'title':value=item.title||'—';td.className='wb-title-cell';td.lang=item.original_language||'und';break;
+    case 'publisher':value=item.publisher_hint||t('Not independently verified');break;
+    case 'topics':value=(item.topics||[]).map(x=>t(TOPICS[x]||x)).join(', ');break;
+    case 'kind':value=t(item.kind==='academic'?'Academic metadata':'Discovery leads');break;
+    case 'evidence':value=t(item.evidence_status||'Not independently verified');break;
+    case 'id':value=item.record_id;td.className='wb-id-cell';break;
    }
-   td.textContent=val;
-   row.append(td);
+   const cell=text('span',value,'wb-page-cell');cell.title=value;
+   td.append(cell);row.append(td);
   }
   row.addEventListener('click',()=>selectRecord(item.record_id));
   row.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selectRecord(item.record_id);}});
   tbody.append(row);
  }
- if(!rows.length){
+ if(!filtered.length){
   const row=document.createElement('tr'),cell=text('td',t(loading?'Loading historical records…':archiveError?'Archive could not be loaded; results are not complete.':'No results'));
-  cell.colSpan=fields.length;row.append(cell);tbody.append(row);
+  row.className='wb-page-empty';cell.colSpan=fields.length;row.append(cell);tbody.append(row);
  }
- $('wb-more').hidden=visible>=filtered.length;
- $('wb-count').textContent=String(filtered.length)+' '+t('Records shown');
+ const pages=Math.ceil(filtered.length/pageSize);
+ $('wb-page-status').textContent=t('Page')+' '+(pages?pageIndex+1:0)+' '+t('of')+' '+pages;
+ $('wb-prev').disabled=loading||!pages||pageIndex===0;
+ $('wb-next').disabled=loading||!pages||pageIndex>=pages-1;
+ $('wb-count').textContent=filtered.length?t('Showing')+' '+(start+1)+'–'+end+' '+t('of')+' '+filtered.length+' '+t('records'):'0 '+t('Records shown');
  const terms=[];
  if(c.q)terms.push(c.q);
  if(c.topics.length)terms.push(c.topics.map(k=>t(TOPICS[k]||k)).join(' OR '));
@@ -397,7 +475,9 @@ function drawTable(){
  if(c.from&&c.to&&c.from>c.to)status+=' · '+t('Date range is reversed.');
  const alert=$('wb-coverage');alert.textContent=status;
  alert.classList.toggle('is-alert',archiveError||coveragePartial||Boolean(c.from&&c.to&&c.from>c.to));
+ if(live&&!loading)syncURL();
 }
+
 function showRecord(){
  const out=$('wb-detail');out.replaceChildren();
  const item=activeRecords.find(x=>x.record_id===chosen);
@@ -431,14 +511,17 @@ function showRecord(){
  out.append(text('p',t('Publisher credit is unverified.')+' '+t('No incident event ID has been assigned.')+' '+t('Use the original source to verify all substantive claims.'),'wb-record-warning'));
  out.append(text('p',t('Publication title is shown in its original language.'),'wb-empty'));
 }
-function selectRecord(id,scroll=true){
- chosen=id;syncURL();showRecord();
+function selectRecord(id){
+ chosen=id;
+ const at=filtered.findIndex(x=>x.record_id===id);
+ if(at>=0 && Math.floor(at/pageSize)!==pageIndex){pageAnchor=at;drawTable();}
+ syncURL();showRecord();
  document.querySelectorAll('#wb-tbody tr').forEach(row=>row.classList.toggle('is-selected',row.dataset.recordId===id));
- if(scroll){const row=[...document.querySelectorAll('#wb-tbody tr')].find(x=>x.dataset.recordId===id);row?.scrollIntoView({block:'nearest'});}
 }
 function render(){renderStatus();drawTable();showRecord();}
-function changed(reload){
- visible=PAGE;syncURL();
+function changed(reload,keepPosition=false){
+ if(!keepPosition){pageAnchor=0;pageIndex=0;}
+ syncURL();
  if(reload)prepareScope();else render();
 }
 function csvCell(value) {
@@ -492,6 +575,7 @@ function setPreset(key){
 async function init(){
  applyControls(parseURL());
  chosen=(param.get('record')||'').match(/^[0-9a-f]{18}$/)?.[0]||'';
+ locateSelection=Boolean(chosen);
  localiseStatic();
  try{
   const [a,b,c]=await Promise.allSettled([
@@ -519,14 +603,16 @@ async function init(){
  }
 }
 function bind(){
+ setupPagination();
  for(const id of ['wb-search','wb-sort','wb-kind','wb-evidence','wb-from','wb-to','wb-density'])
-  $(id).addEventListener(id==='wb-search'?'input':'change',()=>changed(false));
+  $(id).addEventListener(id==='wb-search'?'input':'change',()=>changed(false,id==='wb-density'));
  $('wb-scope').addEventListener('change',()=>changed(true));
  $('wb-month').addEventListener('change',()=>changed(true));
- document.querySelectorAll('[name="wb-topic"],[data-column]').forEach(x=>x.addEventListener('change',()=>changed(false)));
+ document.querySelectorAll('[name="wb-topic"],[data-column]').forEach(x=>x.addEventListener('change',()=>changed(false,Boolean(x.dataset.column))));
  $('wb-clear').addEventListener('click',reset);
  $('wb-export').addEventListener('click',exportCSV);
- $('wb-more').addEventListener('click',()=>{visible+=PAGE;render();});
+ $('wb-prev').addEventListener('click',()=>turnPage(-1));
+ $('wb-next').addEventListener('click',()=>turnPage(1));
  $('wb-deselect').addEventListener('click',()=>selectRecord(''));
  $('wb-share').addEventListener('click',share);
  $('wb-save').addEventListener('click',saveView);
@@ -549,8 +635,7 @@ function bind(){
    if(!filtered.length)return;e.preventDefault();
    const idx=filtered.findIndex(x=>x.record_id===chosen);
    const newIndex=e.key==='j'?Math.min(filtered.length-1,idx+1):Math.max(0,idx<0?0:idx-1);
-   if(newIndex>=visible)visible=Math.min(filtered.length,newIndex+PAGE);
-   render();selectRecord(filtered[newIndex].record_id);
+   selectRecord(filtered[newIndex].record_id);
   }else if(e.key==='Enter'&&chosen){showRecord();$('wb-detail').scrollIntoView({block:'nearest'});}
  });
  baseI18n.onChange(localiseStatic);
