@@ -41,3 +41,17 @@ jobs:
         run: |
           python3 scripts/browser_smoke.py
           python3 scripts/layout_regression.py
+      - name: Build and validate generated multi-page index
+        run: |
+          node --check portal/portal.js
+          python3 scripts/build_portal.py
+          python3 scripts/test_portal.py
+          python3 scripts/test_portal_browser.py
+      - name: Retain public portal QA evidence
+        if: always()
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: portal-qa
+          path: _qa/
+          retention-days: 7
+          if-no-files-found: ignore
