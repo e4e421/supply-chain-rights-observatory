@@ -13,7 +13,7 @@ const D={
 'Published reviews':['已發布審核','Veröffentlichte Prüfungen'],
 'Excluded records':['已排除紀錄','Ausgeschlossene Datensätze'],
 'Export review batch':['匯出審核批次','Prüfungen exportieren'],
-'Submit via GitHub':['透過 GitHub 提交','Über GitHub einreichen'],
+'Publish through GitHub':['透過 GitHub 發布','Über GitHub veröffentlichen'],
 'local drafts; not published':['筆本機草稿；尚未發布','lokale Entwürfe; nicht veröffentlicht'],
 'Keyword analysis unavailable; records remain visible.':['關鍵字分析未載入，原始紀錄仍保留。','Schlagwortanalyse nicht verfügbar; Originaldaten bleiben sichtbar.'],
 'Select a record to review it here.':['選取新聞，即可在這裡判讀與標記。','Datensatz auswählen und hier prüfen.'],
@@ -45,14 +45,14 @@ const D={
 'No sufficiently similar records.':['暫無足夠相近的紀錄。','Keine hinreichend ähnlichen Datensätze.'],
 'Published decision':['已發布決策','Veröffentlichte Entscheidung'],
 'Review needs renewal: source text changed.':['原始文字已改變，舊審核需重新確認。','Quelltext geändert; erneute Prüfung erforderlich.'],
-'Send only public review information. GitHub sign-in and PR merge are still required.':['僅提交可公開的審核內容。仍須 GitHub 登入並合併 PR 才會發布。','Nur öffentliche Prüfdaten. GitHub-Anmeldung und PR-Merge sind erforderlich.'],
+'Submitting the GitHub Issue authorizes automatic publication after validation. Use public review notes only; no allegation is verified.':['提交 GitHub Issue 即授權系統驗證後自動公開審核結果。備註只能包含公開資訊，並不代表指控已證實。','Das Einreichen des GitHub-Issues autorisiert die automatische Veröffentlichung nach Prüfung. Nur öffentliche Notizen; Vorwürfe gelten nicht als verifiziert.'],
 'No drafts to submit.':['目前沒有待提交草稿。','Keine Entwürfe zum Einreichen.'],
-'The batch was downloaded. Paste its JSON into the GitHub review issue.':['批次已下載，請將 JSON 貼到 GitHub 審核提案中。','Batch heruntergeladen. JSON in das GitHub-Prüf-Issue einfügen.'],
+'The batch was downloaded. Paste the JSON into a GitHub publication Issue with the correct title.':['批次已下載，請以正確標題建立 GitHub 發布 Issue 並貼入 JSON。','Batch heruntergeladen. JSON in ein GitHub-Publikations-Issue mit korrektem Titel einfügen.'],
 'Please refresh and re-review stale drafts before submission.':['草稿對應資料已變動，請重新整理並再次判讀。','Veraltete Entwürfe vor dem Einreichen erneut prüfen.'],
 'Awaiting independently labelled validation sample':['等待研究者獨立標記驗證樣本','Unabhängig annotierte Validierung ausstehend'],
 'Download unlabelled validation sample':['下載未標記驗證樣本','Unbeschriftete Validierungsstichprobe herunterladen'],
 'Local draft not yet published':['本機草稿，尚未發布','Lokaler, unveröffentlichter Entwurf'],
-'First three drafts are submitted together. Remaining drafts stay in this browser.':['每次集中提交前三筆，其餘草稿保留於此瀏覽器。','Jeweils die ersten drei Entwürfe; weitere bleiben lokal.']
+'The first three decisions will publish automatically after the GitHub Issue is submitted and validated. Remaining drafts stay in this browser.':['提交 GitHub Issue 且驗證成功後，前三筆決策將自動公開；其餘草稿保留於此瀏覽器。','Nach Einreichen des GitHub-Issues und erfolgreicher Prüfung werden die ersten drei Entscheidungen automatisch veröffentlicht. Weitere Entwürfe bleiben lokal.']
 };
 const t=k=>I.language==='en'?k:(D[k]?.[I.language==='zh'?0:1]||k);
 const el=(tag,value='',cls='')=>{const n=document.createElement(tag);n.textContent=value;if(cls)n.className=cls;return n;};
@@ -69,17 +69,17 @@ tools.append(filter,count,exportButton,send);document.querySelector('.wb-results
 const info=el('p','','rv-message');info.id='rv-feedback';info.setAttribute('role','status');info.setAttribute('aria-live','polite');tools.after(info);
 function persist(){try{localStorage.setItem(KEY,JSON.stringify(draft));return true;}catch{return false;}}
 function pending(){return Object.entries(draft).filter(([rid,d])=>/^[a-f0-9]{18}$/.test(rid)&&d&&typeof d==='object');}
-function updateTools(){for(const o of filter.options)o.textContent=t(o.dataset.label);filter.setAttribute('aria-label',t('Relevance & review'));count.textContent=pending().length+' '+t('local drafts; not published');exportButton.textContent=t('Export review batch');send.textContent=t('Submit via GitHub');exportButton.disabled=send.disabled=!pending().length;info.textContent=R.failed?t('Keyword analysis unavailable; records remain visible.'):t(feedback);}
+function updateTools(){for(const o of filter.options)o.textContent=t(o.dataset.label);filter.setAttribute('aria-label',t('Relevance & review'));count.textContent=pending().length+' '+t('local drafts; not published');exportButton.textContent=t('Export review batch');send.textContent=t('Publish through GitHub');exportButton.disabled=send.disabled=!pending().length;info.textContent=R.failed?t('Keyword analysis unavailable; records remain visible.'):t(feedback);}
 function download(name,data){const u=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json;charset=utf-8'}));const a=el('a');a.href=u;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);}
 function batch(limit=25){return {schema_version:1,decisions:pending().slice(0,limit).map(([record_id,d])=>({record_id,...d}))};}
 exportButton.addEventListener('click',()=>download('scro-review-batch.json',batch()));
 send.addEventListener('click',()=>{
  const entries=pending();if(!entries.length){feedback='No drafts to submit.';updateTools();return;}
  if(entries.some(([rid,d])=>!R.get(rid)||d.content_fingerprint!==R.get(rid).analysis.content_fingerprint||d.expected_review_digest!==R.get(rid).review_digest)){feedback='Please refresh and re-review stale drafts before submission.';updateTools();return;}
- const body='SCRO_REVIEW_V1\n```json\n'+JSON.stringify(batch(3))+'\n```';
- const u=new URL('https://github.com/e4e421/supply-chain-rights-observatory/issues/new');u.searchParams.set('title','[Workbench review batch]');u.searchParams.set('body',body);
- if(u.href.length>7500){download('scro-review-batch.json',batch(3));feedback='The batch was downloaded. Paste its JSON into the GitHub review issue.';updateTools();return;}
- feedback='First three drafts are submitted together. Remaining drafts stay in this browser.';updateTools();window.open(u.href,'_blank','noopener,noreferrer');
+ const body='SCRO_PUBLISH_V2\n```json\n'+JSON.stringify(batch(3))+'\n```';
+ const u=new URL('https://github.com/e4e421/supply-chain-rights-observatory/issues/new');u.searchParams.set('title','[Publish Workbench review]');u.searchParams.set('body',body);
+ if(u.href.length>7500){download('scro-review-batch.json',batch(3));feedback='The batch was downloaded. Paste the JSON into a GitHub publication Issue with the correct title.';updateTools();return;}
+ feedback='The first three decisions will publish automatically after the GitHub Issue is submitted and validated. Remaining drafts stay in this browser.';updateTools();window.open(u.href,'_blank','noopener,noreferrer');
 });
 const reason={specific_hrdd_policy:'Specific HRDD or labour policy',supply_and_labour_context:'Supply chain and labour context',governance_and_rights:'Governance and rights context',incomplete_context:'Context incomplete',insufficient_text_evidence:'Insufficient textual evidence'};
 function field(label,node){const wrap=el('label','','rv-field');wrap.append(el('span',t(label)),node);return wrap;}
@@ -112,7 +112,7 @@ function inspect(item,force=false){
   feedback=persist()?'Draft saved in this browser only.':'Browser storage blocked; export the batch before leaving.';updateTools();inspect(item,true);
  });
  discard.addEventListener('click',()=>{delete draft[rid];persist();feedback='';updateTools();inspect(item,true);});
- const actions=el('div','','rv-actions');actions.append(save,discard);root.append(actions,el('p',t('Send only public review information. GitHub sign-in and PR merge are still required.'),'rv-small'));
+ const actions=el('div','','rv-actions');actions.append(save,discard);root.append(actions,el('p',t('Submitting the GitHub Issue authorizes automatic publication after validation. Use public review notes only; no allegation is verified.'),'rv-small'));
  const similar=el('details');similar.append(el('summary',t('Similar keyword patterns — not confirmed same events')));
  if(!data.similar?.length)similar.append(el('p',t('No sufficiently similar records.')));
  for(const match of data.similar||[]){const row=el('p');const link=el('a',t('Open related record')+' '+match.record_id);const u=new URL(location.href);u.searchParams.set('scope','all');u.searchParams.set('record',match.record_id);for(const key of ['q','from','to','topics','relevance','offset','kind','evidence'])u.searchParams.delete(key);link.href=u.href;row.append(link,el('small',' · '+match.shared_terms.join(', ')));similar.append(row);}root.append(similar);
