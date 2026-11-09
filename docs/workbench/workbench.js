@@ -69,7 +69,7 @@ zh:{
 'All records are public discovery metadata, not a verified population of incidents.':'所有紀錄均為公開研究線索，不代表已驗證事件母體。'
 },
 de:{
-'Previous page':'Zurück','Next page':'Weiter','Page':'Seite','of':'von','Showing':'Anzeige','records':'Datensätze','Results pagination':'Ergebnisseiten','Paged research results table':'Seitentabelle der Forschungsergebnisse','Full text in record inspector':'Vollständiger Text in den Datensatzdetails',
+'Previous page':'Vorherige Seite','Next page':'Nächste Seite','Page':'Seite','of':'von','Showing':'Anzeige','records':'Einträge','Results pagination':'Ergebnisseiten','Paged research results table':'Seitengesteuerte Ergebnistabelle','Full text in record inspector':'Volltext in den Datensatzdetails',
 'Skip to results':'Zu den Suchergebnissen','Visitor portal':'Besucherportal','Research Workbench':'Forschungsarbeitsplatz',
 'Public metadata · not verified incidents':'Öffentliche Metadaten · keine bestätigten Vorfälle',
 'Latest records':'Aktuelle Meldungen','Historical records':'Historische Datensätze',
@@ -149,7 +149,7 @@ const COLS=[
 const STORAGE='scro.workbench.views.v1', MAX_FILES=24, MAX_ROWS=10000, MAX_PAGE_SIZE=40;
 let live=null,catalog=null,health=null,latest=[],archiveCache=new Map(),activeRecords=[],filtered=[],
 scopeStatus='',loading=false,archiveError=false,coveragePartial=false,chosen='',runNumber=0;
-let pageIndex=0,pageSize=6,pageAnchor=0,locateSelection=false,layoutFrame=0,lastObservedWidth=0;
+let pageIndex=0,pageSize=6,pageAnchor=0,locateSelection=false,layoutFrame=0;
 const param = new URL(location.href).searchParams;
 const SAFE_SCOPE=['latest','archive','all'],SAFE_SORT=['published-desc','published-asc','observed-desc','title-asc','publisher-asc'];
 const SAFE_KIND=['all','discovery','academic'],SAFE_EVIDENCE=['all','unverified','bibliographic'];
@@ -360,11 +360,24 @@ function setupPagination(){
  window.addEventListener('resize',schedulePageLayout,{passive:true});
  if(window.visualViewport)window.visualViewport.addEventListener('resize',schedulePageLayout,{passive:true});
  if('ResizeObserver' in window){
+  // Observe independent geometry, never the table height that this code sets.
+  // Sidebars and toolbar text can grow after fonts, locale, density or selection change.
+  const dimensions=new WeakMap();
+  const results=$('wb-results');
   const observer=new ResizeObserver(entries=>{
-   const width=Math.round(entries[0].contentRect.width);
-   if(width!==lastObservedWidth){lastObservedWidth=width;schedulePageLayout();}
+   let changed=false;
+   for(const entry of entries){
+    const width=Math.round(entry.contentRect.width);
+    const height=entry.target===results?0:Math.round(entry.contentRect.height);
+    const signature=width+':'+height;
+    if(dimensions.get(entry.target)!==signature){dimensions.set(entry.target,signature);changed=true;}
+   }
+   if(changed)schedulePageLayout();
   });
-  observer.observe($('wb-results'));
+  for(const selector of ['#wb-results','.wb-filters','.wb-inspector','.wb-results-head',
+   '#wb-coverage','.wb-results-meta','.wb-pagination','.wb-header','.wb-status-strip','.wb-toolbar']){
+   const node=document.querySelector(selector);if(node)observer.observe(node);
+  }
  }
  if(document.fonts?.ready)document.fonts.ready.then(schedulePageLayout);
 }
@@ -413,13 +426,27 @@ function drawTable(){
  // Fixed-height cells prevent a page from changing shape when long titles wrap.
  const rowHeight=c.density==='comfortable'?84:68;
  table.style.setProperty('--wb-page-row-height',rowHeight+'px');
+ // Use one shared row budget: viewport space OR the natural height of a sidebar
+ // occupying this grid row. Never use the results' own height (a feedback loop),
+ // and never count the inspector when responsive CSS has moved it below the table.
+ const panel=$('wb-results'),panelBox=panel.getBoundingClientRect();
+ const wrapBox=wrap.getBoundingClientRect();
+ const scale=wrap.offsetWidth>0?wrapBox.width/wrap.offsetWidth:1;
+ const unit=Number.isFinite(scale)&&scale>0?scale:1;
  const viewport=window.visualViewport?.height||window.innerHeight;
- const documentTop=wrap.getBoundingClientRect().top+window.scrollY;
- const footer=document.querySelector('.wb-pagination')?.getBoundingClientRect().height||45;
- const budget=window.innerWidth<=1000
-  ? Math.max(230,Math.min(760,Math.floor(viewport*.62)))
-  : Math.max(230,Math.min(1200,Math.floor(viewport-documentTop-footer-22)));
- const headingHeight=Math.ceil(thead.getBoundingClientRect().height)||40;
+ const footer=(document.querySelector('.wb-pagination')?.getBoundingClientRect().height||40)/unit;
+ const panelBorder=parseFloat(getComputedStyle(panel).borderBottomWidth)||0;
+ const chrome=(wrapBox.top-panelBox.top)/unit+footer+panelBorder;
+ const peers=[...document.querySelectorAll('.wb-filters,.wb-inspector')]
+  .map(node=>node.getBoundingClientRect())
+  .filter(box=>box.width>0&&Math.abs(box.top-panelBox.top)<=2);
+ const peerHeight=peers.reduce((height,box)=>Math.max(height,box.height/unit),0);
+ const viewportBudget=(viewport-(wrapBox.top+window.scrollY)-22)/unit-footer;
+ const preferred=peers.length
+  ? Math.max(230,viewportBudget,peerHeight-chrome)
+  : Math.max(230,Math.min(760,viewport*.62/unit));
+ const headingHeight=Math.ceil(thead.getBoundingClientRect().height/unit)||40;
+ const budget=Math.min(headingHeight+MAX_PAGE_SIZE*rowHeight+22,Math.max(headingHeight+rowHeight+22,Math.ceil(preferred)));
  pageSize=Math.max(1,Math.min(MAX_PAGE_SIZE,Math.floor((budget-headingHeight-22)/rowHeight)));
  if(!loading && live){
   if(locateSelection){const at=filtered.findIndex(x=>x.record_id===chosen);if(at>=0)pageAnchor=at;locateSelection=false;}
@@ -428,7 +455,9 @@ function drawTable(){
  }
  const start=pageIndex*pageSize,end=Math.min(start+pageSize,filtered.length);
  // Reserve a small gutter for optional horizontal scrolling; no inner Y scroll.
- wrap.style.height=(headingHeight+pageSize*rowHeight+22)+'px';
+ // Fill the shared row, including the sub-row remainder, rather than leaving a
+ // large hole beneath the results. The final page keeps the same stable frame.
+ wrap.style.height=budget+'px';
  wrap.scrollTop=0;
  for(const item of filtered.slice(start,end)){
   const row=document.createElement('tr');row.tabIndex=0;row.dataset.recordId=item.record_id;
