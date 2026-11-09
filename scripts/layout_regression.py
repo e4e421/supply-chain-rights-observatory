@@ -27,7 +27,8 @@ window.addEventListener('load', function () {
   const width = document.documentElement.clientWidth;
   const rect = el => el.getBoundingClientRect();
   const errors = [];
-  const actualOverflow = document.documentElement.scrollWidth - width;
+  // A vertical browser scrollbar consumes clientWidth but is not horizontal overflow.
+  const actualOverflow = document.documentElement.scrollWidth - window.innerWidth;
   if (actualOverflow > 4) errors.push('document horizontal overflow: ' + actualOverflow + 'px');
   if (isWorkbench) {
     const rail = document.querySelector('.wb-filters');
