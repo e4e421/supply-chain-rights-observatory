@@ -102,6 +102,8 @@ jobs:
           node --check docs/record.js
           python3 scripts/scan_frontend.py
           python3 scripts/check_accessibility.py
+      - name: Browser smoke for visitor and workbench locales (when Chrome is available)
+        run: python3 scripts/browser_smoke.py
       - name: Validate public output and archive
         run: |
           python3 scripts/validate_data.py
