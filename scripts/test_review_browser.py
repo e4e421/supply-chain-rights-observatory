@@ -19,6 +19,7 @@ PROBE=r'''
  rows[0].click();await settle();
  check(document.getElementById('rv-decision'),'No integrated review form');
  const rid=rows[0].dataset.recordId;
+ const secondRid=rows[1]?.dataset.recordId;check(secondRid&&rid!==secondRid,'Need at least two distinct rows');
  const current=SCRO_RELEVANCE.get(rid);
  const before=JSON.stringify({state:current.review_state,digest:current.review_digest,review:current.review});
  document.getElementById('rv-decision').value='include';document.getElementById('rv-note').value='Automated UI fixture, never submitted.';
@@ -28,11 +29,35 @@ PROBE=r'''
  const after=SCRO_RELEVANCE.get(rid);
  check(JSON.stringify({state:after.review_state,digest:after.review_digest,review:after.review})===before,
        'Local draft changed published review state');
+ // Accumulate a second edit without navigating to GitHub, including in the 390px layout.
+ window.dispatchEvent(new CustomEvent('scro:select-record',{detail:{record_id:secondRid}}));
+ await settle();
+ check(document.getElementById('rv-decision')!==null,'Could not edit a second selected record');
+ document.getElementById('rv-decision').value='needs_review';
+ document.getElementById('rv-note').value='Second local review fixture; do not publish.';
+ document.getElementById('rv-save').click();await settle();
+ const queue=document.getElementById('rv-queue');
+ check(queue.open,'Pending review queue should open after saving');
+ check(queue.querySelectorAll('[data-review-id]').length===2,'The two saved changes are not visible together');
+ const firstItem=queue.querySelector('[data-review-id="'+rid+'"]');
+ const secondItem=queue.querySelector('[data-review-id="'+secondRid+'"]');
+ check(firstItem&&secondItem,'Queue does not identify both records');
+ check(firstItem.textContent.includes('Record ID:')&&firstItem.textContent.includes('include')===false,'Queue metadata missing');
+ check(firstItem.querySelector('.rv-change')!==null,'Proposed changes are not visible');
+ check(!document.getElementById('rv-publish-batch').disabled,'Two valid drafts should be publishable');
+ // The Edit action stays in Workbench and does not submit the first draft.
+ firstItem.querySelector('[data-edit-record]').click();await settle();
+ check(document.getElementById('rv-decision').value==='include','Queue Edit did not restore the first draft');
  let submitted='';const open=window.open;window.open=u=>{submitted=u;};
- document.querySelector('.rv-tools button:last-child').click();window.open=open;
+ document.getElementById('rv-publish-batch').click();window.open=open;
  check(submitted.startsWith('https://github.com/e4e421/supply-chain-rights-observatory/issues/new?'),'Unsafe or absent handoff');
  const url=new URL(submitted);check(url.searchParams.get('body').startsWith('SCRO_PUBLISH_V2'),'Missing explicit V2 publication batch');
  check(url.searchParams.get('title')==='[Publish Workbench review]','Unexpected publication Issue title');
+ const jsonBody=url.searchParams.get('body');
+ const extracted=JSON.parse(jsonBody.split('``json\n')[1].split('\n``')[0]);
+ check(extracted.decisions.length===2,'Only part of the draft queue was published');
+ check(new Set(extracted.decisions.map(d=>d.record_id)).size===2,'Repeated record in batch');
+ check(extracted.decisions.every(d=>!('_title' in d)&&!('_savedAt' in d)),'Local display metadata leaked into GitHub Issue');
  const filter=document.getElementById('rv-filter');filter.value='high';filter.dispatchEvent(new Event('change'));await settle();
  for(const row of document.querySelectorAll('#wb-tbody [data-record-id]'))check(SCRO_RELEVANCE.get(row.dataset.recordId).analysis.level==='high','Incorrect high filter');
  filter.value='all';filter.dispatchEvent(new Event('change'));await settle();
@@ -43,6 +68,11 @@ PROBE=r'''
  const wrap=document.querySelector('.wb-table-wrap');check(wrap.scrollHeight<=wrap.clientHeight+2,'Nested scroll restored');
  check(document.documentElement.scrollWidth<=innerWidth+3,'Page overflow');
  check(document.querySelectorAll('#wb-tbody [data-record-id]').length<=40,'Unbounded rows');
+ // Removing one draft must not delete the other or any original record.
+ const oldConfirm=window.confirm;window.confirm=()=>true;
+ queue.querySelector('[data-remove-record="'+secondRid+'"]').click();window.confirm=oldConfirm;
+ check(queue.querySelectorAll('[data-review-id]').length===1,'Queue removal did not update the count');
+ check(JSON.parse(localStorage.getItem('scro.review.drafts.v1'))[rid],'Removal erased a different draft');
  return {rid,batch:url.searchParams.get('body'),language:document.documentElement.lang,width:innerWidth};
 })()
 '''
