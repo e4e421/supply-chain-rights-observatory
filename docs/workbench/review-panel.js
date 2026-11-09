@@ -172,15 +172,33 @@ function updateTools(){
  renderQueue();
 }
 function download(name,data){const u=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json;charset=utf-8'}));const a=el('a');a.href=u;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);}
-function batch(limit=25){return {schema_version:1,decisions:pending().slice(0,limit).map(([record_id,d])=>({record_id,...d}))};}
+const publishedFields=['content_fingerprint','expected_review_digest','relevance','topics','publisher_confirmed','canonical_url','note'];
+function batch(){
+ // Local-only title/timestamp metadata is never sent to the public review database.
+ return {schema_version:1,decisions:pending().map(([record_id,d])=>{
+  const record={record_id};for(const field of publishedFields)record[field]=d[field]===undefined?null:d[field];
+  return record;
+ })};
+}
 exportButton.addEventListener('click',()=>download('scro-review-batch.json',batch()));
 send.addEventListener('click',()=>{
- const entries=pending();if(!entries.length){feedback='No drafts to submit.';updateTools();return;}
- if(entries.some(([rid,d])=>!R.get(rid)||d.content_fingerprint!==R.get(rid).analysis.content_fingerprint||d.expected_review_digest!==R.get(rid).review_digest)){feedback='Please refresh and re-review stale drafts before submission.';updateTools();return;}
- const body='SCRO_PUBLISH_V2\n```json\n'+JSON.stringify(batch(3))+'\n```';
- const u=new URL('https://github.com/e4e421/supply-chain-rights-observatory/issues/new');u.searchParams.set('title','[Publish Workbench review]');u.searchParams.set('body',body);
- if(u.href.length>7500){download('scro-review-batch.json',batch(3));feedback='The batch was downloaded. Paste the JSON into a GitHub publication Issue with the correct title.';updateTools();return;}
- feedback='The first three decisions will publish automatically after the GitHub Issue is submitted and validated. Remaining drafts stay in this browser.';updateTools();window.open(u.href,'_blank','noopener,noreferrer');
+ const entries=pending();
+ queue.open=true;
+ if(!entries.length){feedback='No drafts to submit.';updateTools();return;}
+ if(entries.length>25){feedback='Too many changes for one Issue (maximum 25). Export your draft and submit smaller groups.';updateTools();return;}
+ if(entries.some(([rid,d])=>!draftCurrent(rid,d))){
+  feedback='Please refresh and re-review stale drafts before submission.';updateTools();return;
+ }
+ const body='SCRO_PUBLISH_V2\n```json\n'+JSON.stringify(batch())+'\n```';
+ const u=new URL('https://github.com/e4e421/supply-chain-rights-observatory/issues/new');
+ u.searchParams.set('title','[Publish Workbench review]');u.searchParams.set('body',body);
+ if(u.href.length>7500){
+  download('scro-review-batch.json',batch());
+  feedback='Batch too large for a prefilled GitHub link. Export JSON, then paste the content into a GitHub publication Issue.';
+  updateTools();return;
+ }
+ feedback='The complete review batch will be sent to GitHub; no changes are omitted.';
+ updateTools();window.open(u.href,'_blank','noopener,noreferrer');
 });
 const reason={specific_hrdd_policy:'Specific HRDD or labour policy',supply_and_labour_context:'Supply chain and labour context',governance_and_rights:'Governance and rights context',incomplete_context:'Context incomplete',insufficient_text_evidence:'Insufficient textual evidence'};
 function field(label,node){const wrap=el('label','','rv-field');wrap.append(el('span',t(label)),node);return wrap;}
@@ -209,8 +227,11 @@ function inspect(item,force=false){
  const save=el('button',t('Save local draft')),discard=el('button',t('Discard local draft'));save.type=discard.type='button';save.id='rv-save';discard.id='rv-discard';
  save.addEventListener('click',()=>{let url=original.value.trim()||null;
   try{if(url){const u=new URL(url);if(u.protocol!=='https:'||u.username||u.password||!u.hostname.includes('.')||u.hostname==='127.0.0.1'||u.hostname.endsWith('.local'))throw Error();}if(verified.checked&&!url)throw Error();}catch{feedback='Enter a valid public HTTPS original URL.';updateTools();return;}
-  draft[rid]={content_fingerprint:a.content_fingerprint,expected_review_digest:data.review_digest,relevance:decision.value,topics:enabled.checked?checks.filter(x=>x.checked).map(x=>x.value):null,publisher_confirmed:verified.checked,canonical_url:url,note:note.value.trim()};
-  feedback=persist()?'Draft saved in this browser only.':'Browser storage blocked; export the batch before leaving.';updateTools();inspect(item,true);
+  draft[rid]={content_fingerprint:a.content_fingerprint,expected_review_digest:data.review_digest,relevance:decision.value,
+   topics:enabled.checked?checks.filter(x=>x.checked).map(x=>x.value):null,publisher_confirmed:verified.checked,
+   canonical_url:url,note:note.value.trim(),_title:String(item.title||'').slice(0,200),_savedAt:new Date().toISOString()};
+  feedback=persist()?'Draft saved in this browser only.':'Browser storage blocked; export the batch before leaving.';
+  queue.open=true;updateTools();inspect(item,true);
  });
  discard.addEventListener('click',()=>{delete draft[rid];persist();feedback='';updateTools();inspect(item,true);});
  const actions=el('div','','rv-actions');actions.append(save,discard);root.append(actions,el('p',t('Submitting the GitHub Issue authorizes automatic publication after validation. Use public review notes only; no allegation is verified.'),'rv-small'));
