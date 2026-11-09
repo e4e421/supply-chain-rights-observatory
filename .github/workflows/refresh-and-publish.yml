@@ -2,9 +2,10 @@ name: Refresh public intelligence and deploy
 
 on:
   schedule:
-    # Daily 06:23 Asia/Taipei; GitHub scheduled runs can be delayed.
-    - cron: '23 22 * * *'
-    # Weekly additional source reachability checks, 06:43 Monday Asia/Taipei.
+    # 06:23 and 18:23 Taipei time
+    - cron: '23 10,22 * * *'
+
+    # Monday 06:43 Taipei time
     - cron: '43 22 * * 0'
   workflow_dispatch:
     inputs:
