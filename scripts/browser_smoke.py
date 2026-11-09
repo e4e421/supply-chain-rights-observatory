@@ -61,8 +61,8 @@ def run():
                               "--virtual-time-budget=6000","--user-data-dir="+profile+"-workbench-selected",
                               "--dump-dom",uri]
                         got=subprocess.run(args,capture_output=True,text=True,timeout=55,check=True).stdout
-                        if 'data-record-id="'+rid+'" class="is-selected"' not in got and \
-                           not __import__("re").search(r'class="is-selected"[^>]*data-record-id="'+rid+'"',got):
+                        selected_row=__import__("re").search(r'<tr[^>]*data-record-id="'+rid+r'"[^>]*>',got)
+                        if not selected_row or 'is-selected' not in selected_row.group(0):
                             raise ValueError("Workbench selected record deep link failed")
                         print("PASS browser workbench selected record:",rid)
                 shard=json.loads((ROOT/"docs/data/archive"/m["files"][0]["file"]).read_text())
