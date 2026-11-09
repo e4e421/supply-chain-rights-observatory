@@ -3,7 +3,7 @@
   "method": "editorial_registry_plus_optional_HTTPS_HEAD",
   "editorial_review_is_manual": true,
   "http_reachability_does_not_verify_claims": true,
-  "last_probe_run": null,
+  "last_probe_run": "2026-11-09T01:57:13Z",
   "approved_reference_count": 19,
   "pending_candidate_count": 0,
   "review_needed_count": 12,
@@ -19,9 +19,9 @@
       "review_due": "2027-02-08",
       "licence_review_status": "pending",
       "review_needed": true,
-      "reachability": "untested",
-      "http_status": null,
-      "last_probe": null
+      "reachability": "responded",
+      "http_status": 200,
+      "last_probe": "2026-11-09T01:57:13Z"
     },
     {
       "id": "reference-02",
@@ -32,9 +32,9 @@
       "review_due": "2027-02-08",
       "licence_review_status": "pending",
       "review_needed": true,
-      "reachability": "untested",
-      "http_status": null,
-      "last_probe": null
+      "reachability": "responded",
+      "http_status": 200,
+      "last_probe": "2026-11-09T01:57:13Z"
     },
     {
       "id": "reference-03",
@@ -45,9 +45,9 @@
       "review_due": "2027-02-08",
       "licence_review_status": "pending",
       "review_needed": true,
-      "reachability": "untested",
-      "http_status": null,
-      "last_probe": null
+      "reachability": "responded",
+      "http_status": 200,
+      "last_probe": "2026-11-09T01:57:13Z"
     },
     {
       "id": "reference-04",
@@ -58,9 +58,9 @@
       "review_due": "2027-02-08",
       "licence_review_status": "pending",
       "review_needed": true,
-      "reachability": "untested",
-      "http_status": null,
-      "last_probe": null
+      "reachability": "responded",
+      "http_status": 200,
+      "last_probe": "2026-11-09T01:57:13Z"
     },
     {
       "id": "reference-05",
@@ -71,9 +71,9 @@
       "review_due": "2027-02-08",
       "licence_review_status": "pending",
       "review_needed": true,
-      "reachability": "untested",
-      "http_status": null,
-      "last_probe": null
+      "reachability": "responded",
+      "http_status": 200,
+      "last_probe": "2026-11-09T01:57:13Z"
     },
     {
       "id": "reference-06",
@@ -84,9 +84,9 @@
       "review_due": "2027-02-08",
       "licence_review_status": "pending",
       "review_needed": true,
-      "reachability": "untested",
-      "http_status": null,
-      "last_probe": null
+      "reachability": "http_restriction_or_error",
+      "http_status": 403,
+      "last_probe": "2026-11-09T01:57:13Z"
     },
     {
       "id": "reference-07",
@@ -97,9 +97,9 @@
       "review_due": "2027-02-08",
       "licence_review_status": "pending",
       "review_needed": true,
-      "reachability": "untested",
-      "http_status": null,
-      "last_probe": null
+      "reachability": "http_restriction_or_error",
+      "http_status": 403,
+      "last_probe": "2026-11-09T01:57:13Z"
     },
     {
       "id": "reference-08",
@@ -110,9 +110,9 @@
       "review_due": "2027-02-08",
       "licence_review_status": "pending",
       "review_needed": true,
-      "reachability": "untested",
-      "http_status": null,
-      "last_probe": null
+      "reachability": "http_restriction_or_error",
+      "http_status": 403,
+      "last_probe": "2026-11-09T01:57:13Z"
     },
     {
       "id": "reference-09",
@@ -123,9 +123,9 @@
       "review_due": "2027-02-08",
       "licence_review_status": "pending",
       "review_needed": true,
-      "reachability": "untested",
-      "http_status": null,
-      "last_probe": null
+      "reachability": "responded",
+      "http_status": 200,
+      "last_probe": "2026-11-09T01:57:13Z"
     },
     {
       "id": "reference-10",
@@ -136,9 +136,9 @@
       "review_due": "2027-02-08",
       "licence_review_status": "pending",
       "review_needed": true,
-      "reachability": "untested",
-      "http_status": null,
-      "last_probe": null
+      "reachability": "responded",
+      "http_status": 200,
+      "last_probe": "2026-11-09T01:57:13Z"
     },
     {
       "id": "reference-11",
@@ -149,9 +149,9 @@
       "review_due": "2027-02-08",
       "licence_review_status": "pending",
       "review_needed": true,
-      "reachability": "untested",
-      "http_status": null,
-      "last_probe": null
+      "reachability": "responded",
+      "http_status": 200,
+      "last_probe": "2026-11-09T01:57:13Z"
     },
     {
       "id": "reference-12",
@@ -162,9 +162,9 @@
       "review_due": "2027-02-08",
       "licence_review_status": "pending",
       "review_needed": true,
-      "reachability": "untested",
-      "http_status": null,
-      "last_probe": null
+      "reachability": "responded",
+      "http_status": 200,
+      "last_probe": "2026-11-09T01:57:13Z"
     },
     {
       "id": "bmas-lksg",
@@ -175,9 +175,9 @@
       "review_due": "2027-02-08",
       "licence_review_status": "pending",
       "review_needed": false,
-      "reachability": "untested",
+      "reachability": "not_confirmed",
       "http_status": null,
-      "last_probe": null
+      "last_probe": "2026-11-09T01:57:13Z"
     },
     {
       "id": "oecd-ncp",
@@ -188,9 +188,9 @@
       "review_due": "2027-02-08",
       "licence_review_status": "pending",
       "review_needed": false,
-      "reachability": "untested",
-      "http_status": null,
-      "last_probe": null
+      "reachability": "http_restriction_or_error",
+      "http_status": 403,
+      "last_probe": "2026-11-09T01:57:13Z"
     },
     {
       "id": "eu-osha",
@@ -201,9 +201,9 @@
       "review_due": "2027-02-08",
       "licence_review_status": "pending",
       "review_needed": false,
-      "reachability": "untested",
-      "http_status": null,
-      "last_probe": null
+      "reachability": "responded",
+      "http_status": 200,
+      "last_probe": "2026-11-09T01:57:13Z"
     },
     {
       "id": "wba-chrb",
@@ -214,9 +214,9 @@
       "review_due": "2027-02-08",
       "licence_review_status": "pending",
       "review_needed": false,
-      "reachability": "untested",
-      "http_status": null,
-      "last_probe": null
+      "reachability": "responded",
+      "http_status": 200,
+      "last_probe": "2026-11-09T01:57:13Z"
     },
     {
       "id": "knowthechain",
@@ -227,9 +227,9 @@
       "review_due": "2027-02-08",
       "licence_review_status": "pending",
       "review_needed": false,
-      "reachability": "untested",
-      "http_status": null,
-      "last_probe": null
+      "reachability": "responded",
+      "http_status": 200,
+      "last_probe": "2026-11-09T01:57:13Z"
     },
     {
       "id": "european-labour-authority",
@@ -240,9 +240,9 @@
       "review_due": "2027-02-09",
       "licence_review_status": "pending",
       "review_needed": false,
-      "reachability": "untested",
-      "http_status": null,
-      "last_probe": null
+      "reachability": "responded",
+      "http_status": 200,
+      "last_probe": "2026-11-09T01:57:13Z"
     },
     {
       "id": "eurofound-working-conditions",
@@ -253,9 +253,9 @@
       "review_due": "2027-02-09",
       "licence_review_status": "pending",
       "review_needed": false,
-      "reachability": "untested",
-      "http_status": null,
-      "last_probe": null
+      "reachability": "http_restriction_or_error",
+      "http_status": 429,
+      "last_probe": "2026-11-09T01:57:13Z"
     }
   ]
 }
