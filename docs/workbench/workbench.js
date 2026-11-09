@@ -4,6 +4,7 @@
 const $ = id => document.getElementById(id);
 const baseI18n = window.SCRO_I18N || {language:'en', t:x=>x, onChange:()=>{}};
 const locale = () => baseI18n.language || 'en';
+const wbAssetRoot=new URL('./',document.currentScript.src);
 const L = {
 zh:{
 'Previous page':'上一頁','Next page':'下一頁','Page':'第','of':'／','Showing':'顯示','records':'筆','Results pagination':'結果分頁','Paged research results table':'分頁研究結果表格','Full text in record inspector':'完整內容請見右側紀錄詳情',
@@ -177,7 +178,7 @@ function readControls(){
 function applyControls(values) {
  pageAnchor=Math.min(MAX_ROWS,Math.max(0,parseInt(values.offset,10)||0));
  pageIndex=0;
- $('wb-scope').value=safeValue(values.scope,SAFE_SCOPE,'latest');
+ $('wb-scope').value=safeValue(values.scope,SAFE_SCOPE,'all');
  $('wb-sort').value=safeValue(values.sort,SAFE_SORT,'published-desc');
  $('wb-kind').value=safeValue(values.kind,SAFE_KIND,'all');
  $('wb-evidence').value=safeValue(values.evidence,SAFE_EVIDENCE,'all');
@@ -217,11 +218,31 @@ function syncURL(){
  if(pageIndex>0)url.searchParams.set('offset',String(pageIndex*pageSize));
  history.replaceState(null,'',url.pathname+url.search+url.hash);
 }
+function updateRecordScope(){
+ const value=$('wb-scope')?.value||'all';
+ document.querySelectorAll('[data-scope]').forEach(button=>{
+  const active=button.dataset.scope===value;
+  button.setAttribute('aria-pressed',String(active));
+  button.textContent=t(button.dataset.l10n||button.textContent);
+ });
+ const explanations={
+  all:'All searchable records combine current and archived items by ID. Partial coverage is indicated when limits are reached.',
+  latest:'Recent snapshot retains up to 150 days and 240 records; it overlaps with the permanent archive.',
+  archive:'Archive month groups records by first observed date, not publication date.'
+ };
+ const label=$('wb-scope-hint');if(label)label.textContent=t(explanations[value]||explanations.all);
+ const month=$('wb-month')?.closest('label');if(month)month.hidden=value!=='archive';
+ const scope=document.querySelector('.wb-scope-nav');
+ if(scope)scope.setAttribute('aria-label',t('Record scope'));
+ const tabs=document.querySelector('.wb-scope-tabs');
+ if(tabs)tabs.setAttribute('aria-label',t('Select record scope'));
+}
 function localiseStatic(){
  document.querySelectorAll('[data-l10n]').forEach(n=>{n.textContent=t(n.dataset.l10n);});
  $('wb-search').placeholder=t('Search titles, publishers, DOI, record IDs…');
  $('language-select').setAttribute('aria-label',t('Select website language'));
- document.title=t('Research Workbench')+' | Supply Chain Rights Observatory';
+ document.title=t(document.body.dataset.page==='workbench-editor'?'Review Editor':'Research Workbench')+' | Supply Chain Rights Observatory';
+ updateRecordScope();
  $('wb-table').parentElement.setAttribute('aria-label',t('Paged research results table'));
  render();
 }
@@ -252,6 +273,7 @@ function sourceInfo(){
  }
 }
 function renderStatus(){
+ updateRecordScope();
  $('wb-latest-count').textContent=live?String(latest.length):'—';
  $('wb-archive-count').textContent=catalog?String(catalog.total_records):'—';
  $('wb-data-status').textContent=!live?t('Unavailable'):live.status==='ok'?t('Operational (technical)'):
@@ -266,7 +288,7 @@ async function fetchMonth(month){
  let all=[];
  for(const part of data.files){
   if(!/^\d{4}-\d{2}-\d{4}\.json$/.test(part.file))throw new Error('Unsafe archive filename');
-  const shard=await fetchJSON('../data/archive/'+part.file);
+  const shard=await fetchJSON(new URL('../data/archive/'+part.file,wbAssetRoot).href);
   if(!Array.isArray(shard.records) || (typeof part.records==='number'&&shard.records.length!==part.records))throw new Error('Archive integrity mismatch');
   all.push(...shard.records.map(x=>normalise(x,month)));
   if(all.length>MAX_ROWS)throw new Error('Archive exceeds browser cap');
@@ -343,7 +365,7 @@ function selectedRecords(){
 function setupPagination(){
  document.body.classList.add('wb-paged');
  const stylesheet=document.createElement('link');
- stylesheet.rel='stylesheet';stylesheet.href='./pagination.css';
+ stylesheet.rel='stylesheet';stylesheet.href=new URL('./pagination.css',wbAssetRoot).href;
  stylesheet.addEventListener('load',schedulePageLayout);document.head.append(stylesheet);
  const controls=text('nav','','wb-page-controls');
  controls.id='wb-page-controls';controls.setAttribute('aria-label',t('Results pagination'));
@@ -533,7 +555,7 @@ function showRecord(){
  }
  const urlMonth=item.archive_month;
  if(urlMonth&&/^\d{4}-\d{2}$/.test(urlMonth)){
-  const detail=text('a',t('Record ID'));detail.href='../record.html?month='+encodeURIComponent(urlMonth)+'&id='+encodeURIComponent(item.record_id);
+  const detail=text('a',t('Record ID'));detail.href=new URL('../record.html?month='+encodeURIComponent(urlMonth)+'&id='+encodeURIComponent(item.record_id),wbAssetRoot).href;
   links.append(detail);
  }
  out.append(links);
@@ -591,11 +613,11 @@ async function share(){
  catch(_){window.prompt(t('Unable to copy automatically; copy the address shown.'),location.href);}
 }
 function reset(){
- applyControls({scope:'latest',sort:'published-desc',kind:'all',evidence:'all'});
+ applyControls({scope:'all',sort:'published-desc',kind:'all',evidence:'all'});
  chosen='';changed(true);
 }
 function setPreset(key){
- const base={scope:'latest',sort:'published-desc',kind:'all',evidence:'all'};
+ const base={scope:'all',sort:'published-desc',kind:'all',evidence:'all'};
  if(key==='labour')base.topics=['forced-labour','working-conditions','worker-voice'];
  if(key==='policy')base.topics=['policy','network'];
  if(key==='academic')base.kind='academic';
@@ -608,7 +630,9 @@ async function init(){
  localiseStatic();
  try{
   const [a,b,c]=await Promise.allSettled([
-   fetchJSON('../data/latest.json'),fetchJSON('../data/archive/catalog.json'),fetchJSON('../data/source-health.json')
+   fetchJSON(new URL('../data/latest.json',wbAssetRoot).href),
+   fetchJSON(new URL('../data/archive/catalog.json',wbAssetRoot).href),
+   fetchJSON(new URL('../data/source-health.json',wbAssetRoot).href)
   ]);
   if(a.status!=='fulfilled'||!Array.isArray(a.value.items))throw Error('Latest snapshot unavailable');
   live=a.value;
@@ -655,6 +679,11 @@ function bind(){
  for(const id of ['wb-search','wb-sort','wb-kind','wb-evidence','wb-from','wb-to','wb-density'])
   $(id).addEventListener(id==='wb-search'?'input':'change',()=>changed(false,id==='wb-density'));
  $('wb-scope').addEventListener('change',()=>changed(true));
+ document.querySelectorAll('[data-scope]').forEach(button=>button.addEventListener('click',()=>{
+  if($('wb-scope').value===button.dataset.scope)return;
+  $('wb-scope').value=button.dataset.scope;
+  chosen='';changed(true);
+ }));
  $('wb-month').addEventListener('change',()=>changed(true));
  document.querySelectorAll('[name="wb-topic"],[data-column]').forEach(x=>x.addEventListener('change',()=>changed(false,Boolean(x.dataset.column))));
  $('wb-clear').addEventListener('click',reset);
