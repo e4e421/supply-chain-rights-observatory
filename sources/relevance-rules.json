@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "version": "keywords-2.1.0",
+  "languages": ["en", "zh", "de"],
+  "scope": "Research relevance only; never verifies an allegation or identifies an incident.",
+  "topics": {
+    "policy": {"en":"Policy & governance","zh":"法規與治理","de":"Recht & Governance"},
+    "forced-labour": {"en":"Forced labour","zh":"強迫勞動","de":"Zwangsarbeit"},
+    "working-conditions": {"en":"Working conditions","zh":"勞動條件","de":"Arbeitsbedingungen"},
+    "worker-voice": {"en":"Worker voice & remedy","zh":"勞工發聲與補救","de":"Arbeitnehmerbeteiligung & Abhilfe"},
+    "network": {"en":"Supply networks","zh":"供應網絡","de":"Liefernetzwerke"},
+    "research": {"en":"Academic research","zh":"學術研究","de":"Wissenschaftliche Forschung"}
+  },
+  "groups": {
+    "supply": ["supply chain","supply chains","supply network","supply networks","supplier","suppliers","subcontractor","subcontractors","procurement","sourcing","value chain","value chains","factory","factories","garment industry","textile recycling","apparel","plantation","供應鏈","供應商","供應網絡","價值鏈","工廠","分包商","採購","紡織業","成衣業","lieferkette","lieferketten","lieferant","lieferanten","zulieferer","subunternehmer","beschaffung","wertschöpfungskette","fabrik","textilindustrie"],
+    "policy_specific": ["human rights due diligence","hrdd","csddd","cshddd","lksg","lieferkettensorgfaltspflichtengesetz","eu forced labour regulation","eu forced labor regulation","人權盡職調查","人權盡責調查","強迫勞動產品禁令","menschenrechtliche sorgfaltspflicht","menschenrechtlichen sorgfaltspflichten","eu lieferkettengesetz"],
+    "governance": ["due diligence","responsible sourcing","ethical sourcing","supplier audit","social audit","social auditing","supplier governance","mandatory","legislation","procurement rules","purchasing practices","盡職調查","社會稽核","供應商稽核","供應商治理","責任採購","法規","sorgfaltspflichten","sorgfaltspflicht","sozialaudit","lieferantenaudit","beschaffungspraktiken"],
+    "forced": ["forced labour","forced labor","modern slavery","debt bondage","forced workers","強迫勞動","現代奴役","債務束縛","zwangsarbeit","moderne sklaverei","schuldknechtschaft"],
+    "child": ["child labour","child labor","child exploitation","童工","兒童勞動","kinderarbeit"],
+    "conditions": ["labour exploitation","labor exploitation","worker exploitation","labour rights","labor rights","workers rights","workers' rights","working conditions","workplace safety","occupational safety","unsafe working","workplace injury","factory fire","loses a hand","lose a hand","loses a hand or a leg","living wage","wage theft","unpaid wages","minimum wage","recruitment fees","migrant workers","human trafficking","workplace discrimination","勞動條件","勞工權益","職業安全","職業傷害","工安","欠薪","生活工資","招募費","移工","勞動剝削","arbeitsbedingungen","arbeitsschutz","arbeitnehmerrechte","arbeitnehmerrechten","lohndiebstahl","mindestlohn","wanderarbeiter","arbeitsausbeutung","arbeitsunfall"],
+    "voice": ["collective bargaining","trade union","trade unions","labor union","labour union","union busting","union-busting","worker voice","grievance mechanism","grievance mechanisms","remediation","remedy","remedies","工會","集體協商","申訴機制","勞工發聲","補救","gewerkschaft","gewerkschaften","tarifverhandlung","tarifverhandlungen","beschwerdemechanismus","beschwerdemechanismen","abhilfe"],
+    "rights": ["human rights","labour standards","labor standards","labour","labor","workers","worker","discrimination","social sustainability","business and human rights","企業與人權","人權","勞動標準","勞工","社會永續","歧視","menschenrechte","menschenrechten","arbeitsrechte","sozialstandards","soziale nachhaltigkeit","diskriminierung"],
+    "network": ["tier 2","tier 3","multi tier","multi-tier","traceability","supplier network","supply network","transparency","subcontracting","多層級","可追溯性","透明度","供應網絡","rückverfolgbarkeit","liefernetzwerk","transparenz"],
+    "europe": ["europe","european","european union","eu","uk","united kingdom","germany","german","france","french","歐洲","歐盟","英國","德國","法國","europa","europäische","europäischen","deutschland","frankreich"]
+  }
+}
