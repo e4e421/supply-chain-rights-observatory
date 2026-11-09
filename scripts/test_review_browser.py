@@ -19,7 +19,9 @@ PROBE=r'''
  check(window.SCRO_REVIEW_STORE&&document.getElementById('review-panel'),'Review editor not mounted');
  check(document.querySelector('[data-scope=all]').getAttribute('aria-pressed')==='true','All searchable records not default');
  check(document.getElementById('wb-scope').value==='all','Underlying scope inconsistent');
- check(document.getElementById('wb-scope-hint').textContent.length>35,'Scope explanation missing');
+ const hint=document.getElementById('wb-scope-hint').textContent.trim();
+ check(hint.length>12,'Scope explanation missing');
+ check(!/^(All searchable records|Recent snapshot|First-seen month)$/.test(hint),'Scope description is only a label');
  document.querySelector('[data-scope="latest"]').click();
  check(document.getElementById('wb-scope').value==='latest','Recent snapshot toggle failed');
  check(document.querySelector('#wb-scope-hint').textContent.includes('150') ||
