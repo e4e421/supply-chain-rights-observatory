@@ -86,6 +86,30 @@ class GovernanceTests(unittest.TestCase):
         rogue=copy.deepcopy(reg)
         rogue['sources'][0]['auto_ingest']=True
         with self.assertRaises(ValueError):source_governance.validate(rogue,cand,refs)
+    def test_new_media_candidates_remain_non_ingestable(self):
+        reg=json.loads(source_governance.REGISTRY.read_text())
+        cand=json.loads(source_governance.CANDIDATES.read_text())
+        refs=json.loads(source_governance.REFS.read_text())
+        self.assertTrue(source_governance.validate(reg,cand,refs))
+        self.assertEqual(len(cand['candidates']),11)
+        self.assertTrue(all(x['status']=='pending_review' and x['auto_ingest'] is False for x in cand['candidates']))
+        self.assertNotIn('www.reuters.com',source_governance.ALLOWED)
+        self.assertIn('www.reuters.com',source_governance.CANDIDATE_HOSTS)
+        with self.assertRaises(ValueError):
+            source_governance.validate_link('https://www.reuters.com/')
+        self.assertEqual(source_governance.validate_candidate_link('https://www.reuters.com/'),'www.reuters.com')
+        for malformed in ('http://www.reuters.com','https://user:secret@www.reuters.com/',
+                          'https://www.reuters.com.evil.org/','https://localhost/',
+                          'https://www.reuters.com:8443/'):
+            with self.subTest(malformed=malformed):
+                with self.assertRaises(ValueError):source_governance.validate_candidate_link(malformed)
+        unsafe=copy.deepcopy(cand)
+        unsafe['candidates'][0]['auto_ingest']=True
+        with self.assertRaises(ValueError):source_governance.validate(reg,unsafe,refs)
+        duplicate=copy.deepcopy(cand)
+        duplicate['candidates'].append(copy.deepcopy(duplicate['candidates'][0]))
+        with self.assertRaises(ValueError):source_governance.validate(reg,duplicate,refs)
+
     def test_external_fetch_hosts_are_restricted(self):
         for url in ('http://www.ilo.org/','https://localhost/','https://example.com/',
                     'https://www.oecd.org:444/','https://www.oecd.org.evil.org/'):
