@@ -23,7 +23,7 @@ class Scan(HTMLParser):
 def run():
  old=json.loads(re.search(r'const dictionaries = (\{[^\n]+\});',(OUT/'i18n.js').read_text()).group(1))
  new=json.loads((OUT/'portal-translations.json').read_text());keys=set(old)|set(new)
- paths=['index.html','archive/index.html','sources/index.html','policy/index.html','research/index.html','methodology/index.html','record.html','workbench/index.html']
+ paths=['index.html','archive/index.html','sources/index.html','policy/index.html','research/index.html','methodology/index.html','record.html','workbench/index.html','workbench/edit/index.html']
  for rel in paths:
   p=OUT/rel;raw=p.read_text(encoding='utf-8');s=Scan();s.feed(raw)
   assert s.lang=='en' and s.headings[0]=='h1',(rel,s.headings)
@@ -50,5 +50,16 @@ def run():
   assert re.fullmatch(r'\d{4}-\d{2}-\d{4}\.json',location['file'])
  assert (OUT/'data/latest.json').read_bytes()==(ROOT/'docs/data/latest.json').read_bytes()
  assert (OUT/'data/references.json').read_bytes()==(ROOT/'docs/data/references.json').read_bytes()
+ plain=(OUT/'workbench/index.html').read_text()
+ editor=(OUT/'workbench/edit/index.html').read_text()
+ assert 'src="./review-panel.js"' not in plain and 'src="./review-store.js"' not in plain
+ assert 'src="../review-panel.js"' in editor and 'src="../review-store.js"' in editor
+ assert 'src="../../relevance-client.js"' in editor
+ assert 'href="../workbench.css"' in editor
+ assert 'connect-src ' in editor and 'https://api.github.com' in editor
+ assert 'https://api.github.com' not in plain
+ assert 'data-page="workbench-editor"' in editor
+ assert 'data-page="workbench"' in plain
+ print('PASS workbench reader and editor separation and safe nested assets')
  print('PASS complete record locator, canonical data unchanged and safe rendering')
 if __name__=='__main__':run()
