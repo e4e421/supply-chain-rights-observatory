@@ -50,20 +50,28 @@ test('old drafts remain untouched and selecting the second does not submit the f
  assert.equal(store.cancelHandoff(second.id),false);
  assert.equal(store.getDraft(A)?.note,'first');
 });
-test('drafts stay after new tab; only a matching published decision clears its own draft',()=>{
+test('drafts stay after new tab; only a matching *confirmed Issue* and published decision clears its own draft',async()=>{
  const a=draft('a'),b=draft('b');
  const {store,localStorage}=harness();
  store.saveDraft(A,a);const first=store.makeHandoff(()=>true);
  store.saveDraft(B,b);
+ const issue={number:15,state:'open',title:'[Publish Workbench review]',
+  user:{login:'e4e421'},body:first.body,
+  html_url:'https://github.com/e4e421/supply-chain-rights-observatory/issues/15'};
  const clone=harness({
   'scro.review.drafts.v1':localStorage.getItem('scro.review.drafts.v1'),
   'scro.review.queue.v2':localStorage.getItem('scro.review.queue.v2')
- }).store;
+ },async()=>({ok:true,json:async()=>[issue]})).store;
  assert.equal(clone.draftEntries().length,2);
  assert.equal(clone.active(A)?.id,first.id);
  const review=Object.fromEntries(['content_fingerprint','relevance','topics','publisher_confirmed','canonical_url','note']
   .map(k=>[k,a[k]]));
  const index={records:{[A]:{review_state:'current',review:{...review,issue:15}}}};
+ // Matching public fields are insufficient proof until the submitted GitHub Issue is verified.
+ assert.equal(clone.refreshPublished(index),false);
+ assert.equal(clone.getDraft(A)?.note,'a');
+ const result=await clone.refreshFromGitHub(index);
+ assert.equal(result.matched,1);
  assert.equal(clone.refreshPublished(index),true);
  assert.equal(clone.getDraft(A),null);
  assert.equal(clone.getDraft(B)?.note,'b');
