@@ -103,7 +103,9 @@ jobs:
           python3 scripts/scan_frontend.py
           python3 scripts/check_accessibility.py
       - name: Browser smoke for visitor and workbench locales (when Chrome is available)
-        run: python3 scripts/browser_smoke.py
+        run: |
+          python3 scripts/browser_smoke.py
+          python3 scripts/layout_regression.py
       - name: Validate public output and archive
         run: |
           python3 scripts/validate_data.py
