@@ -102,7 +102,9 @@ function makeHandoff(eligible){
   changes();return clone(entry);
 }
 function matches(a,b){
-  return FIELDS.every(k=>JSON.stringify(a?.[k]??null)===JSON.stringify(b?.[k]??null));
+  // Expected prior review digest is a concurrency guard, not a published decision field.
+  return FIELDS.filter(k=>k!=='expected_review_digest').every(k=>
+    JSON.stringify(a?.[k]??null)===JSON.stringify(b?.[k]??null));
 }
 function refreshPublished(index){
   if(!index?.records)return false;
