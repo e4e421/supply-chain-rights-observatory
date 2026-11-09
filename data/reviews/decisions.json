@@ -1,1 +1,45 @@
-{"schema_version":1,"records":{}}
+{
+  "schema_version": 1,
+  "records": {
+    "a14ee2760fbb9718a3": {
+      "content_fingerprint": "689ee72871c14f139b0189e8026bfee1b3d878c0f6eb3b519d79843bc4a7fe72",
+      "relevance": "include",
+      "topics": null,
+      "publisher_confirmed": false,
+      "canonical_url": null,
+      "note": "",
+      "reviewed_at": "2026-11-09T14:45:20Z",
+      "reviewed_by": "e4e421",
+      "issue": 21,
+      "issue_digest": "7fa732e98c1d0565225fcc8b2d59c8d498ca87746cb4b4a53fcccfda5e2ad52b"
+    },
+    "320c38e43564cf040d": {
+      "content_fingerprint": "255b40ed20175a2624cd9c6fd7c3de282b281c2ed88bce1433fe638879dc40c5",
+      "relevance": "include",
+      "topics": [
+        "working-conditions"
+      ],
+      "publisher_confirmed": false,
+      "canonical_url": null,
+      "note": "",
+      "reviewed_at": "2026-11-09T14:45:20Z",
+      "reviewed_by": "e4e421",
+      "issue": 21,
+      "issue_digest": "7fa732e98c1d0565225fcc8b2d59c8d498ca87746cb4b4a53fcccfda5e2ad52b"
+    },
+    "93635cdb170cdefb02": {
+      "content_fingerprint": "6391db6b8a90e11584dc9654512ef2f415a2f61c0a8e70af2bb81227e351d4e2",
+      "relevance": "needs_review",
+      "topics": [
+        "policy"
+      ],
+      "publisher_confirmed": true,
+      "canonical_url": "https://www.business-humanrights.org/en/from-us/remedy-compass/german-supply-chain-act/",
+      "note": "",
+      "reviewed_at": "2026-11-09T14:45:20Z",
+      "reviewed_by": "e4e421",
+      "issue": 21,
+      "issue_digest": "7fa732e98c1d0565225fcc8b2d59c8d498ca87746cb4b4a53fcccfda5e2ad52b"
+    }
+  }
+}
