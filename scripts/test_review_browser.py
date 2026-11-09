@@ -115,7 +115,7 @@ def run():
    for language in ('en','zh','de'):
     for width in (1920,390):
      navigate('workbench/',language,width)
-     self_readonly=browser.evaluate("!document.querySelector('#review-panel')&&!document.getElementById('rv-publish-batch')&&document.querySelector('[data-scope="all"]').getAttribute('aria-pressed')==='true'")
+     self_readonly=browser.evaluate('document.querySelector("#review-panel")===null&&document.getElementById("rv-publish-batch")===null&&document.querySelector("[data-scope=all]").getAttribute("aria-pressed")==="true"')
      if not self_readonly:raise AssertionError('Public Workbench exposes editing controls or wrong default scope')
      navigate('workbench/edit/',language,width)
      result=browser.evaluate(PROBE);reports.append({'language':language,'width':width,'status':'passed'})
