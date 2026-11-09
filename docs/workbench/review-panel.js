@@ -4,6 +4,29 @@
 const R=window.SCRO_RELEVANCE,I=window.SCRO_I18N||{language:'en',onChange:()=>{}};
 if(!R)return;
 const D={
+'Pending review changes':['待發布變更清單','Ausstehende Prüfänderungen'],
+'Review all edits before publication. Drafts are stored only in this browser.':['發布前請逐筆檢查；所有草稿僅儲存於本機瀏覽器。','Änderungen vor Veröffentlichung prüfen. Entwürfe sind nur im Browser gespeichert.'],
+'No saved changes yet. Select an article and choose Save local draft.':['尚無已儲存變更。請點選新聞並按「儲存本機草稿」。','Noch keine Änderungen. Datensatz auswählen und lokalen Entwurf speichern.'],
+'Relevance':['相關性','Relevanz'],
+'Topics':['主題標記','Themen'],
+'Publisher':['出版者核對','Herausgeber'],
+'Public note':['公開審核備註','Öffentliche Prüfnotiz'],
+'Source URL':['原文連結','Original-URL'],
+'Edit draft':['返回修改','Entwurf bearbeiten'],
+'Remove draft':['移除草稿','Entwurf entfernen'],
+'Remove this local draft?':['確定移除此筆本機草稿？','Diesen lokalen Entwurf entfernen?'],
+'Use suggested topics':['沿用規則建議的主題','Regelvorschläge beibehalten'],
+'Not confirmed':['未確認','Nicht bestätigt'],
+'Confirmed':['已確認','Bestätigt'],
+'No public note':['未填寫公開備註','Keine öffentliche Notiz'],
+'Local draft is outdated':['草稿需要重新確認','Entwurf muss erneut geprüft werden'],
+'Published review has changed. Reopen and save again.':['正式審核狀態已變動，請重新開啟並儲存草稿。','Veröffentlichte Prüfung geändert; Entwurf öffnen und erneut speichern.'],
+'Too many changes for one Issue (maximum 25). Export your draft and submit smaller groups.':['超過每批 25 筆限制；請匯出備份後分批提交。','Mehr als 25 Änderungen. Entwürfe exportieren und in kleineren Gruppen einreichen.'],
+'Batch too large for a prefilled GitHub link. Export JSON, then paste the content into a GitHub publication Issue.':['此批次超出 GitHub 預填網址長度；請匯出 JSON，再貼入新的 GitHub 發布 Issue。','Batch zu groß für den vorausgefüllten GitHub-Link. JSON exportieren und in ein GitHub-Issue einfügen.'],
+'The complete review batch will be sent to GitHub; no changes are omitted.':['所有待發布草稿會一起送往 GitHub，不會默默漏掉任何一筆。','Der gesamte Batch wird an GitHub übermittelt; keine Änderungen werden ausgelassen.'],
+'Draft removed from this browser.':['已從此瀏覽器移除草稿。','Entwurf aus diesem Browser entfernt.'],
+'Record unavailable from current index':['目前索引找不到此紀錄','Datensatz im aktuellen Index nicht gefunden'],
+
 'Relevance & review':['相關性與審核','Relevanz & Prüfung'],
 'All relevance levels':['所有相關性','Alle Relevanzstufen'],
 'High relevance':['高相關','Hohe Relevanz'],
@@ -65,8 +88,17 @@ for(const [value,label]of [['all','All relevance levels'],['high','High relevanc
 const initial=new URL(location.href).searchParams.get('relevance');if([...filter.options].some(o=>o.value===initial))filter.value=initial;
 const count=el('span','','rv-draft-count'),exportButton=el('button'),send=el('button');exportButton.type=send.type='button';
 filter.addEventListener('change',()=>{const u=new URL(location.href);if(filter.value==='all')u.searchParams.delete('relevance');else u.searchParams.set('relevance',filter.value);history.replaceState(null,'',u.pathname+u.search+u.hash);callback();});
-tools.append(filter,count,exportButton,send);document.querySelector('.wb-results-head')?.after(tools);
-const info=el('p','','rv-message');info.id='rv-feedback';info.setAttribute('role','status');info.setAttribute('aria-live','polite');tools.after(info);
+tools.append(filter,count);document.querySelector('.wb-results-head')?.after(tools);
+const queue=el('details','','rv-queue');queue.id='rv-queue';
+const summary=el('summary','','rv-queue-summary');summary.id='rv-queue-title';queue.append(summary);
+const queueIntro=el('p','','rv-queue-intro'),queueList=el('ol','','rv-queue-list');
+queueList.id='rv-queue-list';queueList.setAttribute('aria-label',t('Pending review changes'));
+const queueActions=el('div','','rv-queue-actions');
+exportButton.id='rv-export-batch';send.id='rv-publish-batch';
+queueActions.append(exportButton,send);queue.append(queueIntro,queueList,queueActions);
+queue.open=Object.keys(draft).length>0;
+tools.after(queue);
+const info=el('p','','rv-message');info.id='rv-feedback';info.setAttribute('role','status');info.setAttribute('aria-live','polite');queue.after(info);
 function persist(){try{localStorage.setItem(KEY,JSON.stringify(draft));return true;}catch{return false;}}
 function pending(){return Object.entries(draft).filter(([rid,d])=>/^[a-f0-9]{18}$/.test(rid)&&d&&typeof d==='object');}
 function updateTools(){for(const o of filter.options)o.textContent=t(o.dataset.label);filter.setAttribute('aria-label',t('Relevance & review'));count.textContent=pending().length+' '+t('local drafts; not published');exportButton.textContent=t('Export review batch');send.textContent=t('Publish through GitHub');exportButton.disabled=send.disabled=!pending().length;info.textContent=R.failed?t('Keyword analysis unavailable; records remain visible.'):t(feedback);}
