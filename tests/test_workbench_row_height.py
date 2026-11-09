@@ -167,9 +167,15 @@ class WorkbenchRowHeightTests(unittest.TestCase):
                                 url=f'http://127.0.0.1:{server.server_port}/workbench/?lang={language}&qa_width={width}'
                                 browser.call('Page.navigate',{'url':url})
                                 ready=False
+                                expression=(
+                                    'document.readyState==="complete" && '
+                                    'location.pathname.endsWith("/workbench/") && '
+                                    'new URL(location.href).searchParams.get("qa_width")==='+json.dumps(str(width))+
+                                    ' && new URL(location.href).searchParams.get("lang")==='+json.dumps(language)
+                                )
                                 for _ in range(150):
                                     try:
-                                        ready=browser.evaluate('document.readyState==="complete" && location.href==='+json.dumps(url))
+                                        ready=browser.evaluate(expression)
                                     except RuntimeError:
                                         ready=False
                                     if ready:
