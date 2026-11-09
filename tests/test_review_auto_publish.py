@@ -79,7 +79,7 @@ class PublishReviewTests(unittest.TestCase):
         self.assertNotIn('approve_pull',code)
 
     def test_workbench_publication_explains_effect(self):
-        js=(ROOT/'docs/workbench/review-panel.js').read_text()
+        js=(ROOT/'docs/workbench/review-panel.js').read_text()+(ROOT/'docs/workbench/review-store.js').read_text()
         self.assertIn('SCRO_PUBLISH_V2',js)
         self.assertIn('[Publish Workbench review]',js)
         self.assertIn('authorizes automatic publication after validation',js)

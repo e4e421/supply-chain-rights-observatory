@@ -105,6 +105,8 @@ jobs:
           node --check docs/workbench/workbench.js
           node --check docs/relevance-client.js
           node --check docs/workbench/review-panel.js
+          node --check docs/workbench/review-store.js
+          node --test tests/test_review_store.mjs
           python3 -m unittest discover -s tests -v
       - name: Accessibility and frontend security regression checks
         run: |

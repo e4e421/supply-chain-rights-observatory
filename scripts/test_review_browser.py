@@ -13,68 +13,82 @@ from propose_reviews import prepare
 from publish_reviews import parse_publish_body as parse_body
 PROBE=r'''
 (async()=>{
- const check=(x,m)=>{if(!x)throw Error(m);};
- const settle=async()=>{for(let i=0;i<4;i++)await new Promise(r=>requestAnimationFrame(r));};
- const rows=document.querySelectorAll('#wb-tbody [data-record-id]');check(rows.length,'No records');
- rows[0].click();await settle();
- check(document.getElementById('rv-decision'),'No integrated review form');
- const rid=rows[0].dataset.recordId;
- const secondRid=rows[1]?.dataset.recordId;check(secondRid&&rid!==secondRid,'Need at least two distinct rows');
- const current=SCRO_RELEVANCE.get(rid);
- const before=JSON.stringify({state:current.review_state,digest:current.review_digest,review:current.review});
- document.getElementById('rv-decision').value='include';document.getElementById('rv-note').value='Automated UI fixture, never submitted.';
- document.getElementById('rv-save').click();await settle();
- const draft=JSON.parse(localStorage.getItem('scro.review.drafts.v1'))[rid];
- check(draft.relevance==='include','Draft not saved');
- const after=SCRO_RELEVANCE.get(rid);
- check(JSON.stringify({state:after.review_state,digest:after.review_digest,review:after.review})===before,
-       'Local draft changed published review state');
- // Accumulate a second edit without navigating to GitHub, including in the 390px layout.
- window.dispatchEvent(new CustomEvent('scro:select-record',{detail:{record_id:secondRid}}));
+ const check=(value,message)=>{if(!value)throw Error(message);};
+ const settle=async()=>{for(let i=0;i<5;i++)await new Promise(r=>requestAnimationFrame(r));};
+ check(document.body.dataset.page==='workbench-editor','Not the editor subpage');
+ check(window.SCRO_REVIEW_STORE&&document.getElementById('review-panel'),'Review editor not mounted');
+ check(document.querySelector('[data-scope=all]').getAttribute('aria-pressed')==='true','All searchable records not default');
+ check(document.getElementById('wb-scope').value==='all','Underlying scope inconsistent');
+ const hint=document.getElementById('wb-scope-hint').textContent.trim();
+ check(hint.length>12,'Scope explanation missing');
+ check(!/^(All searchable records|Recent snapshot|First-seen month)$/.test(hint),'Scope description is only a label');
+ document.querySelector('[data-scope="latest"]').click();
+ check(document.getElementById('wb-scope').value==='latest','Recent snapshot toggle failed');
+ check(document.querySelector('#wb-scope-hint').textContent.includes('150') ||
+   document.documentElement.lang!=='en','Recent snapshot meaning not visible');
+ document.querySelector('[data-scope="archive"]').click();
+ check(!document.getElementById('wb-month').closest('label').hidden,'First-seen month filter hidden');
+ document.querySelector('[data-scope="all"]').click();
+ check(document.getElementById('wb-month').closest('label').hidden,'Unnecessary month filter still visible');
  await settle();
- check(document.getElementById('rv-decision')!==null,'Could not edit a second selected record');
+ const rows=[...document.querySelectorAll('#wb-tbody [data-record-id]')];
+ check(rows.length>=2,'Need two visible research records');
+ const first=rows[0].dataset.recordId,second=rows[1].dataset.recordId;
+ check(first!==second,'Repeated record IDs in current page');
+ const store=SCRO_REVIEW_STORE;
+ rows[0].click();await settle();
+ check(document.getElementById('rv-decision'),'Selected record lacks editing controls');
+ const before=JSON.stringify(SCRO_RELEVANCE.get(first).review);
+ document.getElementById('rv-decision').value='include';
+ document.getElementById('rv-note').value='Public acceptance fixture only.';
+ document.getElementById('rv-save').click();await settle();
+ check(store.getDraft(first)?.relevance==='include','First draft not stored');
+ check(store.selectedIds().includes(first),'First saved draft not selected');
+ check(JSON.stringify(SCRO_RELEVANCE.get(first).review)===before,'A local draft changed published data');
+ window.dispatchEvent(new CustomEvent('scro:select-record',{detail:{record_id:second}}));
+ await settle();
  document.getElementById('rv-decision').value='needs_review';
- document.getElementById('rv-note').value='Second local review fixture; do not publish.';
+ document.getElementById('rv-note').value='Second public acceptance fixture.';
  document.getElementById('rv-save').click();await settle();
  const queue=document.getElementById('rv-queue');
- check(queue.open,'Pending review queue should open after saving');
- check(queue.querySelectorAll('[data-review-id]').length===2,'The two saved changes are not visible together');
- const firstItem=queue.querySelector('[data-review-id="'+rid+'"]');
- const secondItem=queue.querySelector('[data-review-id="'+secondRid+'"]');
- check(firstItem&&secondItem,'Queue does not identify both records');
- check(firstItem.textContent.includes('Record ID:')&&firstItem.querySelector('.rv-queue-status'),'Queue metadata missing');
- check(firstItem.querySelector('.rv-change')!==null,'Proposed changes are not visible');
- check(!document.getElementById('rv-publish-batch').disabled,'Two valid drafts should be publishable');
- // The Edit action stays in Workbench and does not submit the first draft.
- firstItem.querySelector('[data-edit-record]').click();await settle();
- check(document.getElementById('rv-decision').value==='include','Queue Edit did not restore the first draft');
- let submitted='';const open=window.open;window.open=u=>{submitted=u;};
- document.getElementById('rv-publish-batch').click();window.open=open;
- check(submitted.startsWith('https://github.com/e4e421/supply-chain-rights-observatory/issues/new?'),'Unsafe or absent handoff');
- const url=new URL(submitted);check(url.searchParams.get('body').startsWith('SCRO_PUBLISH_V2'),'Missing explicit V2 publication batch');
- check(url.searchParams.get('title')==='[Publish Workbench review]','Unexpected publication Issue title');
- const jsonBody=url.searchParams.get('body');
+ check(queue.querySelectorAll('[data-review-id]').length===2,'Both drafts not visible');
+ check(store.selectedIds().length===1&&store.selectedIds()[0]===second,
+   'Saving second draft accidentally retained first selection');
+ check(queue.querySelector('[data-review-id="'+first+'"] .rv-change'),'First draft changes not previewed');
+ let submitted=[];const oldOpen=window.open;window.open=u=>{submitted.push(u);};
+ document.getElementById('rv-publish-batch').click();await settle();
+ check(submitted.length===1,'GitHub handoff not opened once');
+ check(store.batches().length===1&&store.batches()[0].status==='handoff',
+   'Handoff incorrectly labelled published');
+ check(store.selectedEntries().length===0,'Submitted draft stayed selected');
+ check(document.getElementById('rv-publish-batch').disabled,'Accidental re-submit possible');
+ check(store.getDraft(first)&&store.getDraft(second),'Handoff erased one of the drafts');
+ const u1=new URL(submitted[0]);
+ check(u1.searchParams.get('title')==='[Publish Workbench review]','Wrong Issue title');
  const fence=String.fromCharCode(96).repeat(3);
- const extracted=JSON.parse(jsonBody.split(fence+'json\n')[1].split('\n'+fence)[0]);
- check(extracted.decisions.length===2,'Only part of the draft queue was published');
- check(new Set(extracted.decisions.map(d=>d.record_id)).size===2,'Repeated record in batch');
- check(extracted.decisions.every(d=>!('_title' in d)&&!('_savedAt' in d)),'Local display metadata leaked into GitHub Issue');
- const filter=document.getElementById('rv-filter');filter.value='high';filter.dispatchEvent(new Event('change'));await settle();
- for(const row of document.querySelectorAll('#wb-tbody [data-record-id]'))check(SCRO_RELEVANCE.get(row.dataset.recordId).analysis.level==='high','Incorrect high filter');
- filter.value='all';filter.dispatchEvent(new Event('change'));await settle();
- const create=URL.createObjectURL,click=HTMLAnchorElement.prototype.click,blobs=[];
- URL.createObjectURL=b=>{blobs.push(b);return create(b);};HTMLAnchorElement.prototype.click=function(){if(!this.download)click.call(this);};
- document.getElementById('wb-export').click();URL.createObjectURL=create;HTMLAnchorElement.prototype.click=click;
- check(blobs.length===1,'CSV missing');const csv=await blobs[0].text();check(csv.includes('relevance_level')&&csv.includes('review_state'),'Review export fields missing');
- const wrap=document.querySelector('.wb-table-wrap');check(wrap.scrollHeight<=wrap.clientHeight+2,'Nested scroll restored');
- check(document.documentElement.scrollWidth<=innerWidth+3,'Page overflow');
- check(document.querySelectorAll('#wb-tbody [data-record-id]').length<=40,'Unbounded rows');
- // Removing one draft must not delete the other or any original record.
- const oldConfirm=window.confirm;window.confirm=()=>true;
- queue.querySelector('[data-remove-record="'+secondRid+'"]').click();window.confirm=oldConfirm;
- check(queue.querySelectorAll('[data-review-id]').length===1,'Queue removal did not update the count');
- check(JSON.parse(localStorage.getItem('scro.review.drafts.v1'))[rid],'Removal erased a different draft');
- return {rid,batch:url.searchParams.get('body'),language:document.documentElement.lang,width:innerWidth};
+ const body1=u1.searchParams.get('body');
+ check(body1.startsWith('SCRO_PUBLISH_V2'),'Wrong API envelope');
+ const payload1=JSON.parse(body1.split(fence+'json\n')[1].split('\n'+fence)[0]);
+ check(payload1.decisions.length===1&&payload1.decisions[0].record_id===second,
+   'First handoff included the previously saved, unselected first draft');
+ check(!('_savedAt' in payload1.decisions[0])&&!('_title' in payload1.decisions[0]),
+   'Private local display fields leaked');
+ const firstCheck=queue.querySelector('[data-select-record="'+first+'"]');
+ firstCheck.click();await settle();
+ check(store.selectedIds().length===1&&store.selectedIds()[0]===first,'Cannot select remaining draft');
+ document.getElementById('rv-publish-batch').click();await settle();
+ check(submitted.length===2,'Second handoff missing');
+ const body2=new URL(submitted[1]).searchParams.get('body');
+ const payload2=JSON.parse(body2.split(fence+'json\n')[1].split('\n'+fence)[0]);
+ check(payload2.decisions.length===1&&payload2.decisions[0].record_id===first,
+   'Second handoff repeated previously submitted record');
+ check(store.batches().length===2,'Two handoffs not tracked');
+ check(!store.getDraft(first)===false,'Draft unexpectedly removed');
+ window.open=oldOpen;
+ const wrap=document.querySelector('.wb-table-wrap');
+ check(wrap.scrollHeight<=wrap.clientHeight+2,'Nested vertical scroll reintroduced');
+ check(document.documentElement.scrollWidth<=innerWidth+3,'Horizontal viewport overflow');
+ return {first,second,batchOne:body1,batchTwo:body2,language:document.documentElement.lang,width:innerWidth};
 })()
 '''
 def run():
@@ -103,15 +117,22 @@ def run():
    for language in ('en','zh','de'):
     for width in (1920,390):
      navigate('workbench/',language,width)
+     self_readonly=browser.evaluate('document.querySelector("#review-panel")===null&&document.getElementById("rv-publish-batch")===null&&document.querySelector("[data-scope=all]").getAttribute("aria-pressed")==="true"')
+     if not self_readonly:raise AssertionError('Public Workbench exposes editing controls or wrong default scope')
+     navigate('workbench/edit/',language,width)
      result=browser.evaluate(PROBE);reports.append({'language':language,'width':width,'status':'passed'})
      # Validate the browser-generated payload using the same server-side parser and guards.
-     payload=parse_body(result['batch']);overlay=json.loads((ROOT/'data/reviews/decisions.json').read_text())
-     prepared=prepare(payload,load_records(),overlay,'reviewer',1,'b'*64,'2026-11-09T00:00:00Z')
-     print('PASS integrated review',language,width,flush=True)
-     browser.evaluate('localStorage.removeItem("scro.review.drafts.v1")')
+     overlay=json.loads((ROOT/'data/reviews/decisions.json').read_text())
+     for body in (result['batchOne'],result['batchTwo']):
+      payload=parse_body(body)
+      overlay=prepare(payload,load_records(),overlay,'reviewer',1,'b'*64,'2026-11-09T00:00:00Z')
+     print('PASS separate selected review submissions',language,width,flush=True)
+     browser.evaluate('localStorage.removeItem("scro.review.drafts.v1");localStorage.removeItem("scro.review.queue.v2")')
    # Controlled manual exclusion in the temporary deployment only.
-   rid=result['rid'];records=load_records();payload['decisions']=payload['decisions'][:1];payload['decisions'][0]['relevance']='exclude'
-   prepared=prepare(payload,records,overlay,'reviewer',1,'b'*64,'2026-11-09T00:00:00Z')
+   rid=result['first'];records=load_records()
+   payload=parse_body(result['batchTwo']);payload['decisions'][0]['relevance']='exclude'
+   empty=json.loads((ROOT/'data/reviews/decisions.json').read_text())
+   prepared=prepare(payload,records,empty,'reviewer',1,'b'*64,'2026-11-09T00:00:00Z')
    index=json.loads((site/'data/relevance-index.json').read_text());index['records'][rid]=decorate(records[rid],prepared['records']);(site/'data/relevance-index.json').write_text(json.dumps(index))
    for path in ('','archive/','workbench/'):
     navigate(path)

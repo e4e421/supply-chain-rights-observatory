@@ -150,3 +150,29 @@ body.wb{background:#e9efeb;color:#142e2a;font-size:13px}
   .wb-status-strip{grid-template-columns:minmax(0,1fr)}
   .wb-status-strip>div:last-child{grid-column:auto}
 }
+
+
+/* Scope navigation belongs to BOTH reader and editor; one visible switch. */
+.wb-scope-select-state,[hidden].wb-scope-select-state{display:none!important}
+.wb-scope-nav{background:#fff;border:1px solid #c9d8cb;padding:8px 12px 9px;margin-bottom:10px}
+.wb-scope-heading{display:flex;align-items:center;flex-wrap:wrap;gap:8px 15px;font-size:12px}
+.wb-scope-heading>strong{color:#275846;white-space:nowrap}
+.wb-scope-tabs{display:flex;flex-wrap:wrap;gap:3px}
+.wb-scope-tabs button{background:#f4f8f4;color:#22533f;border:1px solid #adc9b6;
+ padding:8px 11px;min-height:38px;border-radius:4px;cursor:pointer;font-size:11px;
+ font-weight:650;line-height:1.25}
+.wb-scope-tabs button[aria-pressed="true"]{background:#174c3a;color:#fff;border-color:#174c3a}
+.wb-scope-tabs button:focus-visible,.wb-editor-link:focus-visible{outline:3px solid #82b593;outline-offset:2px}
+.wb-scope-hint{margin:7px 0 0;font-size:11px;color:#597260;line-height:1.45}
+.wb-field[hidden],.wb-field:has(#wb-month)[hidden]{display:none!important}
+.wb-editor-link{display:inline-flex;align-items:center;text-decoration:none;
+ background:#edf5e8;border:1px solid #89b29b;color:#153e32;
+ padding:8px 12px;min-height:38px;border-radius:4px;font-size:11px;font-weight:750}
+.wb-editor-link:hover{background:#d5e8d7}
+.wb-header .wb-editor-link{flex-shrink:0}
+@media(max-width:900px){.wb-scope-heading{align-items:flex-start;flex-direction:column}
+ .wb-scope-tabs{width:100%}.wb-scope-tabs button{flex:1 1 110px}}
+@media(max-width:520px){.wb-scope-nav{padding:9px}
+ .wb-scope-tabs button{font-size:11px}
+ .wb-header .wb-editor-link{order:4;flex:1 1 100%;justify-content:center}
+}

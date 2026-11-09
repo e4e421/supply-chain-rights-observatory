@@ -61,7 +61,8 @@ PROBE=r'''
   const wrap=document.querySelector('.wb-table-wrap'),prev=document.getElementById('wb-prev'),next=document.getElementById('wb-next');
   check(Boolean(prev&&next),'Result pagination controls absent');
   if(prev&&next){
-   const expected=Number(document.getElementById('wb-latest-count').textContent),ids=[];
+   const expected=Number(document.getElementById('wb-count').dataset.total),ids=[];
+   check(Number.isInteger(expected)&&expected>0,'Invalid total matching count');
    check(prev.disabled,'Previous page enabled on first page');
    for(let step=0;step<400;step++){
     const rows=[...document.querySelectorAll('#wb-tbody [data-record-id]')];
