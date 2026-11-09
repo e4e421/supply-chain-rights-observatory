@@ -61,3 +61,34 @@
 .topic-checkboxes{display:flex;flex-wrap:wrap;gap:6px 15px;padding:10px}
 .topic-checkboxes label{display:flex;align-items:center;gap:7px;min-height:44px;cursor:pointer;font-size:13px}
 .topic-checkboxes input{height:18px;width:18px;accent-color:#095e47}
+
+
+/* Workbench is a real action, not a non-interactive status badge. */
+.header-inner .workbench-entry{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  color:#104f3c;border:1.5px solid #73aa90;background:#edf5ee;
+  font-size:11px;letter-spacing:.08em;line-height:1.3;
+  font-weight:800;padding:10px 14px;min-height:44px;max-width:100%;
+  white-space:normal;text-align:center;text-decoration:none;
+  transition:background-color .15s ease,color .15s ease,border-color .15s ease;
+}
+.header-inner .workbench-entry:hover{background:#145743;color:#fff;border-color:#145743}
+.header-inner .workbench-entry:focus-visible{
+  outline:3px solid #005a42;outline-offset:3px;
+}
+.header-inner .workbench-entry [aria-hidden]{font-size:15px;line-height:1}
+@media(max-width:1080px){
+  .header-inner .workbench-entry{display:inline-flex}
+}
+@media(max-width:870px){
+  .header-inner .workbench-entry{margin-left:0}
+  .header-inner .language-picker{margin-left:auto}
+}
+@media(max-width:570px){
+  .header-inner{gap:9px 11px}
+  .header-inner .workbench-entry{order:2;flex:1 1 100%;font-size:12px}
+  .header-inner nav{order:3}
+}
+@media(prefers-reduced-motion:reduce){
+  .header-inner .workbench-entry{transition:none}
+}

@@ -25,6 +25,12 @@ def run():
                 got=subprocess.run(args,capture_output=True,text=True,timeout=50,check=True).stdout
                 if expected not in got:raise ValueError("Language render failed: "+code)
                 if 'id="archive-results"' not in got:raise ValueError("Archive explorer absent")
+                # The former status badge is now the explicit workbench entry.
+                if 'class="top-tag workbench-entry"' not in got:
+                    raise ValueError("Clickable workbench entry missing: "+code)
+                if 'aria-label="'+({"en":"Open Research Workbench","zh":"開啟專業研究工作台","de":"Forschungsarbeitsplatz öffnen"}[code])+'"' not in got:
+                    raise ValueError("Workbench entry accessible label missing: "+code)
+
                 print("PASS browser render:",code)
             for code,expected in [("en","Research Workbench"),("zh","專業研究工作台"),("de","Forschungsarbeitsplatz")]:
                 args=[CHROME,"--headless=new","--no-sandbox","--disable-dev-shm-usage","--disable-gpu",
