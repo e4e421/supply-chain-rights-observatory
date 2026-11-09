@@ -24,6 +24,7 @@ jobs:
           node --check docs/app.js
           node --check docs/archive.js
           node --check docs/record.js
+          node --check docs/workbench/workbench.js
           node --check docs/i18n.js
           python3 -m unittest discover -s tests -v
       - name: Build archive search index offline

@@ -26,6 +26,16 @@ def run():
                 if expected not in got:raise ValueError("Language render failed: "+code)
                 if 'id="archive-results"' not in got:raise ValueError("Archive explorer absent")
                 print("PASS browser render:",code)
+            for code,expected in [("en","Research Workbench"),("zh","專業研究工作台"),("de","Forschungsarbeitsplatz")]:
+                args=[CHROME,"--headless=new","--no-sandbox","--disable-dev-shm-usage","--disable-gpu",
+                      "--virtual-time-budget=5500","--user-data-dir="+profile+"-workbench-"+code,
+                      "--dump-dom","http://127.0.0.1:8765/workbench/?scope=latest&lang="+code]
+                got=subprocess.run(args,capture_output=True,text=True,timeout=55,check=True).stdout
+                if expected not in got:raise ValueError("Workbench language failed: "+code)
+                if 'id="wb-tbody"' not in got:raise ValueError("Workbench table missing")
+                if not __import__('re').search(r'data-record-id="[a-f0-9]{18}"',got):
+                    raise ValueError("Workbench did not load live records: "+code)
+                print("PASS browser workbench:",code)
             catalog=json.loads((ROOT/"docs/data/archive/catalog.json").read_text())
             if catalog.get("months"):
                 m=catalog["months"][0]

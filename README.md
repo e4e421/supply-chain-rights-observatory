@@ -35,6 +35,17 @@ The research portal supports **English (default)**, **Traditional Chinese**, and
 - Static site copy, source descriptions, live status messages, research themes and source cards are translated. The collection workflow remains language-independent and requires no translation API key.
 - The frontend's language preference uses localStorage only for this preference. It does not identify visitors or send telemetry.
 
+
+## Two public fronts: visitor portal and professional workbench
+
+- **Visitor portal:** https://e4e421.github.io/supply-chain-rights-observatory/ — introductory research context, latest headlines, references, historical archive, methods and limitations.
+- **Professional workbench:** https://e4e421.github.io/supply-chain-rights-observatory/workbench/ — high-density table, three-pane inspection, latest/monthly/combined search, AND/OR/phrase queries, editable filters and visible columns, date sorting, DOI/record ID lookup, public provenance and source-health checks.
+- Bookmark \`/workbench/\` for a fast daily research entry. Shareable query URLs retain filters; URL query strings must not include private/sensitive data. Saving named views uses browser **localStorage only**, not the server, repository or cloud. These views are not synced across devices.
+- Keyboard controls: \`/\` to focus search, \`J/K\` to navigate records, \`Enter\` to inspect the selected record, and \`Escape\` to clear selection. Dense and comfortable table modes are available.
+- **Combined archive search:** monthly static JSON shards are loaded on demand. A conservative 24-shard / 10,000-record browser limit prevents runaway loads; when exceeded, the interface explicitly labels results as **partial**. The canonical JSONL remains the research-grade export source.
+- CSV export contains filtered publication metadata with stable English column names and spreadsheet-injection protection. Articles are not incidents, and an unverified publisher hint is not an authenticated source.
+- No new API keys, analytics, authentication, server process, external JavaScript or private data stores are introduced. Both fronts share the same GitHub Pages static deployment.
+
 ## Manual setup (one-time)
 
 1. Open **[GitHub repository Settings → Pages](https://github.com/e4e421/supply-chain-rights-observatory/settings/pages)**.

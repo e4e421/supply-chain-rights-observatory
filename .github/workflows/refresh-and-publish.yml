@@ -94,6 +94,7 @@ jobs:
           node --check docs/app.js
           node --check docs/archive.js
           node --check docs/record.js
+          node --check docs/workbench/workbench.js
           python3 -m unittest discover -s tests -v
       - name: Accessibility and frontend security regression checks
         run: |

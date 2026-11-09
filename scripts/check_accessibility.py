@@ -9,6 +9,8 @@ ROOT=Path(__file__).resolve().parents[1]
 HTML=(ROOT/"docs/index.html").read_text(encoding="utf-8")
 CSS=(ROOT/"docs/styles.css").read_text(encoding="utf-8")
 DETAIL=(ROOT/"docs/record.html").read_text(encoding="utf-8")
+WORKBENCH=(ROOT/"docs/workbench/index.html").read_text(encoding="utf-8")
+WB_CSS=(ROOT/"docs/workbench/workbench.css").read_text(encoding="utf-8")
 class Scan(HTMLParser):
     def __init__(self):
         super().__init__();self.inputs=[];self.labels=[];self.links=[];self.headings=[];self.lang=None;self.label_depth=0
@@ -53,6 +55,17 @@ def audit():
     for fg,bg,target in known_pairs:
         actual=ratio(fg,bg)
         assert actual>=target,(fg,bg,actual)
+    workbench=Scan();workbench.feed(WORKBENCH)
+    assert workbench.lang=="en"
+    assert workbench.headings and workbench.headings[0]=="h1"
+    assert 'class="skip-link"' in WORKBENCH and 'href="#wb-results"' in WORKBENCH
+    assert 'id="wb-count"' in WORKBENCH and 'aria-live="polite"' in WORKBENCH
+    wlabels={x.get("for") for x in workbench.labels if x.get("for")}
+    for field in workbench.inputs:
+        assert field.get("id") in wlabels or field.get("aria-label") or field["_wrapped_label"],field
+    for link in workbench.links:
+        if link.get("target")=="_blank":assert "noopener" in link.get("rel","")
+    assert ":focus-visible" in CSS
     assert "color:#40564e" in CSS
     print("PASS: labelled controls, landmarks, skip link, language, external links, keyboard focus and sampled text contrast.")
     print("WARNING: WCAG AA remains unverified without real assistive-technology and responsive-browser testing.")
