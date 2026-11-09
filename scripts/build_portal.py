@@ -153,6 +153,28 @@ def build() -> None:
     wb=wb.replace('</head>','<link rel="stylesheet" href="../portal.css"><script defer src="../portal.js"></script></head>')
     wnav='<nav class="portal-workbench-nav" aria-label="Research index">'+''.join(link('../'+route+'/',title) for route,title in NAMES if route)+'</nav>'
     wb=wb.replace('</header>','</header>'+wnav,1);p.write_text(wb,encoding='utf-8')
+
+    # The editor is another view of the SAME Workbench, not a second database.
+    # Resolve project-relative assets one directory deeper without using a <base>
+    # element (the site's Content-Security-Policy explicitly disallows base-uri).
+    edit=wb.replace('data-page="workbench" data-page-title="Research Workbench"',
+                    'data-page="workbench-editor" data-page-title="Review Editor"')
+    edit=edit.replace('href="./edit/" data-l10n="Open Review Editor">Open Review Editor',
+                      'href="./" data-l10n="Return to Workbench">Return to Workbench')
+    edit=edit.replace('<strong class="wb-header-title" data-l10n="Research Workbench">Research Workbench</strong>',
+                      '<strong class="wb-header-title" data-l10n="Review Editor">Review Editor</strong>')
+    edit=edit.replace("connect-src 'self';","connect-src 'self' https://api.github.com;")
+    def one_level_deeper(match):
+        attr,original=match.group(1),match.group(2)
+        if original.startswith('../'):new='../'+original
+        elif original.startswith('./'):new='../'+original[2:]
+        else:new=original
+        return attr+'="'+new+'"'
+    edit=re.sub(r'\b(href|src)="(\.\.?/[^"]*)"',one_level_deeper,edit)
+    edit_path=OUT/'workbench/edit/index.html'
+    edit_path.parent.mkdir(parents=True,exist_ok=True)
+    edit_path.write_text(edit,encoding='utf-8')
+
     # Build a lightweight record locator; it contains no new research claims.
     catalog=json.loads((OUT/'data/archive/catalog.json').read_text(encoding='utf-8'))
     locator={}
