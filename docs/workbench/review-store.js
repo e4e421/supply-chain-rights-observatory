@@ -114,8 +114,8 @@ function refreshPublished(index){
     const published=batch.decisions.every(d=>{
       const indexed=index.records[d.record_id];
       const reviewed=indexed?.review_state==='current'?indexed.review:null;
-      return reviewed&&matches(d,reviewed)&&(
-        !batch.issue_number||reviewed.issue===batch.issue_number);
+      return Number.isInteger(batch.issue_number)&&batch.issue_number>0
+        &&reviewed&&matches(d,reviewed)&&reviewed.issue===batch.issue_number;
     });
     if(published){
       batch.status='published';batch.published_at=new Date().toISOString();modified=true;
