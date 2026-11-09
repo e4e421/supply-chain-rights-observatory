@@ -54,9 +54,41 @@ PROBE=r'''
  }
  if(page==='record')check(document.getElementById('record-content').textContent.includes(new URL(location.href).searchParams.get('id')||'UNEXPECTED'),'Stable record link failed');
  if(page==='workbench'){
+  for(let i=0;i<60&&!document.querySelector('[data-record-id]');i++)await new Promise(r=>setTimeout(r,50));
   check(document.querySelectorAll('[data-record-id]').length>0,'Workbench records absent');
   const rail=document.querySelector('.wb-filters').getBoundingClientRect();
   for(const id of ['wb-from','wb-to']){const r=document.getElementById(id).getBoundingClientRect();check(r.left>=rail.left-2&&r.right<=rail.right+2,'Date control overflow');}
+  const wrap=document.querySelector('.wb-table-wrap'),prev=document.getElementById('wb-prev'),next=document.getElementById('wb-next');
+  check(Boolean(prev&&next),'Result pagination controls absent');
+  if(prev&&next){
+   const expected=Number(document.getElementById('wb-latest-count').textContent),ids=[];
+   check(prev.disabled,'Previous page enabled on first page');
+   for(let step=0;step<400;step++){
+    const rows=[...document.querySelectorAll('#wb-tbody [data-record-id]')];
+    check(rows.length<=40,'Too many rows mounted');
+    check(wrap.scrollHeight<=wrap.clientHeight+2,'Nested vertical result overflow');
+    if(rows.length)check(rows.at(-1).getBoundingClientRect().bottom<=wrap.getBoundingClientRect().bottom+2,'Last result is clipped');
+    ids.push(...rows.map(x=>x.dataset.recordId));
+    if(next.disabled)break;
+    next.click();
+   }
+   check(ids.length===expected&&new Set(ids).size===expected,'Pagination loses or repeats records');
+   for(let i=0;i<400&&!prev.disabled;i++)prev.click();
+   const input=document.getElementById('wb-search');input.value='SCRO_NO_RESULTS_9031';input.dispatchEvent(new Event('input',{bubbles:true}));
+   check(!document.querySelector('#wb-tbody [data-record-id]')&&prev.disabled&&next.disabled,'Empty pagination boundary failed');
+   input.value='';input.dispatchEvent(new Event('input',{bubbles:true}));
+   check(prev.disabled,'Filter reset does not return to first page');
+   const density=document.getElementById('wb-density');density.value='comfortable';density.dispatchEvent(new Event('change',{bubbles:true}));
+   check(wrap.scrollHeight<=wrap.clientHeight+2,'Comfortable density overflows');
+   density.value='compact';density.dispatchEvent(new Event('change',{bubbles:true}));
+   const blobs=[],create=URL.createObjectURL,click=HTMLAnchorElement.prototype.click;
+   URL.createObjectURL=b=>{blobs.push(b);return create(b);};
+   HTMLAnchorElement.prototype.click=function(){if(!this.download)click.call(this);};
+   document.getElementById('wb-export').click();
+   if(blobs.length){const csv=await blobs[0].text();check(csv.split('\r\n').length-1===expected,'CSV exports only current page');}
+   else check(false,'Workbench CSV missing');
+   URL.createObjectURL=create;HTMLAnchorElement.prototype.click=click;
+  }
  }
  if(page==='policy')check(document.body.textContent.includes('2027-12-14')&&document.body.textContent.includes('2029-07-26'),'Policy dates absent');
  check(document.documentElement.scrollWidth<=innerWidth+3,'Horizontal document overflow');

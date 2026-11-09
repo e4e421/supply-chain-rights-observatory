@@ -1,0 +1,26 @@
+/* Adaptive viewport pagination. Only the result table changes; the document
+   remains vertically scrollable. Horizontal scrolling is retained for wide
+   column selections, but no vertical scrolling occurs within the results. */
+.wb.wb-paged .wb-head-actions{flex-wrap:wrap;justify-content:flex-end;align-items:flex-end;gap:8px}
+.wb-page-controls{display:flex;align-items:center;justify-content:flex-end;gap:6px;flex-wrap:wrap}
+.wb-page-controls button{min-height:39px;font-size:12px;padding:7px 10px}
+.wb-page-controls button:disabled{opacity:.48;cursor:default}
+.wb-page-status{display:inline-block;min-width:92px;text-align:center;font-size:12px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.wb.wb-paged .wb-table-wrap{height:460px;min-height:0;max-height:none;overflow-x:auto;overflow-y:hidden;overscroll-behavior-y:auto;scrollbar-gutter:auto}
+.wb.wb-paged .wb-table{table-layout:fixed;min-width:0;width:100%;border-collapse:separate;border-spacing:0}
+.wb.wb-paged .wb-table thead th{position:static;white-space:normal;overflow-wrap:anywhere;vertical-align:middle}
+.wb.wb-paged .wb-table tbody tr{height:var(--wb-page-row-height,76px)}
+.wb.wb-paged .wb-table td{height:var(--wb-page-row-height,76px);max-width:none;min-width:0;padding:8px 7px;vertical-align:top;font-size:11px;line-height:1.45;overflow:hidden}
+.wb.wb-paged .wb-table td.wb-title-cell{min-width:0;max-width:none}
+.wb-page-cell{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;max-height:4.35em;line-height:1.45;overflow:hidden;overflow-wrap:anywhere;white-space:normal}
+.wb.wb-paged .wb-date-cell .wb-page-cell{white-space:nowrap;display:block;text-overflow:ellipsis}
+.wb.wb-paged.wb-comfortable .wb-table td{font-size:12px;padding:11px 8px;line-height:1.5}
+.wb.wb-paged.wb-comfortable .wb-page-cell{line-height:1.5;max-height:4.5em}
+.wb.wb-paged .wb-page-empty td{vertical-align:middle;color:#526c5f}
+.wb.wb-paged .wb-pagination{justify-content:flex-start;min-height:40px}
+.wb.wb-paged .wb-results-head{align-items:flex-end}
+@media(max-width:600px){
+ .wb.wb-paged .wb-head-actions{width:100%;justify-content:space-between;align-items:flex-end}
+ .wb-page-controls{width:100%;justify-content:flex-end}
+ .wb-page-status{min-width:84px}
+}
