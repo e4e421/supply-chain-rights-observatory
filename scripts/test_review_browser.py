@@ -18,11 +18,15 @@ PROBE=r'''
  rows[0].click();await settle();
  check(document.getElementById('rv-decision'),'No integrated review form');
  const rid=rows[0].dataset.recordId;
+ const current=SCRO_RELEVANCE.get(rid);
+ const before=JSON.stringify({state:current.review_state,digest:current.review_digest,review:current.review});
  document.getElementById('rv-decision').value='include';document.getElementById('rv-note').value='Automated UI fixture, never submitted.';
  document.getElementById('rv-save').click();await settle();
  const draft=JSON.parse(localStorage.getItem('scro.review.drafts.v1'))[rid];
  check(draft.relevance==='include','Draft not saved');
- check(SCRO_RELEVANCE.get(rid).review_state==='unreviewed','Draft falsely published');
+ const after=SCRO_RELEVANCE.get(rid);
+ check(JSON.stringify({state:after.review_state,digest:after.review_digest,review:after.review})===before,
+       'Local draft changed published review state');
  let submitted='';const open=window.open;window.open=u=>{submitted=u;};
  document.querySelector('.rv-tools button:last-child').click();window.open=open;
  check(submitted.startsWith('https://github.com/e4e421/supply-chain-rights-observatory/issues/new?'),'Unsafe or absent handoff');
