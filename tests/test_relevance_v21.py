@@ -57,6 +57,19 @@ class ReviewTests(unittest.TestCase):
     def test_fingerprint_mismatch_rejected(self):
         r=record();d=decision(r);d['content_fingerprint']='0'*64
         with self.assertRaises(ValueError):reviewed(r,d)
+    def test_reviewer_issue_event_path_is_available(self):
+        # This path is first exercised by real owner-created Issues, not PR CI.
+        # A missing Path import used to pass tests but fail every live proposal.
+        from pathlib import Path
+        import propose_reviews
+        self.assertIs(propose_reviews.run.__globals__['Path'],Path)
+    def test_only_owner_can_prepare_review(self):
+        import os
+        from unittest.mock import patch
+        import propose_reviews
+        with patch.dict(os.environ,{'GITHUB_REPOSITORY':'e4e421/supply-chain-rights-observatory',
+                                    'GITHUB_REF':'refs/heads/main','GITHUB_ACTOR':'untrusted-user'}):
+            with self.assertRaises(ValueError):propose_reviews.run()
     def test_unknown_fields_rejected(self):
         r=record();d=decision(r);d['is_admin']=True
         with self.assertRaises(ValueError):reviewed(r,d)
