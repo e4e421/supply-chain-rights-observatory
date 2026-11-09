@@ -23,7 +23,7 @@ ISSUE_TITLE = "[Publish Workbench review]"
 ISSUE_MARKER = "SCRO_PUBLISH_V2"
 
 def parse_publish_body(body):
-    if not isinstance(body,str) or not re.fullmatch(r"\s*SCRO_PUBLISH_V2\s*`json\s*\n.*\n```\s*",body,re.S):
+    if not isinstance(body,str) or not re.fullmatch(r"\s*SCRO_PUBLISH_V2\s*```json\s*\n.*\n```\s*",body,re.S):
         raise ValueError("Expected explicit SCRO_PUBLISH_V2 Issue envelope")
     return parse_body(body.replace(ISSUE_MARKER,"SCRO_REVIEW_V1",1))
 
