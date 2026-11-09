@@ -39,6 +39,32 @@ def run():
             catalog=json.loads((ROOT/"docs/data/archive/catalog.json").read_text())
             if catalog.get("months"):
                 m=catalog["months"][0]
+                # Verify professional deep links, month scope and URL-based query state.
+                checks=[
+                    ("archive","/workbench/?scope=archive&month="+m["month"]+"&lang=en",'data-record-id="'),
+                    ("combined","/workbench/?scope=all&lang=en","Scope: combined catalogue"),
+                    ("empty-filter","/workbench/?scope=latest&q=SCRO_SENTINEL_NO_RESULT_9031&lang=en","0 Records shown")
+                ]
+                for label,path,needle in checks:
+                    args=[CHROME,"--headless=new","--no-sandbox","--disable-dev-shm-usage","--disable-gpu",
+                          "--virtual-time-budget=6000","--user-data-dir="+profile+"-workbench-"+label,
+                          "--dump-dom","http://127.0.0.1:8765"+path]
+                    got=subprocess.run(args,capture_output=True,text=True,timeout=55,check=True).stdout
+                    if needle not in got:raise ValueError("Workbench deep link failed: "+label)
+                    print("PASS browser workbench deep link:",label)
+                if m.get("files"):
+                    first=json.loads((ROOT/"docs/data/archive"/m["files"][0]["file"]).read_text())
+                    if first.get("records"):
+                        rid=first["records"][0]["record_id"]
+                        uri="http://127.0.0.1:8765/workbench/?scope=archive&month="+m["month"]+"&record="+rid+"&lang=en"
+                        args=[CHROME,"--headless=new","--no-sandbox","--disable-dev-shm-usage","--disable-gpu",
+                              "--virtual-time-budget=6000","--user-data-dir="+profile+"-workbench-selected",
+                              "--dump-dom",uri]
+                        got=subprocess.run(args,capture_output=True,text=True,timeout=55,check=True).stdout
+                        if 'data-record-id="'+rid+'" class="is-selected"' not in got and \
+                           not __import__("re").search(r'class="is-selected"[^>]*data-record-id="'+rid+'"',got):
+                            raise ValueError("Workbench selected record deep link failed")
+                        print("PASS browser workbench selected record:",rid)
                 shard=json.loads((ROOT/"docs/data/archive"/m["files"][0]["file"]).read_text())
                 if shard.get("records"):
                     uid=shard["records"][0]["record_id"]
