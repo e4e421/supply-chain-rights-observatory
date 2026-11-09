@@ -537,6 +537,7 @@ function drawTable(){
  $('wb-page-status').textContent=t('Page')+' '+(pages?pageIndex+1:0)+' '+t('of')+' '+pages;
  $('wb-prev').disabled=loading||!pages||pageIndex===0;
  $('wb-next').disabled=loading||!pages||pageIndex>=pages-1;
+ $('wb-count').dataset.total=String(filtered.length);
  $('wb-count').textContent=filtered.length?t('Showing')+' '+(start+1)+'–'+end+' '+t('of')+' '+filtered.length+' '+t('records'):'0 '+t('Records shown');
  const terms=[];
  if(c.q)terms.push(c.q);
