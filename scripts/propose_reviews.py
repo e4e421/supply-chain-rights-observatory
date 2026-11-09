@@ -7,6 +7,7 @@ GITHUB_TOKEN is used only in the GitHub-hosted job, never in published assets.
 from __future__ import annotations
 import base64,json,os,re,sys
 from datetime import datetime,timezone
+from pathlib import Path
 from urllib.request import Request,urlopen
 from urllib.error import HTTPError
 from relevance_engine import ROOT,digest,fingerprint,validate_overlay,rules,public_url,ID
