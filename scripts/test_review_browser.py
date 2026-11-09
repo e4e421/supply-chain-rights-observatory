@@ -17,7 +17,7 @@ PROBE=r'''
  const settle=async()=>{for(let i=0;i<5;i++)await new Promise(r=>requestAnimationFrame(r));};
  check(document.body.dataset.page==='workbench-editor','Not the editor subpage');
  check(window.SCRO_REVIEW_STORE&&document.getElementById('review-panel'),'Review editor not mounted');
- check(document.querySelector('[data-scope="all"]').getAttribute('aria-pressed')==='true','All searchable records not default');
+ check(document.querySelector('[data-scope=all]').getAttribute('aria-pressed')==='true','All searchable records not default');
  check(document.getElementById('wb-scope').value==='all','Underlying scope inconsistent');
  check(document.getElementById('wb-scope-hint').textContent.length>35,'Scope explanation missing');
  document.querySelector('[data-scope="latest"]').click();
