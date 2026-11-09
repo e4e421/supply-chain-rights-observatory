@@ -633,6 +633,25 @@ async function init(){
 }
 function bind(){
  setupPagination();
+ window.SCRO_WORKBENCH=Object.freeze({
+  getRecord:id=>{
+   const record=activeRecords.find(x=>x.record_id===id);
+   return record?{record_id:record.record_id,title:record.title}:null;
+  }
+ });
+ window.addEventListener('scro:select-record',event=>{
+  const rid=event.detail?.record_id;
+  if(typeof rid!=='string'||!/^[a-f0-9]{18}$/.test(rid))return;
+  if(activeRecords.some(row=>row.record_id===rid)){
+   selectRecord(rid);
+   document.getElementById('review-panel')?.scrollIntoView({block:'nearest'});
+  }else{
+   const url=new URL(location.href);
+   url.searchParams.set('scope','all');url.searchParams.set('record',rid);
+   for(const key of ['q','from','to','kind','evidence','topics','relevance','offset','month'])url.searchParams.delete(key);
+   location.assign(url.href);
+  }
+ });
  for(const id of ['wb-search','wb-sort','wb-kind','wb-evidence','wb-from','wb-to','wb-density'])
   $(id).addEventListener(id==='wb-search'?'input':'change',()=>changed(false,id==='wb-density'));
  $('wb-scope').addEventListener('change',()=>changed(true));
