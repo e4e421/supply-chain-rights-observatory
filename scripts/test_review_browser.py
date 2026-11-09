@@ -9,7 +9,8 @@ sys.path.insert(0,str(ROOT/'tests'));sys.path.insert(0,str(ROOT/'scripts'))
 from test_workbench_row_height import ChromePipe,CHROME
 from build_relevance import load_records
 from relevance_engine import decorate,digest
-from propose_reviews import prepare,parse_body
+from propose_reviews import prepare
+from publish_reviews import parse_publish_body as parse_body
 PROBE=r'''
 (async()=>{
  const check=(x,m)=>{if(!x)throw Error(m);};
@@ -30,7 +31,8 @@ PROBE=r'''
  let submitted='';const open=window.open;window.open=u=>{submitted=u;};
  document.querySelector('.rv-tools button:last-child').click();window.open=open;
  check(submitted.startsWith('https://github.com/e4e421/supply-chain-rights-observatory/issues/new?'),'Unsafe or absent handoff');
- const url=new URL(submitted);check(url.searchParams.get('body').startsWith('SCRO_REVIEW_V1'),'Missing batch');
+ const url=new URL(submitted);check(url.searchParams.get('body').startsWith('SCRO_PUBLISH_V2'),'Missing explicit V2 publication batch');
+ check(url.searchParams.get('title')==='[Publish Workbench review]','Unexpected publication Issue title');
  const filter=document.getElementById('rv-filter');filter.value='high';filter.dispatchEvent(new Event('change'));await settle();
  for(const row of document.querySelectorAll('#wb-tbody [data-record-id]'))check(SCRO_RELEVANCE.get(row.dataset.recordId).analysis.level==='high','Incorrect high filter');
  filter.value='all';filter.dispatchEvent(new Event('change'));await settle();
