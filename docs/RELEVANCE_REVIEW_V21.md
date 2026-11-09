@@ -55,3 +55,17 @@ Without independent labels, precision and recall remain unknown. Unit-test fixtu
 ## Release checks
 
 Existing tests remain, plus keyword/review regression tests and real-Chrome generated-site tests for draft/public separation, language controls, bounded paging, GitHub handoff payload validation, CSV fields, and exclusion consistency across four views. Automated CI does not create a real publication Issue or simulate a user login. Submitting a real V2 Issue publishes metadata automatically after validation, so do not use it for smoke tests. No automatic verification of human-rights claims or event identity is performed. Actual first publishing requires the owner's one-time GitHub setting and deliberate first review. The review tray is included in the Chrome-generated English/zh-Hant/de desktop/mobile acceptance tests. No extra password, database, AI model or server is introduced. This is not a security certification or formal WCAG audit.
+
+## Reader vs Review Editor (v2.2)
+
+- `/workbench/` is read-only. Open Review Editor leads to `/workbench/edit/`, sharing the same public records.
+- `/workbench/edit/` uses the same research indexing and paging but adds Review Queue and editorial decisions.
+- Both views show explicit record scopes: All searchable records (default, deduplicated snapshot and archive, capped browser scope), Recent snapshot (up to 150 days and 240 records, overlaps archive), and First-seen month (grouped by observation date, not publication date). Publication date filters remain distinct.
+- Previous drafts under `scro.review.drafts.v1` are retained; `scro.review.queue.v2` stores only selected IDs and local handoff statuses.
+- Saving an item selects only that item. Existing drafts remain available but unselected. The user must tick each record to include it in Publish selected through GitHub; the Review Queue previews before/after fields.
+- Opening an Issue prefill URL is NOT proof that an Issue exists. The handoff becomes Handoff pending and prevents accidental duplicate submission. User-initiated Check GitHub and publication status reads a public GitHub Issue's owner/title/exact batch body and the separately deployed review index. No token is sent.
+- Submitted is not Published. Published requires canonical review data to match; only then is the corresponding old draft cleared. API failures never delete drafts. Reset of an unconfirmed handoff requires explicit acknowledgement that it was not submitted.
+- The editor permits read-only `https://api.github.com` GET requests under a narrow CSP; the normal Workbench remains same-origin only. Neither page authorizes writes: only owner-authorized GitHub Actions can publish.
+- Legacy V1 owner-to-PR review still exists for cases requiring independent review. Avoid simultaneous submissions of the same Record ID through V1 and V2.
+
+No AI classification, automatic incident identification, new source scraping or private browser credentials are added. Both views preserve the canonical archive and its immutable IDs.
