@@ -1,1 +1,17 @@
-{"schema_version":1,"records":{}}
+{
+  "schema_version": 1,
+  "records": {
+    "a14ee2760fbb9718a3": {
+      "content_fingerprint": "689ee72871c14f139b0189e8026bfee1b3d878c0f6eb3b519d79843bc4a7fe72",
+      "relevance": "needs_review",
+      "topics": null,
+      "publisher_confirmed": false,
+      "canonical_url": null,
+      "note": "Workflow smoke test only. No publication, allegation, or topic has been independently verified.",
+      "reviewed_at": "2026-11-09T13:51:13Z",
+      "reviewed_by": "e4e421",
+      "issue": 13,
+      "issue_digest": "70a201859e762cb4df3b123d1192b8f97df40ed2d6017904ec79f078df71681d"
+    }
+  }
+}
