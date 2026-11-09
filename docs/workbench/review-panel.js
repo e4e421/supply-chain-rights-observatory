@@ -76,7 +76,7 @@ const D={
 'Awaiting independently labelled validation sample':['等待研究者獨立標記驗證樣本','Unabhängig annotierte Validierung ausstehend'],
 'Download unlabelled validation sample':['下載未標記驗證樣本','Unbeschriftete Validierungsstichprobe herunterladen'],
 'Local draft not yet published':['本機草稿，尚未發布','Lokaler, unveröffentlichter Entwurf'],
-'The first three decisions will publish automatically after the GitHub Issue is submitted and validated. Remaining drafts stay in this browser.':['提交 GitHub Issue 且驗證成功後，前三筆決策將自動公開；其餘草稿保留於此瀏覽器。','Nach Einreichen des GitHub-Issues und erfolgreicher Prüfung werden die ersten drei Entscheidungen automatisch veröffentlicht. Weitere Entwürfe bleiben lokal.']
+'The first three decisions will publish automatically after the GitHub Issue is submitted and validated. Remaining drafts stay in this browser.':['提交 GitHub Issue 且驗證成功後，前三筆決策將自動公開；其餘草稿保留於此瀏覽器。','Nach Einreichen des GitHub-Issues und erfolgreicher Prüfung werden die ersten drei Entscheidungen automatisch veröffentlicht. Weitere Entwürfe bleiben lokal.'],
 "Select for publication":["選取發布","Zur Veröffentlichung auswählen"],
 "Selected for publication":["已勾選待發布","Zur Veröffentlichung ausgewählt"],
 "Publish selected through GitHub":["透過 GitHub 發布選取項目","Ausgewählte Einträge über GitHub veröffentlichen"],
