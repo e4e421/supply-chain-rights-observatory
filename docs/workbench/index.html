@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Professional research workbench for European supply-chain human rights, labour and due-diligence discovery records.">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; upgrade-insecure-requests">
+  <title>Research Workbench | Supply Chain Rights Observatory</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="./workbench.css">
+  <script defer src="../i18n.js"></script>
+  <script defer src="../query.js"></script>
+  <script defer src="./workbench.js"></script>
+</head>
+<body class="wb">
+  <a class="skip-link" href="#wb-results" data-l10n="Skip to results">Skip to results</a>
+  <header class="wb-header">
+    <a class="wb-home" href="../index.html"><span class="wb-logo">SCRO</span><span data-l10n="Visitor portal">Visitor portal</span></a>
+    <strong class="wb-header-title" data-l10n="Research Workbench">Research Workbench</strong>
+    <span class="wb-header-note" data-l10n="Public metadata · not verified incidents">Public metadata · not verified incidents</span>
+    <label class="language-picker wb-language" for="language-select">
+      <span class="sr-only" data-l10n="Language">Language</span>
+      <select id="language-select" aria-label="Select website language">
+        <option value="en">English</option><option value="zh">繁體中文</option><option value="de">Deutsch</option>
+      </select>
+    </label>
+  </header>
+  <main class="wb-shell">
+    <section class="wb-status-strip" aria-label="Dataset status">
+      <div><small data-l10n="Latest records">Latest records</small><strong id="wb-latest-count">—</strong></div>
+      <div><small data-l10n="Historical records">Historical records</small><strong id="wb-archive-count">—</strong></div>
+      <div><small data-l10n="Collection status">Collection status</small><strong id="wb-data-status">—</strong></div>
+      <div><small data-l10n="Last successful update (Taipei)">Last successful update (Taipei)</small><strong id="wb-updated">—</strong></div>
+      <div class="wb-strip-links"><a href="../index.html#sources" data-l10n="Source directory">Source directory</a><a href="../index.html#method" data-l10n="Methodology">Methodology</a></div>
+    </section>
+    <section class="wb-toolbar" aria-label="Search controls">
+      <div class="wb-searchbox">
+        <label for="wb-search" class="sr-only" data-l10n="Search records">Search records</label>
+        <span aria-hidden="true">⌕</span><input id="wb-search" type="search" maxlength="120" autocomplete="off" placeholder="Search titles, publishers, DOI, record IDs…">
+        <kbd>/</kbd>
+      </div>
+      <div class="wb-toolbar-select">
+        <label for="wb-scope" data-l10n="Dataset">Dataset</label>
+        <select id="wb-scope"><option value="latest" data-l10n="Latest">Latest</option><option value="archive" data-l10n="Archive month">Archive month</option><option value="all" data-l10n="All available">All available</option></select>
+      </div>
+      <div class="wb-toolbar-select">
+        <label for="wb-sort" data-l10n="Sort by">Sort by</label>
+        <select id="wb-sort"><option value="published-desc" data-l10n="Published: newest">Published: newest</option><option value="published-asc" data-l10n="Published: oldest">Published: oldest</option><option value="observed-desc" data-l10n="Observed: newest">Observed: newest</option><option value="title-asc" data-l10n="Title: A–Z">Title: A–Z</option><option value="publisher-asc" data-l10n="Publisher: A–Z">Publisher: A–Z</option></select>
+      </div>
+      <button type="button" class="wb-action" id="wb-clear" data-l10n="Reset">Reset</button>
+    </section>
+    <div class="wb-grid">
+      <aside class="wb-filters" aria-label="Advanced filters">
+        <div class="wb-pane-head"><h2 data-l10n="Filters">Filters</h2><small data-l10n="Combinable criteria">Combinable criteria</small></div>
+        <div class="wb-filter-body">
+          <label class="wb-field"><span data-l10n="Archive month">Archive month</span><select id="wb-month"><option value="" data-l10n="Loading months…">Loading months…</option></select></label>
+          <div class="wb-field-split">
+            <label class="wb-field"><span data-l10n="Published from">Published from</span><input type="date" id="wb-from"></label>
+            <label class="wb-field"><span data-l10n="Through">Through</span><input type="date" id="wb-to"></label>
+          </div>
+          <label class="wb-field"><span data-l10n="Record type">Record type</span>
+            <select id="wb-kind"><option value="all" data-l10n="All types">All types</option><option value="academic" data-l10n="Academic metadata">Academic metadata</option><option value="discovery" data-l10n="Discovery leads">Discovery leads</option></select>
+          </label>
+          <label class="wb-field"><span data-l10n="Evidence class">Evidence class</span>
+            <select id="wb-evidence"><option value="all" data-l10n="Any evidence class">Any evidence class</option><option value="unverified" data-l10n="Unverified discovery">Unverified discovery</option><option value="bibliographic" data-l10n="Bibliographic record">Bibliographic record</option></select>
+          </label>
+          <fieldset class="wb-fieldset"><legend data-l10n="Research themes (OR)">Research themes (OR)</legend>
+            <label><input type="checkbox" name="wb-topic" value="policy"><span data-l10n="Policy & governance">Policy & governance</span></label>
+            <label><input type="checkbox" name="wb-topic" value="forced-labour"><span data-l10n="Forced labour">Forced labour</span></label>
+            <label><input type="checkbox" name="wb-topic" value="working-conditions"><span data-l10n="Working conditions">Working conditions</span></label>
+            <label><input type="checkbox" name="wb-topic" value="worker-voice"><span data-l10n="Worker voice & remedy">Worker voice & remedy</span></label>
+            <label><input type="checkbox" name="wb-topic" value="network"><span data-l10n="Supply networks">Supply networks</span></label>
+            <label><input type="checkbox" name="wb-topic" value="research"><span data-l10n="Academic research">Academic research</span></label>
+          </fieldset>
+          <details class="wb-columns"><summary data-l10n="Visible columns">Visible columns</summary>
+            <div class="wb-column-options">
+              <label><input type="checkbox" data-column="date" checked><span data-l10n="Date">Date</span></label>
+              <label><input type="checkbox" data-column="title" checked disabled><span data-l10n="Title">Title</span></label>
+              <label><input type="checkbox" data-column="publisher" checked><span data-l10n="Publisher">Publisher</span></label>
+              <label><input type="checkbox" data-column="topics" checked><span data-l10n="Topics">Topics</span></label>
+              <label><input type="checkbox" data-column="kind" checked><span data-l10n="Type">Type</span></label>
+              <label><input type="checkbox" data-column="evidence" checked><span data-l10n="Evidence">Evidence</span></label>
+              <label><input type="checkbox" data-column="id"><span data-l10n="Record ID">Record ID</span></label>
+            </div>
+          </details>
+          <div class="wb-presets">
+            <strong data-l10n="Quick views">Quick views</strong>
+            <button type="button" data-preset="labour" data-l10n="Labour & remedy">Labour & remedy</button>
+            <button type="button" data-preset="policy" data-l10n="EU policy & HRDD">EU policy & HRDD</button>
+            <button type="button" data-preset="academic" data-l10n="Academic research">Academic research</button>
+          </div>
+        </div>
+      </aside>
+      <section class="wb-results" id="wb-results" aria-label="Results">
+        <div class="wb-pane-head wb-results-head">
+          <div><h2 data-l10n="Research records">Research records</h2><p class="wb-hint" data-l10n="AND / OR / quoted phrases supported">AND / OR / quoted phrases supported</p></div>
+          <div class="wb-head-actions">
+            <label class="wb-density"><span data-l10n="Density">Density</span><select id="wb-density"><option value="compact" data-l10n="Compact">Compact</option><option value="comfortable" data-l10n="Comfortable">Comfortable</option></select></label>
+            <button id="wb-export" type="button" class="wb-action" data-l10n="Export CSV">Export CSV</button>
+          </div>
+        </div>
+        <div class="wb-notice" id="wb-coverage" role="status" aria-live="polite"></div>
+        <div class="wb-results-meta"><strong id="wb-count">—</strong><span id="wb-active-filters"></span></div>
+        <div class="wb-table-wrap" tabindex="0" aria-label="Scrollable research results table">
+          <table class="wb-table" id="wb-table">
+            <thead id="wb-thead"></thead>
+            <tbody id="wb-tbody"><tr><td data-l10n="Loading public records…">Loading public records…</td></tr></tbody>
+          </table>
+        </div>
+        <div class="wb-pagination">
+          <button type="button" id="wb-more" class="wb-action" hidden data-l10n="Show more">Show more</button>
+          <span id="wb-shortcuts" data-l10n="/ search · J/K navigate · Enter details · Esc clear">/ search · J/K navigate · Enter details · Esc clear</span>
+        </div>
+      </section>
+      <aside class="wb-inspector" aria-label="Record detail and quality checks">
+        <div class="wb-pane-head wb-inspector-head">
+          <h2 data-l10n="Record inspector">Record inspector</h2>
+          <button type="button" class="wb-minimal" id="wb-deselect" data-l10n="Clear selection">Clear selection</button>
+        </div>
+        <div class="wb-inspector-content" id="wb-detail">
+          <p class="wb-empty" data-l10n="Select a record to inspect its provenance, dates and evidence status.">Select a record to inspect its provenance, dates and evidence status.</p>
+        </div>
+        <div class="wb-source-check">
+          <h3 data-l10n="Daily data checks">Daily data checks</h3>
+          <div id="wb-quality" aria-live="polite"><p data-l10n="Loading checks…">Loading checks…</p></div>
+        </div>
+      </aside>
+    </div>
+    <section class="wb-bottom">
+      <div class="wb-saved">
+        <h2 data-l10n="Workspace & sharing">Workspace & sharing</h2>
+        <p data-l10n="Saved views stay in this browser. Sharing a URL shares its search terms; do not include private data.">Saved views stay in this browser. Sharing a URL shares its search terms; do not include private data.</p>
+        <div class="wb-save-actions">
+          <button type="button" id="wb-save" class="wb-action" data-l10n="Save current view">Save current view</button>
+          <select id="wb-saved-list" aria-label="Saved views"><option value="" data-l10n="Choose a saved view">Choose a saved view</option></select>
+          <button type="button" id="wb-remove-view" class="wb-action" data-l10n="Delete saved view">Delete saved view</button>
+          <button type="button" id="wb-share" class="wb-action wb-share" data-l10n="Copy shareable link">Copy shareable link</button>
+        </div>
+        <p class="wb-feedback" id="wb-feedback" role="status" aria-live="polite"></p>
+      </div>
+      <div class="wb-about">
+        <h2 data-l10n="Research integrity">Research integrity</h2>
+        <p data-l10n="Discovery records are not verified human-rights violations. Source reachability is not evidence of credibility.">Discovery records are not verified human-rights violations. Source reachability is not evidence of credibility.</p>
+        <a href="../index.html#method" data-l10n="Methods & limitations">Methods & limitations</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
