@@ -14,3 +14,5 @@ __pycache__/
 node_modules/
 coverage/
 .pytest_cache/
+_site/
+_qa/
