@@ -28,10 +28,10 @@ WB_CSS=(ROOT/"docs/workbench/workbench.css").read_text(encoding="utf-8")
 checks.update({
 "workbench English document":'<html lang="en">' in WORKBENCH,
 "workbench independent static subpage":'href="./workbench/"' in HTML and 'src="./workbench.js"' in WORKBENCH,
-"workbench local-only scripts":not bool(re.search(r"<script[^>]+src=[\\x22\\x27]https?://",WORKBENCH,re.I)),
+"workbench local-only scripts":not bool(re.search(r"<script[^>]+src=[\x22\x27]https?://",WORKBENCH,re.I)),
 "workbench CSP and focus":'Content-Security-Policy' in WORKBENCH and ':focus-visible' in CSS,
 "workbench no unsafe JS HTML sinks":not any(x in (WORKBENCH+WB_JS) for x in ("innerHTML","new Function(","document.write(","eval(")),
-"workbench no inline event handlers":not bool(re.search(r"\\bon(?:click|load|error|change)\\s*=",WORKBENCH,re.I)),
+"workbench no inline event handlers":not bool(re.search(r"\bon(?:click|load|error|change)\s*=",WORKBENCH,re.I)),
 "workbench secure URLs":'https:' in WB_JS and "noopener noreferrer" in WB_JS,
 "workbench keyboard and local saved views":'keydown' in WB_JS and 'localStorage' in WB_JS,
 })
