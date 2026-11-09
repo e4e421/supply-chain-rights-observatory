@@ -11,7 +11,8 @@ Editable new UI sources are `portal/portal.js`, `portal/portal.css`, `portal/por
 | Route | Purpose |
 | --- | --- |
 | `/` | First-visit portal: one archive search, dataset overview, directory cards and six recent records. |
-| `/workbench/` | Existing dense professional workspace, saved views, inspection and data checks. |
+| `/workbench/` | Read-only professional workspace, saved views, inspection and data checks; explicit editor entry. |
+| `/workbench/edit/` | Advanced review UI with selected-only Review Queue, local handoffs and GitHub publication status checks. |
 | `/archive/` | Cross-month publication index, date/topic/type filters, exact IDs, CSV and query metadata. |
 | `/sources/` | Searchable institution directory with separate editorial, licensing and availability states. |
 | `/policy/` | Manually maintained policy reference dates and official legal sources. |
@@ -57,3 +58,7 @@ The displayed legal dates are not updated by the news collector. Legal texts and
 6. Publish only after all gates pass.
 
 These checks do not constitute an independent penetration test or formal WCAG certification. External backups, incident coding and institutional licensing reviews still require their documented human workflows.
+
+## Separate review route
+
+The Review Editor is generated from the same Workbench source by `scripts/build_portal.py`, preserving identical record IDs and search capabilities. Nested assets are resolved without an HTML base element, and only `/workbench/edit/` allows read-only `https://api.github.com` status requests through CSP. `scripts/build_relevance.py` injects the review scripts exclusively in this editor view. The public `/workbench/` view remains read-only. Only GitHub Actions with owner-controlled checks may publish review decisions.
