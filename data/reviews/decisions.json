@@ -1,1 +1,17 @@
-{"schema_version":1,"records":{}}
+{
+  "schema_version": 1,
+  "records": {
+    "a14ee2760fbb9718a3": {
+      "content_fingerprint": "689ee72871c14f139b0189e8026bfee1b3d878c0f6eb3b519d79843bc4a7fe72",
+      "relevance": "include",
+      "topics": null,
+      "publisher_confirmed": false,
+      "canonical_url": null,
+      "note": "",
+      "reviewed_at": "2026-11-09T14:05:06Z",
+      "reviewed_by": "e4e421",
+      "issue": 16,
+      "issue_digest": "a8a9589f25d05a5a676b0362c4f1db21e4c2b85c43c5835d9d3716164c7c76a4"
+    }
+  }
+}
