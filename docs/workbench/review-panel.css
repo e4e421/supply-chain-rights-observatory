@@ -1,0 +1,18 @@
+/* Scoped extension of the existing workbench; no additional page or nested result scroll. */
+.rv-tools{display:flex;align-items:center;flex-wrap:wrap;gap:7px;padding:9px 12px;border-bottom:1px solid #d3dfd5;background:#f5f9f5}
+.rv-tools select,.rv-tools button,.rv-actions button{font:inherit;font-size:11px;padding:7px;border:1px solid #9eb7a9;border-radius:3px;background:#fff;color:#174535;min-height:36px;max-width:100%}
+.rv-tools button:disabled{opacity:.5}.rv-draft-count{font-size:10px;flex:1;color:#475f50}
+.rv-message{padding:0 12px;font-size:11px;color:#5f4618}.rv-message:empty{display:none}
+.rv-panel{padding:13px;border-top:1px solid #cad9cc;min-width:0;overflow-wrap:anywhere}
+.rv-panel h3{font-size:13px;margin:0 0 8px}.rv-panel p{margin:6px 0}
+.rv-panel details{border:1px solid #d9e3d8;padding:6px 8px;margin:8px 0;font-size:11px}
+.rv-panel summary{cursor:pointer;font-weight:650;line-height:1.5}
+.rv-panel ul{padding-left:17px;font-size:11px}.rv-panel li{margin:3px 0}
+.rv-small{font-size:10px;color:#48614f;line-height:1.5}.rv-alert{font-size:11px;color:#754412;background:#fff4df;padding:6px}
+.rv-field{display:flex;flex-direction:column;gap:5px;font-size:11px;margin:10px 0;min-width:0}
+.rv-field select,.rv-field input[type=url],.rv-field textarea{width:100%;max-width:100%;min-width:0;box-sizing:border-box;border:1px solid #9fb9a8;border-radius:3px;font:inherit;padding:7px;color:#173c2e;background:white}
+.rv-field input[type=checkbox],.rv-checkbox input{accent-color:#18583c;width:16px;height:16px}
+.rv-checkbox{display:flex;align-items:center;gap:7px;margin:5px 0}.rv-actions{display:flex;flex-wrap:wrap;gap:6px}
+.rv-level{display:inline-block;border:1px solid #9cb8a4;border-radius:3px;padding:3px 7px;font-size:11px}.rv-high{background:#e5f3e8}.rv-review{background:#fff3da;color:#6b4816}.rv-low{background:#edf0ed;color:#506150}
+.rv-panel a{font-size:11px;text-decoration:underline;color:#15553d}.rv-tools :focus-visible,.rv-panel :focus-visible{outline:2px solid #105237;outline-offset:2px}
+@media(max-width:600px){.rv-tools select{flex:1 1 100%}.rv-panel{padding:12px}}
