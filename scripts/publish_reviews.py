@@ -85,7 +85,8 @@ def run():
     token=os.environ["GITHUB_TOKEN"]
     issue=api(token,"issues/"+str(number))
     batch=valid_issue(issue,owner)
-    issue_hash=digest({"body":issue["body"],"updated_at":issue["updated_at"]})
+    issue_hash=digest({"body":issue["body"]})
+    issue_modified_at=issue["updated_at"]
 
     remote=api(token,"contents/"+PATH+"?ref=main")
     overlay=json.loads(base64.b64decode(remote["content"]))
@@ -103,7 +104,9 @@ def run():
             datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00","Z"))
         preview(content)
         again=api(token,"issues/"+str(number))
-        if again["state"]!="open" or digest({"body":again.get("body",""),"updated_at":again["updated_at"]})!=issue_hash:
+        if (again["state"]!="open" or again.get("title")!=ISSUE_TITLE
+                or again.get("updated_at")!=issue_modified_at
+                or digest({"body":again.get("body","")})!=issue_hash):
             raise ValueError("Issue edited during validation")
         if api(token,"git/ref/heads/main")["object"]["sha"]!=head:
             raise ValueError("Main advanced during validation")
