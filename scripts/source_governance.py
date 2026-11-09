@@ -25,6 +25,19 @@ ALLOWED={
  'www.worldbenchmarkingalliance.org','www.ela.europa.eu','www.eurofound.europa.eu'
 }
 
+# Candidate-only HTTPS hosts. Nominations do not expand the ingestion/probe allowlist.
+CANDIDATE_HOSTS={
+ 'www.reuters.com','www.theguardian.com','www.esgdive.com','www.esgtoday.com',
+ 'www.responsible-investor.com','www.hsfkramer.com','sustainable-procurement.org',
+ 'www.edie.net','www.iflr.com','news.mongabay.com','trellis.net'
+}
+
+def validate_candidate_link(url):
+    u=urlparse(str(url))
+    if u.scheme!='https' or u.hostname not in CANDIDATE_HOSTS or u.username or u.password or u.port not in (None,443) or u.fragment:
+        raise ValueError('Unexpected candidate source URL authority')
+    return u.hostname
+
 def validate_link(url):
     u=urlparse(str(url))
     if u.scheme!='https' or u.hostname not in ALLOWED or u.username or u.password or u.port not in (None,443):
@@ -53,10 +66,19 @@ def validate(registry,candidates,refs):
     for item in refs:
         validate_link(item['url'])
         if item['url'] not in known_urls: raise ValueError('Reference is missing from curated registry')
+    candidate_ids=set()
+    candidate_urls=set()
     for item in candidates.get('candidates',[]):
-        if item.get('status')!='pending_review' or item.get('id') in ids:
-            raise ValueError('Unapproved candidate promotion')
-        validate_link(item['url'])
+        candidate_id=str(item.get('id',''))
+        if (item.get('status')!='pending_review' or item.get('auto_ingest') is not False
+                or not re.fullmatch(r'[a-z0-9-]{3,60}',candidate_id)
+                or candidate_id in ids or candidate_id in candidate_ids):
+            raise ValueError('Unapproved candidate promotion or duplicate candidate identifier')
+        validate_candidate_link(item['url'])
+        if item['url'] in known_urls or item['url'] in candidate_urls:
+            raise ValueError('Duplicate candidate or curated URL')
+        candidate_ids.add(candidate_id)
+        candidate_urls.add(item['url'])
     return True
 
 class RedirectBlocker(HTTPRedirectHandler):
