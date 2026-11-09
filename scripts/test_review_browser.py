@@ -42,7 +42,7 @@ PROBE=r'''
  const firstItem=queue.querySelector('[data-review-id="'+rid+'"]');
  const secondItem=queue.querySelector('[data-review-id="'+secondRid+'"]');
  check(firstItem&&secondItem,'Queue does not identify both records');
- check(firstItem.textContent.includes('Record ID:')&&firstItem.textContent.includes('include')===false,'Queue metadata missing');
+ check(firstItem.textContent.includes('Record ID:')&&firstItem.querySelector('.rv-queue-status'),'Queue metadata missing');
  check(firstItem.querySelector('.rv-change')!==null,'Proposed changes are not visible');
  check(!document.getElementById('rv-publish-batch').disabled,'Two valid drafts should be publishable');
  // The Edit action stays in Workbench and does not submit the first draft.
@@ -54,7 +54,8 @@ PROBE=r'''
  const url=new URL(submitted);check(url.searchParams.get('body').startsWith('SCRO_PUBLISH_V2'),'Missing explicit V2 publication batch');
  check(url.searchParams.get('title')==='[Publish Workbench review]','Unexpected publication Issue title');
  const jsonBody=url.searchParams.get('body');
- const extracted=JSON.parse(jsonBody.split('``json\n')[1].split('\n``')[0]);
+ const fence=String.fromCharCode(96).repeat(3);
+ const extracted=JSON.parse(jsonBody.split(fence+'json\n')[1].split('\n'+fence)[0]);
  check(extracted.decisions.length===2,'Only part of the draft queue was published');
  check(new Set(extracted.decisions.map(d=>d.record_id)).size===2,'Repeated record in batch');
  check(extracted.decisions.every(d=>!('_title' in d)&&!('_savedAt' in d)),'Local display metadata leaked into GitHub Issue');
