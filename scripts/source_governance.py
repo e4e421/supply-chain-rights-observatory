@@ -25,17 +25,17 @@ ALLOWED={
  'www.worldbenchmarkingalliance.org','www.ela.europa.eu','www.eurofound.europa.eu'
 }
 
-# Candidate-only HTTPS hosts. Nominations do not expand the ingestion/probe allowlist.
+# HTTPS links for candidate and manual-reference sources. Keep separate from probe hosts.
 CANDIDATE_HOSTS={
  'www.reuters.com','www.theguardian.com','www.esgdive.com','www.esgtoday.com',
  'www.responsible-investor.com','www.hsfkramer.com','sustainable-procurement.org',
  'www.edie.net','www.iflr.com','news.mongabay.com','trellis.net'
 }
 
-def validate_candidate_link(url):
+def validate_manual_link(url):
     u=urlparse(str(url))
     if u.scheme!='https' or u.hostname not in CANDIDATE_HOSTS or u.username or u.password or u.port not in (None,443) or u.fragment:
-        raise ValueError('Unexpected candidate source URL authority')
+        raise ValueError('Unexpected manual source URL authority')
     return u.hostname
 
 def validate_link(url):
@@ -58,13 +58,15 @@ def validate(registry,candidates,refs):
             raise ValueError('Source promotion must be manual')
         if entry.get('licence_review_status') not in ('pending','approved_for_metadata','no_redistribution'):
             raise ValueError('Source licence review status missing or invalid')
-        validate_link(entry['url'])
+        if entry.get('probe_enabled', True) is False:
+            validate_manual_link(entry['url'])
+        else:
+            validate_link(entry['url'])
         if entry['url'] in known_urls: raise ValueError('Duplicated approved URL')
         known_urls.add(entry['url'])
         if entry.get('review_due') and not re.fullmatch(r'\d{4}-\d{2}-\d{2}',entry['review_due']):
             raise ValueError('Invalid review date')
     for item in refs:
-        validate_link(item['url'])
         if item['url'] not in known_urls: raise ValueError('Reference is missing from curated registry')
     candidate_ids=set()
     candidate_urls=set()
@@ -74,7 +76,7 @@ def validate(registry,candidates,refs):
                 or not re.fullmatch(r'[a-z0-9-]{3,60}',candidate_id)
                 or candidate_id in ids or candidate_id in candidate_ids):
             raise ValueError('Unapproved candidate promotion or duplicate candidate identifier')
-        validate_candidate_link(item['url'])
+        validate_manual_link(item['url'])
         if item['url'] in known_urls or item['url'] in candidate_urls:
             raise ValueError('Duplicate candidate or curated URL')
         candidate_ids.add(candidate_id)
@@ -125,7 +127,9 @@ def run(online=False):
             'http_status':prior.get('http_status'),
             'last_probe':prior.get('last_probe')
         }
-        if online:
+        if entry.get('probe_enabled', True) is False:
+            status.update(reachability='manual_only', http_status=None, last_probe=None)
+        elif online:
             result=probe(entry['url'])
             status.update(result)
             status['last_probe']=now

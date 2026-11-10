@@ -86,23 +86,35 @@ class GovernanceTests(unittest.TestCase):
         rogue=copy.deepcopy(reg)
         rogue['sources'][0]['auto_ingest']=True
         with self.assertRaises(ValueError):source_governance.validate(rogue,cand,refs)
-    def test_new_media_candidates_remain_non_ingestable(self):
+    def test_owner_approved_media_are_manual_references(self):
         reg=json.loads(source_governance.REGISTRY.read_text())
         cand=json.loads(source_governance.CANDIDATES.read_text())
         refs=json.loads(source_governance.REFS.read_text())
+        approved=[x for x in reg['sources'] if x.get('verification_level')=='owner_approved_for_manual_reference']
+        self.assertEqual(len(approved),11)
+        for source in approved:
+            with self.subTest(source=source['id']):
+                self.assertTrue(any(r['url']==source['url'] and r['name']==source['name'] for r in refs))
+                self.assertFalse(any(x['id']==source['id'] for x in cand['candidates']))
+                self.assertIs(source['auto_ingest'],False)
+                self.assertIs(source['probe_enabled'],False)
+                self.assertEqual(source['licence_review_status'],'pending')
+                with self.assertRaises(ValueError):source_governance.validate_link(source['url'])
         self.assertTrue(source_governance.validate(reg,cand,refs))
-        self.assertEqual(len(cand['candidates']),11)
-        self.assertTrue(all(x['status']=='pending_review' and x['auto_ingest'] is False for x in cand['candidates']))
-        self.assertNotIn('www.reuters.com',source_governance.ALLOWED)
-        self.assertIn('www.reuters.com',source_governance.CANDIDATE_HOSTS)
-        with self.assertRaises(ValueError):
-            source_governance.validate_link('https://www.reuters.com/')
-        self.assertEqual(source_governance.validate_candidate_link('https://www.reuters.com/'),'www.reuters.com')
+        approved[0]['probe_enabled']=True
+        with self.assertRaises(ValueError):source_governance.validate(reg,cand,refs)
+
+    def test_candidate_links_and_auto_ingest_are_restricted(self):
+        reg=json.loads(source_governance.REGISTRY.read_text())
+        refs=json.loads(source_governance.REFS.read_text())
+        candidate={'id':'candidate-test','url':'https://www.reuters.com/world/','status':'pending_review','auto_ingest':False}
+        cand={'schema_version':1,'candidates':[candidate]}
+        self.assertTrue(source_governance.validate(reg,cand,refs))
         for malformed in ('http://www.reuters.com','https://user:secret@www.reuters.com/',
                           'https://www.reuters.com.evil.org/','https://localhost/',
                           'https://www.reuters.com:8443/'):
             with self.subTest(malformed=malformed):
-                with self.assertRaises(ValueError):source_governance.validate_candidate_link(malformed)
+                with self.assertRaises(ValueError):source_governance.validate_manual_link(malformed)
         unsafe=copy.deepcopy(cand)
         unsafe['candidates'][0]['auto_ingest']=True
         with self.assertRaises(ValueError):source_governance.validate(reg,unsafe,refs)

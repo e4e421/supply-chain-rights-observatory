@@ -131,5 +131,82 @@
     "mode": "Official / manually verified",
     "url": "https://www.eurofound.europa.eu/en/surveys-and-data/surveys/european-working-conditions-survey/ewcs-2024/",
     "use": "Cross-national probability survey of working conditions and worker outcomes; examine questionnaires, weights, country coverage and survey microdata access terms."
+  },
+  {
+    "category": "NEWS & INVESTIGATIONS",
+    "name": "Reuters · Sustainability and society",
+    "mode": "Curated reference",
+    "url": "https://www.reuters.com/",
+    "use": "EU due diligence, forced labour bans, court proceedings, supplier labour disputes; distinguish reporting from official legal or court documents."
+  },
+  {
+    "category": "NEWS & INVESTIGATIONS",
+    "name": "The Guardian · Workers' rights and global development",
+    "mode": "Curated reference",
+    "url": "https://www.theguardian.com/global-development/workers--rights",
+    "use": "Migrant labour, workplace safety, subcontracting and global supply chains; use original reporting and check independent corroboration."
+  },
+  {
+    "category": "SPECIALIST MEDIA",
+    "name": "ESG Dive",
+    "mode": "Curated reference",
+    "url": "https://www.esgdive.com/",
+    "use": "Corporate labour rights, due diligence implementation, buyer practices, supplier benchmarking; reports frequently cite NGOs and original benchmark datasets."
+  },
+  {
+    "category": "SPECIALIST MEDIA",
+    "name": "ESG Today",
+    "mode": "Curated reference",
+    "url": "https://www.esgtoday.com/",
+    "use": "Frequent ESG policy and corporate disclosure coverage, including EU and UK HRDD; avoid redundant weekly summary and individual-article counting."
+  },
+  {
+    "category": "SPECIALIST MEDIA",
+    "name": "Responsible Investor · Social",
+    "mode": "Curated reference",
+    "url": "https://www.responsible-investor.com/social/",
+    "use": "Investor stewardship and human rights, modern slavery, engagement and remedies; paid access may restrict retrieval."
+  },
+  {
+    "category": "LEGAL COMMENTARY & REPORTING",
+    "name": "Herbert Smith Freehills Kramer · Business and Human Rights",
+    "mode": "Curated reference",
+    "url": "https://www.hsfkramer.com/insights",
+    "use": "Expert commentary on legal implementation, supply-chain due diligence and litigation; opinion/analysis, not independent fact adjudication."
+  },
+  {
+    "category": "PUBLIC PROCUREMENT",
+    "name": "ICLEI · Sustainable Procurement Platform",
+    "mode": "Curated reference",
+    "url": "https://sustainable-procurement.org/sustainable-public-procurement/",
+    "use": "European public procurement, social clauses, supplier governance and HRDD in procurement; maintained by ICLEI, not an independent newspaper."
+  },
+  {
+    "category": "SPECIALIST MEDIA",
+    "name": "edie · Social sustainability and supply chains",
+    "mode": "Curated reference",
+    "url": "https://www.edie.net/",
+    "use": "Corporate sustainability practice and social sustainability; broad environmental coverage requires strict topic filtering."
+  },
+  {
+    "category": "LEGAL COMMENTARY & REPORTING",
+    "name": "IFLR · ESG and regulation",
+    "mode": "Curated reference",
+    "url": "https://www.iflr.com/esg",
+    "use": "Legal regulatory change and cross-border compliance; distinguish sponsored legal commentary and paywalled content from official texts."
+  },
+  {
+    "category": "NEWS & INVESTIGATIONS",
+    "name": "Mongabay · Environment and commodity supply chains",
+    "mode": "Curated reference",
+    "url": "https://news.mongabay.com/",
+    "use": "Forestry, agricultural commodity and extraction supply chains where land, Indigenous and labour rights intersect; environmental content needs narrow monitoring."
+  },
+  {
+    "category": "SPECIALIST MEDIA",
+    "name": "Trellis (formerly GreenBiz)",
+    "mode": "Curated reference",
+    "url": "https://trellis.net/",
+    "use": "Corporate sustainability supply chain strategies and governance; renamed from GreenBiz, avoid double-registering the same publisher."
   }
 ]
