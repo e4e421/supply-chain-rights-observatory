@@ -2,9 +2,11 @@
 import importlib.util
 import json
 import sys
+import tempfile
 import unittest
 from datetime import datetime, timezone
 from pathlib import Path
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT / 'scripts'))
@@ -74,6 +76,23 @@ class CollectorTests(unittest.TestCase):
         got = collector.merge_items([new], [previous], NOW)
         self.assertEqual(len(got), 1)
         self.assertEqual(got[0]['first_seen'], '2026-11-07T00:00:00Z')
+
+    def test_collection_tracks_attempts_and_clears_streak_on_valid_empty_response(self):
+        with tempfile.TemporaryDirectory() as folder:
+            config=Path(folder)/'queries.json';output=Path(folder)/'latest.json'
+            config.write_text(json.dumps({'news_queries':[], 'academic_queries':[],
+                'openalex_queries':[{'id':'openalex-test','name':'Test','query':'workers'}]}))
+            responses=[b'{}', b'{"results":null}', b'{}', b'{"results":[]}']
+            with patch.multiple(collector, CONFIG_FILE=config, OUTPUT_FILE=output), \
+                 patch.object(collector, 'fetch_bytes', side_effect=responses), \
+                 patch('archive_data.persist', return_value=(0,0)), \
+                 patch('candidate_archive.persist_candidates', return_value=(0,0)):
+                for expected in (1,2,3,0):
+                    collector.run()
+                    source=json.loads(output.read_text())['sources'][0]
+                    self.assertEqual(source['consecutive_failures'],expected)
+                    self.assertEqual(source['status'],'failed' if expected else 'ok')
+                    self.assertEqual(source['items'],0)
 
     def test_current_public_documents_validate(self):
         doc = json.loads((ROOT / 'docs/data/latest.json').read_text(encoding='utf-8'))

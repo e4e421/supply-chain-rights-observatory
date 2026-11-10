@@ -40,7 +40,6 @@ zh:{
 'Density':'顯示密度','Compact':'緊密','Comfortable':'舒適','Export CSV':'匯出 CSV',
 'Show more':'顯示更多','Record inspector':'紀錄詳情','Clear selection':'清除選取',
 'Select a record to inspect its provenance, dates and evidence status.':'選取紀錄後檢查來源、日期與證據狀態。',
-'Daily data checks':'每日資料查核','Loading checks…':'讀取查核資訊…',
 'Workspace & sharing':'工作區與分享',
 'Saved views stay in this browser. Sharing a URL shares its search terms; do not include private data.':'儲存視圖僅保留於此瀏覽器。分享網址會揭露搜尋條件，請勿輸入私密資料。',
 'Save current view':'儲存目前視圖','Choose a saved view':'選擇已儲存視圖',
@@ -71,9 +70,6 @@ zh:{
 'Screening status':'初篩狀態','Event ID':'事件編號','Not assigned':'尚未指派',
 'Topics (preliminary)':'主題（初步分類）','Source inspection':'來源查核',
 'Use the original source to verify all substantive claims.':'請查閱原始資料以確認實質主張。',
-'No source-health report available.':'尚無可用來源健康報告。','Sources requiring review':'待審查來源',
-'Licences pending':'授權待核對','Last source probe':'最近來源連線測試',
-'Reachability does not verify publication quality.':'可連線不代表內容品質已核實。',
 'View saved':'視圖已儲存','View limit reached (12)':'已達儲存上限（12）',
 'View name':'視圖名稱','Saved view removed':'已刪除儲存視圖',
 'Shareable link copied':'分享連結已複製','Unable to copy automatically; copy the address shown.':'無法自動複製，請複製顯示的網址。',
@@ -121,7 +117,6 @@ de:{
 'Density':'Dichte','Compact':'Kompakt','Comfortable':'Komfortabel','Export CSV':'CSV exportieren',
 'Show more':'Mehr anzeigen','Record inspector':'Datensatzdetails','Clear selection':'Auswahl löschen',
 'Select a record to inspect its provenance, dates and evidence status.':'Datensatz auswählen, um Herkunft, Daten und Evidenzstatus zu prüfen.',
-'Daily data checks':'Tägliche Datenprüfung','Loading checks…':'Prüfstatus wird geladen …',
 'Workspace & sharing':'Arbeitsbereich & Teilen',
 'Saved views stay in this browser. Sharing a URL shares its search terms; do not include private data.':'Gespeicherte Ansichten bleiben in diesem Browser. Geteilte URLs enthalten Suchbegriffe; keine vertraulichen Daten eingeben.',
 'Save current view':'Ansicht speichern','Choose a saved view':'Gespeicherte Ansicht auswählen',
@@ -152,10 +147,6 @@ de:{
 'Screening status':'Vorsortierungsstatus','Event ID':'Ereignis-ID','Not assigned':'Nicht zugewiesen',
 'Topics (preliminary)':'Themen (vorläufig)','Source inspection':'Quellenprüfung',
 'Use the original source to verify all substantive claims.':'Alle inhaltlichen Aussagen anhand der Originalquelle prüfen.',
-'No source-health report available.':'Kein Quellenstatusbericht verfügbar.',
-'Sources requiring review':'Quellen zur Prüfung','Licences pending':'Lizenzprüfung offen',
-'Last source probe':'Letzte Erreichbarkeitsprüfung',
-'Reachability does not verify publication quality.':'Erreichbarkeit bestätigt nicht die Publikationsqualität.',
 'View saved':'Ansicht gespeichert','View limit reached (12)':'Limit erreicht (12)',
 'View name':'Name der Ansicht','Saved view removed':'Ansicht gelöscht',
 'Shareable link copied':'Link kopiert','Unable to copy automatically; copy the address shown.':'Automatisches Kopieren nicht möglich; angezeigte Adresse kopieren.',
@@ -176,7 +167,7 @@ const COLS=[
  {key:'topics',label:'Topics'},{key:'kind',label:'Type'},{key:'evidence',label:'Evidence'},{key:'id',label:'Record ID'}
 ];
 const STORAGE='scro.workbench.views.v1', MAX_FILES=24, MAX_ROWS=10000, MAX_PAGE_SIZE=40;
-let live=null,catalog=null,health=null,latest=[],archiveCache=new Map(),activeRecords=[],filtered=[],
+let live=null,catalog=null,latest=[],archiveCache=new Map(),activeRecords=[],filtered=[],
 scopeStatus='',loading=false,archiveError=false,coveragePartial=false,chosen='',runNumber=0;
 let pageIndex=0,pageSize=6,pageAnchor=0,locateSelection=false,layoutFrame=0;
 const param = new URL(location.href).searchParams;
@@ -293,27 +284,7 @@ async function fetchJSON(path) {
  if(!response.ok)throw new Error('HTTP '+response.status);
  return response.json();
 }
-function sourceInfo(){
- if(!health){$('wb-quality').replaceChildren(text('p',t('No source-health report available.')));return;}
- const box=$('wb-quality');box.replaceChildren();
- for(const [label,value] of [
-  ['Curated references',health.approved_reference_count],
-  ['Sources requiring review',health.review_needed_count],
-  ['Licences pending',health.licence_review_pending_count],
-  ['Last source probe',dateView(health.last_probe_run,true)]
- ]) {
-  const row=text('div','','wb-check-row');
-  row.append(text('span',t(label)),text('strong',value??'—',Number(value)>0&&label!=='Curated references'?'wb-check-warning':''));
-  box.append(row);
- }
- box.append(text('p',t('Reachability does not verify publication quality.'),'wb-empty'));
- const problem=(health.sources||[]).filter(s=>s.review_needed||s.reachability==='failed').slice(0,5);
- for(const s of problem) {
-  const card=text('div','','wb-source-item');
-  card.append(text('strong',s.name),text('small',(s.review_needed?t('Source review needed'):'')+' · '+(s.reachability||t('Unavailable'))));
-  box.append(card);
- }
-}
+
 function renderStatus(){
  updateRecordScope();
  $('wb-latest-count').textContent=live?String(latest.length):'—';
@@ -321,7 +292,6 @@ function renderStatus(){
  $('wb-data-status').textContent=!live?t('Unavailable'):live.status==='ok'?t('Operational (technical)'):
   live.status==='partial'?t('Partial sources'):live.status==='failed'?t('Collection failed'):t('Not started');
  $('wb-updated').textContent=live?dateView(live.last_successful_collection,true):'—';
- sourceInfo();
 }
 async function fetchMonth(month){
  if(archiveCache.has(month))return archiveCache.get(month);
@@ -672,16 +642,14 @@ async function init(){
  locateSelection=Boolean(chosen);
  localiseStatic();
  try{
-  const [a,b,c]=await Promise.allSettled([
+  const [a,b]=await Promise.allSettled([
    fetchJSON(new URL('../data/latest.json',wbAssetRoot).href),
-   fetchJSON(new URL('../data/archive/catalog.json',wbAssetRoot).href),
-   fetchJSON(new URL('../data/source-health.json',wbAssetRoot).href)
+   fetchJSON(new URL('../data/archive/catalog.json',wbAssetRoot).href)
   ]);
   if(a.status!=='fulfilled'||!Array.isArray(a.value.items))throw Error('Latest snapshot unavailable');
   live=a.value;
   latest=live.items.map(x=>normalise(x)).filter(x=>/^[0-9a-f]{18}$/.test(x.record_id));
   catalog=b.status==='fulfilled'&&Array.isArray(b.value.months)?b.value:null;
-  health=c.status==='fulfilled'?c.value:null;
   const months=$('wb-month');months.replaceChildren();
   if(catalog){
    for(const m of catalog.months){

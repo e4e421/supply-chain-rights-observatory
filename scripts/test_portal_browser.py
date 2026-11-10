@@ -48,6 +48,11 @@ PROBE=r'''
  }
  if(page==='sources'){
   check(document.querySelectorAll('#source-rows tr').length>1,'Source directory absent');
+  check(document.querySelector('#source-feed-rows .is-ok'),'Successful collection feed status missing');
+  check(document.querySelector('#source-feed-rows .is-retry'),'Retry status missing');
+  check(document.querySelector('#source-feed-rows .is-review'),'Manual confirmation status missing');
+  check(document.querySelector('#source-rows .is-ok'),'Successful reference status missing');
+  check(document.querySelector('#source-rows .is-manual'),'Manual reference status missing');
   const media=[...document.querySelectorAll('#source-rows td small')].filter(n=>n.textContent.startsWith('media-'));
   const manualStatus={en:'Not checked automatically','zh-Hant':'未執行自動連線檢查',de:'Nicht automatisch geprüft'}[document.documentElement.lang];
   check(media.length===11&&media.every(n=>n.closest('tr').lastElementChild.textContent.includes(manualStatus)),
@@ -116,6 +121,11 @@ def run():
  with tempfile.TemporaryDirectory() as tmp:
   root=Path(tmp);prefix='supply-chain-rights-observatory';site=root/prefix;shutil.copytree(ROOT/'_site',site)
   (site/'portal-test-probe.js').write_text(PROBE,encoding='utf-8')
+  # Verify all three availability states on the isolated browser fixture.
+  snapshot=site/'data/latest.json';fixture=json.loads(snapshot.read_text(encoding='utf-8'))
+  for feed,failures in zip(fixture['sources'][:3], (0,1,3)):
+   feed.update(status='failed' if failures else 'ok',consecutive_failures=failures)
+  snapshot.write_text(json.dumps(fixture,ensure_ascii=False),encoding='utf-8')
   for p in site.rglob('*.html'):
    s=p.read_text(encoding='utf-8').replace('</body>',f'<script defer src="/{prefix}/portal-test-probe.js"></script></body>');p.write_text(s,encoding='utf-8')
   class Handler(SimpleHTTPRequestHandler):

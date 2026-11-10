@@ -114,6 +114,7 @@ def run(online=False):
     entries=[]
     for entry in registry['sources']:
         prior=old.get(entry['id'],{})
+        prior_failure=bool(prior.get('last_probe') and prior.get('reachability')!='responded')
         status={
             'id':entry['id'],
             'name':entry['name'],
@@ -125,13 +126,15 @@ def run(online=False):
             'review_needed':not bool(entry.get('verified_on')) or bool(entry.get('review_due') and entry['review_due']<today),
             'reachability':prior.get('reachability','untested'),
             'http_status':prior.get('http_status'),
-            'last_probe':prior.get('last_probe')
+            'last_probe':prior.get('last_probe'),
+            'consecutive_failures':prior.get('consecutive_failures',int(prior_failure))
         }
         if entry.get('probe_enabled', True) is False:
-            status.update(reachability='manual_only', http_status=None, last_probe=None)
+            status.update(reachability='manual_only', http_status=None, last_probe=None, consecutive_failures=0)
         elif online:
             result=probe(entry['url'])
             status.update(result)
+            status['consecutive_failures']=0 if result['reachability']=='responded' else status['consecutive_failures']+1
             status['last_probe']=now
         entries.append(status)
     report={

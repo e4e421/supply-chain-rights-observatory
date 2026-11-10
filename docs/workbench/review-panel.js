@@ -115,7 +115,7 @@ const ASSET_ROOT=new URL('./',document.currentScript.src);
 let callback=()=>{},current=null,signature='',feedback='';
 const root=el('section','','rv-panel');root.id='review-panel';
 root.setAttribute('aria-label','Relevance and review');
-document.querySelector('.wb-source-check')?.before(root);
+document.getElementById('wb-detail')?.after(root);
 
 const tools=el('div','','rv-tools');
 const filter=el('select');filter.id='rv-filter';filter.setAttribute('aria-label',t('Relevance & review'));

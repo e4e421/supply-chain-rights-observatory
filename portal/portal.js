@@ -76,20 +76,39 @@ async function archive(){
  $('archive-metadata').addEventListener('click',()=>download('scro-query.json',JSON.stringify({schema_version:1,filters:archiveState(),coverage:partial?'partial':'requested_scope_complete',loaded_records:archiveRows.length,matched_records:archiveFound.length,shards:loadedFiles,build:buildInfo,exported_at:new Date().toISOString(),warning:'Publication records are not verified incidents.'},null,2),'application/json'));
  await loadArchive();
 }
+function sourceAvailability(success, attempted, failures, successLabel, manual=false){
+ const state=manual?'manual':!attempted?'unknown':success?'ok':failures>=3?'review':'retry';
+ const labels={manual:'Not checked automatically',unknown:'No check recorded',ok:successLabel,
+   review:'Manual confirmation needed',retry:'Failed · retry scheduled'};
+ return node('strong',t(labels[state])+(failures>0?' ('+failures+')':''),'portal-availability is-'+state);
+}
 async function sources(){
- let refs=[],health=null;
- try{refs=await json('data/references.json');if(!Array.isArray(refs))throw Error();}catch{$('source-count').textContent=t('Public data could not be loaded.');return;}
- try{health=await json('data/source-health.json');}catch{}
+ const [refsResult,healthResult,collectionResult]=await Promise.allSettled([
+   json('data/references.json'),json('data/source-health.json'),json('data/latest.json')]);
+ const refs=refsResult.value,health=healthResult.value,feeds=collectionResult.value?.sources;
+ if(!Array.isArray(refs)){$('source-count').textContent=t('Public data could not be loaded.');return;}
  const categories=[...new Set(refs.map(x=>x.category))].sort();for(const k of categories){const o=node('option',t(k));o.value=k;$('source-category').append(o);}
  const p=new URL(location.href).searchParams;$('source-search').value=(p.get('q')||'').slice(0,120);if(categories.includes(p.get('category')))$('source-category').value=p.get('category');if(['needs','licence','connection'].includes(p.get('review')))$('source-review').value=p.get('review');
- redraw=()=>{const filter=$('source-review').value,cat=$('source-category').value,q=$('source-search').value.toLowerCase();$('source-rows').replaceChildren();
+ redraw=()=>{
+ const feedRows=$('source-feed-rows');feedRows.replaceChildren();
+ for(const feed of feeds||[]){
+  const row=node('tr');row.dataset.sourceId=feed.id;
+  const availability=node('td');
+  availability.append(sourceAvailability(feed.status==='ok',feed.last_attempt,feed.consecutive_failures,'Data retrieved'));
+  row.append(node('th',t(feed.name)),availability,node('td',feed.status==='ok'?feed.items:'—'),node('td',date(feed.last_attempt,true)));
+  row.firstChild.scope='row';feedRows.append(row);
+ }
+ if(!feeds?.length){const row=node('tr'),cell=node('td',t('No check recorded'));cell.colSpan=4;row.append(cell);feedRows.append(row);}
+ const filter=$('source-review').value,cat=$('source-category').value,q=$('source-search').value.toLowerCase();$('source-rows').replaceChildren();
  for(const o of $('source-category').options)if(o.value!=='all')o.textContent=t(o.value);
- const records=refs.map(ref=>({ref,h:(health?.sources||[]).find(s=>s.name===ref.name)})).filter(({ref,h})=>{if(cat!=='all'&&ref.category!==cat)return false;if(q&&![ref.name,ref.category,ref.use,t(ref.use)].join(' ').toLowerCase().includes(q))return false;if(filter==='needs'&&!h?.review_needed)return false;if(filter==='licence'&&h?.licence_review_status!=='pending')return false;if(filter==='connection'&&(!h||['responded','manual_only'].includes(h.reachability)))return false;return true;});
+ const records=refs.map(ref=>({ref,h:(health?.sources||[]).find(s=>s.name===ref.name)})).filter(({ref,h})=>{if(cat!=='all'&&ref.category!==cat)return false;if(q&&![ref.name,ref.category,ref.use,t(ref.use)].join(' ').toLowerCase().includes(q))return false;if(filter==='needs'&&!h?.review_needed)return false;if(filter==='licence'&&h?.licence_review_status!=='pending')return false;if(filter==='connection'&&(!h?.last_probe||['responded','manual_only'].includes(h.reachability)))return false;return true;});
  $('source-count').textContent=records.length+' / '+refs.length+' '+t('curated sources')+(health?'':' · '+t('Source-health report unavailable; review states are unknown.'));
  for(const {ref,h} of records){const row=node('tr'),name=node('td');name.append(publicLink(ref.url,ref.name),node('p',t(ref.use)),node('small',h?.id||'—'));row.append(name,node('td',t(ref.category)));
  const editorial=node('td');editorial.append(node('strong',t(!h?'Unknown':h.review_needed?'Review needed':'Review recorded')),node('p',date(h?.last_editorial_review)),node('small',t('Next review')+': '+date(h?.review_due)));row.append(editorial);
  row.append(node('td',t(!h?'Unknown':h.licence_review_status==='pending'?'Pending':h.licence_review_status||'Unknown')));
- const reachable=node('td');reachable.append(node('strong',t(!h?'Unknown':h.reachability==='responded'?'Responded':h.reachability==='manual_only'?'Not checked automatically':h.reachability==='http_restriction_or_error'?'HTTP restriction / error':'Not confirmed')),node('p',h?.http_status?'HTTP '+h.http_status:'—'),node('small',date(h?.last_probe,true)));row.append(reachable);$('source-rows').append(row);}
+ const reachable=node('td');reachable.append(sourceAvailability(h?.reachability==='responded',h?.last_probe,h?.consecutive_failures,'Website reachable',h?.reachability==='manual_only'));
+ if(h?.last_probe)reachable.append(node('p',h.http_status?'HTTP '+h.http_status:'—'),node('small',date(h.last_probe,true)));
+ row.append(reachable);$('source-rows').append(row);}
  if(!records.length){const row=node('tr'),td=node('td',t('No matching sources.'));td.colSpan=5;row.append(td);$('source-rows').append(row);}links();};
  for(const id of ['source-search','source-category','source-review'])$(id).addEventListener(id==='source-search'?'input':'change',()=>{updateParams({q:$('source-search').value,category:$('source-category').value,review:$('source-review').value});redraw();});redraw();
 }

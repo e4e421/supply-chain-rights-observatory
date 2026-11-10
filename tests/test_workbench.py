@@ -26,8 +26,9 @@ class WorkbenchContractTests(unittest.TestCase):
   self.assertIn("../query.js",m.links)
   self.assertIn("./workbench.js",m.links)
   required=["wb-search","wb-scope","wb-sort","wb-month","wb-tbody","wb-detail",
-            "wb-quality","wb-count","wb-export","wb-share","wb-save","wb-saved-list","wb-more"]
+            "wb-count","wb-export","wb-share","wb-save","wb-saved-list","wb-more"]
   self.assertTrue(set(required).issubset(m.ids))
+  self.assertNotIn("wb-quality", m.ids)
  def test_public_research_safety(self):
   self.assertIn("Content-Security-Policy",WB)
   self.assertNotIn("innerHTML",JS)
@@ -38,7 +39,7 @@ class WorkbenchContractTests(unittest.TestCase):
   self.assertIn("csvCell",JS)
   self.assertIn("MAX_FILES=24",JS)
   self.assertIn("coveragePartial",JS)
-  self.assertIn("sourceInfo()",JS)
+  self.assertNotIn("sourceInfo()",JS)
  def test_bloomberg_style_workflow(self):
   self.assertIn("localStorage",JS)
   self.assertIn("history.replaceState",JS)
