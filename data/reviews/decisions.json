@@ -40,6 +40,32 @@
       "reviewed_by": "e4e421",
       "issue": 24,
       "issue_digest": "2e939f01906fbb3fc72219def46df78a8fa41d0106c86dcfe4a37a195fabb8cb"
+    },
+    "47a5b9441d603442dd": {
+      "content_fingerprint": "c75a21ffadb9cd07511fb4fdac362e426986d2608f446aa291f4ae6afc23dca4",
+      "relevance": "needs_review",
+      "topics": null,
+      "publisher_confirmed": false,
+      "canonical_url": null,
+      "note": "",
+      "reviewed_at": "2026-11-10T03:28:58Z",
+      "reviewed_by": "e4e421",
+      "issue": 29,
+      "issue_digest": "33a88006cfd6980cb19329a0f7dd0dee3b9ccd7389f07c31250a8d4c6c1d6ae8"
+    },
+    "f8ee3482d0cb951fae": {
+      "content_fingerprint": "fc7d4494add7d75c6e2e4be73253730f107cf00084e1bda116a81f41124787d5",
+      "relevance": "include",
+      "topics": [
+        "working-conditions"
+      ],
+      "publisher_confirmed": true,
+      "canonical_url": "https://www.theguardian.com/global-development/2026/nov/06/india-textile-recycling-industry-workers-factories-accidents-safety-amputations",
+      "note": "",
+      "reviewed_at": "2026-11-10T03:28:58Z",
+      "reviewed_by": "e4e421",
+      "issue": 29,
+      "issue_digest": "33a88006cfd6980cb19329a0f7dd0dee3b9ccd7389f07c31250a8d4c6c1d6ae8"
     }
   }
 }
