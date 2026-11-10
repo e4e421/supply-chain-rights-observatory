@@ -159,10 +159,14 @@ def build() -> None:
     # element (the site's Content-Security-Policy explicitly disallows base-uri).
     edit=wb.replace('data-page="workbench" data-page-title="Research Workbench"',
                     'data-page="workbench-editor" data-page-title="Review Editor"')
-    edit=edit.replace('href="./edit/" data-l10n="Open Review Editor">Open Review Editor',
-                      'href="./" data-l10n="Return to Workbench">Return to Workbench')
-    edit=edit.replace('<strong class="wb-header-title" data-l10n="Research Workbench">Research Workbench</strong>',
-                      '<strong class="wb-header-title" data-l10n="Review Editor">Review Editor</strong>')
+    edit=edit.replace('<a class="wb-editor-link" href="./edit/" data-l10n="Open Review Editor">Open Review Editor</a>', '')
+    editor_notice = ('<div class="wb-editor-notice">'
+                     '<strong data-l10n="You are in the Review Editor">You are in the Review Editor</strong>'
+                     '<a id="wb-return-to-reader" href="./"><span aria-hidden="true">←</span> '
+                     '<span data-l10n="Return to the read-only view">Return to the read-only view</span></a></div>')
+    edit=edit.replace('<header class="wb-header">', editor_notice+'\n  <header class="wb-header">', 1)
+    edit=edit.replace('data-l10n="Research Workbench">Research Workbench',
+                      'data-l10n="Review Editor">Review Editor')
     edit=edit.replace("connect-src 'self';","connect-src 'self' https://api.github.com;")
     def one_level_deeper(match):
         attr,original=match.group(1),match.group(2)

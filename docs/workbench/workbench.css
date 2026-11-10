@@ -170,6 +170,13 @@ body.wb{background:#e9efeb;color:#142e2a;font-size:13px}
  padding:8px 12px;min-height:38px;border-radius:4px;font-size:11px;font-weight:750}
 .wb-editor-link:hover{background:#d5e8d7}
 .wb-header .wb-editor-link{flex-shrink:0}
+.wb-editor-notice{display:flex;align-items:center;flex-wrap:wrap;gap:0 16px;
+ padding:4px clamp(12px,2vw,21px);background:#fff0bd;color:#352500;
+ border-bottom:1px solid #cead5d;font-size:13px;line-height:1.45}
+.wb-editor-notice a{display:inline-flex;align-items:center;gap:6px;min-height:32px;
+ color:inherit;font-weight:700;text-decoration:underline;text-underline-offset:.18em}
+.wb-editor-notice a:hover{text-decoration-thickness:2px}
+.wb-editor-notice a:focus-visible{outline:2px solid #4a3300;outline-offset:2px}
 @media(max-width:900px){.wb-scope-heading{align-items:flex-start;flex-direction:column}
  .wb-scope-tabs{width:100%}.wb-scope-tabs button{flex:1 1 110px}}
 @media(max-width:520px){.wb-scope-nav{padding:9px}
