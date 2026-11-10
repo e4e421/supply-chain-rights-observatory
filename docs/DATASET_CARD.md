@@ -8,6 +8,7 @@ Researchers studying European supply-chain governance, human rights due diligenc
 ## Data sources and provenance
 - Google News RSS search: title, aggregator URL, publication date and RSS source credit where available. Search results may be irrelevant; no editorial claim verification is implied.
 - Crossref and OpenAlex: bibliographic metadata only. Presence of DOI does not prove peer review or research quality.
+- Google Scholar, Litmaps, Semantic Scholar and Web of Science Core Collection are external literature-discovery channels linked from the [Source Directory](./sources/#academic-monitoring). They are separate from the automated catalogue.
 - Curated official institutional directory: separately reviewed reference links. Directory approval does not verify any publication or allegation.
 - Source fields distinguish `discovery_query_id`, `source_id` (monitoring query), `publisher_hint` (unverified), `publisher_provenance`, `first_seen`, `retrieved_at`, and original publication date when supplied.
 

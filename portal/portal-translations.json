@@ -147,5 +147,22 @@
 "SUPPLY CHAIN RESEARCH":{"zh":"供應鏈研究","de":"LIEFERKETTENFORSCHUNG"},
 "ACADEMIC":{"zh":"學術","de":"WISSENSCHAFT"},
 "DISCOVERY":{"zh":"線索探索","de":"RECHERCHE"},
-"EU DATA":{"zh":"歐盟資料","de":"EU-DATEN"}
+"EU DATA":{"zh":"歐盟資料","de":"EU-DATEN"},
+"Academic literature monitoring":{"zh":"學術文獻觀察","de":"Beobachtung wissenschaftlicher Literatur"},
+"Automatic metadata collection":{"zh":"自動蒐集書目資料","de":"Automatische Metadatenerfassung"},
+"External research and alerts":{"zh":"外部文獻搜尋與通知","de":"Externe Recherche und Benachrichtigungen"},
+"Crossref":{"zh":"Crossref","de":"Crossref"},
+"OpenAlex":{"zh":"OpenAlex","de":"OpenAlex"},
+"Google Scholar":{"zh":"Google Scholar","de":"Google Scholar"},
+"Litmaps":{"zh":"Litmaps","de":"Litmaps"},
+"Semantic Scholar":{"zh":"Semantic Scholar","de":"Semantic Scholar"},
+"Web of Science Core Collection":{"zh":"Web of Science Core Collection","de":"Web of Science Core Collection"},
+"Publisher-deposited bibliographic metadata and DOI lookup.":{"zh":"查找由出版者登錄的書目資料與 DOI。","de":"Bibliografische Metadaten aus Verlagsmeldungen und DOI-Suche."},
+"Bibliographic discovery through an open index of works and citations.":{"zh":"透過開放的出版品與引用索引探索文獻。","de":"Literaturrecherche in einem offenen Index für Publikationen und Zitationen."},
+"Search across publications and set keyword or citation alerts on the platform.":{"zh":"跨出版品搜尋，並在平台設定關鍵字或引用通知。","de":"Publikationsübergreifend suchen und Benachrichtigungen zu Stichwörtern oder Zitationen einrichten."},
+"Start from a seed paper, explore citation connections, and set up Monitor on the platform.":{"zh":"從一篇核心論文開始探索引用網絡，並在平台設定 Monitor 追蹤。","de":"Mit einem Ausgangsartikel beginnen, Zitationsbeziehungen erkunden und Monitor einrichten."},
+"Find related papers and follow new recommendations through Research Feeds.":{"zh":"查找相關論文，並透過 Research Feeds 追蹤新推薦。","de":"Verwandte Arbeiten finden und neue Empfehlungen über Research Feeds verfolgen."},
+"Cross-check indexed records and citation trails. Access depends on your institution or plan.":{"zh":"交叉核對索引紀錄與引用脈絡。使用權限依機構訂閱或方案而定。","de":"Indexierte Datensätze und Zitationspfade abgleichen. Der Zugriff hängt von der Einrichtung oder dem Tarif ab."},
+"Open these platforms to search or set up alerts in your own account where required. Their results and alerts are separate from this site’s database.":{"zh":"前往各平台搜尋或設定通知，必要時請登入自己的帳號。平台結果與通知各自獨立於本站資料庫。","de":"Auf den Plattformen suchen oder bei Bedarf im eigenen Konto Benachrichtigungen einrichten. Ergebnisse und Benachrichtigungen sind von der Datenbank dieser Website getrennt."},
+"For each lead, verify the DOI, publication version and peer-review status at the original source. Record the platform, search terms and date for reproducibility.":{"zh":"請到原始來源核對 DOI、出版版本及同儕審查狀態，並記錄搜尋平台、查詢詞與日期，便於重現。","de":"DOI, Publikationsversion und Begutachtungsstatus an der Originalquelle prüfen. Plattform, Suchbegriffe und Datum für die Reproduzierbarkeit festhalten."}
 }
