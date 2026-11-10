@@ -2,16 +2,16 @@
   "schema_version": 1,
   "format": "jsonl-monthly",
   "public_metadata_only": true,
-  "total_records": 56,
+  "total_records": 93,
   "partition_count": 1,
   "partitions": [
     {
       "file": "2026-11.jsonl",
-      "records": 56,
-      "sha256": "ebf1e0c8abc43642ba4423125849e0d730cd835ee35eb7bb126adf12050538d0",
-      "bytes": 63806
+      "records": 93,
+      "sha256": "12144b483caa78ede3027347203d23cac57cc1d4fc8ce22e8a4d488531cd7cb3",
+      "bytes": 112207
     }
   ],
   "event_linkage": "manual_review_only",
-  "updated_at": "2026-11-09T07:04:36Z"
+  "updated_at": "2026-11-10T04:12:25Z"
 }
