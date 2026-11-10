@@ -60,7 +60,7 @@
     "name": "ETH Zurich · Supply Chain Management Group",
     "mode": "Academic / manually verified",
     "url": "https://scm.ethz.ch/",
-    "use": "Follow research in supply chain management, network governance and social sustainability; this site is independent of ETH."
+    "use": "Follow research in supply chain management, network governance and social sustainability."
   },
   {
     "category": "ACADEMIC",
@@ -74,7 +74,7 @@
     "name": "Google News · Topic Monitoring",
     "mode": "RSS aggregation / automated",
     "url": "https://news.google.com/",
-    "use": "Query-based discovery of potential leads. Aggregated results are not primary evidence; trace the original publisher."
+    "use": "Keyword-based news discovery with links to the original publishers."
   },
   {
     "category": "EU DATA",
@@ -109,7 +109,7 @@
     "name": "World Benchmarking Alliance · Corporate Human Rights Benchmark",
     "mode": "Benchmark / manually reviewed",
     "url": "https://www.worldbenchmarkingalliance.org/benchmark/corporate-human-rights-benchmark",
-    "use": "Comparative company HRDD and remedy indicators; scores are methodology-dependent proxies, not confirmed violations."
+    "use": "Compare company indicators for human rights due diligence and remedy using the benchmark methodology."
   },
   {
     "category": "BUSINESS & HUMAN RIGHTS",
@@ -123,7 +123,7 @@
     "name": "European Labour Authority (ELA)",
     "mode": "Official / manually verified",
     "url": "https://www.ela.europa.eu/en/about/what-we-do",
-    "use": "Official EU labour mobility cooperation, cross-border inspections, enforcement coordination and worker-protection research; not a complete incident database."
+    "use": "EU labour mobility cooperation, cross-border inspections, enforcement coordination and worker-protection research."
   },
   {
     "category": "LABOUR",
@@ -172,14 +172,14 @@
     "name": "Herbert Smith Freehills Kramer · Business and Human Rights",
     "mode": "Curated reference",
     "url": "https://www.hsfkramer.com/insights",
-    "use": "Expert commentary on legal implementation, supply-chain due diligence and litigation; opinion/analysis, not independent fact adjudication."
+    "use": "Legal commentary on implementation, supply-chain due diligence and litigation."
   },
   {
     "category": "PUBLIC PROCUREMENT",
     "name": "ICLEI · Sustainable Procurement Platform",
     "mode": "Curated reference",
     "url": "https://sustainable-procurement.org/sustainable-public-procurement/",
-    "use": "European public procurement, social clauses, supplier governance and HRDD in procurement; maintained by ICLEI, not an independent newspaper."
+    "use": "ICLEI resources on European public procurement, social clauses and supplier due diligence."
   },
   {
     "category": "SPECIALIST MEDIA",
