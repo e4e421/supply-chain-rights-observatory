@@ -48,6 +48,10 @@ PROBE=r'''
  }
  if(page==='sources'){
   check(document.querySelectorAll('#source-rows tr').length>1,'Source directory absent');
+  const media=[...document.querySelectorAll('#source-rows td small')].filter(n=>n.textContent.startsWith('media-'));
+  const manualStatus={en:'Not checked automatically','zh-Hant':'未執行自動連線檢查',de:'Nicht automatisch geprüft'}[document.documentElement.lang];
+  check(media.length===11&&media.every(n=>n.closest('tr').lastElementChild.textContent.includes(manualStatus)),
+    'Approved manual media missing or mislabelled');
   const section=document.getElementById('academic-monitoring');
   const expectedTitle={en:'Academic literature monitoring','zh-Hant':'學術文獻觀察',de:'Beobachtung wissenschaftlicher Literatur'};
   check(section?.querySelector('h2')?.textContent===expectedTitle[document.documentElement.lang],'Academic monitoring section missing or untranslated');
