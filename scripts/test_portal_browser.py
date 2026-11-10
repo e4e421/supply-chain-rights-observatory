@@ -48,6 +48,14 @@ PROBE=r'''
  }
  if(page==='sources'){
   check(document.querySelectorAll('#source-rows tr').length>1,'Source directory absent');
+  const section=document.getElementById('academic-monitoring');
+  const expectedTitle={en:'Academic literature monitoring','zh-Hant':'學術文獻觀察',de:'Beobachtung wissenschaftlicher Literatur'};
+  check(section?.querySelector('h2')?.textContent===expectedTitle[document.documentElement.lang],'Academic monitoring section missing or untranslated');
+  const hosts=id=>[...document.querySelectorAll('#'+id+' a')].map(a=>new URL(a.href).hostname).join(',');
+  check(hosts('academic-automatic')==='www.crossref.org,help.openalex.org','Incorrect automated academic source list');
+  check(hosts('academic-manual')==='scholar.google.com,www.litmaps.com,www.semanticscholar.org,www.webofscience.com','Incorrect external academic channel list');
+  const archive=section?.querySelector('a[href*="kind=academic"]');
+  check(archive&&new URL(archive.href).searchParams.get('kind')==='academic','Academic archive shortcut missing');
   const q=document.getElementById('source-search');q.value='NO_MATCH_9031';q.dispatchEvent(new Event('input',{bubbles:true}));
   check(document.getElementById('source-count').textContent.startsWith('0 /'),'Source filter failed');
   q.value='';q.dispatchEvent(new Event('input',{bubbles:true}));

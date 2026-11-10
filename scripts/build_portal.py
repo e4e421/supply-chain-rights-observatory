@@ -98,21 +98,48 @@ def build() -> None:
 {field('archive-from','Published from','<input id="archive-from" type="date">')}
 {field('archive-to','Published through','<input id="archive-to" type="date">')}
 </div><p class="portal-help">{tx('Search terms use AND by default. Use OR for alternatives and quotes for exact phrases.')}</p>
-<div class="portal-tools"><button id="archive-reset" type="button">{tx('Reset filters')}</button><button id="archive-export" type="button">{tx('Export filtered CSV')}</button><button id="archive-metadata" type="button">{tx('Export query metadata')}</button><button id="share-query" type="button">{tx('Copy shareable link')}</button>{link('../workbench/?scope=all','Advanced search')}</div>
+<div class="portal-tools"><button id="archive-reset" type="button">{tx('Reset filters')}</button><button id="archive-export" type="button">{tx('Export filtered CSV')}</button><button id="archive-metadata" type="button">{tx('Export query metadata')}</button><button id="share-query" type="button">{tx('Copy shareable link')}</button>{link('../workbench/?scope=all','Advanced search')}{link('../sources/#academic-monitoring','Academic literature monitoring')}</div>
 <p id="archive-coverage" class="portal-notice" role="status"></p><p id="archive-count" role="status" aria-live="polite">Loading archive…</p><div id="archive-results" class="portal-record-list"></div><button id="archive-show-more" type="button" hidden>{tx('Show more archive records')}</button>
 <p id="portal-feedback" role="status" aria-live="polite"></p>
 <details class="portal-document"><summary>{tx('Canonical data and integrity')}</summary>{tx('The browser has bounded loading. Partial coverage is labelled explicitly; the canonical JSONL archive is the long-term source.','p')}
 {external(REPO+'/tree/main/data/archive','Public JSONL archive')} · {external(REPO+'/blob/main/data/archive/manifest.json','Integrity manifest')}</details>'''
     write('archive',shell('archive','Research Archive','Search historical publication records, dates, DOI and stable IDs.',archive))
+    automatic_academic = [
+        ('https://www.crossref.org/documentation/retrieve-metadata/rest-api/', 'Crossref',
+         'Publisher-deposited bibliographic metadata and DOI lookup.'),
+        ('https://help.openalex.org/api/', 'OpenAlex',
+         'Bibliographic discovery through an open index of works and citations.'),
+    ]
+    manual_academic = [
+        ('https://scholar.google.com/', 'Google Scholar',
+         'Search across publications and set keyword or citation alerts on the platform.'),
+        ('https://www.litmaps.com/', 'Litmaps',
+         'Start from a seed paper, explore citation connections, and set up Monitor on the platform.'),
+        ('https://www.semanticscholar.org/', 'Semantic Scholar',
+         'Find related papers and follow new recommendations through Research Feeds.'),
+        ('https://www.webofscience.com/wos/woscc/basic-search', 'Web of Science Core Collection',
+         'Cross-check indexed records and citation trails. Access depends on your institution or plan.'),
+    ]
+    academic_channels = f'''<section class="portal-document" id="academic-monitoring" aria-labelledby="academic-monitoring-title">
+{tx('Academic literature monitoring','h2','id="academic-monitoring-title"')}
+{link('../archive/?kind=academic','Search academic records')}
+{tx('Automatic metadata collection','h3')}
+<ul id="academic-automatic">{''.join('<li>'+external(url,name)+' '+tx(use)+'</li>' for url,name,use in automatic_academic)}</ul>
+{tx('External research and alerts','h3')}
+{tx('Open these platforms to search or set up alerts in your own account where required. Their results and alerts are separate from this site’s database.','p')}
+<ul id="academic-manual">{''.join('<li>'+external(url,name)+' '+tx(use)+'</li>' for url,name,use in manual_academic)}</ul>
+{tx('For each lead, verify the DOI, publication version and peer-review status at the original source. Record the platform, search terms and date for reproducibility.','p')}
+</section>'''
     sources=f'''<p class="portal-notice">{tx('Editorial assessment, licensing and HTTP reachability are separate. None verifies an allegation.')}</p>
 <div class="portal-filter-grid portal-source-filters">
 {field('source-search','Search institutions','<input id="source-search" type="search" maxlength="120">')}
 {field('source-category','Category','<select id="source-category">'+option('all','All categories')+'</select>')}
 {field('source-review','Review filter','<select id="source-review">'+option('all','All sources')+option('needs','Editorial review needed')+option('licence','Licence review pending')+option('connection','Connection not confirmed')+'</select>')}
-</div><div class="portal-tools"><button id="share-query" type="button">{tx('Copy shareable link')}</button>{external(REPO+'/issues/new/choose','Propose a source or correction')}</div>
+</div><div class="portal-tools"><button id="share-query" type="button">{tx('Copy shareable link')}</button>{external(REPO+'/issues/new/choose','Propose a source or correction')}{link('#academic-monitoring','Academic literature monitoring')}</div>
 <p id="source-count" role="status" aria-live="polite">Loading public data…</p><p id="portal-feedback" role="status"></p>
 <div class="portal-table-wrap" tabindex="0" aria-label="Source directory"><table class="portal-table"><thead><tr>{''.join(tx(x,'th','scope=col') for x in ['Institution & research use','Category','Editorial review','Licence review','Reachability'])}</tr></thead><tbody id="source-rows"></tbody></table></div>
-<p class="portal-help">{tx('A reference listing does not enable automated collection. New ingestion hosts require separate approval.')}</p>'''
+<p class="portal-help">{tx('A reference listing does not enable automated collection. New ingestion hosts require separate approval.')}</p>
+{academic_channels}'''
     write('sources',shell('sources','Source Directory','Inspect institutional sources, editorial review and link availability.',sources))
     csddd='https://commission.europa.eu/topics/business-and-industry/company-law-and-corporate-governance/corporate-sustainability-due-diligence_en'
     flr='https://single-market-economy.ec.europa.eu/single-market/goods/forced-labour-regulation/what-forced-labour-regulation-and-how-does-it-work_en'
@@ -135,7 +162,7 @@ def build() -> None:
         articles[i]=articles[i].replace('</article>',f'<p>{link("../archive/?topic="+topic,"Find related records")}</p></article>')
     research=f'''<p class="portal-notice">{tx('Independent research framing aligned with supply-chain governance and social sustainability. Not an ETH Zurich programme or endorsement.')}</p>
 <div class="portal-card-grid">{''.join(articles)}</div>
-<section class="portal-document">{tx('Literature discovery','h2')}{tx('Bibliographic records are leads, not a quality or peer-review guarantee. Verify the DOI and publication with the publisher.','p')}{link('../archive/?kind=academic','Search academic records')} · {external('https://scm.ethz.ch/','ETH Zurich Supply Chain Management Group')}</section>'''
+<section class="portal-document">{tx('Literature discovery','h2')}{tx('Bibliographic records are leads, not a quality or peer-review guarantee. Verify the DOI and publication with the publisher.','p')}{link('../archive/?kind=academic','Search academic records')} · {link('../sources/#academic-monitoring','Academic literature monitoring')} · {external('https://scm.ethz.ch/','ETH Zurich Supply Chain Management Group')}</section>'''
     write('research',shell('research','Research Framework','Turn supply-network, governance and labour questions into searches.',research))
     dictionary=[('record_id','Stable publication identifier; not an incident identifier.'),('event_id','Unassigned until a separately reviewed event-linking decision.'),('published_at','Publication timestamp supplied by the source.'),('first_seen','First observation by this collection pipeline.'),('publisher_hint','Unverified publisher credit, not authenticated authorship.'),('evidence_status','Discovery or bibliographic class; not a verdict.'),('topics','Preliminary machine tags, not human-reviewed entity coding.')]
     methodology=f'''<section class="portal-document">{tx('Storage and retention','h2')}{tx('The latest view is capped at 240 records and 150 days. The monthly first-observation archive does not expire on that schedule.','p')}{tx('Corrections need an auditable review. A normal Git deletion does not erase public history.','p')}</section>

@@ -5,7 +5,7 @@
   "http_reachability_does_not_verify_claims": true,
   "last_probe_run": "2026-11-09T01:57:13Z",
   "approved_reference_count": 19,
-  "pending_candidate_count": 0,
+  "pending_candidate_count": 11,
   "review_needed_count": 12,
   "review_overdue": 0,
   "licence_review_pending_count": 19,
