@@ -1,4 +1,4 @@
-/* Professional research workbench. Same-origin public data only, no keys or remote services. */
+/* Research workbench for filtering, inspecting and exporting records. */
 (() => {
 'use strict';
 const $ = id => document.getElementById(id);
@@ -23,7 +23,7 @@ zh:{
 "Archive month groups records by first observed date, not publication date.":"歷史月份依首次收錄日期分組，不是新聞發布日期。",
 'Previous page':'上一頁','Next page':'下一頁','Page':'第','of':'／','Showing':'顯示','records':'筆','Results pagination':'結果分頁','Paged research results table':'分頁研究結果表格','Full text in record inspector':'完整內容請見右側紀錄詳情',
 'Skip to results':'跳至搜尋結果','Visitor portal':'一般訪客首頁','Research Workbench':'專業研究工作台',
-'Public metadata · not verified incidents':'公開資料 · 非已證實事件','Latest records':'最新情報','Historical records':'歷史紀錄',
+'Latest records':'最新情報','Historical records':'歷史紀錄',
 'Collection status':'擷取狀態','Last successful update (Taipei)':'最後成功更新（臺北）','Source directory':'來源目錄',
 'Methodology':'研究方法','Dataset':'資料範圍','Latest':'最新情報','Archive month':'歷史月份','All available':'全部可取得紀錄',
 'Sort by':'排序方式','Published: newest':'發布時間：最新','Published: oldest':'發布時間：最早',
@@ -41,10 +41,9 @@ zh:{
 'Show more':'顯示更多','Record inspector':'紀錄詳情','Clear selection':'清除選取',
 'Select a record to inspect its provenance, dates and evidence status.':'選取紀錄後檢查來源、日期與證據狀態。',
 'Workspace & sharing':'工作區與分享',
-'Saved views stay in this browser. Sharing a URL shares its search terms; do not include private data.':'儲存視圖僅保留於此瀏覽器。分享網址會揭露搜尋條件，請勿輸入私密資料。',
+'Saved views stay in this browser. Shared links include the current search terms.':'已儲存的視圖保留在此瀏覽器。分享連結會包含目前的搜尋條件。',
 'Save current view':'儲存目前視圖','Choose a saved view':'選擇已儲存視圖',
 'Delete saved view':'刪除已儲存視圖','Copy shareable link':'複製分享連結','Research integrity':'研究完整性',
-'Discovery records are not verified human-rights violations. Source reachability is not evidence of credibility.':'研究線索不等於已確認人權違規；網站可連線也不代表來源可信。',
 'Methods & limitations':'方法與限制','Language':'語言','Search records':'搜尋紀錄',
 'Select website language':'選擇網站語言','Scrollable research results table':'可捲動的研究結果表格',
 'Loading public records…':'正在讀取公開紀錄…','Loading months…':'讀取月份…',
@@ -63,13 +62,11 @@ zh:{
 'Licence review pending':'授權審查待處理','Curated references':'收錄參考來源',
 'Editorial status':'編輯審查狀態','Reachability':'連線狀態',
 'Not independently verified':'尚未獨立查證','Publisher credit is unverified.':'出版者資訊未經獨立查證。',
-'No incident event ID has been assigned.':'尚未建立經查核的事件編號。',
 'Original discovery link':'原始線索連結','Open DOI':'開啟 DOI','Publication date':'發布日期',
 'First observed':'首次觀測','Monitoring query':'監測查詢','Publisher hint':'出版者線索',
 'Publisher verified':'出版者已查核','No':'否','Yes':'是','Source type':'資料類型',
 'Screening status':'初篩狀態','Event ID':'事件編號','Not assigned':'尚未指派',
 'Topics (preliminary)':'主題（初步分類）','Source inspection':'來源查核',
-'Use the original source to verify all substantive claims.':'請查閱原始資料以確認實質主張。',
 'View saved':'視圖已儲存','View limit reached (12)':'已達儲存上限（12）',
 'View name':'視圖名稱','Saved view removed':'已刪除儲存視圖',
 'Shareable link copied':'分享連結已複製','Unable to copy automatically; copy the address shown.':'無法自動複製，請複製顯示的網址。',
@@ -77,7 +74,6 @@ zh:{
 'Data could not be loaded. Check the GitHub Pages deployment.':'資料載入失敗；請檢查 GitHub Pages 部署。',
 'Source unavailable':'來源不明','No selected record':'尚未選取紀錄','No active filters':'尚無篩選條件',
 'Publication title is shown in its original language.':'出版標題保留原始語言。',
-'All records are public discovery metadata, not a verified population of incidents.':'所有紀錄均為公開研究線索，不代表已驗證事件母體。'
 },
 de:{
 "Open Review Editor":"Review-Editor öffnen",
@@ -96,7 +92,6 @@ de:{
 "Archive month groups records by first observed date, not publication date.":"Archivmonate beziehen sich auf die Ersterfassung, nicht auf das Veröffentlichungsdatum.",
 'Previous page':'Vorherige Seite','Next page':'Nächste Seite','Page':'Seite','of':'von','Showing':'Anzeige','records':'Einträge','Results pagination':'Ergebnisseiten','Paged research results table':'Seitengesteuerte Ergebnistabelle','Full text in record inspector':'Volltext in den Datensatzdetails',
 'Skip to results':'Zu den Suchergebnissen','Visitor portal':'Besucherportal','Research Workbench':'Forschungsarbeitsplatz',
-'Public metadata · not verified incidents':'Öffentliche Metadaten · keine bestätigten Vorfälle',
 'Latest records':'Aktuelle Meldungen','Historical records':'Historische Datensätze',
 'Collection status':'Erfassungsstatus','Last successful update (Taipei)':'Letzte Aktualisierung (Taipeh)',
 'Source directory':'Quellenverzeichnis','Methodology':'Methodik','Dataset':'Datenbestand',
@@ -118,10 +113,9 @@ de:{
 'Show more':'Mehr anzeigen','Record inspector':'Datensatzdetails','Clear selection':'Auswahl löschen',
 'Select a record to inspect its provenance, dates and evidence status.':'Datensatz auswählen, um Herkunft, Daten und Evidenzstatus zu prüfen.',
 'Workspace & sharing':'Arbeitsbereich & Teilen',
-'Saved views stay in this browser. Sharing a URL shares its search terms; do not include private data.':'Gespeicherte Ansichten bleiben in diesem Browser. Geteilte URLs enthalten Suchbegriffe; keine vertraulichen Daten eingeben.',
+'Saved views stay in this browser. Shared links include the current search terms.':'Gespeicherte Ansichten bleiben in diesem Browser. Geteilte Links enthalten die aktuellen Suchbegriffe.',
 'Save current view':'Ansicht speichern','Choose a saved view':'Gespeicherte Ansicht auswählen',
 'Delete saved view':'Ansicht löschen','Copy shareable link':'Link kopieren','Research integrity':'Forschungsintegrität',
-'Discovery records are not verified human-rights violations. Source reachability is not evidence of credibility.':'Recherchehinweise sind keine bestätigten Menschenrechtsverletzungen. Erreichbarkeit ist kein Glaubwürdigkeitsnachweis.',
 'Methods & limitations':'Methoden & Grenzen','Language':'Sprache','Search records':'Datensätze suchen',
 'Select website language':'Sprache auswählen','Scrollable research results table':'Scrollbare Ergebnistabelle',
 'Loading public records…':'Öffentliche Datensätze werden geladen …','Loading months…':'Archivmonate werden geladen …',
@@ -140,13 +134,11 @@ de:{
 'Licence review pending':'Lizenzprüfung ausstehend','Curated references':'Kuratierte Referenzen',
 'Editorial status':'Redaktioneller Prüfstatus','Reachability':'Erreichbarkeit',
 'Not independently verified':'Nicht unabhängig überprüft','Publisher credit is unverified.':'Herausgeberangabe ist nicht geprüft.',
-'No incident event ID has been assigned.':'Es wurde keine überprüfte Ereignis-ID vergeben.',
 'Original discovery link':'Originalhinweis öffnen','Open DOI':'DOI öffnen','Publication date':'Veröffentlichungsdatum',
 'First observed':'Erstmals erfasst','Monitoring query':'Suchabfrage','Publisher hint':'Herausgeberhinweis',
 'Publisher verified':'Herausgeber überprüft','No':'Nein','Yes':'Ja','Source type':'Quellentyp',
 'Screening status':'Vorsortierungsstatus','Event ID':'Ereignis-ID','Not assigned':'Nicht zugewiesen',
 'Topics (preliminary)':'Themen (vorläufig)','Source inspection':'Quellenprüfung',
-'Use the original source to verify all substantive claims.':'Alle inhaltlichen Aussagen anhand der Originalquelle prüfen.',
 'View saved':'Ansicht gespeichert','View limit reached (12)':'Limit erreicht (12)',
 'View name':'Name der Ansicht','Saved view removed':'Ansicht gelöscht',
 'Shareable link copied':'Link kopiert','Unable to copy automatically; copy the address shown.':'Automatisches Kopieren nicht möglich; angezeigte Adresse kopieren.',
@@ -154,7 +146,6 @@ de:{
 'Data could not be loaded. Check the GitHub Pages deployment.':'Daten konnten nicht geladen werden; GitHub-Pages-Bereitstellung prüfen.',
 'Source unavailable':'Quelle unbekannt','No selected record':'Kein Datensatz ausgewählt',
 'No active filters':'Keine aktiven Filter','Publication title is shown in its original language.':'Originaltitel bleibt in der Veröffentlichungssprache.',
-'All records are public discovery metadata, not a verified population of incidents.':'Alle Datensätze sind öffentliche Recherchemetadaten, keine verifizierte Grundgesamtheit von Vorfällen.'
 }};
 const t = s => locale()==='en' ? s : (L[locale()] && L[locale()][s]) || baseI18n.t(s);
 const text = (tag,value,className) => {const n=document.createElement(tag); if(className)n.className=className;n.textContent=value==null?'':String(value);return n;};
@@ -572,7 +563,6 @@ function showRecord(){
   links.append(detail);
  }
  out.append(links);
- out.append(text('p',t('Publisher credit is unverified.')+' '+t('No incident event ID has been assigned.')+' '+t('Use the original source to verify all substantive claims.'),'wb-record-warning'));
  out.append(text('p',t('Publication title is shown in its original language.'),'wb-empty'));
 }
 function selectRecord(id){

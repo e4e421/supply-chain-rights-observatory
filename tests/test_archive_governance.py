@@ -14,7 +14,7 @@ def item(title='Supplier due diligence',url='https://news.google.com/rss/article
        'kind':'discovery','title':title,'url':url,
        'published_at':'2026-11-07T00:00:00Z','first_seen':first_seen,
        'source':'EU due diligence & supply chain law','source_id':'eu-policy',
-       'topics':['policy'],'description':'Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.',
+       'topics':['policy'],'description':'News lead collected from a public feed.',
        'evidence_status':'Unverified discovery'}
 
 class ArchiveTests(unittest.TestCase):

@@ -63,7 +63,7 @@ class LocalisationContractTests(unittest.TestCase):
             self.assertFalse(CJK.search(ref['mode']))
         self.assertNotIn('自動發現的新聞聚合線索',COLLECTOR)
         self.assertNotIn('Crossref 出版書目資料',COLLECTOR)
-        self.assertIn('Automatically discovered news lead',COLLECTOR)
+        self.assertIn('News lead collected from a public feed',COLLECTOR)
         self.assertIn('Crossref bibliographic record',COLLECTOR)
 
     def test_dynamic_ui_and_public_access_boundaries(self):

@@ -27,8 +27,7 @@ function show(){
  ];
  for(const [name,value]of fields){if(!value)continue;dl.append(txt('dt',name),txt('dd',value))}
  const original=document.createElement('p');original.append(link(item.url,t('Open original discovery link')));
- const note=txt('p',t('Source discovery is not evidence of a confirmed human-rights violation.'));
- note.className='archive-notice';root.append(title,meta,evidence,dl,original,note);
+ root.append(title,meta,evidence,dl,original);
 }
 async function read(path){const r=await fetch(path,{credentials:'omit',cache:'no-store'});if(!r.ok)throw Error();return r.json()}
 (async()=>{

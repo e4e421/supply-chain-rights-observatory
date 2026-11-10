@@ -3,13 +3,13 @@
 GitHub is the **primary** store, not an independent disaster-recovery site. A separate, access-controlled backup must be configured by a repository administrator. This document is a runbook only; it does not claim an offsite backup exists.
 
 ## Monthly export (maintainer workstation)
-1. Clone the repository through an authenticated device. Do not paste GitHub access tokens into public scripts.
+1. Clone the repository through an authenticated device.
 2. Record commit SHA: `git rev-parse HEAD`.
 3. Check archive: `python3 scripts/validate_archive.py`. Save stdout/stderr with the date and SHA.
 4. Export a complete repository mirror: `git clone --mirror https://github.com/e4e421/supply-chain-rights-observatory.git observatory-mirror.git`.
 5. Archive the mirror and copy to a separate access-controlled storage account (institutional Drive or object storage with restricted sharing and version history).
 6. Independently store SHA-256 checksums and a list of archive partitions, including `data/candidates` and `data/archive`.
-7. Do not include private notes, researcher PII or external provider secrets. Limit access to authorised maintainers.
+7. Limit the archive backup to the public research data and give access to authorised maintainers.
 
 ## Quarterly restore drill
 1. On an isolated workstation, restore the mirror into a disposable repository or working tree.

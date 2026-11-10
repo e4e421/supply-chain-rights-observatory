@@ -28,7 +28,6 @@ def integrate_runtime():
         ("function showRecord(){", "function showRecord(){\n reviewPanel?.inspect(activeRecords.find(x=>x.record_id===chosen)||null);"),
         ("t(item.publisher_verified?'Yes':'No')", "t((item.publisher_confirmed||item.publisher_verified)?'Yes':'No')"),
         ("const url=https(item.canonical_url)||https(item.url);", "const url=https(item.reviewed_canonical_url)||https(item.canonical_url)||https(item.url);"),
-        ("t('Publisher credit is unverified.')+' '+t('No incident event ID has been assigned.')", "(item.publisher_confirmed?'':t('Publisher credit is unverified.'))+' '+(item.event_id?'':t('No incident event ID has been assigned.'))"),
         ("'topics','doi','url'];", "'topics','doi','url','relevance_level','rule_version','review_state','manual_relevance'];"),
         ("async function init(){", "async function init(){\n if(relevance)await relevance.ready;\n reviewPanel?.refresh();")
       ],
@@ -73,8 +72,7 @@ def build():
     counts={level:sum(row['analysis']['level']==level for row in index.values()) for level in ['high','review','low']}
     data={'schema_version':1,'rule_version':rules()['version'],'rule_digest':digest(rules()),'topics':rules()['topics'],
           'coverage':'complete' if len(selected)==len(records) else 'partial','indexed_records':len(index),
-          'total_records':len(records),'counts':counts,'records':index,
-          'notice':'Keyword relevance and lexical similarity are not fact verification or event identity.'}
+          'total_records':len(records),'counts':counts,'records':index}
     write(OUT/'data/relevance-index.json',data)
     # Stratified, deterministic pool. Labels remain null until the research team reviews them.
     pool={('record:'+rid):{'sample_id':'record:'+rid,'title':row['title'],'url':row['url'],
@@ -99,7 +97,7 @@ def build():
             if buckets[level] and len(sample)<200:sample.append(buckets[level].pop())
     write(OUT/'data/relevance-validation-sample.json',{'schema_version':1,'label_status':'awaiting_human_labels',
           'rule_version':rules()['version'],'available_pool':len(pool),'sample_count':len(sample),
-          'target_range':[150,200],'sampling_pool_limit':5000,'metrics':None,'notes':'Keyword-derived strata; never treat machine outputs as human labels. Evaluate after independent annotation.','cases':sample})
+          'target_range':[150,200],'sampling_pool_limit':5000,'metrics':None,'notes':'Keyword-derived strata for evaluation after independent annotation.','cases':sample})
     for path in OUT.rglob('*.html'):
         source=path.read_text(encoding='utf-8')
         # Root page, one-level section and nested editor all share one data index.

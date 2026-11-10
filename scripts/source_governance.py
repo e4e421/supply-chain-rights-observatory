@@ -2,7 +2,7 @@
 """Source governance: editorial status is never inferred from HTTP response status.
 
 Offline checks on every build, optional guarded availability probes on a weekly schedule.
-No crawl, content ingestion, credentials or automatically promoted sources.
+The registry records editorial decisions and technical reachability separately.
 """
 from __future__ import annotations
 import argparse, hashlib, json, re

@@ -5,13 +5,12 @@ body:
   - type: markdown
     attributes:
       value: |
-        This repository contains unverified discovery leads. Do not post identifying details about affected people, private evidence, unpublished interviews, sensitive information or credentials.
-        For confidential or security-sensitive content, use private vulnerability reporting rather than a public issue.
+        Link to the public record and original evidence supporting the proposed correction.
   - type: input
     id: record
     attributes:
       label: Public record_id (18 hex characters)
-      placeholder: "Paste the public metadata ID, not a person's identifier"
+      placeholder: "Paste the public record ID"
     validations:
       required: true
   - type: input

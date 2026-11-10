@@ -1,6 +1,6 @@
 # Data Dictionary and Research Use Protocol (v1)
 
-This dictionary documents the **public discovery metadata** schema only. English is canonical for analytical fields. Identifying people in news headlines must never be assumed to mean a breach is established. The site is **not affiliated with ETH Zurich**.
+This dictionary documents the **public discovery metadata** schema only. English is canonical for analytical fields.
 
 ## Collection stages
 
@@ -31,14 +31,14 @@ This dictionary documents the **public discovery metadata** schema only. English
 | `doi` | DOI if bibliographic record | Must be verified with publisher |
 | `record_fingerprint` | Full SHA-256 checksum of canonical publication identity inputs | Protects against mismatched 18-hex IDs; not an external signature |
 | `archive_schema_version` | Version of individual JSONL record schema | Migration required for incompatible future schema |
-| `capture_type` | `public_metadata_only` | Explicitly excludes unpublished interviews or confidential research |
+| `capture_type` | `public_metadata_only` | Public publication metadata |
 
 ## Source trust versus event truth
 
 1. **Institutional editorial review**: canonical domain, legal mandate, publisher independence, geographic scope, methods, licensing, update frequency and documented bias. Held in `sources/registry.json` and updated manually only.
 2. **Reachability check**: weekly HTTPS HEAD request with host allowlisting; errors may be caused by bot blocking or redirects. This is **not** a trust score.
 3. **Publication record**: every RSS headline is labelled unverified discovery until independent checks are completed. A registry-approved source does not turn all its items into verified claims.
-4. **Study-grade coding**: document allegations, response, adjudication/remedy, company relationship, country, sector, worker population, policy exposure, event date, source corroboration and reviewer decision in a **separate reviewed dataset**. Keep confidential individual-level data out of the public repository.
+4. **Study-grade coding**: document allegations, response, adjudication/remedy, company relationship, country, sector, worker population, policy exposure, event date, source corroboration and reviewer decision in a **separate reviewed dataset**.
 
 ## Monitoring validity
 
@@ -51,7 +51,6 @@ For event studies / DID / DDD, separate `published_at`, `first_seen`, actual inc
 - Test the schema and checksums with `python3 scripts/validate_archive.py`.
 - Generate a local, Excel-safe CSV with `python3 scripts/export_archive_csv.py --output /tmp/scro-public-archive.csv`.
 - Use stable source identifiers and English field names for reproducible joins. Always cite original publications for substantive claims.
-- Do not add personal contact details, confidential company records, private interviews, credentials, password-bearing URLs, private data extracts or non-public supplier information to this public repository.
 - A source candidate is never auto-promoted or automatically scraped. Source proposals should include independent publisher verification and licence review.
 - GitHub records and historical commits are public; a normal delete commit does not reliably remove previously published data.
 - Run the offline CSV export tests with `python3 -m unittest discover -s tests -v`. Schedule periodic off-repository backups and perform restoration tests. GitHub Actions schedule is best effort and may be delayed.

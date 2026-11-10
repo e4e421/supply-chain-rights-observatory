@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Publish a public, sharded, static archive catalogue for GitHub Pages.
 
-No confidential material or authenticated access. Each shard is bounded to
+Each shard is bounded to
 500 records. This is a *discovery* index; the canonical archive remains JSONL.
 """
 from __future__ import annotations

@@ -1,4 +1,4 @@
-/* Shared public index UI. No external runtime services, tracking, secrets or HTML from data. */
+/* Shared research portal UI. */
 (() => {
 'use strict';
 const ROOT=new URL('./',document.currentScript.src), PAGE=document.body.dataset.page || 'home';
@@ -32,7 +32,7 @@ async function home(){
  redraw=()=>{const list=$('home-latest');list.replaceChildren();$('home-total').textContent=cat?.total_records??'—';$('home-sources').textContent=Array.isArray(refs)?refs.length:'—';$('home-updated').textContent=date(live?.last_successful_collection,true);
  const old=Date.now()-Date.parse(live?.last_successful_collection||'')>48*3600000;
  $('home-health').textContent=t(!live?'Unavailable':old?'Data stale':live.status==='ok'?'Operational (technical)':live.status==='partial'?'Partial sources':'Collection failed');
- $('home-status').textContent=t(!live?'Public data could not be loaded.':old?'The last successful collection is over 48 hours old.':'Publication records are research leads, not verified incidents.');
+ $('home-status').textContent=!live?t('Public data could not be loaded.'):old?t('The last successful collection is over 48 hours old.'):'';
  for(const r of (live?.items||[]).slice(0,6))list.append(recordCard(r));links();};redraw();
 }
 function archiveState(){return{month:$('archive-month').value,q:$('archive-search').value.trim().slice(0,120),topic:$('archive-topic').value,kind:$('archive-kind').value,from:$('archive-from').value,to:$('archive-to').value};}
@@ -73,7 +73,7 @@ async function archive(){
  $('archive-reset').addEventListener('click',()=>{for(const id of ['archive-month','archive-topic','archive-kind'])$(id).value='all';for(const id of ['archive-search','archive-from','archive-to'])$(id).value='';change(true);});
  $('archive-show-more').addEventListener('click',()=>{visible+=40;archiveRender();});
  $('archive-export').addEventListener('click',()=>{const cols=['record_id','event_id','title','published_at','first_seen','publisher_hint','publisher_verified','source','source_id','kind','evidence_status','topics','doi','url'];const rows=[cols,...archiveFound.map(r=>cols.map(k=>r[k]??''))];download('scro-archive'+(partial?'-PARTIAL':'')+'.csv','\ufeff'+rows.map(r=>r.map(cell).join(',')).join('\r\n'),'text/csv;charset=utf-8');});
- $('archive-metadata').addEventListener('click',()=>download('scro-query.json',JSON.stringify({schema_version:1,filters:archiveState(),coverage:partial?'partial':'requested_scope_complete',loaded_records:archiveRows.length,matched_records:archiveFound.length,shards:loadedFiles,build:buildInfo,exported_at:new Date().toISOString(),warning:'Publication records are not verified incidents.'},null,2),'application/json'));
+ $('archive-metadata').addEventListener('click',()=>download('scro-query.json',JSON.stringify({schema_version:1,filters:archiveState(),coverage:partial?'partial':'requested_scope_complete',loaded_records:archiveRows.length,matched_records:archiveFound.length,shards:loadedFiles,build:buildInfo,exported_at:new Date().toISOString()},null,2),'application/json'));
  await loadArchive();
 }
 function sourceAvailability(success, attempted, failures, successLabel, manual=false){
@@ -116,7 +116,7 @@ async function record(){
  const p=new URL(location.href).searchParams,id=p.get('id')||'';let rec=null,fail=false;
  try{if(!/^[a-f0-9]{18}$/.test(id))throw Error();const index=await json('data/record-index.json'),where=index.records?.[id];if(!where||!/^\d{4}-\d{2}-\d{4}\.json$/.test(where.file))throw Error();const shard=await json('data/archive/'+where.file);rec=shard.records.find(r=>r.record_id===id);if(!rec)throw Error();}catch{fail=true;}
  redraw=()=>{const root=$('record-content');root.replaceChildren();if(fail){root.append(node('p',t('Record unavailable. Verify its identifier and month.')));return;}
- const title=node('h2',rec.title);title.lang='und';root.append(title,node('code',rec.record_id),node('p',t('Source discovery is not evidence of a confirmed human-rights violation.'),'portal-notice'));
+ const title=node('h2',rec.title);title.lang='und';root.append(title,node('code',rec.record_id));
  const dl=node('dl');for(const [label,value] of [['Publication date',date(rec.published_at)],['First observed',date(rec.first_seen,true)],['Publisher credit (unverified)',rec.publisher_hint||t('Unknown')],['Monitoring query',t(rec.source)],['Evidence class',t(rec.evidence_status)],['Topics (preliminary)',(rec.topics||[]).map(k=>t(TOPICS[k]||k)).join(', ')],['Event ID',rec.event_id||t('Not assigned')],['DOI',rec.doi]])if(value)dl.append(node('dt',t(label)),node('dd',value));root.append(dl,publicLink(rec.url,'Open original discovery link'));
  const tools=node('div','','portal-tools');const back=new URLSearchParams(p.get('back')||'');tools.append(internal('archive/','Return to search',Object.fromEntries([...back].filter(([k])=>['q','month','topic','kind','from','to'].includes(k)))),internal('workbench/','Research Workbench',{scope:'all',record:id}));root.append(tools);links();};redraw();
 }

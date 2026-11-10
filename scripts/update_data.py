@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-"""Fetch public research leads and Crossref bibliographic records.
-
-No secrets, scraping, analytics, accounts or generative inference. Discovery is not
-verification; this script stores only public titles, dates and links.
+"""Collect public titles, dates and links from news feeds and bibliographic APIs.
 """
 from __future__ import annotations
 
@@ -155,7 +152,7 @@ def parse_rss(body, config, now, candidates=None):
             'publisher_verified': False, 'canonical_url': None,
             'kind': 'discovery', 'evidence_status': 'Unverified discovery',
             'topics': classify(title, config.get('topics', [])),
-            'description': 'Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.',
+            'description': 'News lead collected from a public feed.',
             'screening_version': quality['version'], 'screening_status':quality['status'],
             'screening_reason':quality['reason'],
             'first_seen': iso(now), 'retrieved_at':iso(now),
@@ -193,7 +190,7 @@ def parse_crossref(payload, config, now, candidates=None):
             'topics': classify(title, ('research',)), 'doi': doi,
             'screening_version':quality['version'], 'screening_status':quality['status'],
             'screening_reason':quality['reason'],
-            'description': 'Crossref bibliographic record. Verify DOI and publication date with the publisher; methods and peer-review status have not been independently reviewed.',
+            'description': 'Crossref bibliographic record with a DOI and publication date.',
             'first_seen': iso(now), 'retrieved_at':iso(now),
             'pipeline_version':'collector-2026.11', 'original_language':None
         }
@@ -205,7 +202,7 @@ def parse_crossref(payload, config, now, candidates=None):
 
 
 def parse_openalex(payload, config, now, candidates=None):
-    """Keyless, one-page OpenAlex metadata discovery; no author personal data collected."""
+    """Collect a bounded page of OpenAlex bibliographic metadata."""
     result=[]
     records=payload['results']
     if not isinstance(records,list):

@@ -1,13 +1,13 @@
 # Security verification and operations checklist
 
-**Threat model:** a public GitHub Pages frontend, GitHub Actions collector with bounded outbound requests, public source metadata and immutable-intent Git history. No authentication or visitor identity tracking.
+**Threat model:** a public GitHub Pages frontend, GitHub Actions collector with bounded outbound requests, public source metadata and immutable-intent Git history.
 
 ## Completed automated controls
-- Content security policy in HTML, no external runtime scripts, no `innerHTML`/dynamic evaluation of external headlines.
+- HTML content security policy and text-only rendering for external headlines.
 - Outbound RSS and bibliographic APIs restricted to enumerated HTTPS hosts; timeouts and response limits.
 - Read-only pull-request test workflow, SHA-pinned official GitHub Actions for deployment.
 - CSV formula injection mitigation, stable IDs, JSON schema and integrity manifest checks.
-- Public-only archive; no frontend API secrets.
+- Public metadata archive.
 
 ## Required human-controlled checks
 - Confirm GitHub 2FA, fine-grained repository permissions, audit log access, Secret Scanning / Push Protection availability, branch protection and required CI checks.
@@ -18,6 +18,6 @@
 - Configure encrypted or access-controlled off-repository monthly backups and quarterly restoration exercises.
 
 ## Change-management constraints
-- Automated collection is a **public** research lead engine, not an approved incident database. No automatic source promotion or event identification.
+- Automated collection indexes public research leads. Source approvals and event links follow editorial review.
 - Branch protection must be consistent with the bot's minimum required data-write privileges; never grant broad administrator bypass.
 - In a public repository, code, source queries, archival JSONL, CI logs and historical commits are world-readable.

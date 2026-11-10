@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Append-only public research leads in monthly JSONL files; never a private research database.
 
-No third-party libraries, no credentials. Archive is a public dataset. A validated
+The archive stores public publication metadata. A validated
 immutable snapshot is written at first sight; corrections need explicit review.
 """
 from __future__ import annotations
@@ -29,7 +29,7 @@ MAX_TOTAL_RECORDS=250000
 PUBLIC_STATUS={'Unverified discovery','Bibliographic record'}
 
 LEGACY_DESCRIPTIONS={
- '自動發現的新聞聚合線索；請追溯原始新聞與獨立佐證，不代表人權違規已獲證實。':'Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.',
+ '自動發現的新聞聚合線索；請追溯原始新聞與獨立佐證，不代表人權違規已獲證實。':'News lead collected from a public feed.',
  'Crossref 出版書目資料；DOI 與日期須核對出版商，研究方法與同儕審查狀態尚未人工查證。':'Crossref bibliographic record. Verify DOI and publication date with the publisher; methods and peer-review status have not been independently reviewed.'
 }
 
