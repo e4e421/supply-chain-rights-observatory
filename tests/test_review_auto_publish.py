@@ -82,7 +82,7 @@ class PublishReviewTests(unittest.TestCase):
         js=(ROOT/'docs/workbench/review-panel.js').read_text()+(ROOT/'docs/workbench/review-store.js').read_text()
         self.assertIn('SCRO_PUBLISH_V2',js)
         self.assertIn('[Publish Workbench review]',js)
-        self.assertIn('authorizes automatic publication after validation',js)
+        self.assertIn("submitHint.textContent=t('A prefilled GitHub form opens in a new tab. Selected changes are published after you submit the issue and validation succeeds.')",js)
         self.assertNotIn("const body='SCRO_REVIEW_V1",js)
 
     def test_no_new_api_keys_or_unrelated_collection(self):
