@@ -29,7 +29,7 @@ The old `#archive-explorer`, `#sources`, `#lenses` and `#method` homepage bookma
 - Archive month means **first observation**. Date filters mean **publication date**, not occurrence date.
 - Cross-month browser loading is bounded to 24 shards / 10,000 records. Partial coverage is explicitly shown and carried into the query metadata; the JSONL archive remains available for full analysis.
 - CSV exports contain filtered public records, English column identifiers and spreadsheet-formula neutralization. Query JSON records filters, coverage, shard files, export time, catalogue digest and actual checked-out Git revision.
-- Sharing a query shares its public search terms. No confidential material should be entered. Local Workbench preferences remain browser-local, not shared accounts or private notes.
+- Query links include the active search terms. Workbench preferences are stored in the browser.
 
 ## Languages
 

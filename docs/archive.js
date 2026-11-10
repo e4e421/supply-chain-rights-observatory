@@ -20,7 +20,7 @@ function selected(){
 }
 function render(){
  const list=$('archive-results');list.replaceChildren();const found=selected();
- $('archive-count').textContent=loading?t('Loading archive…'):failed?t('Archive is temporarily unavailable'):String(found.length)+' '+t('matching public records')+' · '+(month||'—')+' · '+t('not verified incidents');
+ $('archive-count').textContent=loading?t('Loading archive…'):failed?t('Archive is temporarily unavailable'):String(found.length)+' '+t('matching public records')+' · '+(month||'—');
  if(loading||failed||!found.length)list.append(el('p',loading?t('Loading archive…'):failed?t('Archive is temporarily unavailable'):t('No matching records in the selected month.'),'archive-notice'));
  else for(const item of found.slice(0,visible)){
    const card=el('article','','archive-item');

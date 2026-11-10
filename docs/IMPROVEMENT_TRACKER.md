@@ -1,6 +1,6 @@
 # Observatory Improvement and Assurance Register — 2026-11-09
 
-**Project:** Supply Chain Rights Observatory. **GitHub:** `e4e421/supply-chain-rights-observatory`. **Reference release:** PR #2 squash merge `7e22e9ee18c4ecab88fd556d07c61e052893280b`, with later controlled updates. Independent public academic project, not affiliated with ETH Zurich.
+**Project:** Supply Chain Rights Observatory. **GitHub:** `e4e421/supply-chain-rights-observatory`. **Reference release:** PR #2 squash merge `7e22e9ee18c4ecab88fd556d07c61e052893280b`, with later controlled updates.
 
 This register distinguishes **implemented code**, **measured automated tests**, **empirical research validity**, **manual human acceptance**, and **formal certification**. A green CI job is not ISO certification or confirmation of a human-rights allegation.
 
@@ -52,6 +52,6 @@ This register distinguishes **implemented code**, **measured automated tests**, 
 
 ## Security and research ethics limits
 
-The repo and Git history are public. No confidential interview materials, individual worker records, company NDAs, private applications or API keys may be committed. A GitHub Pages site is public even when individual documents are not linked from the homepage. News headlines may contain identifiable personal names. Cite original news and official legislation, not an unverified title-screening label, for research claims.
+Use the original publisher, regulator or official legislation when citing substantive research claims.
 
 **No claim of ISO certification, full WCAG AA conformance, independent penetration test, verified allegations or completed offsite disaster recovery is made.**

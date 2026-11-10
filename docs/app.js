@@ -91,8 +91,6 @@
     if (href) {title.href=href;title.target='_blank';title.rel='noopener noreferrer';}
     title.setAttribute('lang', /^(en|de|zh-Hant|fr|es|it|nl|sv|pl|pt)$/.test(item.original_language || '') ? item.original_language : 'und');
     card.append(title);
-    const desc = item.description || 'Follow the original link to verify context, evidence and applicability.';
-    card.append(el('p',t(desc),'signal-desc'));
     const footer = el('div','','signal-foot');
     footer.append(
       el('span',t('Monitoring query') + ': ' + sourceLabel(item.source)),

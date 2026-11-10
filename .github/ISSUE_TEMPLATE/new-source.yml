@@ -1,11 +1,10 @@
 name: Propose a new reliable research source
-description: Nominate an institution, dataset, journal or monitoring body for manual review; no automatic ingestion.
+description: Nominate an institution, dataset, journal or monitoring body for manual review..
 title: "[Source review] "
 body:
   - type: markdown
     attributes:
       value: |
-        Only public institutional information should be included. Never paste personal contact details, private documents, credentials, interviews or sensitive allegations.
         A reviewer must verify the source, access conditions and research utility before approval.
   - type: input
     id: institution
@@ -45,13 +44,13 @@ body:
     id: licence
     attributes:
       label: Access rights and data licensing
-      description: Provide source policy / API terms; do not assume that publication permits automated scraping.
+      description: Link to the source policy or API terms and describe permitted reuse.
     validations:
       required: true
   - type: checkboxes
     id: privacy
     attributes:
-      label: Safety checklist
+      label: Publication scope
       options:
-        - label: No personal data, private documents or API credentials are included in this issue.
+        - label: I confirm the information in this issue is publicly shareable.
           required: true

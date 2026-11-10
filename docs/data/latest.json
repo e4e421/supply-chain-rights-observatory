@@ -113,7 +113,7 @@
         "working-conditions",
         "worker-voice"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
@@ -139,7 +139,7 @@
       "topics": [
         "worker-voice"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
@@ -165,7 +165,7 @@
       "topics": [
         "worker-voice"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
@@ -191,7 +191,7 @@
       "topics": [
         "worker-voice"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
@@ -217,7 +217,7 @@
       "topics": [
         "worker-voice"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
@@ -243,7 +243,7 @@
       "topics": [
         "worker-voice"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
@@ -269,7 +269,7 @@
       "topics": [
         "worker-voice"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
@@ -295,7 +295,7 @@
       "topics": [
         "worker-voice"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
@@ -321,7 +321,7 @@
       "topics": [
         "worker-voice"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
@@ -347,7 +347,7 @@
       "topics": [
         "worker-voice"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
@@ -373,7 +373,7 @@
       "topics": [
         "working-conditions"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
@@ -400,7 +400,7 @@
         "policy",
         "working-conditions"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
@@ -426,7 +426,7 @@
       "topics": [
         "worker-voice"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
@@ -453,7 +453,7 @@
         "network",
         "worker-voice"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "supply_and_labour_context",
@@ -479,7 +479,7 @@
       "topics": [
         "working-conditions"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
@@ -501,7 +501,7 @@
         "network",
         "policy"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "first_seen": "2026-11-08T10:18:54Z",
       "id": "a14ee2760fbb9718a3"
     },
@@ -521,7 +521,7 @@
       "topics": [
         "working-conditions"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "supply_and_labour_context",
@@ -547,7 +547,7 @@
       "topics": [
         "worker-voice"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
@@ -573,7 +573,7 @@
       "topics": [
         "working-conditions"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "title-screen-v1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "high_specificity_phrase",
@@ -599,7 +599,7 @@
       "topics": [
         "worker-voice"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
@@ -625,7 +625,7 @@
       "topics": [
         "worker-voice"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
@@ -651,7 +651,7 @@
       "topics": [
         "policy"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "title-screen-v1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "high_specificity_phrase",
@@ -679,7 +679,7 @@
         "policy",
         "working-conditions"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "title-screen-v1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "high_specificity_phrase",
@@ -706,7 +706,7 @@
         "policy",
         "working-conditions"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
@@ -733,7 +733,7 @@
         "forced-labour",
         "policy"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
@@ -759,7 +759,7 @@
       "topics": [
         "worker-voice"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
@@ -786,7 +786,7 @@
         "network",
         "worker-voice"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "supply_and_labour_context",
@@ -813,7 +813,7 @@
         "policy",
         "worker-voice"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
@@ -839,7 +839,7 @@
       "topics": [
         "worker-voice"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
@@ -976,7 +976,7 @@
         "network",
         "worker-voice"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "supply_and_labour_context",
@@ -1364,7 +1364,7 @@
         "network",
         "worker-voice"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "supply_and_labour_context",
@@ -1390,7 +1390,7 @@
       "topics": [
         "worker-voice"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
@@ -1499,7 +1499,7 @@
         "forced-labour",
         "policy"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
@@ -1525,7 +1525,7 @@
       "topics": [
         "forced-labour"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
@@ -1689,7 +1689,7 @@
         "network",
         "policy"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
@@ -1771,7 +1771,7 @@
         "forced-labour",
         "policy"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "governance_and_rights",
@@ -1798,7 +1798,7 @@
         "network",
         "policy"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
@@ -1825,7 +1825,7 @@
         "policy",
         "forced-labour"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
@@ -1879,7 +1879,7 @@
         "worker-voice",
         "working-conditions"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
@@ -1906,7 +1906,7 @@
         "forced-labour",
         "worker-voice"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
@@ -2158,7 +2158,7 @@
         "forced-labour",
         "policy"
       ],
-      "description": "Automatically discovered news lead. Trace the original reporting and independent evidence; no human rights violation is established by this record.",
+      "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.0",
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",

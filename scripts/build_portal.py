@@ -3,7 +3,7 @@
 
 Input: docs/ (data and existing workbench), portal/ (shared UI assets).
 Output: _site/ only. The GitHub Pages deployment must upload _site, not docs.
-Uses only Python's standard library; no network access or credentials.
+Uses Python's standard library to build from local project files.
 """
 from __future__ import annotations
 import hashlib
@@ -55,7 +55,7 @@ def shell(page: str, title: str, subtitle: str, body: str, home=False) -> str:
 <script defer src="{base}i18n.js"></script><script defer src="{base}query.js"></script><script defer src="{base}portal.js"></script></head>
 <body class="portal" data-page="{page or 'home'}" data-page-title="{E(title, quote=True)}">
 {header(page,base)}<main id="main" class="portal-main">{intro}{body}</main>
-<footer class="portal-footer"><b>Supply Chain Rights Observatory</b>{tx('Independent public research index. Not affiliated with ETH Zurich.','p')}{tx('Public metadata only. No confidential data in searches or shared URLs.','p')}
+<footer class="portal-footer"><b>Supply Chain Rights Observatory</b>
 <div>{link(base+'methodology/','Methods & limitations')} · {external(REPO,'Source code')}</div></footer>
 <noscript><p class="portal-notice">JavaScript is required for interactive search. Navigation and research guidance remain available. <a href="{REPO}/tree/main/data/archive">Public JSONL archive</a></p></noscript></body></html>'''
 
@@ -83,13 +83,13 @@ def build() -> None:
     home=f'''<section class="portal-hero"><div><p class="portal-kicker">SUPPLY CHAIN · HUMAN RIGHTS · LABOUR</p>
 <h1>Where supply chains<br>meet <em>human rights.</em></h1>{tx('A public research index. Start with a search, then inspect the source.','p')}{searchbox()}
 <div class="portal-hero-links">{link('./archive/','Browse historical records')} {link('./workbench/','Research Workbench')}</div></div>
-<aside>{tx('Two ways to work','h2')}{tx('New here? Explore records and sources. Returning researcher? Open the Workbench.','p')}{tx('An article is not a verified incident.','p', 'class=portal-warning')}</aside></section>
+<aside>{tx('Two ways to work','h2')}{tx('New here? Explore records and sources. Returning researcher? Open the Workbench.','p')}</aside></section>
 <section class="portal-stats" aria-label="Dataset overview"><div>{tx('Historical records')}<strong id="home-total">—</strong></div><div>{tx('Curated reference sources')}<strong id="home-sources">—</strong></div><div>{tx('Last successful collection')}<strong id="home-updated">—</strong></div><div>{tx('Technical collection status')}<strong id="home-health">—</strong></div></section>
 <section class="portal-sections">{tx('Explore the research index','h2')}<div class="portal-card-grid">{cards}</div></section>
 <section id="signals"><div class="portal-section-heading">{tx('Latest research intelligence','h2')}{link('./workbench/?scope=latest','View all latest records')}</div><p id="home-status" role="status" aria-live="polite">Loading public data…</p><div id="home-latest" class="portal-record-list"></div></section>'''
     write('',shell('','Research Portal','Public research index for supply chains, human rights and labour.',home,True))
     archive=f'''<section class="portal-stats"><div>{tx('Historical records')}<strong id="archive-total">—</strong></div><div>{tx('First-observation partitions')}<strong id="archive-partitions">—</strong></div><div>{tx('Dataset build revision')}<code id="archive-revision">—</code></div></section>
-<p class="portal-notice">{tx('Month groups use first observation. Date filters use publication date. These are not incident dates.')}</p>
+<p class="portal-notice">{tx('Month groups use first observation. Date filters use publication date.')}</p>
 <div class="portal-filter-grid">
 {field('archive-month','First observed month','<select id="archive-month">'+option('all','All available months')+'</select>')}
 {field('archive-search','Search title, publisher, DOI or record ID','<input id="archive-search" type="search" maxlength="120" autocomplete="off">')}
@@ -146,21 +146,21 @@ def build() -> None:
 </div><div class="portal-tools"><button id="share-query" type="button">{tx('Copy shareable link')}</button>{external(REPO+'/issues/new/choose','Propose a source or correction')}{link('#academic-monitoring','Academic literature monitoring')}</div>
 <p id="source-count" role="status" aria-live="polite">Loading public data…</p><p id="portal-feedback" role="status"></p>
 <div class="portal-table-wrap" tabindex="0" aria-label="Source directory"><table class="portal-table"><thead><tr>{''.join(tx(x,'th','scope=col') for x in ['Institution & research use','Category','Editorial review','Licence review','Availability'])}</tr></thead><tbody id="source-rows"></tbody></table></div>
-<p class="portal-help">{tx('A reference listing does not enable automated collection. New ingestion hosts require separate approval.')}</p>
+<p class="portal-help">{tx('New automated collection hosts require a separate review.')}</p>
 {academic_channels}'''
     write('sources',shell('sources','Source Directory','Inspect institutional sources, editorial review and link availability.',sources))
     csddd='https://commission.europa.eu/topics/business-and-industry/company-law-and-corporate-governance/corporate-sustainability-due-diligence_en'
     flr='https://single-market-economy.ec.europa.eu/single-market/goods/forced-labour-regulation/what-forced-labour-regulation-and-how-does-it-work_en'
-    policy=f'''<p class="portal-notice">{tx('Manually checked on 2026-11-09. This is a reference timeline, not an automated legal update or legal advice.')}</p><div class="portal-policy-grid">
+    policy=f'''<p class="portal-notice">{tx('Reference timeline checked on 2026-11-09. Consult the current official text for applicability.')}</p><div class="portal-policy-grid">
 <article class="portal-document"><span class="portal-tag">EU / FLR</span>{tx('EU Forced Labour Regulation','h2')}<time datetime="2027-12-14">2027-12-14</time>
 {tx('Product prohibition becomes applicable. This regulation does not itself impose a corporate due-diligence procedure.','p')}{external(flr,'European Commission source')}<p>{link('../archive/?topic=forced-labour','Find related records')}</p></article>
 <article class="portal-document"><span class="portal-tag">EU / CSDDD</span><h2>CSDDD</h2><dl>
 {tx('National transposition deadline','dt')}<dd><time datetime="2028-07-26">2028-07-26</time></dd>{tx('Application of principal duties','dt')}<dd><time datetime="2029-07-26">2029-07-26</time></dd>{tx('Article 16 reporting: financial years beginning from','dt')}<dd><time datetime="2030-01-01">2030-01-01</time></dd></dl>
 {tx('Based on the amended framework. Check the current official text and national implementation before coding exposure.','p')}{external(csddd,'European Commission source')}<p>{link('../archive/?topic=policy','Find related records')}</p></article></div>
-<section class="portal-document">{tx('Keep four clocks separate','h2')}{tx('Policy announcement, legal application, publication and first observation are different dates. None substitutes for a verified incident date.','p')}
+<section class="portal-document">{tx('Keep four clocks separate','h2')}{tx('Policy timelines distinguish announcement, application, publication and first observation.','p')}
 {link('../methodology/','Data & Methodology')} · {link('../sources/?category=EU%20LAW','Official legal sources')}</section>'''
     write('policy',shell('policy','Policy Monitor','Separate policy dates from publication dates and find official texts.',policy))
-    # Existing, audited English research copy is reused; no affiliation is asserted.
+    # Reuse the research themes from the legacy page.
     old=(ROOT/'docs/index.html').read_text(encoding='utf-8')
     lens=re.search(r'<div class="lens-grid">(.*?)</div></div></section>',old,re.S)
     if not lens: raise ValueError('Legacy research framework anchor missing; review migration')
@@ -168,19 +168,18 @@ def build() -> None:
     if len(articles)!=4:raise ValueError('Expected four research themes')
     for i,topic in enumerate(['network','policy','worker-voice','research']):
         articles[i]=articles[i].replace('</article>',f'<p>{link("../archive/?topic="+topic,"Find related records")}</p></article>')
-    research=f'''<p class="portal-notice">{tx('Independent research framing aligned with supply-chain governance and social sustainability. Not an ETH Zurich programme or endorsement.')}</p>
+    research=f'''<p class="portal-notice">{tx('Explore research themes in supply-chain governance and social sustainability.')}</p>
 <div class="portal-card-grid">{''.join(articles)}</div>
-<section class="portal-document">{tx('Literature discovery','h2')}{tx('Bibliographic records are leads, not a quality or peer-review guarantee. Verify the DOI and publication with the publisher.','p')}{link('../archive/?kind=academic','Search academic records')} · {link('../sources/#academic-monitoring','Academic literature monitoring')} · {external('https://scm.ethz.ch/','ETH Zurich Supply Chain Management Group')}</section>'''
+<section class="portal-document">{tx('Literature discovery','h2')}{tx('Check the DOI, publication version and peer-review status at the publisher.','p')}{link('../archive/?kind=academic','Search academic records')} · {link('../sources/#academic-monitoring','Academic literature monitoring')}</section>'''
     write('research',shell('research','Research Framework','Turn supply-network, governance and labour questions into searches.',research))
-    dictionary=[('record_id','Stable publication identifier; not an incident identifier.'),('event_id','Unassigned until a separately reviewed event-linking decision.'),('published_at','Publication timestamp supplied by the source.'),('first_seen','First observation by this collection pipeline.'),('publisher_hint','Unverified publisher credit, not authenticated authorship.'),('evidence_status','Discovery or bibliographic class; not a verdict.'),('topics','Preliminary machine tags, not human-reviewed entity coding.')]
+    dictionary=[('record_id','Stable publication identifier.'),('event_id','Unassigned until a separately reviewed event-linking decision.'),('published_at','Publication timestamp supplied by the source.'),('first_seen','First observation by this collection pipeline.'),('publisher_hint','Publisher attribution supplied by the source.'),('evidence_status','Discovery or bibliographic class; not a verdict.'),('topics','Preliminary machine tags, not human-reviewed entity coding.')]
     methodology=f'''<section class="portal-document">{tx('Storage and retention','h2')}{tx('The latest view is capped at 240 records and 150 days. The monthly first-observation archive does not expire on that schedule.','p')}{tx('Corrections need an auditable review. A normal Git deletion does not erase public history.','p')}</section>
 <section class="portal-document">{tx('Core field dictionary','h2')}<dl class="portal-dictionary">{''.join('<dt><code>'+field+'</code></dt><dd>'+tx(definition)+'</dd>' for field,definition in dictionary)}</dl></section>
 <section class="portal-document">{tx('Coverage and research use','h2')}{tx('Search ranking, language, reporting and title screening introduce selection bias. Record counts must not be interpreted as violation rates.','p')}{tx('Full-text articles are not redistributed. Metadata reuse rights still require source-specific review.','p')}{link('../sources/?review=licence','Inspect licensing reviews')}</section>
 <section class="portal-document">{tx('Updates and reproducibility','h2')}{tx('Collection is scheduled daily at 06:23 Taipei time; source checks run weekly. Schedules can be delayed. Use the actual collection timestamp.','p')}{tx('Record links remain stable across pages. CSV uses English field names; query metadata records filters, coverage and the build revision.','p')}{link('../archive/','Research Archive')} · {external(REPO+'/blob/main/CITATION.cff','Citation metadata')}</section>
-<section class="portal-document">{tx('Privacy and security','h2')}{tx('No browser API keys, account system or analytics are introduced. Public searches and shared URLs must never contain confidential information.','p')}{tx('Workbench preferences stay in browser storage. They are not a shared or private research database.','p')}{tx('An independent off-repository backup and restoration drill are not yet configured by this website.','p')}</section>
 <section class="portal-document">{tx('Technical documentation (English)','h2')}<ul>{''.join('<li>'+link('../'+file,label)+'</li>' for file,label in [('DATA_DICTIONARY.md','Data dictionary'),('DATASET_CARD.md','Dataset card'),('ARCHITECTURE.md','Data architecture'),('BACKUP_RECOVERY.md','Backup and recovery'),('SECURITY_QA.md','Security verification'),('ACCESSIBILITY_QA.md','Accessibility checks')])}</ul></section>'''
     write('methodology',shell('methodology','Data & Methodology','Understand field definitions, coverage, exports and research limitations.',methodology))
-    write('record',shell('record','Research record','Inspect publication provenance without treating a record as a confirmed incident.', '<section id="record-content" class="record-page" aria-live="polite"><p>Loading archive…</p></section>'+link('./archive/','Return to archive')))
+    write('record',shell('record','Research record','Inspect publication details and provenance.', '<section id="record-content" class="record-page" aria-live="polite"><p>Loading archive…</p></section>'+link('./archive/','Return to archive')))
     # Preserve the existing professional UI and its hard-won responsive layout.
     p=OUT/'workbench/index.html';wb=p.read_text(encoding='utf-8')
     wb=wb.replace('../index.html#sources','../sources/#data-availability').replace('../index.html#method','../methodology/')
@@ -237,7 +236,7 @@ def build() -> None:
            'catalog_sha256':hashlib.sha256((OUT/'data/archive/catalog.json').read_bytes()).hexdigest(),
            'total_archive_records':catalog['total_records']}
     (OUT/'data/build-info.json').write_text(json.dumps(build,indent=2)+'\n',encoding='utf-8')
-    # Only generated site files are published. No application or private material is copied.
+    # The deployment publishes the generated site files.
     print(f'Built 5 index subpages, homepage, record view and connected Workbench; {len(locator)} record locators.')
 
 def write(page: str, content: str) -> None:

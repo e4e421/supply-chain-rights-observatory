@@ -41,9 +41,8 @@ const D={
 'local drafts; not published':['筆本機草稿；尚未發布','lokale Entwürfe; nicht veröffentlicht'],
 'Keyword analysis unavailable; records remain visible.':['關鍵字分析未載入，原始紀錄仍保留。','Schlagwortanalyse nicht verfügbar; Originaldaten bleiben sichtbar.'],
 'Select a record to review it here.':['選取新聞，即可在這裡判讀與標記。','Datensatz auswählen und hier prüfen.'],
-'Title only — no full text was retrieved.':['只分析標題；未擷取全文。','Nur Titel; kein Volltext abgerufen.'],
+'Title only':['僅分析標題','Nur Titel'],
 'Title and permitted abstract':['標題與允許使用的摘要','Titel und zulässige Metadaten-Zusammenfassung'],
-'Relevance is not claim verification.':['相關性不等於主張已查證。','Relevanz bestätigt keine Behauptung.'],
 'Matched rules and keywords':['命中規則與關鍵字','Regeln und Schlagwörter'],
 'Specific HRDD or labour policy':['特定人權盡職調查或勞動法規','Spezifische Sorgfalts- oder Arbeitsregulierung'],
 'Supply chain and labour context':['供應鏈與勞工脈絡共現','Lieferketten- und Arbeitskontext'],
@@ -58,18 +57,17 @@ const D={
 'Leave unchecked to retain rule suggestions.':['未勾選時沿用規則建議。','Nicht auswählen, um Regelvorschläge zu behalten.'],
 'Publisher identity confirmed':['已核對出版歸屬','Herausgeber überprüft'],
 'Original HTTPS URL (required for publisher confirmation)':['原始 HTTPS 網址（確認出版者時必填）','Original-HTTPS-URL (für Herausgeberbestätigung erforderlich)'],
-'Public review note (no private data)':['公開審核說明（勿填私密資料）','Öffentliche Prüfnotiz (keine privaten Daten)'],
+'Public review note':['公開審核說明','Öffentliche Prüfnotiz'],
 'Save local draft':['儲存本機草稿','Lokalen Entwurf speichern'],
 'Discard local draft':['捨棄本機草稿','Lokalen Entwurf verwerfen'],
 'Draft saved in this browser only.':['已儲存於此瀏覽器，尚未公開發布。','Nur in diesem Browser gespeichert, nicht veröffentlicht.'],
 'Browser storage blocked; export the batch before leaving.':['瀏覽器封鎖儲存，離開前請匯出批次。','Browserspeicher blockiert; vor dem Verlassen exportieren.'],
 'Enter a valid public HTTPS original URL.':['請填入不含帳密的公開 HTTPS 原文網址。','Gültige öffentliche HTTPS-Originaladresse eingeben.'],
-'Similar keyword patterns — not confirmed same events':['相近關鍵字文章；未認定為同一事件','Ähnliche Schlagwörter; kein bestätigtes gemeinsames Ereignis'],
+'Similar keyword patterns':['相近關鍵字文章','Ähnliche Schlagwörter'],
 'Open related record':['開啟相關紀錄','Verwandten Datensatz öffnen'],
 'No sufficiently similar records.':['暫無足夠相近的紀錄。','Keine hinreichend ähnlichen Datensätze.'],
 'Published decision':['已發布決策','Veröffentlichte Entscheidung'],
 'Review needs renewal: source text changed.':['原始文字已改變，舊審核需重新確認。','Quelltext geändert; erneute Prüfung erforderlich.'],
-'Submitting the GitHub Issue authorizes automatic publication after validation. Use public review notes only; no allegation is verified.':['提交 GitHub Issue 即授權系統驗證後自動公開審核結果。備註只能包含公開資訊，並不代表指控已證實。','Das Einreichen des GitHub-Issues autorisiert die automatische Veröffentlichung nach Prüfung. Nur öffentliche Notizen; Vorwürfe gelten nicht als verifiziert.'],
 'No drafts to submit.':['目前沒有待提交草稿。','Keine Entwürfe zum Einreichen.'],
 'The batch was downloaded. Paste the JSON into a GitHub publication Issue with the correct title.':['批次已下載，請以正確標題建立 GitHub 發布 Issue 並貼入 JSON。','Batch heruntergeladen. JSON in ein GitHub-Publikations-Issue mit korrektem Titel einfügen.'],
 'Please refresh and re-review stale drafts before submission.':['草稿對應資料已變動，請重新整理並再次判讀。','Veraltete Entwürfe vor dem Einreichen erneut prüfen.'],
@@ -96,7 +94,6 @@ const D={
 "Reset unsubmitted handoff":["重設未提交的交接","Nicht eingereichten Übergang zurücksetzen"],
 "Confirm that you did not submit the GitHub Issue before resetting.":["請先確認您確實沒有在 GitHub 建立 Issue，才可重設。","Nur zurücksetzen, wenn das GitHub-Issue nicht erstellt wurde."],
 "An earlier batch already includes this record. Check its publication status first.":["此紀錄已包含在先前提交批次中，請先查核狀態。","Ein früherer Batch enthält diesen Datensatz. Status zuerst prüfen."],
-"Only public notes may be submitted.":["審核備註僅限公開資訊。","Nur öffentliche Prüfnotizen dürfen eingereicht werden."],
 "The Issue has not been confirmed yet; this is not a published review.":["尚未確認 Issue 已建立，也未正式發布。","Die Issue-Erstellung ist noch nicht bestätigt; keine Veröffentlichung."],
 "No publishing history in this browser.":["此瀏覽器尚無提交紀錄。","Kein Veröffentlichungsverlauf in diesem Browser."],
 "Changes in this batch":["此批次的變更","Änderungen in diesem Batch"],
@@ -302,8 +299,7 @@ function inspect(item,force=false){
  if(!data){root.append(el('p',t('Keyword analysis unavailable; records remain visible.')));return;}
  const a=data.analysis,locked=!!S.active(rid);
  root.append(el('strong',t(({high:'High relevance',review:'Needs context',low:'Low relevance'})[a.level]||a.level),'rv-level rv-'+a.level));
- root.append(el('p',t(a.scope==='title_only'?'Title only — no full text was retrieved.':'Title and permitted abstract'),'rv-small'),
-   el('p',t('Relevance is not claim verification.'),'rv-small'));
+ root.append(el('p',t(a.scope==='title_only'?'Title only':'Title and permitted abstract'),'rv-small'));
  const why=el('details');why.append(el('summary',t('Matched rules and keywords')),
    el('p',t(reason[a.reason]||a.reason)),el('small',a.rule_version));
  const hits=el('ul');
@@ -339,7 +335,7 @@ function inspect(item,force=false){
   field('Original HTTPS URL (required for publisher confirmation)',url));
  root.append(publisher);
  const note=el('textarea');note.id='rv-note';note.maxLength=400;note.rows=2;note.value=existing.note||'';
- root.append(field('Public review note (no private data)',note));
+ root.append(field('Public review note',note));
  const save=el('button',t('Save local draft'));save.type='button';save.id='rv-save';
  const discard=el('button',t('Discard local draft'));discard.type='button';discard.id='rv-discard';
  for(const input of [decision,enabled,...checks,confirmed,url,note])input.disabled=locked;
@@ -367,8 +363,7 @@ function inspect(item,force=false){
   if(S.removeDraft(rid)){feedback='Draft removed from this browser.';refresh();}
  });
  const actions=el('div','','rv-actions');actions.append(save,discard);root.append(actions);
- root.append(el('p',t('Submitting the GitHub Issue authorizes automatic publication after validation. Use public review notes only; no allegation is verified.'),'rv-small'));
- const similar=el('details');similar.append(el('summary',t('Similar keyword patterns — not confirmed same events')));
+ const similar=el('details');similar.append(el('summary',t('Similar keyword patterns')));
  if(!data.similar?.length)similar.append(el('p',t('No sufficiently similar records.')));
  for(const match of data.similar||[]){
   const line=el('p'),link=el('a',t('Open related record')+' '+match.record_id);

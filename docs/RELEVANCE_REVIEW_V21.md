@@ -2,7 +2,7 @@
 
 ## Scope
 
-One existing Workbench, not a new admin site. No AI classifier, embeddings, external inference endpoint or new full-text crawler. The collection schedules and approved source permissions remain unchanged. Six English topic IDs have English, Traditional Chinese and German labels.
+The Workbench uses a rule-based title screen and an editorial review workflow. Six English topic IDs have English, Traditional Chinese and German labels.
 
 `relevance_engine.py` matches literal Unicode-normalized phrases with word boundaries, records the field and exact dictionary term, and assigns `high`, `review`, or `low` **research relevance**. Generic descriptions, publisher names, query names and inherited topic labels are not evidence. Explicitly permitted metadata abstracts can be analysed, but the current collector does not retrieve article full texts. `europe_mention` is only a textual signal, not a geographic exposure classification. Low relevance means insufficient textual evidence, not a verified absence of relevance.
 
@@ -19,7 +19,7 @@ The title-screen adapter keeps high/review candidates in the live discovery pipe
 
 For higher-risk cases requiring independent review, the existing **[Workbench review batch] / SCRO_REVIEW_V1** workflow continues to generate a manual PR. Existing PRs are never auto-merged by the V2 route.
 
-The review form and drafts are not a private backend. Issues, PRs and merged data are public. Do not enter confidential notes, personal contact information, interview data or credentials.
+Review notes submitted through GitHub are published as public metadata.
 
 ## One-time GitHub setting
 
@@ -33,7 +33,7 @@ The V2 publication workflow accepts only open Issues explicitly authored by the 
 - Each decision is tied to a content fingerprint and expected prior review digest. Stale content, concurrent decisions, duplicate IDs, unknown fields and unknown records fail closed.
 - Publisher confirmation is not claim verification. Excluded observations remain accessible by stable ID with an exclusion notice; they are removed from ordinary public result sets and exports. The Workbench has an explicit Excluded records filter.
 - The V2 publication job treats Issue content as data, checks owner identity, exact title/envelope, the current main SHA and Issue snapshot, detects stale or duplicate decisions, and builds/tests the proposed published data before committing only the fixed review-overlay path to main. It then dispatches a deploy-only workflow and closes the Issue. The old V1 proposal job still uses a PR. Neither executes Issue-supplied shell code, fetches user-supplied URLs, or bypasses GitHub branch protection. If branch protection later requires all changes by PR, the V2 direct commit fails closed and must be redesigned.
-- GitHub's short-lived job token remains server-side. No token or password is placed in the browser or published artifact.
+- GitHub's short-lived job token remains server-side.
 - `build_relevance.py` adds sidecars and explicit, fail-closed runtime hooks to `_site/` after `build_portal.py`. It does not rewrite source HTML, archived JSONL or generated catalogue inputs. Changes to frontend anchors require updating and testing the build hook.
 
 ## Similar records
@@ -68,4 +68,4 @@ Existing tests remain, plus keyword/review regression tests and real-Chrome gene
 - The editor permits read-only `https://api.github.com` GET requests under a narrow CSP; the normal Workbench remains same-origin only. Neither page authorizes writes: only owner-authorized GitHub Actions can publish.
 - Legacy V1 owner-to-PR review still exists for cases requiring independent review. Avoid simultaneous submissions of the same Record ID through V1 and V2.
 
-No AI classification, automatic incident identification, new source scraping or private browser credentials are added. Both views preserve the canonical archive and its immutable IDs.
+Both views use the same canonical archive and stable publication IDs.

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Owner-authored V2 Issue -> validated review-data commit -> deploy-only dispatch.
 
-No AI or external article fetching. V1 GitHub PR workflow stays available.
+The V1 GitHub PR workflow remains available for editorial review.
 """
 from __future__ import annotations
 import base64

@@ -8,4 +8,4 @@ version: "0.2.0"
 date-released: 2026-11-09
 repository-code: "https://github.com/e4e421/supply-chain-rights-observatory"
 url: "https://e4e421.github.io/supply-chain-rights-observatory/"
-abstract: "An independent, unverified research-discovery catalogue of public supply chain, human rights and labour-related titles and academic metadata. It is not a dataset of confirmed human rights violations."
+abstract: "A research catalogue of public supply-chain, human rights and labour publications, with titles, source links and scholarly metadata."

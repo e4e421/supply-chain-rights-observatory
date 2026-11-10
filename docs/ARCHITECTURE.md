@@ -6,11 +6,11 @@
 - `data/archive/YYYY-MM.jsonl`: append-only **public metadata** captured when first encountered, one JSON object per line. A first-run backfill imports existing `latest.json` records.
 - `data/archive/manifest.json`: deterministic partition inventory with SHA-256 for corruption/integrity detection. A SHA checksum is **not** a cryptographic authenticity signature and Git administrators may still rewrite history.
 - `docs/data/archive-summary.json`: public lifetime count without downloading history.
-- `data/events/curated.json`: manually verified event links. Empty by default. **Do not equate articles with incidents.**
+- `data/events/curated.json`: manually verified event links.
 
 `record_id` is the stable pre-existing 18-hex-digit `id` inherited from the live collector. The archiver checks duplicates and fingerprints and refuses collisions. `first_seen` is preserved across refreshes. No inferential `event_id` is automatically assigned. Neither articles nor raw event counts are reliable estimates of human rights violation prevalence.
 
-Archived records are immutable first-observation snapshots. Corrections or removals, especially for privacy, require explicit maintainer review and an auditable correction, not a silent overwrite. Public repositories and Git history are not deletion-proof; do **not** put sensitive materials in the archive.
+Archived records are immutable first-observation snapshots. Corrections or removals, especially for privacy, require explicit maintainer review and an auditable correction, not a silent overwrite.
 
 ## Capacity / migration
 
@@ -27,7 +27,7 @@ Source credibility is separate from reachability. A valid HTTPS response does no
 - Review source owners, editorial methods, website redirects, licence/reuse terms, timestamp accuracy and false-positive rates at least quarterly.
 - Monitor GitHub Actions failures weekly; check archive manifest checksums and counts after refreshes.
 - Export monthly partitions to a controlled second location on a periodic schedule for disaster recovery. Git itself should not be the only backup for a PhD data pipeline.
-- Do not use raw article counts for causal inference; develop a separately reviewed case-identification and measurement protocol.
+- For causal studies, develop a separately reviewed case-identification and measurement protocol.
 
 ## Export research data
 
