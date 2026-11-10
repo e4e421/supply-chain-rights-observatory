@@ -138,7 +138,7 @@
       "verification_level": "owner_confirmed_manual_review",
       "review_due": "2027-02-10",
       "auto_ingest": false,
-      "reason": "Follow research in supply chain management, network governance and social sustainability; this site is independent of ETH.",
+      "reason": "Follow research in supply chain management, network governance and social sustainability.",
       "licence_review_status": "pending",
       "methodology_review_status": "pending"
     },
@@ -168,7 +168,7 @@
       "verification_level": "owner_confirmed_manual_review",
       "review_due": "2027-02-10",
       "auto_ingest": false,
-      "reason": "Query-based discovery of potential leads. Aggregated results are not primary evidence; trace the original publisher.",
+      "reason": "Keyword-based news discovery with links to the original publishers.",
       "licence_review_status": "pending",
       "methodology_review_status": "pending"
     },
@@ -243,7 +243,7 @@
       "verification_level": "official_or_primary_publisher_page_checked",
       "review_due": "2027-02-08",
       "auto_ingest": false,
-      "reason": "Comparative company HRDD and remedy indicators; scores are methodology-dependent proxies, not confirmed violations.",
+      "reason": "Compare company indicators for human rights due diligence and remedy using the benchmark methodology.",
       "licence_review_status": "pending",
       "methodology_review_status": "pending"
     },
@@ -274,7 +274,7 @@
       "review_due": "2027-02-09",
       "auto_ingest": false,
       "licence_review_status": "pending",
-      "reason": "Official EU labour mobility cooperation, cross-border inspections, enforcement coordination and worker-protection research; not a complete incident database.",
+      "reason": "EU labour mobility cooperation, cross-border inspections, enforcement coordination and worker-protection research.",
       "methodology_review_status": "pending"
     },
     {
@@ -384,7 +384,7 @@
       "review_due": "2027-02-10",
       "auto_ingest": false,
       "probe_enabled": false,
-      "reason": "Expert commentary on legal implementation, supply-chain due diligence and litigation; opinion/analysis, not independent fact adjudication.",
+      "reason": "Legal commentary on implementation, supply-chain due diligence and litigation.",
       "licence_review_status": "pending",
       "methodology_review_status": "pending"
     },
@@ -400,7 +400,7 @@
       "review_due": "2027-02-10",
       "auto_ingest": false,
       "probe_enabled": false,
-      "reason": "European public procurement, social clauses, supplier governance and HRDD in procurement; maintained by ICLEI, not an independent newspaper.",
+      "reason": "ICLEI resources on European public procurement, social clauses and supplier due diligence.",
       "licence_review_status": "pending",
       "methodology_review_status": "pending"
     },
