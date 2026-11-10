@@ -43,6 +43,7 @@
 .rv-action-danger{border-color:#d2b9aa;color:#874536}
 .rv-action-danger:hover{background:#fff0e7}
 .rv-queue-actions{padding:12px;display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:8px;border-top:1px solid #d4e0d6}
+.rv-submit-hint{flex-basis:100%;margin:0;color:#395246;font-size:11px;line-height:1.5}
 .rv-queue-actions button:last-child{background:#145a40;border-color:#145a40;color:#fff;font-weight:800}
 .rv-queue-actions button:last-child:hover{background:#0d4530}
 .rv-queue-actions button:disabled{opacity:.5;cursor:not-allowed}

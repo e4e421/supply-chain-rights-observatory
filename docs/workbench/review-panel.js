@@ -79,7 +79,8 @@ const D={
 'The first three decisions will publish automatically after the GitHub Issue is submitted and validated. Remaining drafts stay in this browser.':['提交 GitHub Issue 且驗證成功後，前三筆決策將自動公開；其餘草稿保留於此瀏覽器。','Nach Einreichen des GitHub-Issues und erfolgreicher Prüfung werden die ersten drei Entscheidungen automatisch veröffentlicht. Weitere Entwürfe bleiben lokal.'],
 "Select for publication":["選取發布","Zur Veröffentlichung auswählen"],
 "Selected for publication":["已勾選待發布","Zur Veröffentlichung ausgewählt"],
-"Publish selected through GitHub":["透過 GitHub 發布選取項目","Ausgewählte Einträge über GitHub veröffentlichen"],
+"Continue to GitHub to submit review":["前往 GitHub 提交審核","Weiter zu GitHub, um die Prüfung einzureichen"],
+"A prefilled GitHub form opens in a new tab. Selected changes are published after you submit the issue and validation succeeds.":["將在新分頁開啟 GitHub 預填表單。提交 Issue 且驗證通過後，才會發布已勾選的變更。","Ein vorausgefülltes GitHub-Formular öffnet sich in einem neuen Tab. Die ausgewählten Änderungen werden nach dem Einreichen des Issues und erfolgreicher Prüfung veröffentlicht."],
 "Export selected batch":["匯出選取的批次","Ausgewählten Batch exportieren"],
 "No selected drafts. Select the records you want to publish.":["尚未勾選紀錄。請選取本次要發布的變更。","Keine Entwürfe ausgewählt. Gewünschte Einträge markieren."],
 "You can only submit the explicitly selected records.":["只會提交您明確勾選的紀錄。","Nur ausdrücklich ausgewählte Einträge werden eingereicht."],
@@ -143,7 +144,9 @@ queueList.setAttribute('aria-label',t('Pending review changes'));
 const queueActions=el('div','','rv-queue-actions');
 const exportButton=el('button');exportButton.id='rv-export-batch';exportButton.type='button';
 const send=el('button');send.id='rv-publish-batch';send.type='button';
-queueActions.append(exportButton,send);
+const submitHint=el('p','','rv-submit-hint');submitHint.id='rv-submit-hint';
+send.setAttribute('aria-describedby',submitHint.id);
+queueActions.append(submitHint,exportButton,send);
 queue.append(introduction,queueList,queueActions);
 tools.after(queue);
 const info=el('p','','rv-message');info.id='rv-feedback';
@@ -224,7 +227,8 @@ function renderQueue(){
  if(selected.length>25)queueList.prepend(el('li',t('Too many changes for one Issue (maximum 25). Export your draft and submit smaller groups.'),'rv-alert'));
  const staleSelected=selected.some(([id,d])=>!draftCurrent(id,d));
  exportButton.textContent=t('Export selected batch');
- send.textContent=t('Publish selected through GitHub');
+ send.textContent=t('Continue to GitHub to submit review');
+ submitHint.textContent=t('A prefilled GitHub form opens in a new tab. Selected changes are published after you submit the issue and validation succeeds.');
  exportButton.disabled=!selected.length;
  send.disabled=!selected.length||selected.length>25||staleSelected||R.failed;
  info.textContent=R.failed?t('Keyword analysis unavailable; records remain visible.'):t(feedback);

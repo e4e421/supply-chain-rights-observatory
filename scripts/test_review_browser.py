@@ -17,6 +17,16 @@ PROBE=r'''
  const settle=async()=>{for(let i=0;i<5;i++)await new Promise(r=>requestAnimationFrame(r));};
  check(document.body.dataset.page==='workbench-editor','Not the editor subpage');
  check(window.SCRO_REVIEW_STORE&&document.getElementById('review-panel'),'Review editor not mounted');
+ const lang=document.documentElement.lang;
+ const notice=document.querySelector('.wb-editor-notice'),back=document.getElementById('wb-return-to-reader');
+ const editorCopy={en:['You are in the Review Editor','Return to the read-only view','Continue to GitHub to submit review'],
+   'zh-Hant':['您正在使用審核編輯器','返回檢視頁','前往 GitHub 提交審核'],
+   de:['Sie befinden sich im Review-Editor','Zurück zur Leseansicht','Weiter zu GitHub, um die Prüfung einzureichen']}[lang];
+ check(notice?.nextElementSibling?.matches('.wb-header')&&notice.contains(back),'Editor notice missing or misplaced');
+ check(notice.querySelector('strong').textContent===editorCopy[0]&&back.lastElementChild.textContent===editorCopy[1],'Editor notice not translated');
+ check(!document.querySelector('.wb-header .wb-editor-link'),'Duplicate editor return link');
+ check(back.getBoundingClientRect().height>=24&&getComputedStyle(back).textDecorationLine==='underline','Return link lacks size or visible affordance');
+ check(document.activeElement===back&&getComputedStyle(back).outlineStyle==='solid','Return link lacks keyboard focus indication');
  check(document.querySelector('[data-scope=all]').getAttribute('aria-pressed')==='true','All searchable records not default');
  check(document.getElementById('wb-scope').value==='all','Underlying scope inconsistent');
  const hint=document.getElementById('wb-scope-hint').textContent.trim();
@@ -55,8 +65,12 @@ PROBE=r'''
  check(store.selectedIds().length===1&&store.selectedIds()[0]===second,
    'Saving second draft accidentally retained first selection');
  check(queue.querySelector('[data-review-id="'+first+'"] .rv-change'),'First draft changes not previewed');
+ const send=document.getElementById('rv-publish-batch');
+ const submitHint=document.getElementById(send.getAttribute('aria-describedby'));
+ check(send.textContent===editorCopy[2]&&submitHint?.textContent.includes('GitHub')&&submitHint.getBoundingClientRect().height>0,
+   'Submission wording or visible description missing');
  let submitted=[];const oldOpen=window.open;window.open=u=>{submitted.push(u);};
- document.getElementById('rv-publish-batch').click();await settle();
+ send.click();await settle();
  check(submitted.length===1,'GitHub handoff not opened once');
  check(store.batches().length===1&&store.batches()[0].status==='handoff',
    'Handoff incorrectly labelled published');
@@ -88,7 +102,15 @@ PROBE=r'''
  const wrap=document.querySelector('.wb-table-wrap');
  check(wrap.scrollHeight<=wrap.clientHeight+2,'Nested vertical scroll reintroduced');
  check(document.documentElement.scrollWidth<=innerWidth+3,'Horizontal viewport overflow');
- return {first,second,batchOne:body1,batchTwo:body2,language:document.documentElement.lang,width:innerWidth};
+ const search=document.getElementById('wb-search');search.value=second;
+ search.dispatchEvent(new Event('input',{bubbles:true}));
+ const reader=new URL(back.href),here=new URL(location.href);
+ check(reader.pathname===new URL('../',here).pathname,'Return link did not target read-only Workbench');
+ check(reader.searchParams.get('lang')===({en:'en','zh-Hant':'zh',de:'de'})[lang]&&
+   reader.searchParams.get('q')===second&&reader.searchParams.get('record')===second&&
+   reader.searchParams.get('scope')==='all','Return link lost research context');
+ check(!reader.searchParams.has('qa')&&!reader.searchParams.has('relevance'),'Editor-only query parameters leaked');
+ return {first,second,batchOne:body1,batchTwo:body2,readerPath:'workbench/'+reader.search};
 })()
 '''
 def run():
@@ -104,7 +126,8 @@ def run():
   def navigate(path,language='en',width=1600):
    browser.call('Emulation.setDeviceMetricsOverride',{'width':width,'height':1000,'deviceScaleFactor':1,'mobile':False})
    stamp=str(time.time_ns());url=f'http://127.0.0.1:{server.server_port}/supply-chain-rights-observatory/'+path
-   url+=('&' if '?' in url else '?')+'lang='+language+'&qa='+stamp
+   url+=('&' if '?' in url else '?')+'qa='+stamp
+   if 'lang=' not in url:url+='&lang='+language
    browser.call('Page.navigate',{'url':url})
    for _ in range(300):
     try:
@@ -119,14 +142,21 @@ def run():
      navigate('workbench/',language,width)
      self_readonly=browser.evaluate('document.querySelector("#review-panel")===null&&document.getElementById("rv-publish-batch")===null&&document.querySelector("[data-scope=all]").getAttribute("aria-pressed")==="true"')
      if not self_readonly:raise AssertionError('Public Workbench exposes editing controls or wrong default scope')
+     assert browser.evaluate('!document.querySelector(".wb-editor-notice")&&!!document.querySelector(".wb-editor-link")')
      navigate('workbench/edit/',language,width)
+     for _ in range(2):
+      browser.call('Input.dispatchKeyEvent',{'type':'rawKeyDown','key':'Tab','code':'Tab','windowsVirtualKeyCode':9})
+      browser.call('Input.dispatchKeyEvent',{'type':'keyUp','key':'Tab','code':'Tab','windowsVirtualKeyCode':9})
      result=browser.evaluate(PROBE);reports.append({'language':language,'width':width,'status':'passed'})
      # Validate the browser-generated payload using the same server-side parser and guards.
      overlay=json.loads((ROOT/'data/reviews/decisions.json').read_text())
      for body in (result['batchOne'],result['batchTwo']):
       payload=parse_body(body)
       overlay=prepare(payload,load_records(),overlay,'reviewer',1,'b'*64,'2026-11-09T00:00:00Z')
-     print('PASS separate selected review submissions',language,width,flush=True)
+     navigate(result['readerPath'],language,width)
+     assert browser.evaluate('document.getElementById("wb-search").value==='+json.dumps(result['second'])+
+       '&&document.querySelector("#wb-tbody .is-selected")?.dataset.recordId==='+json.dumps(result['second']))
+     print('PASS editor notice, contextual return and selected review submissions',language,width,flush=True)
      browser.evaluate('localStorage.removeItem("scro.review.drafts.v1");localStorage.removeItem("scro.review.queue.v2")')
    # Controlled manual exclusion in the temporary deployment only.
    rid=result['first'];records=load_records()

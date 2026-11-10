@@ -8,7 +8,8 @@ const wbAssetRoot=new URL('./',document.currentScript.src);
 const L = {
 zh:{
 "Open Review Editor":"開啟研究編輯頁",
-"Return to Workbench":"返回研究工作台",
+"You are in the Review Editor":"您正在使用審核編輯器",
+"Return to the read-only view":"返回檢視頁",
 "Review Editor":"研究編輯工作台",
 "Record scope":"資料範圍",
 "Select record scope":"選擇資料範圍",
@@ -84,7 +85,8 @@ zh:{
 },
 de:{
 "Open Review Editor":"Review-Editor öffnen",
-"Return to Workbench":"Zurück zum Forschungsarbeitsplatz",
+"You are in the Review Editor":"Sie befinden sich im Review-Editor",
+"Return to the read-only view":"Zurück zur Leseansicht",
 "Review Editor":"Review-Editor",
 "Record scope":"Datenbereich",
 "Select record scope":"Datenbereich auswählen",
@@ -227,9 +229,21 @@ function parseURL(){
  topics:(p.get('topics')||'').split(',').filter(Boolean),cols:p.has('cols')?p.get('cols').split(','):undefined,
  density:p.get('density'),offset:p.get('offset')};
 }
+const workbenchQueryKeys=['scope','month','q','from','to','kind','evidence','sort','topics','cols','density','record','offset'];
+function updateReaderLink(params){
+ const link=$('wb-return-to-reader');
+ if(!link)return;
+ const destination=new URL('../',location.href);
+ destination.searchParams.set('lang',locale());
+ for(const key of workbenchQueryKeys){
+  const value=params.get(key);
+  if(value!==null)destination.searchParams.set(key,value);
+ }
+ link.href=destination.href;
+}
 function syncURL(){
  const s=readControls(),url=new URL(location.href);
- for(const k of ['scope','month','q','from','to','kind','evidence','sort','topics','cols','density','record','offset']) url.searchParams.delete(k);
+ for(const key of workbenchQueryKeys)url.searchParams.delete(key);
  url.searchParams.set('scope',s.scope);
  if(s.scope!=='latest'&&s.month)url.searchParams.set('month',s.month);
  if(s.q)url.searchParams.set('q',s.q);
@@ -243,6 +257,7 @@ function syncURL(){
  if(chosen)url.searchParams.set('record',chosen);
  if(pageIndex>0)url.searchParams.set('offset',String(pageIndex*pageSize));
  history.replaceState(null,'',url.pathname+url.search+url.hash);
+ updateReaderLink(url.searchParams);
 }
 function updateRecordScope(){
  const value=$('wb-scope')?.value||'all';
@@ -264,6 +279,7 @@ function updateRecordScope(){
  if(tabs)tabs.setAttribute('aria-label',t('Select record scope'));
 }
 function localiseStatic(){
+ updateReaderLink(new URL(location.href).searchParams);
  document.querySelectorAll('[data-l10n]').forEach(n=>{n.textContent=t(n.dataset.l10n);});
  $('wb-search').placeholder=t('Search titles, publishers, DOI, record IDs…');
  $('language-select').setAttribute('aria-label',t('Select website language'));
