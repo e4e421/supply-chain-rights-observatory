@@ -2,6 +2,7 @@
 from __future__ import annotations
 import copy, hashlib, json, sys, tempfile, unittest
 from pathlib import Path
+from unittest.mock import patch
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'scripts'))
 import archive_data
@@ -121,6 +122,23 @@ class GovernanceTests(unittest.TestCase):
         duplicate=copy.deepcopy(cand)
         duplicate['candidates'].append(copy.deepcopy(duplicate['candidates'][0]))
         with self.assertRaises(ValueError):source_governance.validate(reg,duplicate,refs)
+
+    def test_reference_probe_tracks_consecutive_failures_without_offline_increment(self):
+        with tempfile.TemporaryDirectory() as folder:
+            output=Path(folder)/'source-health.json'
+            with patch.object(source_governance,'OUTPUT',output), patch.object(source_governance,'probe') as probe:
+                def first():
+                    return json.loads(output.read_text())['sources'][0]['consecutive_failures']
+                probe.return_value={'reachability':'not_confirmed','http_status':None}
+                for expected in (1,2,3):
+                    source_governance.run(online=True)
+                    self.assertEqual(first(),expected)
+                    source_governance.run()
+                    self.assertEqual(first(),expected)
+                probe.return_value={'reachability':'responded','http_status':200}
+                source_governance.run(online=True)
+                self.assertEqual(first(),0)
+                self.assertTrue(all('reuters.com' not in args[0] for args,kwargs in probe.call_args_list))
 
     def test_external_fetch_hosts_are_restricted(self):
         for url in ('http://www.ilo.org/','https://localhost/','https://example.com/',

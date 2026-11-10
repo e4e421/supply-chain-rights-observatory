@@ -180,5 +180,21 @@
 "Corporate sustainability practice and social sustainability; broad environmental coverage requires strict topic filtering.":{"zh":"追蹤企業永續與社會永續實務，篩選與供應鏈及勞工權利直接相關的報導。","de":"Unternehmerische Nachhaltigkeit und soziale Praxis beobachten. Beiträge mit direktem Bezug zu Lieferketten und Arbeitsrechten auswählen."},
 "Legal regulatory change and cross-border compliance; distinguish sponsored legal commentary and paywalled content from official texts.":{"zh":"追蹤跨境合規與法規動態，區分編輯報導與贊助評論，並核對官方法規。","de":"Grenzüberschreitende Compliance und Rechtsentwicklungen verfolgen. Redaktionelle Beiträge und gesponserte Kommentare unterscheiden und amtliche Rechtsquellen prüfen."},
 "Forestry, agricultural commodity and extraction supply chains where land, Indigenous and labour rights intersect; environmental content needs narrow monitoring.":{"zh":"追蹤林業、農產及採掘供應鏈的土地、原住民族與勞工權利議題，依主題篩選報導。","de":"Landrechte, Rechte indigener Gemeinschaften und Arbeitsrechte in Forst-, Agrar- und Rohstofflieferketten thematisch verfolgen."},
-"Corporate sustainability supply chain strategies and governance; renamed from GreenBiz, avoid double-registering the same publisher.":{"zh":"觀察企業永續供應鏈策略與治理。GreenBiz 與更名後的 Trellis 視為同一來源。","de":"Nachhaltige Lieferkettenstrategien und Unternehmensführung beobachten. GreenBiz und das umbenannte Trellis als eine Quelle behandeln."}
+"Corporate sustainability supply chain strategies and governance; renamed from GreenBiz, avoid double-registering the same publisher.":{"zh":"觀察企業永續供應鏈策略與治理。GreenBiz 與更名後的 Trellis 視為同一來源。","de":"Nachhaltige Lieferkettenstrategien und Unternehmensführung beobachten. GreenBiz und das umbenannte Trellis als eine Quelle behandeln."},
+"Source availability":{"zh":"資料來源可取得性","de":"Quellenverfügbarkeit"},
+"Green indicates a successful check. Yellow waits for the next scheduled attempt. Red asks for manual confirmation after three consecutive failures. Gray marks manual sources or checks with no recorded result.":{"zh":"綠色表示檢查成功。黃色表示失敗，等待下次排程重試。紅色表示連續三次失敗，請人工確認。灰色表示人工查閱或尚無檢查紀錄。","de":"Grün steht für eine erfolgreiche Prüfung. Gelb bedeutet, dass der nächste geplante Versuch aussteht. Rot erfordert nach drei aufeinanderfolgenden Fehlern eine manuelle Bestätigung. Grau kennzeichnet manuelle Quellen oder fehlende Prüfergebnisse."},
+"Automated collection feeds":{"zh":"自動蒐集渠道","de":"Automatisierte Datenquellen"},
+"A successful retrieval can return zero matching records.":{"zh":"擷取成功時，符合條件的紀錄仍可能為零。","de":"Ein erfolgreicher Abruf kann null passende Datensätze ergeben."},
+"Collection feed":{"zh":"蒐集渠道","de":"Datenquelle"},
+"Availability":{"zh":"可取得性","de":"Verfügbarkeit"},
+"Matching records":{"zh":"符合條件的筆數","de":"Passende Datensätze"},
+"Last attempt":{"zh":"最後嘗試時間","de":"Letzter Versuch"},
+"Curated reference links":{"zh":"正式參考來源","de":"Kuratierte Referenzlinks"},
+"Reference availability checks the website connection. For gray manual references, open the original link.":{"zh":"參考來源的燈號反映網址連線狀態。灰色的人工參考來源可點原文連結查閱。","de":"Bei Referenzen wird die Erreichbarkeit der Website geprüft. Graue manuelle Quellen lassen sich über den Originallink öffnen."},
+"Connection needs attention":{"zh":"需留意連線狀態","de":"Verbindung prüfen"},
+"No check recorded":{"zh":"尚無檢查紀錄","de":"Keine Prüfung erfasst"},
+"Data retrieved":{"zh":"資料取得成功","de":"Daten erfolgreich abgerufen"},
+"Website reachable":{"zh":"網址連線成功","de":"Website erreichbar"},
+"Manual confirmation needed":{"zh":"連續失敗 · 請人工確認","de":"Wiederholte Fehler · Manuell bestätigen"},
+"Failed · retry scheduled":{"zh":"取得失敗 · 等待重試","de":"Fehlgeschlagen · Erneuter Versuch geplant"}
 }

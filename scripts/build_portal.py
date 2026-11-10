@@ -130,14 +130,22 @@ def build() -> None:
 <ul id="academic-manual">{''.join('<li>'+external(url,name)+' '+tx(use)+'</li>' for url,name,use in manual_academic)}</ul>
 {tx('For each lead, verify the DOI, publication version and peer-review status at the original source. Record the platform, search terms and date for reproducibility.','p')}
 </section>'''
-    sources=f'''<p class="portal-notice">{tx('Editorial assessment, licensing and HTTP reachability are separate. None verifies an allegation.')}</p>
+    sources=f'''<section id="data-availability" aria-labelledby="data-availability-title">
+{tx('Source availability','h2','id="data-availability-title"')}
+{tx('Green indicates a successful check. Yellow waits for the next scheduled attempt. Red asks for manual confirmation after three consecutive failures. Gray marks manual sources or checks with no recorded result.','p','class="portal-notice"')}
+{tx('Automated collection feeds','h3')}
+{tx('A successful retrieval can return zero matching records.','p','class="portal-help"')}
+<div class="portal-table-wrap" tabindex="0" aria-labelledby="data-availability-title"><table class="portal-table"><thead><tr>{''.join(tx(x,'th','scope=col') for x in ['Collection feed','Availability','Matching records','Last attempt'])}</tr></thead><tbody id="source-feed-rows"></tbody></table></div>
+</section>
+{tx('Curated reference links','h2')}
+{tx('Reference availability checks the website connection. For gray manual references, open the original link.','p','class="portal-help"')}
 <div class="portal-filter-grid portal-source-filters">
 {field('source-search','Search institutions','<input id="source-search" type="search" maxlength="120">')}
 {field('source-category','Category','<select id="source-category">'+option('all','All categories')+'</select>')}
-{field('source-review','Review filter','<select id="source-review">'+option('all','All sources')+option('needs','Editorial review needed')+option('licence','Licence review pending')+option('connection','Connection not confirmed')+'</select>')}
+{field('source-review','Review filter','<select id="source-review">'+option('all','All sources')+option('needs','Editorial review needed')+option('licence','Licence review pending')+option('connection','Connection needs attention')+'</select>')}
 </div><div class="portal-tools"><button id="share-query" type="button">{tx('Copy shareable link')}</button>{external(REPO+'/issues/new/choose','Propose a source or correction')}{link('#academic-monitoring','Academic literature monitoring')}</div>
 <p id="source-count" role="status" aria-live="polite">Loading public data…</p><p id="portal-feedback" role="status"></p>
-<div class="portal-table-wrap" tabindex="0" aria-label="Source directory"><table class="portal-table"><thead><tr>{''.join(tx(x,'th','scope=col') for x in ['Institution & research use','Category','Editorial review','Licence review','Reachability'])}</tr></thead><tbody id="source-rows"></tbody></table></div>
+<div class="portal-table-wrap" tabindex="0" aria-label="Source directory"><table class="portal-table"><thead><tr>{''.join(tx(x,'th','scope=col') for x in ['Institution & research use','Category','Editorial review','Licence review','Availability'])}</tr></thead><tbody id="source-rows"></tbody></table></div>
 <p class="portal-help">{tx('A reference listing does not enable automated collection. New ingestion hosts require separate approval.')}</p>
 {academic_channels}'''
     write('sources',shell('sources','Source Directory','Inspect institutional sources, editorial review and link availability.',sources))
@@ -175,7 +183,7 @@ def build() -> None:
     write('record',shell('record','Research record','Inspect publication provenance without treating a record as a confirmed incident.', '<section id="record-content" class="record-page" aria-live="polite"><p>Loading archive…</p></section>'+link('./archive/','Return to archive')))
     # Preserve the existing professional UI and its hard-won responsive layout.
     p=OUT/'workbench/index.html';wb=p.read_text(encoding='utf-8')
-    wb=wb.replace('../index.html#sources','../sources/').replace('../index.html#method','../methodology/')
+    wb=wb.replace('../index.html#sources','../sources/#data-availability').replace('../index.html#method','../methodology/')
     wb=wb.replace('<body class="wb">','<body class="wb" data-page="workbench" data-page-title="Research Workbench">')
     wb=wb.replace('</head>','<link rel="stylesheet" href="../portal.css"><script defer src="../portal.js"></script></head>')
     wnav='<nav class="portal-workbench-nav" aria-label="Research index">'+''.join(link('../'+route+'/',title) for route,title in NAMES if route)+'</nav>'

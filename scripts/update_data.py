@@ -132,8 +132,11 @@ def parse_rss(body, config, now, candidates=None):
     root = ElementTree.fromstring(body)
     if root.tag != 'rss' and not root.tag.endswith('}rss'):
         raise ValueError('Expected RSS XML document')
+    channel = root.find('./channel')
+    if channel is None:
+        raise ValueError('RSS channel missing')
     result = []
-    for node in root.findall('./channel/item')[:80]:
+    for node in channel.findall('./item')[:80]:
         title = clean_text(node.findtext('title'))
         link = public_https_url((node.findtext('link') or '').strip(), 'news.google.com')
         if not title or not link:
@@ -167,7 +170,10 @@ def parse_rss(body, config, now, candidates=None):
 
 def parse_crossref(payload, config, now, candidates=None):
     result = []
-    for record in payload.get('message', {}).get('items', [])[:75]:
+    records = payload['message']['items']
+    if not isinstance(records, list):
+        raise ValueError('Crossref items must be a list')
+    for record in records[:75]:
         title = clean_text((record.get('title') or [''])[0])
         doi = str(record.get('DOI') or '').strip()
         published = date_from_crossref(record)
@@ -201,7 +207,10 @@ def parse_crossref(payload, config, now, candidates=None):
 def parse_openalex(payload, config, now, candidates=None):
     """Keyless, one-page OpenAlex metadata discovery; no author personal data collected."""
     result=[]
-    for record in payload.get('results',[])[:50]:
+    records=payload['results']
+    if not isinstance(records,list):
+        raise ValueError('OpenAlex results must be a list')
+    for record in records[:50]:
         title=clean_text(record.get('display_name') or record.get('title'))
         doi_value=record.get('doi') or ''
         doi=doi_value.replace('https://doi.org/','').strip()
@@ -291,6 +300,11 @@ def run():
         def openalex_fetch(url=url,cfg=config_item):
             return parse_openalex(json.loads(fetch_bytes(url).decode('utf-8')),cfg,now,candidates)
         sources.append(process_source(config_item,'academic',openalex_fetch,new_items,warnings,now))
+    previous_sources = {row['id']:row for row in previous.get('sources', [])}
+    for source in sources:
+        prior = previous_sources.get(source['id'], {})
+        prior_failures = prior.get('consecutive_failures', int(prior.get('status') == 'failed'))
+        source['consecutive_failures'] = 0 if source['status'] == 'ok' else prior_failures + 1
     success = sum(x['status'] == 'ok' for x in sources)
     status = 'failed' if success == 0 or (not new_items and not previous.get('items')) else 'partial' if success < len(sources) else 'ok'
     merged = merge_items(new_items, previous.get('items', []), now)

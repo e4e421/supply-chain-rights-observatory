@@ -6,7 +6,7 @@
   "last_probe_run": "2026-11-09T01:57:13Z",
   "approved_reference_count": 30,
   "pending_candidate_count": 0,
-  "review_needed_count": 12,
+  "review_needed_count": 0,
   "review_overdue": 0,
   "licence_review_pending_count": 30,
   "sources": [
@@ -15,156 +15,168 @@
       "name": "European Commission · CSDDD",
       "authority_type": "official",
       "editorial_status": "curated_reference",
-      "last_editorial_review": null,
-      "review_due": "2027-02-08",
+      "last_editorial_review": "2026-11-10",
+      "review_due": "2027-02-10",
       "licence_review_status": "pending",
-      "review_needed": true,
+      "review_needed": false,
       "reachability": "responded",
       "http_status": 200,
-      "last_probe": "2026-11-09T01:57:13Z"
+      "last_probe": "2026-11-09T01:57:13Z",
+      "consecutive_failures": 0
     },
     {
       "id": "reference-02",
       "name": "EU Forced Labour Regulation",
       "authority_type": "official",
       "editorial_status": "curated_reference",
-      "last_editorial_review": null,
-      "review_due": "2027-02-08",
+      "last_editorial_review": "2026-11-10",
+      "review_due": "2027-02-10",
       "licence_review_status": "pending",
-      "review_needed": true,
+      "review_needed": false,
       "reachability": "responded",
       "http_status": 200,
-      "last_probe": "2026-11-09T01:57:13Z"
+      "last_probe": "2026-11-09T01:57:13Z",
+      "consecutive_failures": 0
     },
     {
       "id": "reference-03",
       "name": "EUR-Lex · EU Legal Documents",
       "authority_type": "official",
       "editorial_status": "curated_reference",
-      "last_editorial_review": null,
-      "review_due": "2027-02-08",
+      "last_editorial_review": "2026-11-10",
+      "review_due": "2027-02-10",
       "licence_review_status": "pending",
-      "review_needed": true,
+      "review_needed": false,
       "reachability": "responded",
       "http_status": 200,
-      "last_probe": "2026-11-09T01:57:13Z"
+      "last_probe": "2026-11-09T01:57:13Z",
+      "consecutive_failures": 0
     },
     {
       "id": "reference-04",
       "name": "International Labour Organization (ILO)",
       "authority_type": "specialist_or_research",
       "editorial_status": "curated_reference",
-      "last_editorial_review": null,
-      "review_due": "2027-02-08",
+      "last_editorial_review": "2026-11-10",
+      "review_due": "2027-02-10",
       "licence_review_status": "pending",
-      "review_needed": true,
+      "review_needed": false,
       "reachability": "responded",
       "http_status": 200,
-      "last_probe": "2026-11-09T01:57:13Z"
+      "last_probe": "2026-11-09T01:57:13Z",
+      "consecutive_failures": 0
     },
     {
       "id": "reference-05",
       "name": "Business & Human Rights Resource Centre",
       "authority_type": "specialist_or_research",
       "editorial_status": "curated_reference",
-      "last_editorial_review": null,
-      "review_due": "2027-02-08",
+      "last_editorial_review": "2026-11-10",
+      "review_due": "2027-02-10",
       "licence_review_status": "pending",
-      "review_needed": true,
+      "review_needed": false,
       "reachability": "responded",
       "http_status": 200,
-      "last_probe": "2026-11-09T01:57:13Z"
+      "last_probe": "2026-11-09T01:57:13Z",
+      "consecutive_failures": 0
     },
     {
       "id": "reference-06",
       "name": "OECD · Responsible Business Conduct",
       "authority_type": "specialist_or_research",
       "editorial_status": "curated_reference",
-      "last_editorial_review": null,
-      "review_due": "2027-02-08",
+      "last_editorial_review": "2026-11-10",
+      "review_due": "2027-02-10",
       "licence_review_status": "pending",
-      "review_needed": true,
+      "review_needed": false,
       "reachability": "http_restriction_or_error",
       "http_status": 403,
-      "last_probe": "2026-11-09T01:57:13Z"
+      "last_probe": "2026-11-09T01:57:13Z",
+      "consecutive_failures": 1
     },
     {
       "id": "reference-07",
       "name": "European Trade Union Institute (ETUI)",
       "authority_type": "specialist_or_research",
       "editorial_status": "curated_reference",
-      "last_editorial_review": null,
-      "review_due": "2027-02-08",
+      "last_editorial_review": "2026-11-10",
+      "review_due": "2027-02-10",
       "licence_review_status": "pending",
-      "review_needed": true,
+      "review_needed": false,
       "reachability": "http_restriction_or_error",
       "http_status": 403,
-      "last_probe": "2026-11-09T01:57:13Z"
+      "last_probe": "2026-11-09T01:57:13Z",
+      "consecutive_failures": 1
     },
     {
       "id": "reference-08",
       "name": "International Trade Union Confederation (ITUC)",
       "authority_type": "specialist_or_research",
       "editorial_status": "curated_reference",
-      "last_editorial_review": null,
-      "review_due": "2027-02-08",
+      "last_editorial_review": "2026-11-10",
+      "review_due": "2027-02-10",
       "licence_review_status": "pending",
-      "review_needed": true,
+      "review_needed": false,
       "reachability": "http_restriction_or_error",
       "http_status": 403,
-      "last_probe": "2026-11-09T01:57:13Z"
+      "last_probe": "2026-11-09T01:57:13Z",
+      "consecutive_failures": 1
     },
     {
       "id": "reference-09",
       "name": "ETH Zurich · Supply Chain Management Group",
       "authority_type": "specialist_or_research",
       "editorial_status": "curated_reference",
-      "last_editorial_review": null,
-      "review_due": "2027-02-08",
+      "last_editorial_review": "2026-11-10",
+      "review_due": "2027-02-10",
       "licence_review_status": "pending",
-      "review_needed": true,
+      "review_needed": false,
       "reachability": "responded",
       "http_status": 200,
-      "last_probe": "2026-11-09T01:57:13Z"
+      "last_probe": "2026-11-09T01:57:13Z",
+      "consecutive_failures": 0
     },
     {
       "id": "reference-10",
       "name": "Crossref · Scholarly Metadata",
       "authority_type": "academic_metadata",
       "editorial_status": "curated_reference",
-      "last_editorial_review": null,
-      "review_due": "2027-02-08",
+      "last_editorial_review": "2026-11-10",
+      "review_due": "2027-02-10",
       "licence_review_status": "pending",
-      "review_needed": true,
+      "review_needed": false,
       "reachability": "responded",
       "http_status": 200,
-      "last_probe": "2026-11-09T01:57:13Z"
+      "last_probe": "2026-11-09T01:57:13Z",
+      "consecutive_failures": 0
     },
     {
       "id": "reference-11",
       "name": "Google News · Topic Monitoring",
       "authority_type": "aggregator",
       "editorial_status": "curated_reference",
-      "last_editorial_review": null,
-      "review_due": "2027-02-08",
+      "last_editorial_review": "2026-11-10",
+      "review_due": "2027-02-10",
       "licence_review_status": "pending",
-      "review_needed": true,
+      "review_needed": false,
       "reachability": "responded",
       "http_status": 200,
-      "last_probe": "2026-11-09T01:57:13Z"
+      "last_probe": "2026-11-09T01:57:13Z",
+      "consecutive_failures": 0
     },
     {
       "id": "reference-12",
       "name": "Eurostat · Official European Statistics",
       "authority_type": "official",
       "editorial_status": "curated_reference",
-      "last_editorial_review": null,
-      "review_due": "2027-02-08",
+      "last_editorial_review": "2026-11-10",
+      "review_due": "2027-02-10",
       "licence_review_status": "pending",
-      "review_needed": true,
+      "review_needed": false,
       "reachability": "responded",
       "http_status": 200,
-      "last_probe": "2026-11-09T01:57:13Z"
+      "last_probe": "2026-11-09T01:57:13Z",
+      "consecutive_failures": 0
     },
     {
       "id": "bmas-lksg",
@@ -177,7 +189,8 @@
       "review_needed": false,
       "reachability": "not_confirmed",
       "http_status": null,
-      "last_probe": "2026-11-09T01:57:13Z"
+      "last_probe": "2026-11-09T01:57:13Z",
+      "consecutive_failures": 1
     },
     {
       "id": "oecd-ncp",
@@ -190,7 +203,8 @@
       "review_needed": false,
       "reachability": "http_restriction_or_error",
       "http_status": 403,
-      "last_probe": "2026-11-09T01:57:13Z"
+      "last_probe": "2026-11-09T01:57:13Z",
+      "consecutive_failures": 1
     },
     {
       "id": "eu-osha",
@@ -203,7 +217,8 @@
       "review_needed": false,
       "reachability": "responded",
       "http_status": 200,
-      "last_probe": "2026-11-09T01:57:13Z"
+      "last_probe": "2026-11-09T01:57:13Z",
+      "consecutive_failures": 0
     },
     {
       "id": "wba-chrb",
@@ -216,7 +231,8 @@
       "review_needed": false,
       "reachability": "responded",
       "http_status": 200,
-      "last_probe": "2026-11-09T01:57:13Z"
+      "last_probe": "2026-11-09T01:57:13Z",
+      "consecutive_failures": 0
     },
     {
       "id": "knowthechain",
@@ -229,7 +245,8 @@
       "review_needed": false,
       "reachability": "responded",
       "http_status": 200,
-      "last_probe": "2026-11-09T01:57:13Z"
+      "last_probe": "2026-11-09T01:57:13Z",
+      "consecutive_failures": 0
     },
     {
       "id": "european-labour-authority",
@@ -242,7 +259,8 @@
       "review_needed": false,
       "reachability": "responded",
       "http_status": 200,
-      "last_probe": "2026-11-09T01:57:13Z"
+      "last_probe": "2026-11-09T01:57:13Z",
+      "consecutive_failures": 0
     },
     {
       "id": "eurofound-working-conditions",
@@ -255,7 +273,8 @@
       "review_needed": false,
       "reachability": "http_restriction_or_error",
       "http_status": 429,
-      "last_probe": "2026-11-09T01:57:13Z"
+      "last_probe": "2026-11-09T01:57:13Z",
+      "consecutive_failures": 1
     },
     {
       "id": "media-reuters",
@@ -268,7 +287,8 @@
       "review_needed": false,
       "reachability": "manual_only",
       "http_status": null,
-      "last_probe": null
+      "last_probe": null,
+      "consecutive_failures": 0
     },
     {
       "id": "media-guardian",
@@ -281,7 +301,8 @@
       "review_needed": false,
       "reachability": "manual_only",
       "http_status": null,
-      "last_probe": null
+      "last_probe": null,
+      "consecutive_failures": 0
     },
     {
       "id": "media-esgdive",
@@ -294,7 +315,8 @@
       "review_needed": false,
       "reachability": "manual_only",
       "http_status": null,
-      "last_probe": null
+      "last_probe": null,
+      "consecutive_failures": 0
     },
     {
       "id": "media-esgtoday",
@@ -307,7 +329,8 @@
       "review_needed": false,
       "reachability": "manual_only",
       "http_status": null,
-      "last_probe": null
+      "last_probe": null,
+      "consecutive_failures": 0
     },
     {
       "id": "media-responsible-investor",
@@ -320,7 +343,8 @@
       "review_needed": false,
       "reachability": "manual_only",
       "http_status": null,
-      "last_probe": null
+      "last_probe": null,
+      "consecutive_failures": 0
     },
     {
       "id": "media-hsfkramer",
@@ -333,7 +357,8 @@
       "review_needed": false,
       "reachability": "manual_only",
       "http_status": null,
-      "last_probe": null
+      "last_probe": null,
+      "consecutive_failures": 0
     },
     {
       "id": "media-sustainable-procurement",
@@ -346,7 +371,8 @@
       "review_needed": false,
       "reachability": "manual_only",
       "http_status": null,
-      "last_probe": null
+      "last_probe": null,
+      "consecutive_failures": 0
     },
     {
       "id": "media-edie",
@@ -359,7 +385,8 @@
       "review_needed": false,
       "reachability": "manual_only",
       "http_status": null,
-      "last_probe": null
+      "last_probe": null,
+      "consecutive_failures": 0
     },
     {
       "id": "media-iflr",
@@ -372,7 +399,8 @@
       "review_needed": false,
       "reachability": "manual_only",
       "http_status": null,
-      "last_probe": null
+      "last_probe": null,
+      "consecutive_failures": 0
     },
     {
       "id": "media-mongabay",
@@ -385,7 +413,8 @@
       "review_needed": false,
       "reachability": "manual_only",
       "http_status": null,
-      "last_probe": null
+      "last_probe": null,
+      "consecutive_failures": 0
     },
     {
       "id": "media-trellis",
@@ -398,7 +427,8 @@
       "review_needed": false,
       "reachability": "manual_only",
       "http_status": null,
-      "last_probe": null
+      "last_probe": null,
+      "consecutive_failures": 0
     }
   ]
 }
