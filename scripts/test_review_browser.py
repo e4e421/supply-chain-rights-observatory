@@ -8,7 +8,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'tests'));sys.path.insert(0,str(ROOT/'scripts'))
 from test_workbench_row_height import ChromePipe,CHROME
 from build_relevance import load_records
-from relevance_engine import decorate,digest
+from relevance_engine import decorate,digest,fingerprint
 from propose_reviews import prepare
 from publish_reviews import parse_publish_body as parse_body
 PROBE=r'''
@@ -93,13 +93,27 @@ PROBE=r'''
  document.getElementById('rv-save').click();await settle();
  const queue=document.getElementById('rv-queue');
  check(queue.querySelectorAll('[data-review-id]').length===2,'Both drafts not visible');
+ const wrap=document.querySelector('.wb-table-wrap'),pager=document.getElementById('wb-page-controls');
+ const shortcuts=document.querySelector('.wb-pagination'),historyPanel=document.getElementById('rv-history');
+ const filter=document.getElementById('rv-filter');
+ const beforeElement=(a,b)=>Boolean(a.compareDocumentPosition(b)&Node.DOCUMENT_POSITION_FOLLOWING);
+ const top=element=>element.getBoundingClientRect().top+scrollY;
+ const bottom=element=>element.getBoundingClientRect().bottom+scrollY;
+ const visibleRows=()=>[...document.querySelectorAll('#wb-tbody [data-record-id]')];
+ const visibleIds=()=>visibleRows().map(row=>row.dataset.recordId).join(',');
+ queue.open=false;
+ await settle();
+ const initialTop=top(wrap),initialPagerTop=top(pager),initialIds=visibleIds();
  queue.open=true;
  await settle();
- const wrap=document.querySelector('.wb-table-wrap'),pager=document.getElementById('wb-page-controls');
- check(wrap.previousElementSibling.contains(pager)&&
-   queue.getBoundingClientRect().bottom<=pager.getBoundingClientRect().top,'Pager is not next to the results below the queue');
- const visibleRows=()=>[...document.querySelectorAll('#wb-tbody [data-record-id]')];
- check(visibleRows().length===10,'Expanding the queue reduced the result count');
+ check(beforeElement(filter,pager)&&wrap.previousElementSibling.contains(pager),
+   'Filter and pager must precede the results table');
+ check(beforeElement(wrap,queue)&&beforeElement(queue,historyPanel)&&
+   bottom(wrap)<=top(shortcuts)+1&&bottom(shortcuts)<=top(queue)+1&&bottom(queue)<=top(historyPanel)+1,
+   'Review queue and publication history must follow the results and shortcuts');
+ check(Math.abs(top(wrap)-initialTop)<=1&&Math.abs(top(pager)-initialPagerTop)<=1,
+   'Expanding the queue moved the results or the pager');
+ check(visibleRows().length===10&&visibleIds()===initialIds,'Expanding the queue changed the results');
  const next=document.getElementById('wb-next'),previous=document.getElementById('wb-prev');
  check(previous.disabled&&!next.disabled,'First page navigation state is incorrect');
  next.click();await settle();
@@ -170,6 +184,174 @@ PROBE=r'''
  return {first,second,tagBatch,batchOne:body1,batchTwo:body2,readerPath:'workbench/'+reader.search};
 })()
 '''
+FILTER_PROBE=r'''
+(async()=>{
+ const byId=id=>document.getElementById(id);
+ const filter=byId('rv-filter'),active=byId('wb-active-filters');
+ const labels={
+  en:['All relevance levels','High relevance','Needs context','Low relevance','No current review','Published reviews · included records','Excluded records'],
+  'zh-Hant':['所有相關性','高相關','待判讀','低相關','無有效審核','已發布審核 · 收錄紀錄','已排除紀錄'],
+  de:['Alle Relevanzstufen','Hohe Relevanz','Kontext prüfen','Geringe Relevanz','Keine aktuelle Prüfung','Veröffentlichte Prüfungen · aufgenommene Datensätze','Ausgeschlossene Datensätze'],
+  es:['Todos los niveles de pertinencia','Pertinencia alta','Requiere contexto','Pertinencia baja','Sin revisión vigente','Revisiones publicadas · registros incluidos','Registros excluidos']
+ };
+ const expected={
+  all:[1,2,3,4,5,7,8],high:[1,2],review:[3,4],low:[5,8],
+  unreviewed:[1,3,5],reviewed:[2,4,8],excluded:[6]
+ };
+ const check=(value,message)=>{
+  if(!value)throw Error(document.documentElement.lang+' '+innerWidth+'px · '+message);
+ };
+ const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
+ const dispatch=(element,event='change')=>element.dispatchEvent(new Event(event,{bubbles:true}));
+ const change=(id,value,event)=>{const element=byId(id);element.value=value;dispatch(element,event);};
+ const query=key=>new URL(location.href).searchParams.get(key);
+ const assertResults=(label,ids)=>{
+  const rows=[...document.querySelectorAll('#wb-tbody [data-record-id]')];
+  const actual=rows.map(row=>parseInt(row.dataset.recordId,16)).sort((a,b)=>a-b);
+  check(same(actual,ids)&&byId('wb-count').dataset.total===String(ids.length),
+   label+' expected '+ids+' but showed '+actual+' ('+byId('wb-count').dataset.total+' total)');
+ };
+ const waitForResults=async(label,ids)=>{
+  for(let i=0;i<90&&byId('wb-count').dataset.total!==String(ids.length);i++)
+   await new Promise(resolve=>requestAnimationFrame(resolve));
+  assertResults(label,ids);
+ };
+ const assertOptions=()=>{
+  check(!filter.disabled&&same([...filter.options].map(option=>option.value),Object.keys(expected)),
+   'Relevance options unavailable or changed across languages');
+  check(same([...filter.options].map(option=>option.textContent),labels[document.documentElement.lang]),
+   'Relevance options are not translated');
+ };
+ assertOptions();
+ check(filter.value==='high'&&query('relevance')==='high','Initial editor URL did not restore relevance');
+ assertResults('Initial editor URL',expected.high);
+ for(const [value,ids] of Object.entries(expected)){
+  change('rv-filter',value);
+  assertResults(value,ids);
+  check(query('relevance')===(value==='all'?null:value),'Editor URL lost relevance '+value);
+  if(value!=='all')check(active.textContent===filter.selectedOptions[0].textContent,'Relevance missing from active filters');
+ }
+ change('wb-search','#smoke fire','input');
+ assertResults('Hashtag and search with excluded',expected.excluded);
+ change('rv-filter','high');
+ assertResults('Hashtag and search with high',expected.high);
+ change('wb-kind','academic');
+ assertResults('High, search, tag and type',[2]);
+ change('wb-evidence','unverified');
+ assertResults('Evidence excludes academic record',[]);
+ change('wb-evidence','bibliographic');
+ assertResults('Evidence includes academic record',[2]);
+ change('wb-to','2026-11-10');
+ assertResults('UTC day before publication',[]);
+ change('wb-to','2026-11-11');
+ change('wb-from','2026-11-11');
+ assertResults('UTC publication date',[2]);
+ const topic=document.querySelector('[name="wb-topic"][value="forced-labour"]');
+ topic.checked=true;dispatch(topic);
+ assertResults('Topic excludes policy record',[]);
+ topic.checked=false;dispatch(topic);
+ const locale=byId('language-select').value;
+ change('language-select',locale==='es'?'en':'es');
+ assertOptions();
+ change('language-select',locale);
+ assertOptions();
+ assertResults('Language switch keeps filters',[2]);
+ check(filter.value==='high'&&query('relevance')==='high'&&query('q')==='#smoke fire'&&
+   active.textContent.includes(filter.selectedOptions[0].textContent),'Language switch lost filter state or summary');
+ let copied='';
+ Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async value=>{copied=value;}}});
+ byId('wb-share').click();
+ await Promise.resolve();
+ const shared=new URL(copied),reader=new URL(byId('wb-return-to-reader').href);
+ check(shared.searchParams.get('lang')===locale&&shared.searchParams.get('relevance')==='high'&&
+   shared.searchParams.get('q')==='#smoke fire','Share link lost locale or filters');
+ check(!reader.searchParams.has('relevance')&&reader.searchParams.get('q')==='#smoke fire',
+   'Read-only return did not preserve compatible filters');
+ const prompt=window.prompt;
+ window.prompt=()=> 'Browser acceptance view';
+ byId('wb-save').click();
+ window.prompt=prompt;
+ const saved=byId('wb-saved-list').value;
+ check(saved,'Save view did not create an entry');
+ byId('wb-clear').click();
+ await waitForResults('Reset',expected.all);
+ check(filter.value==='all'&&!query('relevance')&&!query('q'),'Reset left an active filter');
+ change('wb-saved-list',saved);
+ await waitForResults('Restore saved view',[2]);
+ check(filter.value==='high'&&query('relevance')==='high','Saved view lost relevance');
+ byId('wb-remove-view').click();
+ byId('wb-clear').click();
+ await waitForResults('Reset before scope checks',expected.all);
+ change('rv-filter','low');
+ assertResults('Low across snapshot and archive',expected.low);
+ document.querySelector('[data-scope="latest"]').click();
+ await waitForResults('Low within snapshot',[5]);
+ document.querySelector('[data-scope="archive"]').click();
+ await waitForResults('Low within archive',[8]);
+ return true;
+})()
+'''
+
+
+def install_filter_fixture(site):
+    """Replace only the browser test's temporary snapshot, shard and review index."""
+    data = site/'data'
+    scenarios = (
+        ('fire alpha', 'discovery', 'high', 'unreviewed', 'forced-labour', True),
+        ('fire beta', 'academic', 'high', 'current', 'policy', True),
+        ('fire gamma', 'discovery', 'review', 'stale', 'forced-labour', False),
+        ('flood delta', 'discovery', 'review', 'current', 'working-conditions', True),
+        ('flood epsilon', 'academic', 'low', 'unreviewed', 'research', False),
+        ('fire zeta', 'discovery', 'high', 'excluded', 'forced-labour', True),
+        ('unknown eta', 'discovery', None, 'unindexed', 'policy', False),
+        ('flood theta', 'discovery', 'low', 'current', 'working-conditions', False),
+    )
+    records, sidecar, tags = [], {}, {}
+    for n, (title, kind, level, state, topic, tagged) in enumerate(scenarios, 1):
+        record_id = f'{n:018x}'
+        record = {
+            'record_id': record_id, 'title': 'Fixture '+title, 'kind': kind,
+            'publisher_hint': 'Fixture Publisher', 'topics': [topic],
+            'source_id': 'filter-fixture', 'url': f'https://example.org/{record_id}',
+            'first_seen': '2026-11-11T01:00:00Z',
+            'published_at': '2026-11-10T23:59:00Z' if n == 1 else '2026-11-11T00:00:00Z',
+            'evidence_status': 'Bibliographic record' if kind == 'academic' else 'Unverified discovery lead',
+        }
+        records.append(record)
+        if tagged:
+            row = {'tags': ['smoke'], 'issue': 1}
+            tags[record_id] = {**row, 'digest': digest(row)}
+        if state == 'unindexed':
+            continue
+        reviews = {}
+        if state in {'current', 'stale', 'excluded'}:
+            reviews[record_id] = {
+                'content_fingerprint': '0'*64 if state == 'stale' else fingerprint(record),
+                'relevance': 'exclude' if state in {'stale', 'excluded'} else 'needs_review' if n == 4 else 'include',
+                'topics': [topic], 'publisher_confirmed': False, 'canonical_url': None,
+                'note': '', 'reviewed_at': '2026-11-11T01:00:00Z', 'reviewed_by': 'fixture',
+                'issue': 1, 'issue_digest': 'a'*64,
+            }
+        entry = decorate(record, reviews)
+        entry['analysis']['level'] = level
+        entry['effective_topics'] = [topic]
+        sidecar[record_id] = entry
+
+    def replace(name, **fields):
+        path = data/name
+        document = json.loads(path.read_text())
+        document.update(fields)
+        path.write_text(json.dumps(document))
+
+    replace('latest.json', items=records[:-1])
+    shard = '2026-11-0001.json'
+    replace('archive/catalog.json', total_records=1, months=[
+        {'month': '2026-11', 'records': 1, 'files': [{'file': shard, 'records': 1}]},
+    ])
+    (data/'archive'/shard).write_text(json.dumps({'records': records[-1:]}))
+    replace('relevance-index.json', records=sidecar, coverage='partial', tag_catalog=['smoke'], record_tags=tags)
+
+
 def run():
  if not CHROME:raise SystemExit('Chrome required for review acceptance')
  if not (ROOT/'_site/data/relevance-index.json').exists():raise ValueError('Build relevance index first')
@@ -253,8 +435,16 @@ def run():
    navigate('record.html?id='+rid)
    assert browser.evaluate('document.getElementById("record-content").textContent.includes("Excluded by editorial review")')
    print('PASS excluded original record remains accessible with warning',flush=True)
+   install_filter_fixture(site)
+   for language in ('en','zh','de','es'):
+    for width in (1920,390):
+     navigate('workbench/edit/?relevance=high',language,width)
+     assert browser.evaluate(FILTER_PROBE)
+     reports.append({'language':language,'width':width,'relevance_filters':'passed'})
+     print('PASS relevance options, combined filters, locale switching, shared and saved views, reset and scopes',
+           language,width,flush=True)
   finally:
    browser.close();server.shutdown();server.server_close();thread.join(timeout=3)
  qa=ROOT/'_qa';qa.mkdir(exist_ok=True);(qa/'review-acceptance.json').write_text(json.dumps(reports,indent=2))
- print('PASS review UI, draft/public distinction, handoff validation, and four-route overlay consistency')
+ print('PASS review UI, four-language relevance filters, handoff validation, and four-route overlay consistency')
 if __name__=='__main__':run()

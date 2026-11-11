@@ -331,6 +331,7 @@ function readControls(){
  scope:$('wb-scope').value,month:$('wb-month').value,q:$('wb-search').value.trim().slice(0,120),
  from:$('wb-from').value,to:$('wb-to').value,kind:$('wb-kind').value,
  evidence:$('wb-evidence').value,sort:$('wb-sort').value,
+ relevance:window.SCRO_REVIEW?.filterValue()||'all',
  topics:[...document.querySelectorAll('[name="wb-topic"]:checked')].map(x=>x.value),tags:[...selectedTags],
  cols:[...document.querySelectorAll('[data-column]:checked')].map(x=>x.dataset.column),
  density:$('wb-density').value,offset:pageIndex*pageSize
@@ -343,6 +344,7 @@ function applyControls(values) {
  $('wb-sort').value=safeValue(values.sort,SAFE_SORT,'published-desc');
  $('wb-kind').value=safeValue(values.kind,SAFE_KIND,'all');
  $('wb-evidence').value=safeValue(values.evidence,SAFE_EVIDENCE,'all');
+ window.SCRO_REVIEW?.setFilter(values.relevance);
  $('wb-search').value=String(values.q||'').slice(0,120);
  selectedTags=recordTags.keys(Array.isArray(values.tags)?values.tags:[]);
  for(const id of ['from','to']) {
@@ -360,6 +362,7 @@ function parseURL(){
  const p=new URL(location.href).searchParams;
  return {scope:p.get('scope'),month:p.get('month'),q:p.get('q'),from:p.get('from'),to:p.get('to'),
  kind:p.get('kind'),evidence:p.get('evidence'),sort:p.get('sort'),
+ relevance:p.get('relevance'),
  topics:(p.get('topics')||'').split(',').filter(Boolean),tags:(p.get('tag')||'').split(','),cols:p.has('cols')?p.get('cols').split(','):undefined,
  density:p.get('density'),offset:p.get('offset')};
 }
@@ -384,6 +387,8 @@ function syncURL(){
  for(const id of ['from','to'])if(s[id])url.searchParams.set(id,s[id]);
  if(s.kind!=='all')url.searchParams.set('kind',s.kind);
  if(s.evidence!=='all')url.searchParams.set('evidence',s.evidence);
+ if(editorMode&&s.relevance!=='all')url.searchParams.set('relevance',s.relevance);
+ else url.searchParams.delete('relevance');
  if(s.sort!=='published-desc')url.searchParams.set('sort',s.sort);
  if(s.topics.length)url.searchParams.set('topics',s.topics.join(','));
  if(s.tags.length)url.searchParams.set('tag',s.tags.join(','));
@@ -680,6 +685,11 @@ function drawTable(){
  if(c.topics.length)terms.push(c.topics.map(k=>t(TOPICS[k]||k)).join(' OR '));
  if(c.tags.length)terms.push(c.tags.map(tag=>'#'+tag).join(' '));
  if(c.kind!=='all')terms.push(t(c.kind==='academic'?'Academic metadata':'Discovery leads'));
+ if(c.evidence!=='all')terms.push(t(c.evidence==='unverified'?'Unverified discovery':'Bibliographic record'));
+ if(c.from)terms.push(t('Published from (UTC)')+' '+c.from);
+ if(c.to)terms.push(t('Published through (UTC)')+' '+c.to);
+ const relevanceLabel=window.SCRO_REVIEW?.filterLabel();
+ if(relevanceLabel)terms.push(relevanceLabel);
  $('wb-active-filters').textContent=terms.join(' · ')||t('No active filters');
  let status=c.scope==='latest'?t('Scope: latest snapshot'):c.scope==='archive'?t('Scope: archive month')+': '+c.month:t('Scope: combined catalogue');
  if(loading)status+=' · '+t('Loading historical records…');

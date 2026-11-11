@@ -2,6 +2,8 @@
 .rv-tools{display:flex;align-items:center;flex-wrap:wrap;gap:7px;padding:9px 12px;border-bottom:1px solid #d3dfd5;background:#f5f9f5}
 .rv-tools select,.rv-tools button,.rv-actions button{font:inherit;font-size:11px;padding:7px;border:1px solid #9eb7a9;border-radius:3px;background:#fff;color:#174535;min-height:36px;max-width:100%}
 .rv-tools button:disabled{opacity:.5}.rv-draft-count{font-size:10px;flex:1;color:#475f50}
+.rv-filter-coverage{flex-basis:100%;font-size:11px;color:#475f50}
+.rv-filter-coverage:empty{display:none}
 .rv-message{padding:0 12px;font-size:11px;color:#5f4618}.rv-message:empty{display:none}
 .rv-panel{padding:13px;border-top:1px solid #cad9cc;min-width:0;overflow-wrap:anywhere}
 .rv-panel h3{font-size:13px;margin:0 0 8px}.rv-panel p{margin:6px 0}
