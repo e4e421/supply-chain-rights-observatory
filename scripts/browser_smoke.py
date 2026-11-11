@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Optional real-Chrome smoke test for the static three-language site.
+"""Optional real-Chrome smoke test for the static four-language site.
 
 Requires locally installed Chrome/Chromium. Outputs explicit SKIPPED status if
 the browser is absent; must not be reported as a passed accessibility audit.
@@ -16,7 +16,7 @@ def run():
                             stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     try:
         time.sleep(1)
-        cases=[("en","Where supply chains"),("zh","供應鏈"),("de","Wo Lieferketten")]
+        cases=[("en","Where supply chains"),("zh","供應鏈"),("de","Wo Lieferketten"),("es","Donde las cadenas de suministro")]
         with tempfile.TemporaryDirectory() as profile:
             for code,expected in cases:
                 args=[CHROME,"--headless=new","--no-sandbox","--disable-dev-shm-usage","--disable-gpu",
@@ -28,11 +28,11 @@ def run():
                 # The former status badge is now the explicit workbench entry.
                 if 'class="top-tag workbench-entry"' not in got:
                     raise ValueError("Clickable workbench entry missing: "+code)
-                if 'aria-label="'+({"en":"Open Research Workbench","zh":"開啟專業研究工作台","de":"Forschungsarbeitsplatz öffnen"}[code])+'"' not in got:
+                if 'aria-label="'+({"en":"Open Research Workbench","zh":"開啟研究工作台","de":"Forschungsarbeitsplatz öffnen","es":"Abrir el espacio de investigación"}[code])+'"' not in got:
                     raise ValueError("Workbench entry accessible label missing: "+code)
 
                 print("PASS browser render:",code)
-            for code,expected in [("en","Research Workbench"),("zh","專業研究工作台"),("de","Forschungsarbeitsplatz")]:
+            for code,expected in [("en","Research Workbench"),("zh","研究工作台"),("de","Forschungsarbeitsplatz"),("es","Espacio de investigación")]:
                 args=[CHROME,"--headless=new","--no-sandbox","--disable-dev-shm-usage","--disable-gpu",
                       "--virtual-time-budget=5500","--user-data-dir="+profile+"-workbench-"+code,
                       "--dump-dom","http://127.0.0.1:8765/workbench/?scope=latest&lang="+code]

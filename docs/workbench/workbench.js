@@ -10,31 +10,31 @@ const editorMode=document.body.dataset.page==='workbench-editor';
 const L = {
 zh:{
 "Advanced tools":"進階工具",
-"Open Review Editor":"開啟研究編輯頁",
+
 "You are in the Review Editor":"您正在使用審核編輯器",
 "Return to the read-only view":"返回檢視頁",
-"Review Editor":"研究編輯工作台",
+
 "Record scope":"資料範圍",
 "Select record scope":"選擇資料範圍",
 "All searchable records":"全部可搜尋紀錄",
 "Recent snapshot":"近期快照",
-"First-seen month":"首次收錄月份",
+"First-seen month":"首次收錄月份（UTC）",
 "Recent snapshot records":"近期快照筆數",
 "Permanent archive records":"歷史封存筆數",
 "All searchable records combine current and archived items by ID. Partial coverage is indicated when limits are reached.":"將近期與歷史資料依識別編號去重合併；超過載入限制時會顯示部分涵蓋。",
 "Recent snapshot retains up to 150 days and 240 records; it overlaps with the permanent archive.":"近期快照最多保留150天及240筆紀錄，與永久歷史封存可能重疊。",
 "Archive month groups records by first observed date, not publication date.":"歷史月份依首次收錄日期分組，不是新聞發布日期。",
 'Previous page':'上一頁','Next page':'下一頁','Page':'第','of':'／','Showing':'顯示','records':'筆','Results pagination':'結果分頁','Paged research results table':'分頁研究結果表格','Full text in record inspector':'完整內容請見右側紀錄詳情',
-'Skip to results':'跳至搜尋結果','Visitor portal':'一般訪客首頁','Research Workbench':'專業研究工作台',
+'Skip to results':'跳至搜尋結果','Visitor portal':'一般訪客首頁',
 'Latest records':'最新情報','Historical records':'歷史紀錄',
-'Collection status':'擷取狀態','Last successful update (Taipei)':'最後成功更新（臺北）','Source directory':'來源目錄',
+'Collection status':'擷取狀態','Last successful collection':'最後成功擷取',
 'Methodology':'研究方法','Dataset':'資料範圍','Latest':'最新情報','Archive month':'歷史月份','All available':'全部可取得紀錄',
 'Sort by':'排序方式','Published: newest':'發布時間：最新','Published: oldest':'發布時間：最早',
-'Observed: newest':'首次擷取：最新','Title: A–Z':'標題：A–Z','Publisher: A–Z':'出版者：A–Z',
+'Observed: newest':'首次收錄：最新','Title: A–Z':'標題：A–Z','Publisher: A–Z':'出版者：A–Z',
 'Reset':'重設','Filters':'篩選條件','Combinable criteria':'可組合條件','Published from':'發布起始日',
-'Through':'截至日期','Record type':'紀錄類型','All types':'所有類型','Academic metadata':'學術書目',
-'Discovery leads':'研究線索','Evidence class':'證據分類','Any evidence class':'所有證據分類',
-'Unverified discovery':'未驗證線索','Bibliographic record':'書目記錄',
+'Through':'截至日期','Record type':'紀錄類型','All types':'所有類型',
+'Any evidence class':'所有證據分類',
+
 'Research themes (OR)':'研究議題（擇一符合）','Visible columns':'顯示欄位','Date':'日期',
 'Title':'標題','Publisher':'出版者','Topics':'主題','Type':'類型','Evidence':'證據',
 'Record ID':'紀錄編號','Quick views':'快速視圖','Labour & remedy':'勞工與補救',
@@ -46,8 +46,8 @@ zh:{
 'Workspace & sharing':'工作區與分享',
 'Saved views stay in this browser. Shared links include the current search terms.':'已儲存的視圖保留在此瀏覽器。分享連結會包含目前的搜尋條件。',
 'Save current view':'儲存目前視圖','Choose a saved view':'選擇已儲存視圖',
-'Delete saved view':'刪除已儲存視圖','Copy shareable link':'複製分享連結','Research integrity':'研究完整性',
-'Methods & limitations':'方法與限制','Language':'語言','Search records':'搜尋紀錄',
+'Delete saved view':'刪除已儲存視圖','Research integrity':'研究完整性',
+'Language':'語言','Search records':'搜尋紀錄',
 'Select website language':'選擇網站語言','Scrollable research results table':'可捲動的研究結果表格',
 'Loading public records…':'正在讀取公開紀錄…','Loading months…':'讀取月份…',
 'Search titles, publishers, DOI, record IDs…':'搜尋標題、出版者、DOI、紀錄編號…',
@@ -66,13 +66,13 @@ zh:{
 'Editorial status':'編輯審查狀態','Reachability':'連線狀態',
 'Not independently verified':'尚未獨立查證','Publisher credit is unverified.':'出版者資訊未經獨立查證。',
 'Original discovery link':'原始線索連結','Open DOI':'開啟 DOI','Publication date':'發布日期',
-'First observed':'首次觀測','Monitoring query':'監測查詢','Publisher hint':'出版者線索',
+'Monitoring query':'監測查詢','Publisher hint':'出版者線索',
 'Publisher verified':'出版者已查核','No':'否','Yes':'是','Source type':'資料類型',
 'Screening status':'初篩狀態','Event ID':'事件編號','Not assigned':'尚未指派',
 'Topics (preliminary)':'主題（初步分類）','Source inspection':'來源查核',
 'View saved':'視圖已儲存','View limit reached (12)':'已達儲存上限（12）',
 'View name':'視圖名稱','Saved view removed':'已刪除儲存視圖',
-'Shareable link copied':'分享連結已複製','Unable to copy automatically; copy the address shown.':'無法自動複製，請複製顯示的網址。',
+'Unable to copy automatically; copy the address shown.':'無法自動複製，請複製顯示的網址。',
 'Date range is reversed.':'日期範圍前後相反。',
 'Data could not be loaded. Check the GitHub Pages deployment.':'資料載入失敗；請檢查 GitHub Pages 部署。',
 'Source unavailable':'來源不明','No selected record':'尚未選取紀錄','No active filters':'尚無篩選條件',
@@ -80,33 +80,33 @@ zh:{
 },
 de:{
 "Advanced tools":"Erweiterte Werkzeuge",
-"Open Review Editor":"Review-Editor öffnen",
+
 "You are in the Review Editor":"Sie befinden sich im Review-Editor",
 "Return to the read-only view":"Zurück zur Leseansicht",
-"Review Editor":"Review-Editor",
+
 "Record scope":"Datenbereich",
 "Select record scope":"Datenbereich auswählen",
 "All searchable records":"Alle durchsuchbaren Datensätze",
 "Recent snapshot":"Aktueller Datenausschnitt",
-"First-seen month":"Monat der Ersterfassung",
+"First-seen month":"Monat der Ersterfassung (UTC)",
 "Recent snapshot records":"Aktueller Datenbestand",
 "Permanent archive records":"Historische Archivdatensätze",
 "All searchable records combine current and archived items by ID. Partial coverage is indicated when limits are reached.":"Aktuelle und archivierte Datensätze werden anhand ihrer IDs zusammengeführt. Bei Begrenzungen wird eine unvollständige Abdeckung angezeigt.",
 "Recent snapshot retains up to 150 days and 240 records; it overlaps with the permanent archive.":"Der aktuelle Datenausschnitt enthält höchstens 150 Tage und 240 Datensätze; Überschneidungen mit dem Archiv sind möglich.",
 "Archive month groups records by first observed date, not publication date.":"Archivmonate beziehen sich auf die Ersterfassung, nicht auf das Veröffentlichungsdatum.",
 'Previous page':'Vorherige Seite','Next page':'Nächste Seite','Page':'Seite','of':'von','Showing':'Anzeige','records':'Einträge','Results pagination':'Ergebnisseiten','Paged research results table':'Seitengesteuerte Ergebnistabelle','Full text in record inspector':'Volltext in den Datensatzdetails',
-'Skip to results':'Zu den Suchergebnissen','Visitor portal':'Besucherportal','Research Workbench':'Forschungsarbeitsplatz',
+'Skip to results':'Zu den Suchergebnissen','Visitor portal':'Besucherportal',
 'Latest records':'Aktuelle Meldungen','Historical records':'Historische Datensätze',
-'Collection status':'Erfassungsstatus','Last successful update (Taipei)':'Letzte Aktualisierung (Taipeh)',
-'Source directory':'Quellenverzeichnis','Methodology':'Methodik','Dataset':'Datenbestand',
+'Collection status':'Erfassungsstatus','Last successful collection':'Letzte erfolgreiche Erfassung',
+'Methodology':'Methodik','Dataset':'Datenbestand',
 'Latest':'Aktuell','Archive month':'Archivmonat','All available':'Alle verfügbaren',
 'Sort by':'Sortieren nach','Published: newest':'Veröffentlicht: neueste','Published: oldest':'Veröffentlicht: älteste',
 'Observed: newest':'Erfasst: neueste','Title: A–Z':'Titel: A–Z','Publisher: A–Z':'Herausgeber: A–Z',
 'Reset':'Zurücksetzen','Filters':'Filter','Combinable criteria':'Kombinierbare Kriterien',
 'Published from':'Veröffentlicht ab','Through':'Bis','Record type':'Datensatztyp',
-'All types':'Alle Typen','Academic metadata':'Wissenschaftliche Metadaten',
-'Discovery leads':'Recherchehinweise','Evidence class':'Evidenzkategorie','Any evidence class':'Alle Evidenzkategorien',
-'Unverified discovery':'Ungeprüfter Hinweis','Bibliographic record':'Bibliografischer Nachweis',
+'All types':'Alle Typen',
+'Any evidence class':'Alle Evidenzkategorien',
+
 'Research themes (OR)':'Forschungsthemen (ODER)','Visible columns':'Sichtbare Spalten','Date':'Datum',
 'Title':'Titel','Publisher':'Herausgeber','Topics':'Themen','Type':'Typ','Evidence':'Evidenz',
 'Record ID':'Datensatz-ID','Quick views':'Schnellansichten','Labour & remedy':'Arbeitsrechte & Abhilfe',
@@ -119,8 +119,8 @@ de:{
 'Workspace & sharing':'Arbeitsbereich & Teilen',
 'Saved views stay in this browser. Shared links include the current search terms.':'Gespeicherte Ansichten bleiben in diesem Browser. Geteilte Links enthalten die aktuellen Suchbegriffe.',
 'Save current view':'Ansicht speichern','Choose a saved view':'Gespeicherte Ansicht auswählen',
-'Delete saved view':'Ansicht löschen','Copy shareable link':'Link kopieren','Research integrity':'Forschungsintegrität',
-'Methods & limitations':'Methoden & Grenzen','Language':'Sprache','Search records':'Datensätze suchen',
+'Delete saved view':'Ansicht löschen','Research integrity':'Forschungsintegrität',
+'Language':'Sprache','Search records':'Datensätze suchen',
 'Select website language':'Sprache auswählen','Scrollable research results table':'Scrollbare Ergebnistabelle',
 'Loading public records…':'Öffentliche Datensätze werden geladen …','Loading months…':'Archivmonate werden geladen …',
 'Search titles, publishers, DOI, record IDs…':'Titel, Herausgeber, DOI, Datensatz-ID suchen …',
@@ -139,13 +139,13 @@ de:{
 'Editorial status':'Redaktioneller Prüfstatus','Reachability':'Erreichbarkeit',
 'Not independently verified':'Nicht unabhängig überprüft','Publisher credit is unverified.':'Herausgeberangabe ist nicht geprüft.',
 'Original discovery link':'Originalhinweis öffnen','Open DOI':'DOI öffnen','Publication date':'Veröffentlichungsdatum',
-'First observed':'Erstmals erfasst','Monitoring query':'Suchabfrage','Publisher hint':'Herausgeberhinweis',
+'Monitoring query':'Suchabfrage','Publisher hint':'Herausgeberhinweis',
 'Publisher verified':'Herausgeber überprüft','No':'Nein','Yes':'Ja','Source type':'Quellentyp',
 'Screening status':'Vorsortierungsstatus','Event ID':'Ereignis-ID','Not assigned':'Nicht zugewiesen',
 'Topics (preliminary)':'Themen (vorläufig)','Source inspection':'Quellenprüfung',
 'View saved':'Ansicht gespeichert','View limit reached (12)':'Limit erreicht (12)',
 'View name':'Name der Ansicht','Saved view removed':'Ansicht gelöscht',
-'Shareable link copied':'Link kopiert','Unable to copy automatically; copy the address shown.':'Automatisches Kopieren nicht möglich; angezeigte Adresse kopieren.',
+'Unable to copy automatically; copy the address shown.':'Automatisches Kopieren nicht möglich; angezeigte Adresse kopieren.',
 'Date range is reversed.':'Datumsbereich ist umgekehrt.',
 'Data could not be loaded. Check the GitHub Pages deployment.':'Daten konnten nicht geladen werden; GitHub-Pages-Bereitstellung prüfen.',
 'Source unavailable':'Quelle unbekannt','No selected record':'Kein Datensatz ausgewählt',
@@ -154,15 +154,15 @@ de:{
 es:{
 "Other":"Otros",
 "Advanced tools":"Herramientas avanzadas",
-"Open Review Editor":"Abrir el editor de revisión",
+
 "You are in the Review Editor":"Está en el editor de revisión",
 "Return to the read-only view":"Volver a la vista de solo lectura",
-"Review Editor":"Editor de revisión",
+
 "Record scope":"Alcance de la búsqueda",
 "Select record scope":"Seleccionar el alcance de la búsqueda",
 "All searchable records":"Todos los registros consultables",
 "Recent snapshot":"Datos recientes",
-"First-seen month":"Mes de primera detección",
+"First-seen month":"Mes de primera detección (UTC)",
 "Recent snapshot records":"Registros recientes",
 "Permanent archive records":"Registros del archivo permanente",
 "All searchable records combine current and archived items by ID. Partial coverage is indicated when limits are reached.":"Los registros recientes y archivados se combinan por identificador. Si se alcanza el límite de carga, se indica que la cobertura es parcial.",
@@ -179,12 +179,12 @@ es:{
 "Full text in record inspector":"Texto completo en los detalles del registro",
 "Skip to results":"Ir a los resultados",
 "Visitor portal":"Portal de visitantes",
-"Research Workbench":"Espacio de investigación",
+
 "Latest records":"Registros recientes",
 "Historical records":"Registros históricos",
 "Collection status":"Estado de la recopilación",
-"Last successful update (Taipei)":"Última actualización exitosa (Taipéi)",
-"Source directory":"Directorio de fuentes",
+"Last successful collection":"Última recopilación exitosa",
+
 "Methodology":"Metodología",
 "Dataset":"Conjunto de datos",
 "Latest":"Recientes",
@@ -203,12 +203,9 @@ es:{
 "Through":"Hasta",
 "Record type":"Tipo de registro",
 "All types":"Todos los tipos",
-"Academic metadata":"Metadatos académicos",
-"Discovery leads":"Referencias para investigación",
-"Evidence class":"Categoría de evidencia",
+
 "Any evidence class":"Cualquier categoría de evidencia",
-"Unverified discovery":"Referencia sin verificar",
-"Bibliographic record":"Registro bibliográfico",
+
 "Research themes (OR)":"Temas de investigación (OR)",
 "Visible columns":"Columnas visibles",
 "Date":"Fecha",
@@ -237,9 +234,9 @@ es:{
 "Save current view":"Guardar vista actual",
 "Choose a saved view":"Elegir una vista guardada",
 "Delete saved view":"Eliminar vista guardada",
-"Copy shareable link":"Copiar enlace para compartir",
+
 "Research integrity":"Integridad de la investigación",
-"Methods & limitations":"Métodos y limitaciones",
+
 "Language":"Idioma",
 "Search records":"Buscar registros",
 "Select website language":"Seleccionar el idioma del sitio",
@@ -272,10 +269,10 @@ es:{
 "Reachability":"Disponibilidad del enlace",
 "Not independently verified":"Pendiente de verificación independiente",
 "Publisher credit is unverified.":"Entidad editora pendiente de verificación.",
-"Original discovery link":"Enlace a la referencia original",
+"Original discovery link":"Enlace a la pista original",
 "Open DOI":"Abrir DOI",
 "Publication date":"Fecha de publicación",
-"First observed":"Primera detección",
+
 "Monitoring query":"Consulta de seguimiento",
 "Publisher hint":"Entidad editora indicada",
 "Publisher verified":"Entidad editora verificada",
@@ -291,7 +288,7 @@ es:{
 "View limit reached (12)":"Se ha alcanzado el límite de 12 vistas",
 "View name":"Nombre de la vista",
 "Saved view removed":"Vista guardada eliminada",
-"Shareable link copied":"Enlace copiado",
+
 "Unable to copy automatically; copy the address shown.":"Error al copiar automáticamente. Copie la dirección que se muestra.",
 "Date range is reversed.":"La fecha inicial es posterior a la fecha final.",
 "Data could not be loaded. Check the GitHub Pages deployment.":"Error al cargar los datos. Compruebe la publicación en GitHub Pages.",
@@ -307,7 +304,7 @@ policy:'Policy & governance','forced-labour':'Forced labour','working-conditions
 'worker-voice':'Worker voice & remedy',network:'Supply networks',research:'Academic research',other:'Other'
 };
 const COLS=[
- {key:'date',label:'Date'},{key:'title',label:'Title'},{key:'publisher',label:'Publisher'},
+ {key:'date',label:'Publication date (UTC)'},{key:'title',label:'Title'},{key:'publisher',label:'Publisher'},
  {key:'topics',label:'Topics'},{key:'kind',label:'Type'},{key:'evidence',label:'Evidence'},{key:'id',label:'Record ID'}
 ];
 const STORAGE='scro.workbench.views.v1', MAX_FILES=24, MAX_ROWS=10000, MAX_PAGE_SIZE=40;
@@ -323,10 +320,7 @@ function canonicalID(item){return item.record_id || item.id || '';}
 function normalise(item,month) {return {...item,record_id:canonicalID(item),archive_month:month || (item.first_seen||'').slice(0,7)};}
 function dateAge(date){const n=Date.parse(date||'');return Number.isFinite(n)?n:0;}
 function dateView(date,withTime) {
- const value=new Date(date||'');if(!Number.isFinite(value.getTime()))return '—';
- const opts={timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'};
- if(withTime){opts.hour='2-digit';opts.minute='2-digit';opts.hour12=false;}
- return new Intl.DateTimeFormat(({en:'en-GB',zh:'zh-TW',de:'de-DE',es:'es-ES'})[locale()]||'en-GB',opts).format(value);
+ return baseI18n.formatDate?.(date,withTime)||'—';
 }
 function https(value) {try{const u=new URL(value);return u.protocol==='https:' && !u.username && !u.password ? u.href : null;}catch(_){return null;}}
 function readControls(){
@@ -496,9 +490,10 @@ function selectedRecords(){
   if(c.evidence==='unverified'&&!String(x.evidence_status).toLowerCase().includes('unverified'))return false;
   if(c.evidence==='bibliographic'&&!String(x.evidence_status).toLowerCase().includes('bibliographic'))return false;
   if(c.topics.length&&!c.topics.some(a=>(x.topics||[]).includes(a)))return false;
-  const published=String(x.published_at||'').slice(0,10);
-  if(from&&published<from)return false;
-  if(to&&published>to)return false;
+  if(from||to){
+   const published=baseI18n.utcDateKey(x.published_at);
+   if(!published||(from&&published<from)||(to&&published>to))return false;
+  }
   if(c.q){
    const parts=[x.title,x.publisher_hint,x.source,x.source_id,x.record_id,x.doi,x.evidence_status,x.kind,...(x.topics||[])].join(' ');
    const matches=window.SCRO_QUERY?window.SCRO_QUERY.matches(parts,c.q):parts.toLowerCase().includes(c.q.toLowerCase());
@@ -695,12 +690,12 @@ function showRecord(){
  out.append(text('h3',item.title));
  const dl=document.createElement('dl');
  const fields=[
-  ['Record ID',item.record_id],['Publication date',dateView(item.published_at,true)],
+  ['Record ID',item.record_id],['Publication date (UTC)',dateView(item.published_at,true)],
   ['First observed',dateView(item.first_seen,true)],['Publisher hint',item.publisher_hint||t('Source unavailable')],
-  ['Publisher verified',t(item.publisher_verified?'Yes':'No')],['Monitoring query',item.source],
+  ['Publisher verified',t(item.publisher_verified?'Yes':'No')],['Monitoring query',t(item.source||'Unknown')],
   ['Source type',t(item.kind==='academic'?'Academic metadata':'Discovery leads')],
   ['Evidence class',t(item.evidence_status||'Not independently verified')],
-  ['Screening status',item.screening_status||'—'],
+  ['Screening status',item.screening_status?t(({candidate_relevant:'Passed preliminary screening',excluded:'Excluded by preliminary screening'})[item.screening_status]||item.screening_status):'—'],
   ['Topics (preliminary)',(item.topics||[]).map(x=>t(TOPICS[x]||x)).join(', ')],
   ['Event ID',item.event_id||t('Not assigned')]
  ];

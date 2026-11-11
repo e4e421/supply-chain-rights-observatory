@@ -12,7 +12,7 @@ const node=(tag,text='',cls='')=>{const n=document.createElement(tag);n.textCont
 const uri=(path,params={})=>{const u=new URL(path,ROOT);for(const [k,v] of Object.entries({...params,lang:I.language}))if(v!==undefined&&v!==null&&v!=='')u.searchParams.set(k,String(v));return u.href;};
 const internal=(path,label,params={})=>{const a=node('a',t(label));a.href=uri(path,params);return a;};
 const publicLink=(url,label)=>{try{const u=new URL(url);if(u.protocol!=='https:'||u.username||u.password)throw Error();const a=node('a',t(label));a.href=u.href;a.target='_blank';a.rel='noopener noreferrer';return a;}catch{return node('span',t('Link unavailable'));}};
-function date(s,withTime=false){const d=new Date(s||'');if(!Number.isFinite(d.getTime()))return t('Not available');return new Intl.DateTimeFormat(({en:'en-GB',zh:'zh-TW',de:'de-DE',es:'es-ES'})[I.language]||'en-GB',{timeZone:withTime?'Asia/Taipei':'UTC',year:'numeric',month:'2-digit',day:'2-digit',...(withTime?{hour:'2-digit',minute:'2-digit',hour12:false}:{})}).format(d);}
+function date(s,withTime=false){return I.formatDate?.(s,withTime)||t('Not available');}
 async function json(path){const abort=new AbortController(),timer=setTimeout(()=>abort.abort(),15000);try{const r=await fetch(new URL(path,ROOT),{credentials:'omit',cache:'no-store',signal:abort.signal});if(!r.ok)throw Error('Resource unavailable');const text=await r.text();if(text.length>12000000)throw Error('Resource too large');return JSON.parse(text);}finally{clearTimeout(timer);}}
 function feedback(s){if($('portal-feedback'))$('portal-feedback').textContent=t(s);}
 function links(){for(const a of document.querySelectorAll('a[href]')){try{const u=new URL(a.getAttribute('href'),location.href);if(u.origin===ROOT.origin&&u.pathname.startsWith(ROOT.pathname)&&!u.pathname.match(/\.(md|json|jsonl|csv|cff|zip)$/i)){u.searchParams.set('lang',I.language);a.href=u.href;}}catch{}}}
@@ -39,7 +39,7 @@ async function home(){
 function archiveState(){return{month:$('archive-month').value,q:$('archive-search').value.trim().slice(0,120),topic:$('archive-topic').value,kind:$('archive-kind').value,from:$('archive-from').value,to:$('archive-to').value};}
 function archiveRender(){
  const s=archiveState(),reverse=s.from&&s.to&&s.from>s.to;
- archiveFound=archiveRows.filter(r=>{if(reverse)return false;if(s.topic!=='all'&&!(r.topics||[]).includes(s.topic))return false;if(s.kind!=='all'&&r.kind!==s.kind)return false;const day=String(r.published_at||'').slice(0,10);if((s.from&&day<s.from)||(s.to&&day>s.to))return false;
+ archiveFound=archiveRows.filter(r=>{if(reverse)return false;if(s.topic!=='all'&&!(r.topics||[]).includes(s.topic))return false;if(s.kind!=='all'&&r.kind!==s.kind)return false;if(s.from||s.to){const day=I.utcDateKey(r.published_at);if(!day||(s.from&&day<s.from)||(s.to&&day>s.to))return false;}
  const hay=[r.title,r.publisher_hint,r.source,r.doi,r.record_id,...(r.topics||[]),...(r.topics||[]).map(x=>t(TOPICS[x]||x))].join(' ');return !s.q||window.SCRO_QUERY.matches(hay,s.q);});
  archiveFound.sort((a,b)=>String(b.published_at||'').localeCompare(String(a.published_at||''))||a.record_id.localeCompare(b.record_id));
  $('archive-results').replaceChildren();
@@ -118,7 +118,7 @@ async function record(){
  try{if(!/^[a-f0-9]{18}$/.test(id))throw Error();const index=await json('data/record-index.json'),where=index.records?.[id];if(!where||!/^\d{4}-\d{2}-\d{4}\.json$/.test(where.file))throw Error();const shard=await json('data/archive/'+where.file);rec=shard.records.find(r=>r.record_id===id);if(!rec)throw Error();}catch{fail=true;}
  redraw=()=>{const root=$('record-content');root.replaceChildren();if(fail){root.append(node('p',t('Record unavailable. Verify its identifier and month.')));return;}
  const title=node('h2',rec.title);title.lang='und';root.append(title,node('code',rec.record_id));
- const dl=node('dl');for(const [label,value] of [['Publication date',date(rec.published_at)],['First observed',date(rec.first_seen,true)],['Publisher credit (unverified)',rec.publisher_hint||t('Unknown')],['Monitoring query',t(rec.source)],['Evidence class',t(rec.evidence_status)],['Topics (preliminary)',(rec.topics||[]).map(k=>t(TOPICS[k]||k)).join(', ')],['Event ID',rec.event_id||t('Not assigned')],['DOI',rec.doi]])if(value)dl.append(node('dt',t(label)),node('dd',value));root.append(dl,publicLink(rec.url,'Open original discovery link'));
+ const dl=node('dl');for(const [label,value] of [['Publication date (UTC)',date(rec.published_at)],['First observed',date(rec.first_seen,true)],['Publisher credit (unverified)',rec.publisher_hint||t('Unknown')],['Monitoring query',t(rec.source)],['Evidence class',t(rec.evidence_status)],['Topics (preliminary)',(rec.topics||[]).map(k=>t(TOPICS[k]||k)).join(', ')],['Event ID',rec.event_id||t('Not assigned')],['DOI',rec.doi]])if(value)dl.append(node('dt',t(label)),node('dd',value));root.append(dl,publicLink(rec.url,'Open original discovery link'));
  const tools=node('div','','portal-tools');const back=new URLSearchParams(p.get('back')||'');tools.append(internal('archive/','Return to search',Object.fromEntries([...back].filter(([k])=>['q','month','topic','kind','from','to'].includes(k)))),internal('workbench/','Research Workbench',{scope:'all',record:id}));root.append(tools);links();};redraw();
 }
 async function start(){

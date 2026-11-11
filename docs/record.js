@@ -3,6 +3,7 @@
 'use strict';
 const root=document.getElementById('record-content');
 const t=x=>window.SCRO_I18N?window.SCRO_I18N.t(x):x;
+const date=(value,withTime=false)=>window.SCRO_I18N?.formatDate(value,withTime)||'—';
 const q=new URL(location.href).searchParams,id=q.get('id')||'',month=q.get('month')||'';
 const txt=(tag,x)=>{const n=document.createElement(tag);n.textContent=x==null?'':String(x);return n};
 const link=(url,label)=>{
@@ -14,12 +15,12 @@ let item=null,error=false;
 function show(){
  root.replaceChildren();
  if(error||!item){root.append(txt('p',t('Record unavailable. Verify its identifier and month.')));return}
- const title=txt('h1',item.title),meta=txt('p',item.record_id+' · '+(item.published_at||'—'));
+ const title=txt('h1',item.title),meta=txt('p',item.record_id+' · '+date(item.published_at));
  title.setAttribute('lang','und');
  const evidence=txt('p',t('Unverified discovery / bibliographic lead'));
  const dl=document.createElement('dl');
  const fields=[
- [t('Publication date'),item.published_at],[t('First observed'),item.first_seen],
+ [t('Publication date (UTC)'),date(item.published_at)],[t('First observed'),date(item.first_seen,true)],
  [t('Monitoring query'),item.source],
  [t('Publisher credit (unverified)'),item.publisher_hint||t('Unknown')],
  [t('Evidence class'),item.evidence_status],

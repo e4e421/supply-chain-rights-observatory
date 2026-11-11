@@ -13,10 +13,16 @@ PROBE=r'''
  for(let i=0;i<100&&!window.__PORTAL_READY__&&!window.__PORTAL_ERROR__;i++)await new Promise(r=>setTimeout(r,75));
  const page=document.body.dataset.page;
  const check=(value,message)=>{if(!value)errors.push(message);};
+ const fixtureRecord='__UTC_TEST_RECORD_ID__';
+ const picker=document.getElementById('language-select');
+ const lang=picker.value;
+ const dateLocale={en:'en-GB',zh:'zh-TW',de:'de-DE',es:'es-ES'}[lang];
+ const utcDay=new Intl.DateTimeFormat(dateLocale,{timeZone:'UTC',year:'numeric',month:'2-digit',day:'2-digit'})
+   .format(new Date('2026-11-10T19:39:16Z'));
+ const dispatch=(id,value,event)=>{const control=document.getElementById(id);control.value=value;control.dispatchEvent(new Event(event,{bubbles:true}));};
  check(window.__PORTAL_READY__,'Portal did not finish loading');
  check(document.documentElement.lang===({en:'en',zh:'zh-Hant',de:'de',es:'es'})[new URL(location.href).searchParams.get('lang')||'en'],'Incorrect language');
  if(document.documentElement.lang==='es'){
-  const picker=document.getElementById('language-select');
   check(picker.value==='es'&&picker.options[picker.options.length-1].textContent==='Español','Spanish picker option missing');
   check(picker.getAttribute('aria-label')==='Seleccionar el idioma del sitio','Spanish accessible label missing');
   check(window.SCRO_I18N.formatNumber(12345)===new Intl.NumberFormat('es-ES').format(12345),'Spanish number formatting is incorrect');
@@ -76,6 +82,18 @@ PROBE=r'''
   q.value='';q.dispatchEvent(new Event('input',{bubbles:true}));
  }
  if(page==='record')check(document.getElementById('record-content').textContent.includes(new URL(location.href).searchParams.get('id')||'UNEXPECTED'),'Stable record link failed');
+ if(page==='record'){
+  const root=document.getElementById('record-content');
+  check(root.querySelector('dd')?.textContent===utcDay,'Record publication day differs from UTC');
+  check([...root.querySelectorAll('dd')].some(d=>d.textContent.endsWith(' UTC')),'Record observation timestamp lacks UTC');
+ }
+ if(page==='archive'){
+  dispatch('archive-search',fixtureRecord,'input');
+  dispatch('archive-to','2026-11-10','change');
+  check(document.querySelector('.portal-record time')?.textContent===utcDay,'Archive date filter or display differs from UTC');
+  dispatch('archive-to','2026-11-09','change');
+  check(!document.querySelector('.portal-record'),'Archive included a record after the UTC cutoff');
+ }
  if(page==='workbench'){
   for(let i=0;i<60&&!document.querySelector('[data-record-id]');i++)await new Promise(r=>setTimeout(r,50));
   check(document.querySelectorAll('[data-record-id]').length>0,'Workbench records absent');
@@ -113,6 +131,13 @@ PROBE=r'''
    else check(false,'Workbench CSV missing');
    URL.createObjectURL=create;HTMLAnchorElement.prototype.click=click;
   }
+  dispatch('wb-search',fixtureRecord,'input');
+  dispatch('wb-to','2026-11-10','change');
+  const fixtureRow=document.querySelector('[data-record-id="'+fixtureRecord+'"]');
+  check(fixtureRow?.querySelector('.wb-date-cell')?.textContent===utcDay,'Workbench date filter or display differs from UTC');
+  dispatch('wb-to','2026-11-09','change');
+  check(!document.querySelector('[data-record-id="'+fixtureRecord+'"]'),'Workbench included a record after the UTC cutoff');
+  check(document.getElementById('wb-updated').textContent.endsWith(' UTC'),'Collection timestamp lacks UTC');
  }
  if(page==='policy')check(document.body.textContent.includes('2027-12-14')&&document.body.textContent.includes('2029-07-26'),'Policy dates absent');
  check(document.documentElement.scrollWidth<=innerWidth+3,'Horizontal document overflow');
@@ -126,9 +151,18 @@ def run():
  qa=ROOT/'_qa';qa.mkdir(exist_ok=True)
  with tempfile.TemporaryDirectory() as tmp:
   root=Path(tmp);prefix='supply-chain-rights-observatory';site=root/prefix;shutil.copytree(ROOT/'_site',site)
-  (site/'portal-test-probe.js').write_text(PROBE,encoding='utf-8')
+  records=json.loads((site/'data/record-index.json').read_text())['records']
+  overlay=json.loads((site/'data/relevance-index.json').read_text())['records']
+  rid=next(key for key in records if overlay[key]['included'])
+  shard=site/'data/archive'/records[rid]['file']
+  archive=json.loads(shard.read_text(encoding='utf-8'))
+  next(r for r in archive['records'] if r['record_id']==rid)['published_at']='2026-11-11T03:39:16+08:00'
+  shard.write_text(json.dumps(archive,ensure_ascii=False),encoding='utf-8')
+  (site/'portal-test-probe.js').write_text(PROBE.replace('__UTC_TEST_RECORD_ID__',rid),encoding='utf-8')
   # Verify all three availability states on the isolated browser fixture.
   snapshot=site/'data/latest.json';fixture=json.loads(snapshot.read_text(encoding='utf-8'))
+  for item in fixture['items']:
+   if (item.get('record_id') or item.get('id'))==rid:item['published_at']='2026-11-11T03:39:16+08:00'
   for feed,failures in zip(fixture['sources'][:3], (0,1,3)):
    feed.update(status='failed' if failures else 'ok',consecutive_failures=failures)
   snapshot.write_text(json.dumps(fixture,ensure_ascii=False),encoding='utf-8')
@@ -138,7 +172,6 @@ def run():
    def log_message(self,*args):pass
   server=ThreadingHTTPServer(('127.0.0.1',0),partial(Handler,directory=str(root)));thread=Thread(target=server.serve_forever,daemon=True);thread.start()
   base=f'http://127.0.0.1:{server.server_port}/{prefix}/'
-  rid=next(iter(json.loads((site/'data/record-index.json').read_text())['records']))
   paths=['','archive/','sources/','policy/','research/','methodology/','record.html?id='+rid,'workbench/']
   cases=[(p,lang,1440) for lang in ('en','zh','de','es') for p in paths]
   cases += [(p,'de',w) for w in (500,820,1600) for p in ('','archive/','sources/','workbench/')]
