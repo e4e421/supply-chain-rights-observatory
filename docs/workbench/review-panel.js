@@ -31,6 +31,7 @@ const D={
 'Record unavailable from current index':['目前索引找不到此紀錄','Datensatz im aktuellen Index nicht gefunden',"Registro no disponible en el índice actual"],
 
 'Relevance & review':['相關性與審核','Relevanz & Prüfung',"Pertinencia y revisión"],
+'Relevance filters use indexed records only.':['相關性篩選僅涵蓋已建立索引的紀錄。','Relevanzfilter berücksichtigen nur indexierte Datensätze.','Los filtros de pertinencia solo incluyen los registros indexados.'],
 'All relevance levels':['所有相關性','Alle Relevanzstufen',"Todos los niveles de pertinencia"],
 'High relevance':['高相關','Hohe Relevanz',"Pertinencia alta"],
 'Needs context':['待判讀','Kontext prüfen',"Requiere contexto"],
@@ -131,15 +132,15 @@ for(const [value,label] of [
  ['excluded','Excluded records']]){
  const option=el('option',t(label));option.value=value;option.dataset.label=label;filter.append(option);
 }
-const initial=new URL(location.href).searchParams.get('relevance');
-if([...filter.options].some(x=>x.value===initial))filter.value=initial;
-filter.addEventListener('change',()=>{
- const u=new URL(location.href);
- if(filter.value==='all')u.searchParams.delete('relevance');else u.searchParams.set('relevance',filter.value);
- history.replaceState(null,'',u.pathname+u.search+u.hash);callback();
-});
+function setFilter(value){
+ filter.value=[...filter.options].some(option=>option.value===value)?value:'all';
+}
+filter.addEventListener('change',()=>callback());
 const count=el('span','','rv-draft-count');
-tools.append(filter,count);
+const coverage=el('span','','rv-filter-coverage');coverage.id='rv-filter-coverage';
+coverage.setAttribute('role','status');
+filter.setAttribute('aria-describedby',coverage.id);
+tools.append(filter,count,coverage);
 document.querySelector('.wb-results-head')?.after(tools);
 
 const queue=el('details','','rv-queue');queue.id='rv-queue';queue.open=S.draftEntries().length>0;
@@ -154,9 +155,8 @@ const submitHint=el('p','','rv-submit-hint');submitHint.id='rv-submit-hint';
 send.setAttribute('aria-describedby',submitHint.id);
 queueActions.append(submitHint,exportButton,send);
 queue.append(introduction,queueList,queueActions);
-tools.after(queue);
 const info=el('p','','rv-message');info.id='rv-feedback';
-info.setAttribute('role','status');info.setAttribute('aria-live','polite');queue.after(info);
+info.setAttribute('role','status');info.setAttribute('aria-live','polite');
 
 const history=el('section','','rv-history');history.id='rv-history';
 const historyHead=el('div','','rv-history-head');
@@ -166,7 +166,7 @@ statusBtn.id='rv-check-status';statusBtn.type='button';
 historyHead.append(statusBtn);
 const historyList=el('div','','rv-history-list');historyList.id='rv-history-list';
 history.append(historyHead,historyList);
-queue.after(history);
+document.querySelector('.wb-pagination')?.after(queue,info,history);
 const decisionLabel=value=>t(({include:'Include',exclude:'Exclude',needs_review:'Review needed'})[value]||value||'Unreviewed');
 function tagLabels(value){
  if(!Array.isArray(value))return t('Use suggested topics');
@@ -275,6 +275,9 @@ function updateTools(){
  queueList.setAttribute('aria-label',t('Pending review changes'));
  for(const option of filter.options)option.textContent=t(option.dataset.label);
  filter.setAttribute('aria-label',t('Relevance & review'));
+ filter.disabled=!R.data;
+ coverage.textContent=R.failed?t('Keyword analysis unavailable; records remain visible.'):
+  R.data?.coverage==='partial'?t('Relevance filters use indexed records only.'):'';
  renderQueue();renderHistory();
 }
 exportButton.addEventListener('click',()=>{
@@ -508,8 +511,8 @@ function inspect(item,force=false){
  root.append(el('p',t('Awaiting independently labelled validation sample'),'rv-small'),sample);
 }
 function includes(item){
- const d=R.get(item);if(!d)return true;
  const v=filter.value;
+ const d=R.get(item);if(!d)return v==='all'||!R.data;
  if(v==='excluded')return !d.included;
  if(!d.included)return false;
  if(v==='unreviewed')return d.review_state!=='current';
@@ -521,5 +524,7 @@ S.onChange(()=>{if(savingTags)updateTools();else refresh();});
 I.onChange(refresh);
 R.ready.then(()=>{S.refreshPublished(R.data);refresh();});
 refresh();inspect(null);
-window.SCRO_REVIEW=Object.freeze({connect:f=>{callback=f;},inspect,includes,refresh});
+window.SCRO_REVIEW=Object.freeze({connect:f=>{callback=f;},inspect,includes,refresh,setFilter,
+ filterValue:()=>filter.value,
+ filterLabel:()=>filter.disabled||filter.value==='all'?'':filter.selectedOptions[0]?.textContent||''});
 })();
