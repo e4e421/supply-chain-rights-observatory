@@ -66,6 +66,20 @@
       "reviewed_by": "e4e421",
       "issue": 29,
       "issue_digest": "33a88006cfd6980cb19329a0f7dd0dee3b9ccd7389f07c31250a8d4c6c1d6ae8"
+    },
+    "8c0ef0be1d9b31a9df": {
+      "content_fingerprint": "4d1482dba0cc4ac86507240fe3fbe5351c9bb43ec83d9b84292556dad8d28aac",
+      "relevance": "needs_review",
+      "topics": [
+        "working-conditions"
+      ],
+      "publisher_confirmed": false,
+      "canonical_url": "https://www.nytimes.com/2026/10/13/world/europe/russia-migrant-workers-killed.html",
+      "note": "",
+      "reviewed_at": "2026-11-11T14:57:28Z",
+      "reviewed_by": "e4e421",
+      "issue": 33,
+      "issue_digest": "055ec67d527419a567a824de9ff83697e2ba6afb8c8875b85ceec01d3f9e404f"
     }
   }
 }
