@@ -122,14 +122,22 @@ class ChromePipe:
         return result.get('result',{}).get('value')
 
     def close(self):
-        self.process.terminate()
         try:
-            self.process.wait(timeout=5)
-        except subprocess.TimeoutExpired:
-            self.process.kill()
-            self.process.wait(timeout=5)
-        self.process.stdin.close()
-        self.process.stdout.close()
+            if self.process.poll() is None:
+                # Ask the browser to finish profile writes before deleting the test directory.
+                self.session=None
+                try:
+                    self.call('Browser.close',timeout=3)
+                except (OSError,RuntimeError,TimeoutError):
+                    pass
+                try:
+                    self.process.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    self.process.kill()
+                    self.process.wait(timeout=5)
+        finally:
+            self.process.stdin.close()
+            self.process.stdout.close()
 
 class WorkbenchRowHeightTests(unittest.TestCase):
     def test_only_same_row_sidebars_influence_page_height(self):

@@ -12,14 +12,20 @@ from urllib.request import Request,urlopen
 from urllib.error import HTTPError
 from relevance_engine import ROOT,digest,fingerprint,validate_overlay,rules,public_url,ID
 from build_relevance import load_records
+from record_tags import valid_tags
 REPO='e4e421/supply-chain-rights-observatory'
 PATH='data/reviews/decisions.json'
 
 def prepare(batch,records,overlay,actor,issue,issue_digest,now):
     validate_overlay(overlay)
-    if not isinstance(batch,dict) or set(batch)!={'schema_version','decisions'} or batch['schema_version']!=1:raise ValueError('Invalid review batch')
+    if (not isinstance(batch,dict) or not {'schema_version','decisions'} <= set(batch) <= {'schema_version','decisions','tag_changes'}
+            or batch['schema_version']!=1):
+        raise ValueError('Invalid review batch')
     entries=batch['decisions']
-    if not isinstance(entries,list) or not 1<=len(entries)<=25:raise ValueError('Expected 1-25 decisions')
+    changes=batch.get('tag_changes',[])
+    if (not isinstance(entries,list) or not isinstance(changes,list) or len(entries)>25
+            or len(changes)>25 or not (entries or changes)):
+        raise ValueError('Expected changes for 1-25 records')
     result=json.loads(json.dumps(overlay));seen=set()
     for row in entries:
         expected={'record_id','content_fingerprint','expected_review_digest','relevance','topics','publisher_confirmed','canonical_url','note'}
@@ -31,6 +37,26 @@ def prepare(batch,records,overlay,actor,issue,issue_digest,now):
         if row['expected_review_digest']!=digest(overlay['records'].get(rid)):raise ValueError('Review conflict: refresh '+rid)
         result['records'][rid]={k:v for k,v in row.items() if k not in {'record_id','expected_review_digest'}}
         result['records'][rid].update(reviewed_at=now,reviewed_by=actor,issue=issue,issue_digest=issue_digest)
+    if changes:
+        assignments=result.setdefault('record_tags',{})
+        catalog=set(result.get('tag_catalog',[]))
+        tagged=set()
+        for row in changes:
+            if not isinstance(row,dict) or set(row)!={'record_id','content_fingerprint','expected_tag_digest','tags'}:
+                raise ValueError('Unexpected tag fields')
+            rid=row['record_id']
+            if not isinstance(rid,str) or not ID.fullmatch(rid) or rid not in records or rid in tagged:
+                raise ValueError('Unknown or duplicate tagged record')
+            tagged.add(rid)
+            if row['content_fingerprint']!=fingerprint(records[rid]) or row['expected_tag_digest']!=digest(assignments.get(rid)):
+                raise ValueError('Tag conflict: refresh '+rid)
+            if not valid_tags(row['tags']):
+                raise ValueError('Invalid custom tags')
+            catalog.update(row['tags'])
+            assignments[rid]={'tags':sorted(row['tags']),'issue':issue,'issue_digest':issue_digest}
+        if len(seen|tagged)>25:
+            raise ValueError('Expected changes for 1-25 records')
+        result['tag_catalog']=sorted(catalog)
     validate_overlay(result)
     return result
 

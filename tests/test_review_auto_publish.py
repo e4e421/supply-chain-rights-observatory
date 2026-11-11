@@ -4,7 +4,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'scripts'))
 from publish_reviews import (parse_publish_body,event_scope,valid_issue,
                              already_published,ISSUE_TITLE)
-from relevance_engine import digest
+from relevance_engine import digest, fingerprint
 from propose_reviews import prepare
 from test_relevance_v21 import record,decision
 
@@ -64,6 +64,34 @@ class PublishReviewTests(unittest.TestCase):
         self.assertFalse(already_published(batch,published,18,issuehash))
         self.assertFalse(already_published(batch,published,17,'b'*64))
         self.assertFalse(already_published(batch,{'schema_version':1,'records':{}},17,issuehash))
+
+    def test_tags_publish_without_review_and_remain_reusable_after_removal(self):
+        r=record();rid=r['record_id'];records={rid:r}
+        overlay={'schema_version':1,'records':{}}
+        now='2026-11-09T00:00:00Z'
+        patch={'record_id':rid,'content_fingerprint':fingerprint(r),
+               'expected_tag_digest':digest(None),'tags':['iphone','工廠事故']}
+        batch={'schema_version':1,'decisions':[],'tag_changes':[patch]}
+        published=prepare(batch,records,overlay,'e4e421',17,'a'*64,now)
+        self.assertEqual(published['records'],{})
+        self.assertEqual(published['record_tags'][rid]['tags'],['iphone','工廠事故'])
+        self.assertTrue(already_published(batch,published,17,'a'*64))
+        with self.assertRaises(ValueError):
+            prepare(batch,records,published,'e4e421',18,'b'*64,now)
+        batch['tag_changes']=[{**patch,'expected_tag_digest':digest(published['record_tags'][rid]),'tags':[]}]
+        removed=prepare(batch,records,published,'e4e421',18,'b'*64,now)
+        self.assertEqual(removed['record_tags'][rid]['tags'],[])
+        self.assertEqual(removed['tag_catalog'],['iphone','工廠事故'])
+        self.assertEqual(removed['records'],{})
+
+    def test_tags_require_normalized_unique_plain_text(self):
+        r=record();rid=r['record_id']
+        for tags in (['iPhone'],['#iphone'],['iphone','iphone'],['<b>'],['https://example.org']):
+            with self.subTest(tags=tags),self.assertRaises(ValueError):
+                prepare({'schema_version':1,'decisions':[],'tag_changes':[{
+                    'record_id':rid,'content_fingerprint':fingerprint(r),
+                    'expected_tag_digest':digest(None),'tags':tags}]},
+                    {rid:r},{'schema_version':1,'records':{}},'e4e421',17,'a'*64,'2026-11-09T00:00:00Z')
 
     def test_source_contract_keeps_v1_for_sensitive_pr_review(self):
         legacy=(ROOT/'.github/workflows/propose-review.yml').read_text()

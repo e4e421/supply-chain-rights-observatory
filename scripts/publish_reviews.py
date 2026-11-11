@@ -50,11 +50,14 @@ def valid_issue(issue,owner):
 
 def already_published(batch,overlay,number,issue_hash):
     rows=batch.get("decisions")
-    if not isinstance(rows,list) or not rows:return False
-    return all(isinstance(row,dict) and
-        (overlay.get("records",{}).get(row.get("record_id")) or {}).get("issue")==number
-        and (overlay["records"][row["record_id"]].get("issue_digest")==issue_hash)
-        for row in rows)
+    tags=batch.get("tag_changes",[])
+    if not isinstance(rows,list) or not isinstance(tags,list) or not (rows or tags):return False
+    for changes, records in ((rows,overlay["records"]),(tags,overlay.get("record_tags",{}))):
+        for change in changes:
+            if not isinstance(change,dict) or not isinstance(change.get("record_id"),str):return False
+            saved=records.get(change["record_id"],{})
+            if saved.get("issue")!=number or saved.get("issue_digest")!=issue_hash:return False
+    return True
 
 def api(token,path,method="GET",data=None):
     body=json.dumps(data).encode("utf-8") if data is not None else None

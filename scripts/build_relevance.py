@@ -63,8 +63,10 @@ def build():
     if not (OUT/'index.html').exists():raise ValueError('Run build_portal.py first')
     integrate_runtime()
     records=load_records()
-    decisions=validate_overlay(json.loads((ROOT/'data/reviews/decisions.json').read_text()))['records']
-    unknown=set(decisions)-set(records)
+    overlay=validate_overlay(json.loads((ROOT/'data/reviews/decisions.json').read_text()))
+    decisions=overlay['records']
+    assignments=overlay.get('record_tags',{})
+    unknown=(set(decisions)|set(assignments))-set(records)
     if unknown:raise ValueError('Reviewed record absent from archive: '+','.join(sorted(unknown)))
     selected=sorted(records,key=lambda k:(records[k].get('published_at',''),k),reverse=True)[:10000]
     index={rid:decorate(records[rid],decisions) for rid in selected}
@@ -72,7 +74,10 @@ def build():
     counts={level:sum(row['analysis']['level']==level for row in index.values()) for level in ['high','review','low']}
     data={'schema_version':1,'rule_version':rules()['version'],'rule_digest':digest(rules()),'topics':rules()['topics'],
           'coverage':'complete' if len(selected)==len(records) else 'partial','indexed_records':len(index),
-          'total_records':len(records),'counts':counts,'records':index}
+          'total_records':len(records),'counts':counts,'records':index,
+          'tag_catalog':overlay.get('tag_catalog',[]),
+          'record_tags':{rid:{'tags':row['tags'],'issue':row['issue'],'digest':digest(row)}
+                         for rid,row in assignments.items()},'empty_tag_digest':digest(None)}
     write(OUT/'data/relevance-index.json',data)
     # Stratified, deterministic pool. Labels remain null until the research team reviews them.
     pool={('record:'+rid):{'sample_id':'record:'+rid,'title':row['title'],'url':row['url'],

@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="./workbench.css">
   <script defer src="../i18n.js"></script>
   <script defer src="../query.js"></script>
+  <script defer src="./record-tags.js"></script>
   <script defer src="./workbench.js"></script>
 </head>
 <body class="wb">
@@ -83,6 +84,11 @@
             <label><input type="checkbox" name="wb-topic" value="network"><span data-l10n="Supply networks">Supply networks</span></label>
             <label><input type="checkbox" name="wb-topic" value="research"><span data-l10n="Academic research">Academic research</span></label>
           </fieldset>
+          <div class="wb-field">
+            <label for="wb-tag-filter" data-l10n="Custom tags">Custom tags</label>
+            <select id="wb-tag-filter"><option value="" data-l10n="Choose a tag">Choose a tag</option></select>
+            <div class="wb-tag-chips" id="wb-tag-filters"></div>
+          </div>
           <details class="wb-columns"><summary data-l10n="Visible columns">Visible columns</summary>
             <div class="wb-column-options">
               <label><input type="checkbox" data-column="date" checked><span data-l10n="Publication date (UTC)">Publication date (UTC)</span></label>
