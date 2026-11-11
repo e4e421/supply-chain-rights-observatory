@@ -26,6 +26,12 @@ body.wb{background:#e9efeb;color:#142e2a;font-size:13px}
 .wb-pane-head small,.wb-hint{font-size:10px;color:#657e6d}.wb-hint{margin:1px 0 0}
 .wb-filter-body{padding:13px 11px;display:flex;flex-direction:column;gap:13px}
 .wb-field{display:flex;flex-direction:column;gap:4px;font-size:11px;font-weight:700;color:#496153}
+.wb-tag-chips{display:flex;flex-wrap:wrap;gap:5px;min-width:0}
+.wb-tag-chips:empty{display:none}
+.wb-tag-chip{min-height:28px;max-width:100%;padding:3px 8px;border:1px solid #9ab4a6;border-radius:12px;background:#edf5ef;color:#194b3b;font:inherit;font-size:11px;cursor:pointer;overflow-wrap:anywhere}
+.wb-tag-chip:hover:not(:disabled){background:#dceee1}
+.wb-tag-chip:focus-visible{outline:2px solid #145e42;outline-offset:2px}
+.wb-tags-heading{margin:10px 0 4px;font-size:12px}
 .wb-field-split{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .wb-field-split input{min-width:0;font-size:11px;padding:5px}
 .wb-fieldset{margin:0;border:1px solid #d5e2d7;padding:7px 9px;display:flex;flex-direction:column;gap:4px}

@@ -3,6 +3,8 @@
 'use strict';
 const $ = id => document.getElementById(id);
 const baseI18n = window.SCRO_I18N || {language:'en', t:x=>x, onChange:()=>{}};
+const recordTags=window.SCRO_RECORD_TAGS;
+const publishedTags=item=>window.SCRO_RELEVANCE?.tags(item)||[];
 const locale = () => baseI18n.language || 'en';
 const number = value => baseI18n.formatNumber?.(value)??String(value);
 const wbAssetRoot=new URL('./',document.currentScript.src);
@@ -312,6 +314,7 @@ const EDITOR_PAGE_SIZE=10;
 let live=null,catalog=null,latest=[],archiveCache=new Map(),activeRecords=[],filtered=[],
 scopeStatus='',loading=false,archiveError=false,coveragePartial=false,chosen='',runNumber=0;
 let pageIndex=0,pageSize=6,pageAnchor=0,locateSelection=false,layoutFrame=0;
+let selectedTags=[];
 const param = new URL(location.href).searchParams;
 const SAFE_SCOPE=['latest','archive','all'],SAFE_SORT=['published-desc','published-asc','observed-desc','title-asc','publisher-asc'];
 const SAFE_KIND=['all','discovery','academic'],SAFE_EVIDENCE=['all','unverified','bibliographic'];
@@ -328,7 +331,7 @@ function readControls(){
  scope:$('wb-scope').value,month:$('wb-month').value,q:$('wb-search').value.trim().slice(0,120),
  from:$('wb-from').value,to:$('wb-to').value,kind:$('wb-kind').value,
  evidence:$('wb-evidence').value,sort:$('wb-sort').value,
- topics:[...document.querySelectorAll('[name="wb-topic"]:checked')].map(x=>x.value),
+ topics:[...document.querySelectorAll('[name="wb-topic"]:checked')].map(x=>x.value),tags:[...selectedTags],
  cols:[...document.querySelectorAll('[data-column]:checked')].map(x=>x.dataset.column),
  density:$('wb-density').value,offset:pageIndex*pageSize
  };
@@ -341,6 +344,7 @@ function applyControls(values) {
  $('wb-kind').value=safeValue(values.kind,SAFE_KIND,'all');
  $('wb-evidence').value=safeValue(values.evidence,SAFE_EVIDENCE,'all');
  $('wb-search').value=String(values.q||'').slice(0,120);
+ selectedTags=recordTags.keys(Array.isArray(values.tags)?values.tags:[]);
  for(const id of ['from','to']) {
   const v=values[id]||'';$('wb-'+id).value=/^\d{4}-\d{2}-\d{2}$/.test(v)?v:'';
  }
@@ -356,10 +360,10 @@ function parseURL(){
  const p=new URL(location.href).searchParams;
  return {scope:p.get('scope'),month:p.get('month'),q:p.get('q'),from:p.get('from'),to:p.get('to'),
  kind:p.get('kind'),evidence:p.get('evidence'),sort:p.get('sort'),
- topics:(p.get('topics')||'').split(',').filter(Boolean),cols:p.has('cols')?p.get('cols').split(','):undefined,
+ topics:(p.get('topics')||'').split(',').filter(Boolean),tags:(p.get('tag')||'').split(','),cols:p.has('cols')?p.get('cols').split(','):undefined,
  density:p.get('density'),offset:p.get('offset')};
 }
-const workbenchQueryKeys=['scope','month','q','from','to','kind','evidence','sort','topics','cols','density','record','offset'];
+const workbenchQueryKeys=['scope','month','q','from','to','kind','evidence','sort','topics','tag','cols','density','record','offset'];
 function updateReaderLink(params){
  const link=$('wb-return-to-reader');
  if(!link)return;
@@ -382,6 +386,7 @@ function syncURL(){
  if(s.evidence!=='all')url.searchParams.set('evidence',s.evidence);
  if(s.sort!=='published-desc')url.searchParams.set('sort',s.sort);
  if(s.topics.length)url.searchParams.set('topics',s.topics.join(','));
+ if(s.tags.length)url.searchParams.set('tag',s.tags.join(','));
  if(s.cols.join(',')!==COLS.filter(x=>x.key!=='id').map(x=>x.key).join(','))url.searchParams.set('cols',s.cols.join(','));
  if(s.density!=='compact')url.searchParams.set('density',s.density);
  if(chosen)url.searchParams.set('record',chosen);
@@ -485,7 +490,10 @@ async function prepareScope(){
 function selectedRecords(){
  const c=readControls();
  const from=c.from,to=c.to;
+ const {query,tags}=recordTags.search(c.q);
+ const requiredTags=[...new Set([...c.tags,...tags])];
  let arr=activeRecords.filter(x=>{
+  if(requiredTags.length&&!requiredTags.every(tag=>publishedTags(x).includes(tag)))return false;
   if(c.kind!=='all'&&x.kind!==c.kind)return false;
   if(c.evidence==='unverified'&&!String(x.evidence_status).toLowerCase().includes('unverified'))return false;
   if(c.evidence==='bibliographic'&&!String(x.evidence_status).toLowerCase().includes('bibliographic'))return false;
@@ -494,9 +502,9 @@ function selectedRecords(){
    const published=baseI18n.utcDateKey(x.published_at);
    if(!published||(from&&published<from)||(to&&published>to))return false;
   }
-  if(c.q){
+  if(query){
    const parts=[x.title,x.publisher_hint,x.source,x.source_id,x.record_id,x.doi,x.evidence_status,x.kind,...(x.topics||[])].join(' ');
-   const matches=window.SCRO_QUERY?window.SCRO_QUERY.matches(parts,c.q):parts.toLowerCase().includes(c.q.toLowerCase());
+   const matches=window.SCRO_QUERY?window.SCRO_QUERY.matches(parts,query):parts.toLowerCase().includes(query.toLowerCase());
    if(!matches)return false;
   }
   return true;
@@ -594,6 +602,7 @@ function sizeReaderPage(wrap,thead,rowHeight){
 }
 function drawTable(){
  const c=readControls();filtered=selectedRecords();
+ renderTagFilters();
  const table=$('wb-table'),wrap=table.parentElement;
  document.body.classList.toggle('wb-comfortable',c.density==='comfortable');
  const fields=COLS.filter(col=>col.key==='title'||c.cols.includes(col.key));
@@ -669,6 +678,7 @@ function drawTable(){
  const terms=[];
  if(c.q)terms.push(c.q);
  if(c.topics.length)terms.push(c.topics.map(k=>t(TOPICS[k]||k)).join(' OR '));
+ if(c.tags.length)terms.push(c.tags.map(tag=>'#'+tag).join(' '));
  if(c.kind!=='all')terms.push(t(c.kind==='academic'?'Academic metadata':'Discovery leads'));
  $('wb-active-filters').textContent=terms.join(' · ')||t('No active filters');
  let status=c.scope==='latest'?t('Scope: latest snapshot'):c.scope==='archive'?t('Scope: archive month')+': '+c.month:t('Scope: combined catalogue');
@@ -683,6 +693,35 @@ function drawTable(){
  if(live&&!loading)syncURL();
 }
 
+function filterTag(tag){
+ if(tag&&!selectedTags.includes(tag)&&selectedTags.length<recordTags.maxTags){
+  selectedTags=recordTags.keys([...selectedTags,tag]);
+  changed(false);
+ }
+}
+function renderTagFilters(){
+ const select=$('wb-tag-filter'),chips=$('wb-tag-filters'),counts=new Map();
+ for(const item of activeRecords){
+  if(window.SCRO_RELEVANCE?.included(item)===false)continue;
+  for(const tag of publishedTags(item))counts.set(tag,(counts.get(tag)||0)+1);
+ }
+ const options=[new Option(t('Choose a tag'),'')];
+ for(const tag of [...counts.keys()].sort((a,b)=>a.localeCompare(b,locale()))){
+  if(!selectedTags.includes(tag))options.push(new Option('#'+tag+' ('+number(counts.get(tag))+')',tag));
+ }
+ select.replaceChildren(...options);
+ select.disabled=options.length===1||selectedTags.length>=recordTags.maxTags;
+ chips.replaceChildren();
+ for(const tag of selectedTags){
+  const button=text('button','#'+tag+' ×','wb-tag-chip');
+  button.type='button';button.setAttribute('aria-label',t('Remove tag filter')+' #'+tag);
+  button.addEventListener('click',()=>{
+   selectedTags=selectedTags.filter(value=>value!==tag);changed(false);
+   (chips.querySelector('button')||(select.disabled?$('wb-search'):select)).focus();
+  });
+  chips.append(button);
+ }
+}
 function showRecord(){
  const out=$('wb-detail');out.replaceChildren();
  const item=activeRecords.find(x=>x.record_id===chosen);
@@ -702,6 +741,17 @@ function showRecord(){
  if(item.doi)fields.push(['DOI',item.doi]);
  for(const [key,val] of fields){dl.append(text('dt',t(key)),text('dd',val));}
  out.append(dl);
+ const tags=publishedTags(item);
+ if(tags.length){
+  const group=text('div','','wb-tag-chips');
+  group.setAttribute('role','group');group.setAttribute('aria-label',t('Custom tags'));
+  for(const tag of tags){
+   const button=text('button','#'+tag,'wb-tag-chip');
+   button.type='button';button.addEventListener('click',()=>{filterTag(tag);$('wb-search').focus();});
+   group.append(button);
+  }
+  out.append(text('h4',t('Custom tags'),'wb-tags-heading'),group);
+ }
  const links=text('div','','wb-detail-links');
  const url=https(item.canonical_url)||https(item.url);
  if(url){
@@ -824,7 +874,7 @@ function bind(){
   }else{
    const url=new URL(location.href);
    url.searchParams.set('scope','all');url.searchParams.set('record',rid);
-   for(const key of ['q','from','to','kind','evidence','topics','relevance','offset','month'])url.searchParams.delete(key);
+   for(const key of ['q','from','to','kind','evidence','topics','tag','relevance','offset','month'])url.searchParams.delete(key);
    location.assign(url.href);
   }
  });
@@ -837,6 +887,7 @@ function bind(){
   chosen='';changed(true);
  }));
  $('wb-month').addEventListener('change',()=>changed(true));
+ $('wb-tag-filter').addEventListener('change',event=>{filterTag(event.target.value);});
  document.querySelectorAll('[name="wb-topic"],[data-column]').forEach(x=>x.addEventListener('change',()=>changed(false,Boolean(x.dataset.column))));
  $('wb-clear').addEventListener('click',reset);
  $('wb-export').addEventListener('click',exportCSV);
@@ -857,6 +908,7 @@ function bind(){
  window.addEventListener('keydown',e=>{
   const tag=e.target?.tagName||'';
   const editing=/^(INPUT|TEXTAREA|SELECT)$/.test(tag)||e.target?.isContentEditable;
+  if(e.defaultPrevented)return;
   if(e.key==='Escape'){if(chosen){selectRecord('');e.preventDefault();}return;}
   if(editing || e.ctrlKey||e.metaKey||e.altKey)return;
   if(e.key==='/'){e.preventDefault();$('wb-search').focus();return;}

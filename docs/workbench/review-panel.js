@@ -110,7 +110,9 @@ const D={
 };
 
 const translationIndex={zh:0,de:1,es:2};
-const t=k=>D[k]?.[translationIndex[I.language]]||k;
+const t=k=>D[k]?.[translationIndex[I.language]]||I.t?.(k)||k;
+const recordTags=window.SCRO_RECORD_TAGS;
+let savingTags=false;
 const number=value=>I.formatNumber?.(value)??String(value);
 const timestamp=value=>I.formatDate?.(value,true)||'—';
 const topicLabel=names=>I.t?.(names.en)||names[I.language]||names.en;
@@ -179,8 +181,13 @@ function makeChange(label,before,after){
 }
 function draftCurrent(rid,d){
  const indexed=R.get(rid);
- return !!(indexed&&d.content_fingerprint===indexed.analysis.content_fingerprint
+ if(!indexed)return false;
+ const reviewCurrent=!S.hasDecision(d)||(d.content_fingerprint===indexed.analysis.content_fingerprint
     &&d.expected_review_digest===indexed.review_digest);
+ const tagged=R.data?.record_tags?.[rid],change=d._tagChange;
+ const tagsCurrent=!change||(change.content_fingerprint===indexed.analysis.content_fingerprint
+    &&change.expected_tag_digest===(tagged?.digest||R.data?.empty_tag_digest));
+ return reviewCurrent&&tagsCurrent;
 }
 function download(name,obj){
  const url=URL.createObjectURL(new Blob([JSON.stringify(obj,null,2)],{type:'application/json;charset=utf-8'}));
@@ -204,15 +211,17 @@ function renderQueue(){
   check.disabled=!!active||stale;check.setAttribute('aria-label',t('Select for publication')+' '+rid);
   check.addEventListener('change',()=>S.setSelected(rid,check.checked));
   top.append(check,el('strong',String(d._title||window.SCRO_WORKBENCH?.getRecord(rid)?.title||rid).slice(0,200),'rv-queue-title'));
-  top.append(el('span',active?t(({handoff:'Handoff pending',submitted:'Submitted',published:'Published',needs_attention:'Needs attention'})[active.status]||active.status):stale?t('Local draft is outdated'):decisionLabel(d.relevance),'rv-queue-status'));
+  const label=S.hasDecision(d)?decisionLabel(d.relevance):t('Tag changes');
+  top.append(el('span',active?t(({handoff:'Handoff pending',submitted:'Submitted',published:'Published',needs_attention:'Needs attention'})[active.status]||active.status):stale?t('Local draft is outdated'):label,'rv-queue-status'));
   li.append(top,el('small',t('Record ID')+': '+rid,'rv-queue-id'));
-  if(indexed){
+  if(indexed&&S.hasDecision(d)){
     li.append(makeChange('Relevance',prior?decisionLabel(prior.relevance):t('Unreviewed'),decisionLabel(d.relevance)));
     li.append(makeChange('Topics',prior?tagLabels(prior.topics):t('Use suggested topics'),tagLabels(d.topics)));
     li.append(makeChange('Publisher',prior?.publisher_confirmed?t('Confirmed'):t('Not confirmed'),d.publisher_confirmed?t('Confirmed'):t('Not confirmed')));
     if(d.canonical_url)li.append(makeChange('Source URL',prior?.canonical_url||'—',d.canonical_url));
     if(d.note)li.append(makeChange('Public note',prior?.note||t('No public note'),d.note));
   }
+  if(d._tagChange)li.append(makeChange('Custom tags',formatTags(R.tags(rid)),formatTags(d._tagChange.tags)));
   if(stale)li.append(el('p',t('Published review has changed. Reopen and save again.'),'rv-alert'));
   if(active)li.append(el('p',t('An earlier batch already includes this record. Check its publication status first.'),'rv-small'));
   const actions=el('div','','rv-queue-item-actions');
@@ -285,18 +294,125 @@ send.addEventListener('click',()=>{
 statusBtn.addEventListener('click',async()=>{
  statusBtn.disabled=true;
  try{
-  const indexURL=new URL('../data/relevance-index.json',ASSET_ROOT).href;
-  const response=await fetch(indexURL,{credentials:'omit',cache:'no-store'});
-  if(!response.ok)throw Error('Index unavailable');
-  const index=await response.json();
+  const index=await R.refresh();
   await S.refreshFromGitHub(index);
   S.refreshPublished(index);
+  callback();
   feedback='Refresh or reopen to see newly published decisions.';
  }catch(_){feedback='GitHub status check failed; no draft was lost.';}
  finally{statusBtn.disabled=false;refresh();}
 });
 function field(label,node){
  const wrap=el('label','','rv-field');wrap.append(el('span',t(label)),node);return wrap;
+}
+function formatTags(tags){return tags.map(tag=>'#'+tag).join(', ')||'—';}
+function tagCounts(){
+ const counts=new Map((R.data?.tag_catalog||[]).map(tag=>[tag,0]));
+ const usage=new Map(Object.entries(R.data?.record_tags||{}).map(([rid,row])=>[rid,row.tags]));
+ for(const [rid,draft] of S.draftEntries()){
+  if(draft._tagChange)usage.set(rid,[...new Set([...(usage.get(rid)||[]),...draft._tagChange.tags])]);
+ }
+ for(const tags of usage.values())for(const tag of tags)counts.set(tag,(counts.get(tag)||0)+1);
+ return counts;
+}
+function customTagEditor(rid,item,data,locked){
+ const section=el('section','','rv-custom-tags');
+ const published=R.tags(rid),tagDigest=R.data.record_tags?.[rid]?.digest||R.data.empty_tag_digest;
+ const draft=()=>S.getDraft(rid)?._tagChange;
+ let tags=[...(draft()?.tags||published)],active=-1,options=[];
+ const label=el('label',t('Enter or choose a tag'));label.htmlFor='rv-tag-input';
+ const input=el('input');input.id=label.htmlFor;input.type='text';input.autocomplete='off';
+ input.placeholder=t('Enter a tag name…');
+ input.setAttribute('role','combobox');input.setAttribute('aria-autocomplete','list');
+ input.setAttribute('aria-controls','rv-tag-options');input.setAttribute('aria-expanded','false');
+ const list=el('ul','','rv-tag-options');list.id='rv-tag-options';list.hidden=true;
+ list.setAttribute('role','listbox');list.setAttribute('aria-label',t('Reusable tags'));
+ const chips=el('div','','wb-tag-chips');
+ const status=el('p','','rv-small');status.setAttribute('role','status');
+ const save=el('button',t('Save tag draft'),'rv-action');save.id='rv-save-tags';save.type='button';
+ input.disabled=locked||!tagDigest;
+ const same=(a,b)=>formatTags(recordTags.keys(a))===formatTags(recordTags.keys(b));
+ function update(){
+  chips.replaceChildren();
+  for(const tag of tags){
+   const remove=el('button','#'+tag+' ×','wb-tag-chip');remove.type='button';
+   remove.disabled=input.disabled;remove.setAttribute('aria-label',t('Remove tag')+' #'+tag);
+   remove.addEventListener('click',()=>{
+    tags=tags.filter(value=>value!==tag);update();input.focus();
+   });
+   chips.append(remove);
+  }
+  const pending=draft();
+  save.disabled=input.disabled||(same(tags,pending?.tags||published)
+    &&(!pending||pending.expected_tag_digest===tagDigest));
+ }
+ function setActive(next){
+  active=next;
+  const children=[...list.children];
+  children.forEach((option,i)=>option.setAttribute('aria-selected',String(i===active)));
+  if(active<0)input.removeAttribute('aria-activedescendant');
+  else {
+   input.setAttribute('aria-activedescendant',children[active].id);
+   children[active].scrollIntoView({block:'nearest'});
+  }
+ }
+ function close(){
+  list.hidden=true;input.setAttribute('aria-expanded','false');setActive(-1);
+ }
+ function add(tag){
+  if(!tag){status.textContent=t('Use letters, numbers, spaces, hyphens or underscores.');return;}
+  if(tags.includes(tag)){status.textContent=t('Tag already added.')+' #'+tag;return;}
+  if(tags.length>=recordTags.maxTags){status.textContent=t('Tag limit reached.');return;}
+  tags=recordTags.keys([...tags,tag]);
+  input.value='';update();close();status.textContent=t('Tag added.')+' #'+tag;
+ }
+ function suggest(){
+  const typed=recordTags.normalize(input.value),counts=tagCounts();
+  if(input.value.trim()&&!typed){close();return;}
+  options=[...counts.keys()].filter(tag=>!typed||tag.includes(typed))
+   .sort((a,b)=>Number(b===typed)-Number(a===typed)||a.localeCompare(b,I.language));
+  if(typed&&!counts.has(typed))options.unshift(typed);
+  list.replaceChildren();
+  for(const [i,tag] of options.entries()){
+   const choice=el('li',counts.has(tag)?'#'+tag+' ('+number(counts.get(tag))+')':t('Add new tag')+' #'+tag);
+   choice.id='rv-tag-option-'+i;choice.setAttribute('role','option');
+   choice.addEventListener('pointerdown',event=>event.preventDefault());
+   choice.addEventListener('click',()=>add(tag));
+   list.append(choice);
+  }
+  list.hidden=!options.length;input.setAttribute('aria-expanded',String(!list.hidden));setActive(-1);
+ }
+ input.addEventListener('focus',suggest);
+ input.addEventListener('click',()=>{if(list.hidden)suggest();});
+ input.addEventListener('input',()=>{status.textContent='';suggest();});
+ input.addEventListener('blur',close);
+ input.addEventListener('keydown',event=>{
+  if(event.isComposing)return;
+  if(event.key==='Escape'&&!list.hidden){event.preventDefault();close();}
+  if(event.key==='Enter'){event.preventDefault();event.stopPropagation();add(list.hidden||active<0?recordTags.normalize(input.value):options[active]);}
+  if(event.key==='ArrowDown'||event.key==='ArrowUp'){
+   if(list.hidden)suggest();
+   if(!options.length||list.hidden)return;
+   event.preventDefault();
+   const next=event.key==='ArrowDown'?Math.min(active+1,options.length-1):active<=0?options.length-1:active-1;
+   setActive(next);
+  }
+ });
+ save.addEventListener('click',()=>{
+  const change=same(tags,published)?null:{
+   content_fingerprint:data.analysis.content_fingerprint,expected_tag_digest:tagDigest,tags:recordTags.keys(tags)
+  };
+  savingTags=true;
+  try{
+   const saved=S.saveTags(rid,change,String(item.title||'').slice(0,200));
+   status.textContent=t(saved?(change?'Tag draft saved.':'Tag draft cleared.'):'Browser storage blocked; export the batch before leaving.');
+   if(change)queue.open=true;
+   update();
+  }finally{savingTags=false;}
+ });
+ section.append(el('h4',t('Custom tags')),chips,label,input,list,status,save);
+ update();
+ return section;
 }
 const reason={specific_hrdd_policy:'Specific HRDD or labour policy',supply_and_labour_context:'Supply chain and labour context',governance_and_rights:'Governance and rights context',incomplete_context:'Context incomplete',insufficient_text_evidence:'Insufficient textual evidence'};
 function inspect(item,force=false){
@@ -320,7 +436,8 @@ function inspect(item,force=false){
  }
  if(data.review_state==='stale')root.append(el('p',t('Review needs renewal: source text changed.'),'rv-alert'));
  if(locked)root.append(el('p',t('An earlier batch already includes this record. Check its publication status first.'),'rv-alert'));
- const existing=S.getDraft(rid)||(data.review_state==='current'?data.review:{});
+ const draft=S.getDraft(rid);
+ const existing=S.hasDecision(draft)?draft:(data.review_state==='current'?data.review:{});
  const decision=el('select');decision.id='rv-decision';
  for(const [value,label] of [['needs_review','Review needed'],['include','Include'],['exclude','Exclude']]){
   const option=el('option',t(label));option.value=value;decision.append(option);
@@ -339,6 +456,7 @@ function inspect(item,force=false){
   tags.append(label);checks.push(box);
  }
  root.append(tags);
+ root.append(customTagEditor(rid,item,data,locked));
  const confirmed=el('input');confirmed.type='checkbox';confirmed.id='rv-publisher';
  confirmed.checked=existing.publisher_confirmed===true;
  const url=el('input');url.type='url';url.id='rv-original';url.maxLength=2048;url.value=existing.canonical_url||'';
@@ -380,7 +498,7 @@ function inspect(item,force=false){
  for(const match of data.similar||[]){
   const line=el('p'),link=el('a',t('Open related record')+' '+match.record_id);
   const u=new URL(location.href);u.searchParams.set('scope','all');u.searchParams.set('record',match.record_id);
-  for(const k of ['q','from','to','topics','relevance','offset','kind','evidence'])u.searchParams.delete(k);
+  for(const k of ['q','from','to','topics','tag','relevance','offset','kind','evidence'])u.searchParams.delete(k);
   link.href=u.href;line.append(link,el('small',' · '+match.shared_terms.join(', ')));similar.append(line);
  }
  root.append(similar);
@@ -399,7 +517,7 @@ function includes(item){
  return v==='all'||d.analysis.level===v;
 }
 function refresh(){updateTools();inspect(current,true);}
-S.onChange(refresh);
+S.onChange(()=>{if(savingTags)updateTools();else refresh();});
 I.onChange(refresh);
 R.ready.then(()=>{S.refreshPublished(R.data);refresh();});
 refresh();inspect(null);

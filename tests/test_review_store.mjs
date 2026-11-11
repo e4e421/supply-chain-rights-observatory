@@ -50,6 +50,33 @@ test('old drafts remain untouched and selecting the second does not submit the f
  assert.equal(store.cancelHandoff(second.id),false);
  assert.equal(store.getDraft(A)?.note,'first');
 });
+test('tag-only handoffs preserve other reviews and clear only after the matching Issue deploys',async()=>{
+ let issue;
+ const {store}=harness({},async()=>({ok:true,json:async()=>[issue]}));
+ const change={content_fingerprint:'f'.repeat(64),expected_tag_digest:'d'.repeat(64),tags:['iphone','工廠事故']};
+ store.saveDraft(B,draft('existing review'));
+ store.saveTags(A,change,'tagged record');
+ const batch=store.makeHandoff(()=>true);
+ assert.deepEqual([...batch.ids],[A]);
+ assert.equal(batch.decisions.length,0);
+ assert.equal(batch.tagChanges[0].record_id,A);
+ assert.equal(store.getDraft(B).note,'existing review');
+ issue={number:16,state:'closed',title:'[Publish Workbench review]',
+  user:{login:'e4e421'},body:batch.body,html_url:'https://github.com/example/issues/16'};
+ const index={records:{},record_tags:{[A]:{tags:['工廠事故','iphone'],issue:16}}};
+ assert.equal(store.refreshPublished(index),false);
+ await store.refreshFromGitHub(index);
+ assert.equal(store.refreshPublished(index),true);
+ assert.equal(store.getDraft(A),null);
+ assert.equal(store.getDraft(B).note,'existing review');
+ store.saveTags(B,change,'tagged record');
+ store.saveDraft(B,draft('updated review'));
+ const mixed=store.payload(store.selectedEntries());
+ assert.equal(mixed.decisions.length,1);
+ assert.equal(mixed.tag_changes.length,1);
+ store.saveTags(B,null,'tagged record');
+ assert.equal(store.getDraft(B).note,'updated review');
+});
 test('drafts stay after new tab; only a matching *confirmed Issue* and published decision clears its own draft',async()=>{
  const a=draft('a'),b=draft('b');
  const {store,localStorage}=harness();

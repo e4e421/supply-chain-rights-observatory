@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib, ipaddress, json, re, unicodedata
 from functools import lru_cache
 from pathlib import Path
+from record_tags import validate_tag_overlay
 from urllib.parse import urlsplit
 ROOT=Path(__file__).resolve().parents[1]
 RULES=ROOT/'sources/relevance-rules.json'
@@ -84,7 +85,10 @@ def public_url(value):
     return value
 
 def validate_overlay(doc):
-    if set(doc)!={'schema_version','records'} or doc['schema_version']!=1 or not isinstance(doc['records'],dict):raise ValueError('Invalid review overlay')
+    if (not isinstance(doc,dict) or not {'schema_version','records'} <= set(doc) <= {'schema_version','records','record_tags','tag_catalog'}
+            or doc['schema_version']!=1 or not isinstance(doc['records'],dict)):
+        raise ValueError('Invalid review overlay')
+    validate_tag_overlay(doc)
     for rid,entry in doc['records'].items():
         if not ID.fullmatch(rid):raise ValueError('Invalid record ID')
         allowed={'content_fingerprint','relevance','topics','publisher_confirmed','canonical_url','note','reviewed_at','reviewed_by','issue','issue_digest'}

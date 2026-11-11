@@ -60,6 +60,26 @@ PROBE=r'''
     'Spanish review topic missing');
  }
  const before=JSON.stringify(SCRO_RELEVANCE.get(first).review);
+ const tagInput=document.getElementById('rv-tag-input');
+ const typeTag=value=>{
+  tagInput.value=value;tagInput.dispatchEvent(new Event('input',{bubbles:true}));
+  tagInput.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowDown',bubbles:true,cancelable:true}));
+  tagInput.dispatchEvent(new KeyboardEvent('keydown',{key:'Enter',bubbles:true,cancelable:true}));
+ };
+ typeTag('#iPhone');typeTag('工廠事故');
+ document.getElementById('rv-note').value='unsaved editorial note';
+ document.getElementById('rv-save-tags').click();
+ check(document.getElementById('rv-note').value==='unsaved editorial note','Tag save cleared unsaved review fields');
+ const tagBatch=store.payload(store.selectedEntries());
+ check(tagBatch.decisions.length===0&&tagBatch.tag_changes?.length===1,'Tag-only save included a review');
+ check(JSON.stringify(tagBatch.tag_changes[0].tags)===JSON.stringify(['iphone','工廠事故']),'Tags were not canonical or multilingual');
+ check(JSON.stringify(SCRO_RELEVANCE.get(first).review)===before&&SCRO_RELEVANCE.tags(first).length===0,'Local tag draft changed public data');
+ window.dispatchEvent(new CustomEvent('scro:select-record',{detail:{record_id:second}}));
+ document.getElementById('rv-tag-input').focus();
+ check([...document.querySelectorAll('#rv-tag-options [role=option]')].some(option=>option.textContent.includes('#iphone')),
+   'Saved tags are not reusable on another record');
+ store.removeDraft(first);
+ window.dispatchEvent(new CustomEvent('scro:select-record',{detail:{record_id:first}}));
  document.getElementById('rv-decision').value='include';
  document.getElementById('rv-note').value='Public acceptance fixture only.';
  document.getElementById('rv-save').click();await settle();
@@ -147,7 +167,7 @@ PROBE=r'''
   const shared=new URL(copied);
   check(shared.searchParams.get('lang')==='es'&&shared.searchParams.get('q')===second,'Shared link lost Spanish or the search');
  }
- return {first,second,batchOne:body1,batchTwo:body2,readerPath:'workbench/'+reader.search};
+ return {first,second,tagBatch,batchOne:body1,batchTwo:body2,readerPath:'workbench/'+reader.search};
 })()
 '''
 def run():
@@ -156,6 +176,10 @@ def run():
  reports=[]
  with tempfile.TemporaryDirectory() as temporary:
   root=Path(temporary);site=root/'supply-chain-rights-observatory';shutil.copytree(ROOT/'_site',site)
+  index_path=site/'data/relevance-index.json'
+  initial_index=json.loads(index_path.read_text())
+  initial_index.update(tag_catalog=[],record_tags={})
+  index_path.write_text(json.dumps(initial_index))
   class Handler(SimpleHTTPRequestHandler):
    def log_message(self,*args):pass
   server=ThreadingHTTPServer(('127.0.0.1',0),functools.partial(Handler,directory=str(root)));thread=Thread(target=server.serve_forever,daemon=True);thread.start()
@@ -191,6 +215,9 @@ def run():
      result=browser.evaluate(PROBE);reports.append({'language':language,'width':width,'status':'passed'})
      # Validate the browser-generated payload using the same server-side parser and guards.
      overlay=json.loads((ROOT/'data/reviews/decisions.json').read_text())
+     tagged=prepare(result['tagBatch'],load_records(),{'schema_version':1,'records':overlay['records']},
+                    'reviewer',1,'b'*64,'2026-11-09T00:00:00Z')
+     assert tagged['records']==overlay['records']
      for body in (result['batchOne'],result['batchTwo']):
       payload=parse_body(body)
       overlay=prepare(payload,load_records(),overlay,'reviewer',1,'b'*64,'2026-11-09T00:00:00Z')
@@ -199,6 +226,19 @@ def run():
        '&&document.querySelector("#wb-tbody .is-selected")?.dataset.recordId==='+json.dumps(result['second']))
      print('PASS footer editor entry, ten-record pagination, contextual return and review submissions',language,width,flush=True)
      browser.evaluate('localStorage.removeItem("scro.review.drafts.v1");localStorage.removeItem("scro.review.queue.v2")')
+   # Publish tags into the temporary deployment and verify the reader search.
+   index=json.loads((site/'data/relevance-index.json').read_text())
+   index['tag_catalog']=tagged['tag_catalog']
+   index['record_tags']={key:{'tags':row['tags'],'issue':row['issue'],'digest':digest(row)}
+                         for key,row in tagged['record_tags'].items()}
+   (site/'data/relevance-index.json').write_text(json.dumps(index))
+   navigate('workbench/?q=%23iphone')
+   assert browser.evaluate('document.getElementById("wb-count").dataset.total==="1"')
+   assert browser.evaluate('document.querySelector("#wb-tbody [data-record-id]")?.dataset.recordId==='+json.dumps(result['first']))
+   navigate('workbench/?tag=iphone&record='+result['first'])
+   assert browser.evaluate('document.querySelector("#wb-detail .wb-tag-chip")?.textContent==="#iphone"')
+   assert browser.evaluate('document.querySelector("#wb-tag-filters button")?.textContent.includes("#iphone")')
+   print('PASS public tags filter by hashtag, URL and inspector',flush=True)
    # Controlled manual exclusion in the temporary deployment only.
    rid=result['first'];records=load_records()
    payload=parse_body(result['batchTwo']);payload['decisions'][0]['relevance']='exclude'

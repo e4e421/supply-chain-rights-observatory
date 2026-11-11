@@ -53,9 +53,24 @@ function selectOnly(rid){
 }
 function saveDraft(rid,decision){
   if(!ID.test(rid)||!decision||latestActive(rid))return false;
-  drafts[rid]=clone(decision);
+  const tagChange=drafts[rid]?._tagChange;
+  drafts[rid]=clone(tagChange?{...decision,_tagChange:tagChange}:decision);
   // Saving an item never automatically selects every previous draft.
   state.selected=[rid];
+  const success=persist();changes();return success;
+}
+function hasDecision(d){return typeof d?.relevance==='string';}
+function saveTags(rid,change,title){
+  if(!ID.test(rid)||latestActive(rid))return false;
+  if(change){
+    drafts[rid]={...drafts[rid],_title:title,_tagChange:clone(change)};
+    state.selected=[rid];
+  }else if(hasDecision(drafts[rid])){
+    delete drafts[rid]._tagChange;
+  }else{
+    delete drafts[rid];
+    state.selected=state.selected.filter(id=>id!==rid);
+  }
   const success=persist();changes();return success;
 }
 function removeDraft(rid){
@@ -69,7 +84,9 @@ function publicationFields(d){
   return cleaned;
 }
 function payload(items){
-  return {schema_version:1,decisions:items.map(([record_id,d])=>({record_id,...publicationFields(d)}))};
+  const decisions=items.filter(([,d])=>hasDecision(d)).map(([record_id,d])=>({record_id,...publicationFields(d)}));
+  const tagChanges=items.filter(([,d])=>d._tagChange).map(([record_id,d])=>({record_id,...clone(d._tagChange)}));
+  return {schema_version:1,decisions,...(tagChanges.length?{tag_changes:tagChanges}:{})};
 }
 function token(){
   if(crypto?.randomUUID)return crypto.randomUUID();
@@ -90,7 +107,7 @@ function makeHandoff(eligible){
   if(url.href.length>7500)throw Error('Review batch exceeds shareable URL length');
   const entry={
     id:token(),status:'handoff',created_at:new Date().toISOString(),ids:items.map(([rid])=>rid),
-    decisions:data.decisions,url:url.href,body,issue_number:null,issue_url:null
+    decisions:data.decisions,tagChanges:data.tag_changes||[],url:url.href,body,issue_number:null,issue_url:null
   };
   state.batches.push(entry);
   state.batches=state.batches.slice(-40);
@@ -111,24 +128,38 @@ function refreshPublished(index){
   let modified=false;
   for(const batch of state.batches){
     if(!['handoff','submitted','needs_attention'].includes(batch.status))continue;
+    if(!Number.isInteger(batch.issue_number)||batch.issue_number<1)continue;
+    const tagChanges=batch.tagChanges||[];
     const published=batch.decisions.every(d=>{
       const indexed=index.records[d.record_id];
       const reviewed=indexed?.review_state==='current'?indexed.review:null;
-      return Number.isInteger(batch.issue_number)&&batch.issue_number>0
-        &&reviewed&&matches(d,reviewed)&&reviewed.issue===batch.issue_number;
+      return reviewed&&matches(d,reviewed)&&reviewed.issue===batch.issue_number;
+    })&&tagChanges.every(d=>{
+      const tagged=index.record_tags?.[d.record_id];
+      return tagged?.issue===batch.issue_number&&sameTags(tagged.tags,d.tags);
     });
     if(published){
       batch.status='published';batch.published_at=new Date().toISOString();modified=true;
       for(const d of batch.decisions){
         // Never discard more recent edits which differ from the submitted snapshot.
-        if(matches(d,drafts[d.record_id]))delete drafts[d.record_id];
-        state.selected=state.selected.filter(x=>x!==d.record_id);
+        if(matches(d,drafts[d.record_id])){
+          for(const field of FIELDS)delete drafts[d.record_id][field];
+        }
+      }
+      for(const d of tagChanges){
+        const saved=drafts[d.record_id]?._tagChange;
+        if(saved?.expected_tag_digest===d.expected_tag_digest&&sameTags(saved.tags,d.tags))delete drafts[d.record_id]._tagChange;
+      }
+      for(const rid of batch.ids){
+        if(!hasDecision(drafts[rid])&&!drafts[rid]?._tagChange)delete drafts[rid];
+        state.selected=state.selected.filter(x=>x!==rid);
       }
     }
   }
   if(modified){persist();changes();}
   return modified;
 }
+function sameTags(a,b){return JSON.stringify([...a].sort())===JSON.stringify([...b].sort());}
 function normalizeBody(s){return String(s||'').trim().replace(/\r\n/g,'\n');}
 function confirmIssue(b,issue){
   return issue?.title==='[Publish Workbench review]'&&issue.user?.login==='e4e421'
@@ -183,7 +214,7 @@ window.addEventListener('storage',e=>{
 });
 window.SCRO_REVIEW_STORE=Object.freeze({
   draftEntries,availableEntries,selectedEntries,selectedIds:()=>[...state.selected],
-  getDraft:rid=>drafts[rid]||null,active:latestActive,saveDraft,removeDraft,
+  getDraft:rid=>drafts[rid]||null,active:latestActive,hasDecision,saveDraft,saveTags,removeDraft,
   setSelected,selectOnly,payload,makeHandoff,batches,refreshPublished,
   refreshFromGitHub,cancelHandoff,onChange,publicationFields
 });
