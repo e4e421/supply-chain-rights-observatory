@@ -8,8 +8,8 @@ const D={
 'Record ID':['紀錄編號','Datensatz-ID','ID del registro'],
 'Cancelled':['已取消','Abgebrochen','Cancelado'],
 'Pending review changes':['待發布變更清單','Ausstehende Prüfänderungen',"Cambios pendientes de revisión"],
-'Review all edits before publication. Drafts are stored only in this browser.':['發布前請逐筆檢查；所有草稿僅儲存於本機瀏覽器。','Änderungen vor Veröffentlichung prüfen. Entwürfe sind nur im Browser gespeichert.',"Revise todos los cambios antes de publicar. Los borradores se guardan en este navegador."],
-'No saved changes yet. Select an article and choose Save local draft.':['尚無已儲存變更。請點選新聞並按「儲存本機草稿」。','Noch keine Änderungen. Datensatz auswählen und lokalen Entwurf speichern.',"Para empezar, seleccione un registro y pulse «Guardar borrador local»."],
+'Review all edits before publication. Drafts are stored only in this browser.':['發布前請逐筆檢查；所有草稿僅儲存於本機瀏覽器。','Änderungen vor Veröffentlichung prüfen. Entwürfe sind nur im Browser gespeichert.',"Revise todos los cambios antes de publicar. Los borradores se guardan solo en este navegador."],
+'No saved changes yet. Select a record and choose Save local draft.':['尚無已儲存變更。請選取一筆紀錄，再按「儲存本機草稿」。','Noch keine Änderungen. Datensatz auswählen und lokalen Entwurf speichern.',"Para empezar, seleccione un registro y pulse «Guardar borrador local»."],
 'Relevance':['相關性','Relevanz',"Pertinencia"],
 'Topics':['主題標記','Themen',"Temas"],
 'Publisher':['出版者核對','Herausgeber',"Entidad editora"],
@@ -35,14 +35,15 @@ const D={
 'High relevance':['高相關','Hohe Relevanz',"Pertinencia alta"],
 'Needs context':['待判讀','Kontext prüfen',"Requiere contexto"],
 'Low relevance':['低相關','Geringe Relevanz',"Pertinencia baja"],
-'Unreviewed':['尚未人工審核','Ungeprüft',"Pendiente de revisión"],
-'Published reviews':['已發布審核','Veröffentlichte Prüfungen',"Revisiones publicadas"],
+'Unreviewed':['尚未人工審核','Ungeprüft','Sin revisión previa'],
+'No current review':['無有效審核','Keine aktuelle Prüfung','Sin revisión vigente'],
+'Published reviews · included records':['已發布審核 · 收錄紀錄','Veröffentlichte Prüfungen · aufgenommene Datensätze','Revisiones publicadas · registros incluidos'],
 'Excluded records':['已排除紀錄','Ausgeschlossene Datensätze',"Registros excluidos"],
 'Export review batch':['匯出審核批次','Prüfungen exportieren',"Exportar lote de revisión"],
 'Publish through GitHub':['透過 GitHub 發布','Über GitHub veröffentlichen',"Publicar mediante GitHub"],
 'local drafts; not published':['筆本機草稿；尚未發布','lokale Entwürfe; nicht veröffentlicht',"borradores locales pendientes de publicación"],
 'Keyword analysis unavailable; records remain visible.':['關鍵字分析未載入，原始紀錄仍保留。','Schlagwortanalyse nicht verfügbar; Originaldaten bleiben sichtbar.',"Análisis de palabras clave no disponible. Puede seguir consultando los registros."],
-'Select a record to review it here.':['選取新聞，即可在這裡判讀與標記。','Datensatz auswählen und hier prüfen.',"Seleccione un registro para revisarlo aquí."],
+'Select a record to review it here.':['選取一筆紀錄，即可在這裡審核。','Datensatz auswählen und hier prüfen.',"Seleccione un registro para revisarlo aquí."],
 'Title only':['僅分析標題','Nur Titel',"Solo el título"],
 'Title and permitted abstract':['標題與允許使用的摘要','Titel und zulässige Metadaten-Zusammenfassung',"Título y resumen autorizado"],
 'Matched rules and keywords':['命中規則與關鍵字','Regeln und Schlagwörter',"Reglas y palabras clave coincidentes"],
@@ -62,7 +63,7 @@ const D={
 'Public review note':['公開審核說明','Öffentliche Prüfnotiz',"Nota pública de revisión"],
 'Save local draft':['儲存本機草稿','Lokalen Entwurf speichern',"Guardar borrador local"],
 'Discard local draft':['捨棄本機草稿','Lokalen Entwurf verwerfen',"Descartar borrador local"],
-'Draft saved in this browser only.':['已儲存於此瀏覽器，尚未公開發布。','Nur in diesem Browser gespeichert, nicht veröffentlicht.',"Borrador guardado en este navegador."],
+'Draft saved in this browser only.':['已儲存於此瀏覽器，尚未公開發布。','Nur in diesem Browser gespeichert, nicht veröffentlicht.',"Borrador guardado solo en este navegador."],
 'Browser storage blocked; export the batch before leaving.':['瀏覽器封鎖儲存，離開前請匯出批次。','Browserspeicher blockiert; vor dem Verlassen exportieren.',"El navegador bloquea el almacenamiento. Exporte el lote antes de salir."],
 'Enter a valid public HTTPS original URL.':['請填入不含帳密的公開 HTTPS 原文網址。','Gültige öffentliche HTTPS-Originaladresse eingeben.',"Introduzca una URL HTTPS pública y válida de la fuente original."],
 'Similar keyword patterns':['相近關鍵字文章','Ähnliche Schlagwörter',"Patrones de palabras clave similares"],
@@ -96,29 +97,23 @@ const D={
 "Reset unsubmitted handoff":["重設未提交的交接","Nicht eingereichten Übergang zurücksetzen","Restablecer el envío pendiente"],
 "Confirm that you did not submit the GitHub Issue before resetting.":["請先確認您確實沒有在 GitHub 建立 Issue，才可重設。","Nur zurücksetzen, wenn das GitHub-Issue nicht erstellt wurde.","Confirme que la incidencia de GitHub sigue pendiente de envío antes de restablecerla."],
 "An earlier batch already includes this record. Check its publication status first.":["此紀錄已包含在先前提交批次中，請先查核狀態。","Ein früherer Batch enthält diesen Datensatz. Status zuerst prüfen.","Un lote anterior ya contiene este registro. Compruebe primero su estado de publicación."],
-"The Issue has not been confirmed yet; this is not a published review.":["尚未確認 Issue 已建立，也未正式發布。","Die Issue-Erstellung ist noch nicht bestätigt; keine Veröffentlichung.","Publicación pendiente de confirmar la incidencia."],
+"The Issue has not been confirmed yet; this is not a published review.":["尚未確認 Issue 已建立，也未正式發布。","Die Issue-Erstellung ist noch nicht bestätigt; keine Veröffentlichung.","La creación de la incidencia de GitHub sigue sin confirmarse. La revisión aún está pendiente de publicación."],
 "No publishing history in this browser.":["此瀏覽器尚無提交紀錄。","Kein Veröffentlichungsverlauf in diesem Browser.","Todavía no hay historial de publicación en este navegador."],
 "Changes in this batch":["此批次的變更","Änderungen in diesem Batch","Cambios de este lote"],
-"Saved in this browser only":["僅儲存於此瀏覽器","Nur in diesem Browser gespeichert","Guardado en este navegador"],
+"Saved in this browser only":["僅儲存於此瀏覽器","Nur in diesem Browser gespeichert","Guardado solo en este navegador"],
 "Refresh or reopen to see newly published decisions.":["請重新載入頁面，查看最新發布的決策。","Seite neu laden, um neue Veröffentlichungen zu sehen.","Actualice o vuelva a abrir la página para ver las últimas decisiones publicadas."],
 "Reload current review index":["重新載入審核索引","Prüfindex neu laden","Volver a cargar el índice de revisión"],
 "Review Queue":["審核變更清單","Prüfwarteschlange","Cola de revisión"],
-"Editing tools are public; only the GitHub owner may publish.":["編輯介面可公開瀏覽，只有授權的 GitHub 擁有者能正式發布。","Bearbeitung ist öffentlich sichtbar; veröffentlichen darf nur der berechtigte GitHub-Inhaber.","Las herramientas de edición son públicas. La publicación requiere autorización del propietario en GitHub."],
+"Editing tools are public; only the GitHub owner may publish.":["編輯介面可公開瀏覽，只有授權的 GitHub 擁有者能正式發布。","Bearbeitung ist öffentlich sichtbar; veröffentlichen darf nur der berechtigte GitHub-Inhaber.","Las herramientas de edición son públicas. Solo el propietario del repositorio puede publicar."],
 "Ready to publish":["可發布的草稿","Bereit zur Veröffentlichung","Listo para publicar"],
-"Draft selection is stored only in your browser.":["勾選狀態只儲存在您的瀏覽器。","Die Auswahl bleibt nur in Ihrem Browser.","La selección de borradores se guarda en este navegador."],
+"Draft selection is stored only in your browser.":["勾選狀態只儲存在您的瀏覽器。","Die Auswahl bleibt nur in Ihrem Browser.","La selección de borradores se guarda solo en este navegador."],
 };
 
 const translationIndex={zh:0,de:1,es:2};
 const t=k=>D[k]?.[translationIndex[I.language]]||k;
 const number=value=>I.formatNumber?.(value)??String(value);
-const spanishTimestamp=new Intl.DateTimeFormat('es-ES',{
- year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',timeZone:'UTC',timeZoneName:'short'
-});
-function timestamp(value){
- const date=new Date(value||'');
- return I.language==='es'&&Number.isFinite(date.getTime())?spanishTimestamp.format(date):value||'';
-}
-const topicLabel=names=>names[I.language]||I.t?.(names.en)||names.en;
+const timestamp=value=>I.formatDate?.(value,true)||'—';
+const topicLabel=names=>I.t?.(names.en)||names[I.language]||names.en;
 const el=(tag,value='',cls='')=>{const n=document.createElement(tag);n.textContent=value;if(cls)n.className=cls;return n;};
 const ASSET_ROOT=new URL('./',document.currentScript.src);
 let callback=()=>{},current=null,signature='',feedback='';
@@ -130,7 +125,7 @@ const tools=el('div','','rv-tools');
 const filter=el('select');filter.id='rv-filter';filter.setAttribute('aria-label',t('Relevance & review'));
 for(const [value,label] of [
  ['all','All relevance levels'],['high','High relevance'],['review','Needs context'],
- ['low','Low relevance'],['unreviewed','Unreviewed'],['reviewed','Published reviews'],
+ ['low','Low relevance'],['unreviewed','No current review'],['reviewed','Published reviews · included records'],
  ['excluded','Excluded records']]){
  const option=el('option',t(label));option.value=value;option.dataset.label=label;filter.append(option);
 }
@@ -198,7 +193,7 @@ function renderQueue(){
  introduction.textContent=t('You can only submit the explicitly selected records.')+' '+t('Draft selection is stored only in your browser.');
  count.textContent=number(selected.length)+' / '+number(entries.length)+' '+t('Selected for publication');
  queueList.replaceChildren();
- if(!entries.length)queueList.append(el('li',t('No saved changes yet. Select an article and choose Save local draft.'),'rv-queue-empty'));
+ if(!entries.length)queueList.append(el('li',t('No saved changes yet. Select a record and choose Save local draft.'),'rv-queue-empty'));
  for(const [rid,d] of entries){
   const active=S.active(rid),indexed=R.get(rid),stale=!draftCurrent(rid,d);
   const prior=indexed?.review_state==='current'?indexed.review:null;
@@ -320,7 +315,7 @@ function inspect(item,force=false){
  for(const h of a.matched.slice(0,25))hits.append(el('li',h.term+' ['+h.field+']'));
  why.append(hits);root.append(why);
  if(data.review_state==='current'){
-  const decision=I.language==='es'?decisionLabel(data.review.relevance):data.review.relevance;
+  const decision=decisionLabel(data.review.relevance);
   root.append(el('p',t('Published decision')+': '+decision+' · '+timestamp(data.review.reviewed_at),'rv-small'));
  }
  if(data.review_state==='stale')root.append(el('p',t('Review needs renewal: source text changed.'),'rv-alert'));

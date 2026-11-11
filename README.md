@@ -26,10 +26,10 @@ Public, source-traceable research intelligence for **European supply chain susta
 
 ## Multilingual research interface (English canonical)
 
-The research portal supports **English (default)**, **Traditional Chinese**, and **German**. User-visible copy is authored in English, with audited translation mappings in `docs/i18n.js`. The public feed's source names and descriptions are generated in English, and legacy Chinese records remain readable through backwards-compatible display aliases.
+The research portal supports **English (default)**, **Traditional Chinese**, **German**, and **Spanish**. User-visible copy is authored in English, with audited translation mappings in `docs/i18n.js`. The public feed's source names and descriptions are generated in English, and legacy Chinese records remain readable through backwards-compatible display aliases.
 
-- Switch using the header selector, or share links with `?lang=en`, `?lang=zh` or `?lang=de`. Language choices are saved locally in the browser.
-- The page language and date formatting adapt to the selection. The explicitly labelled last-update time remains in the **Asia/Taipei** time zone.
+- Switch using the header selector, or share links with `?lang=en`, `?lang=zh`, `?lang=de` or `?lang=es`. Language choices are saved locally in the browser.
+- The page language and date formatting adapt to the selection. The site displays timestamps and filters publication dates in **UTC**.
 - Original newspaper and academic publication titles remain in the language in which they were published.
 - UTF-8 CSV downloads retain canonical English field names, stable topic identifiers and original titles for reproducible collaborative analysis.
 - Static site copy, source descriptions, live status messages, research themes and source cards are translated. The collection workflow remains language-independent.
@@ -54,7 +54,7 @@ The research portal supports **English (default)**, **Traditional Chinese**, and
 5. View the site at **https://e4e421.github.io/supply-chain-rights-observatory/** or use **Settings → Pages → Visit site**. It can take several minutes for the initial deployment.
 6. Optional but recommended: **Settings → Actions → General**: use least-privilege workflow permissions; review **SECURITY.md** and protect your account with 2FA.
 
-The scheduled data collection runs daily at **06:23 Asia/Taipei** (`22:23 UTC`, `cron: 23 22 * * *`). An additional **weekly source-reachability check** runs Mondays at **06:43 Asia/Taipei** (`22:43 Sunday UTC`) using approved institutional URLs only. GitHub scheduling is best effort: execution can be delayed, and scheduled workflows in public repositories can be disabled after 60 days of inactivity. The website reports **actual** successful collection time.
+Data collection is scheduled daily at **10:23 and 22:23 UTC**. On Sundays at **22:43 UTC**, an additional collection includes source link checks for approved institutional URLs. The website reports the timestamp of the last successful collection.
 
 ## Long-term research database and source governance
 

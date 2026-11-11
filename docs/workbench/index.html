@@ -31,7 +31,7 @@
       <div><small data-l10n="Recent snapshot records">Recent snapshot records</small><strong id="wb-latest-count">—</strong></div>
       <div><small data-l10n="Permanent archive records">Permanent archive records</small><strong id="wb-archive-count">—</strong></div>
       <div><small data-l10n="Collection status">Collection status</small><strong id="wb-data-status">—</strong></div>
-      <div><small data-l10n="Last successful update (Taipei)">Last successful update (Taipei)</small><strong id="wb-updated">—</strong></div>
+      <div><small data-l10n="Last successful collection">Last successful collection</small><strong id="wb-updated">—</strong></div>
       <div class="wb-strip-links"><a href="../index.html#sources" data-l10n="Source directory">Source directory</a><a href="../index.html#method" data-l10n="Methodology">Methodology</a></div>
     </section>
     <section class="wb-toolbar" aria-label="Search controls">
@@ -66,8 +66,8 @@
         <div class="wb-filter-body">
           <label class="wb-field"><span data-l10n="Archive month">Archive month</span><select id="wb-month"><option value="" data-l10n="Loading months…">Loading months…</option></select></label>
           <div class="wb-field-split">
-            <label class="wb-field"><span data-l10n="Published from">Published from</span><input type="date" id="wb-from"></label>
-            <label class="wb-field"><span data-l10n="Through">Through</span><input type="date" id="wb-to"></label>
+            <label class="wb-field"><span data-l10n="Published from (UTC)">Published from (UTC)</span><input type="date" id="wb-from"></label>
+            <label class="wb-field"><span data-l10n="Published through (UTC)">Published through (UTC)</span><input type="date" id="wb-to"></label>
           </div>
           <label class="wb-field"><span data-l10n="Record type">Record type</span>
             <select id="wb-kind"><option value="all" data-l10n="All types">All types</option><option value="academic" data-l10n="Academic metadata">Academic metadata</option><option value="discovery" data-l10n="Discovery leads">Discovery leads</option></select>
@@ -85,7 +85,7 @@
           </fieldset>
           <details class="wb-columns"><summary data-l10n="Visible columns">Visible columns</summary>
             <div class="wb-column-options">
-              <label><input type="checkbox" data-column="date" checked><span data-l10n="Date">Date</span></label>
+              <label><input type="checkbox" data-column="date" checked><span data-l10n="Publication date (UTC)">Publication date (UTC)</span></label>
               <label><input type="checkbox" data-column="title" checked disabled><span data-l10n="Title">Title</span></label>
               <label><input type="checkbox" data-column="publisher" checked><span data-l10n="Publisher">Publisher</span></label>
               <label><input type="checkbox" data-column="topics" checked><span data-l10n="Topics">Topics</span></label>

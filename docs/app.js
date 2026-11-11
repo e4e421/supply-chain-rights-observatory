@@ -27,13 +27,7 @@
     return Number.isFinite(timestamp) ? (Date.now() - timestamp)/86400000 : Infinity;
   }
   function localDate(iso, withTime) {
-    if (!iso) return t(withTime ? 'No successful update yet' : 'Date unavailable');
-    const date = new Date(iso);
-    if (Number.isNaN(date.getTime())) return t(withTime ? 'No successful update yet' : 'Date unavailable');
-    const locale = {zh:'zh-TW',en:'en-GB',de:'de-DE',es:'es-ES'}[i18n.language] || 'en-GB';
-    const opts = { timeZone:'Asia/Taipei', year:'numeric', month:'2-digit', day:'2-digit' };
-    if (withTime) {opts.hour='2-digit';opts.minute='2-digit';opts.hour12=false;}
-    return new Intl.DateTimeFormat(locale,opts).format(date);
+    return i18n.formatDate?.(iso,withTime) || t(withTime ? 'No successful update yet' : 'Date unavailable');
   }
   function el(tag, value, className) {
     const node = document.createElement(tag);

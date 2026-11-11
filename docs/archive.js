@@ -5,15 +5,17 @@ const $=id=>document.getElementById(id),i18n=window.SCRO_I18N||{t:x=>x,onChange:
 let catalog=null,records=[],month='',visible=30,loading=false,failed=false;
 const el=(tag,value,cls)=>{const n=document.createElement(tag);if(cls)n.className=cls;n.textContent=value==null?'':String(value);return n};
 const safe=x=>{try{const u=new URL(x);return u.protocol==='https:'&&!u.username&&!u.password?u.href:null}catch{return null}};
-function dateText(iso){const d=new Date(iso||'');return Number.isNaN(d.getTime())?t('Date unavailable'):new Intl.DateTimeFormat(({en:'en-GB',zh:'zh-TW',de:'de-DE',es:'es-ES'})[i18n.language]||'en-GB',{year:'numeric',month:'2-digit',day:'2-digit',timeZone:'UTC'}).format(d)}
+function dateText(iso){return i18n.formatDate?.(iso)||t('Date unavailable')}
 function selected(){
  const q=$('archive-search').value.trim().toLowerCase(),topic=$('archive-topic').value,from=$('archive-from').value,to=$('archive-to').value;
  const selectedTopics=[...document.querySelectorAll('#archive-multi-topic input:checked')].map(x=>x.value);
  return records.filter(r=>{
   const requested=[...(topic==='all'?[]:[topic]),...selectedTopics];
   if(requested.length&&!requested.some(x=>(r.topics||[]).includes(x)))return false;
-  if(from&&String(r.published_at||'').slice(0,10)<from)return false;
-  if(to&&String(r.published_at||'').slice(0,10)>to)return false;
+  if(from||to){
+   const published=i18n.utcDateKey(r.published_at);
+   if(!published||(from&&published<from)||(to&&published>to))return false;
+  }
   const searchable=[r.title,r.publisher_hint,r.source,r.source_id,r.record_id,r.doi].join(' ').toLowerCase();
   return !q || (window.SCRO_QUERY ? window.SCRO_QUERY.matches(searchable,q) : searchable.includes(q));
  });
