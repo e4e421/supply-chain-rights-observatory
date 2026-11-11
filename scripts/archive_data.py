@@ -11,14 +11,13 @@ import re
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
-from urllib.parse import urlparse
+from source_urls import public_record_url
 
 ROOT=Path(__file__).resolve().parents[1]
 ARCHIVE=ROOT/'data'/'archive'
 MANIFEST=ARCHIVE/'manifest.json'
 PUBLIC_SUMMARY=ROOT/'docs'/'data'/'archive-summary.json'
 HEX_ID=re.compile(r'^[0-9a-f]{18}$')
-ALLOWED_HOSTS={'news.google.com','doi.org'}
 RECORD_KEYS=('id','kind','title','url','published_at','first_seen','source','source_id',
              'evidence_status','topics','description','doi','discovery_query_id',
              'publisher_hint','publisher_verified','canonical_url','screening_version',
@@ -56,8 +55,7 @@ def secure_record(item,now):
         raise ValueError('Unexpected evidence category')
     if not isinstance(item.get('title'),str) or not 0<len(item['title'])<=240:
         raise ValueError('Invalid title')
-    url=urlparse(str(item.get('url','')))
-    if url.scheme!='https' or url.hostname not in ALLOWED_HOSTS or url.username or url.password or url.port not in (None,443):
+    if not public_record_url(item.get('url'),item.get('source_id')):
         raise ValueError('Untrusted archive URL')
     if not isinstance(item.get('topics'),list) or len(item['topics'])>12:
         raise ValueError('Invalid topic list')

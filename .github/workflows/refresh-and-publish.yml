@@ -33,7 +33,10 @@ concurrency:
 
 jobs:
   collect:
-    if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && !inputs.deploy_only)
+    if: >-
+      github.event_name == 'schedule' ||
+      (github.event_name == 'workflow_dispatch' && !inputs.deploy_only) ||
+      (github.event_name == 'push' && startsWith(github.event.head_commit.message, 'Refresh public source feeds:'))
     # Pin runner to avoid the October-November 2026 ubuntu-latest transition to Ubuntu 26.04.
     # Reassess after validating collection and deployment on Ubuntu 26.04.
     runs-on: ubuntu-24.04
@@ -51,7 +54,7 @@ jobs:
         run: python3 scripts/build_catalog.py
       - name: Audit curated source registry
         run: |
-          if [[ "${{ github.event.schedule }}" == '43 22 * * 0' ]]; then
+          if [[ "${{ github.event_name }}" != schedule || "${{ github.event.schedule }}" == '43 22 * * 0' ]]; then
             python3 scripts/source_governance.py --online
           else
             python3 scripts/source_governance.py

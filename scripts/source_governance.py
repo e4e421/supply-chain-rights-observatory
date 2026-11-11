@@ -58,6 +58,8 @@ def validate(registry,candidates,refs):
             raise ValueError('Source promotion must be manual')
         if entry.get('licence_review_status') not in ('pending','approved_for_metadata','no_redistribution'):
             raise ValueError('Source licence review status missing or invalid')
+        if entry.get('metadata_reuse_notice'):
+            validate_link(entry['metadata_reuse_notice'])
         if entry.get('probe_enabled', True) is False:
             validate_manual_link(entry['url'])
         else:
@@ -129,6 +131,8 @@ def run(online=False):
             'last_probe':prior.get('last_probe'),
             'consecutive_failures':prior.get('consecutive_failures',int(prior_failure))
         }
+        if entry.get('metadata_reuse_notice'):
+            status['metadata_reuse_notice']=entry['metadata_reuse_notice']
         if entry.get('probe_enabled', True) is False:
             status.update(reachability='manual_only', http_status=None, last_probe=None, consecutive_failures=0)
         elif online:

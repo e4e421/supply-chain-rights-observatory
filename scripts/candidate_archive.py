@@ -8,7 +8,7 @@ from __future__ import annotations
 import hashlib,json,re
 from datetime import datetime,timezone
 from pathlib import Path
-from urllib.parse import urlparse
+from source_urls import public_record_url
 ROOT=Path(__file__).resolve().parents[1]
 ROOT_DIR=ROOT/"data"/"candidates"
 MANIFEST=ROOT_DIR/"manifest.json"
@@ -21,9 +21,7 @@ def month(first_seen):
     if dt.tzinfo is None or not 2020<=dt.year<=2100: raise ValueError("Invalid first observation")
     return f"{dt.year:04d}-{dt.month:02d}.jsonl"
 def row_for(item):
-    url=urlparse(str(item.get("url","")))
-    if (url.scheme!="https" or url.hostname not in {"news.google.com","doi.org"}
-            or url.username or url.password or url.port not in (None,443)):
+    if not public_record_url(item.get("url"),item.get("source_id")):
         raise ValueError("Untrusted public discovery URL")
     title=item.get("title")
     if not isinstance(title,str) or not 0<len(title)<=240:

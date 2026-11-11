@@ -9,17 +9,20 @@ import re
 import sys
 from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
+from itertools import islice
 from pathlib import Path
 from urllib.error import HTTPError, URLError
-from urllib.parse import quote, urlencode, urlparse
+from urllib.parse import quote, urlencode, urljoin, urlparse
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 from xml.etree import ElementTree
 from research_quality import screen_title, publisher_hint, VERSION as SCREEN_VERSION
+from source_urls import OFFICIAL_RECORD_HOSTS, public_record_url
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG_FILE = ROOT / 'sources' / 'queries.json'
 OUTPUT_FILE = ROOT / 'docs' / 'data' / 'latest.json'
-ALLOWED_FETCH_HOSTS = frozenset({'news.google.com', 'api.crossref.org', 'api.openalex.org'})
+ALLOWED_FETCH_HOSTS = frozenset({'news.google.com', 'api.crossref.org', 'api.openalex.org',
+                                'ec.europa.eu', 'eur-lex.europa.eu'})
 MAX_BYTES = 2_000_000
 MAX_ITEMS = 240
 MAX_AGE_DAYS = 150
@@ -79,7 +82,7 @@ class RestrictedRedirects(HTTPRedirectHandler):
 def fetch_bytes(url):
     if not any(public_https_url(url, host) for host in ALLOWED_FETCH_HOSTS):
         raise ValueError('Feed URL host not allowlisted')
-    req = Request(url, headers={'User-Agent': USER_AGENT, 'Accept': 'application/rss+xml, application/json, application/xml;q=0.9'})
+    req = Request(url, headers={'User-Agent': USER_AGENT, 'Accept': 'application/rss+xml, application/atom+xml, application/json, application/xml;q=0.9'})
     with build_opener(RestrictedRedirects()).open(req, timeout=TIMEOUT_SECONDS) as response:
         if not any(public_https_url(response.url, host) for host in ALLOWED_FETCH_HOSTS):
             raise ValueError('Unexpected final request destination')
@@ -123,10 +126,7 @@ def stable_id(item):
 
 
 def parse_rss(body, config, now, candidates=None):
-    upper = body[:1024].upper()
-    if b'<!DOCTYPE' in body.upper() or b'<!ENTITY' in body.upper():
-        raise ValueError('DTD and external entities are not accepted')
-    root = ElementTree.fromstring(body)
+    root = parse_feed_xml(body)
     if root.tag != 'rss' and not root.tag.endswith('}rss'):
         raise ValueError('Expected RSS XML document')
     channel = root.find('./channel')
@@ -162,6 +162,80 @@ def parse_rss(body, config, now, candidates=None):
             candidates.append(record)
         if quality['status'] == 'candidate_relevant':
             result.append(record)
+    return result
+
+
+def parse_feed_xml(body):
+    upper = body.upper()
+    if b'<!DOCTYPE' in upper or b'<!ENTITY' in upper:
+        raise ValueError('DTD and external entities are not accepted')
+    return ElementTree.fromstring(body)
+
+
+def official_date(value):
+    if not value:
+        return None
+    try:
+        dt = datetime.fromisoformat(value.strip().replace('Z', '+00:00'))
+        return iso(dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc))
+    except (ValueError, OverflowError):
+        return date_from_rss(value)
+
+
+def official_entries(root):
+    atom = '{http://www.w3.org/2005/Atom}'
+    if root.tag == atom+'feed':
+        for entry in root.findall(atom+'entry'):
+            alternate = next((link.get('href') for link in entry.findall(atom+'link')
+                              if link.get('rel', 'alternate') == 'alternate' and link.get('href')), None)
+            yield entry.findtext(atom+'title'), alternate, entry.findtext(atom+'published')
+        return
+    if root.tag == '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}RDF':
+        prefix = '{http://purl.org/rss/1.0/}'
+        items = root.findall(prefix+'item')
+    else:
+        prefix = root.tag.split('}')[0]+'}' if '}' in root.tag else ''
+        channel = root.find(prefix+'channel') if root.tag == prefix+'rss' else None
+        if channel is None:
+            raise ValueError('Expected an RSS or Atom publication feed')
+        items = channel.findall(prefix+'item')
+    for item in items:
+        yield (item.findtext(prefix+'title'), item.findtext(prefix+'link'),
+               item.findtext(prefix+'pubDate') or item.findtext('{http://purl.org/dc/elements/1.1/}date'))
+
+
+def parse_official_feed(body, config, now, candidates=None, counts=None):
+    result = []
+    received = usable = 0
+    for headline, href, date_text in islice(official_entries(parse_feed_xml(body)), 80):
+        received += 1
+        title = clean_text(headline)
+        url = urljoin(config['url'], (href or '').strip())
+        date = official_date(date_text)
+        if not title or not href or not date or not public_record_url(url, config['id'], official_only=True):
+            continue
+        usable += 1
+        if not is_recent(date, now, MAX_AGE_DAYS):
+            continue
+        quality = screen_title(title)
+        item = {
+            'title': title, 'url': url, 'canonical_url': url, 'published_at': date,
+            'source': config['name'], 'source_id': config['id'], 'publisher_hint': config['publisher'],
+            'publisher_provenance': 'official_feed_metadata', 'publisher_verified': False,
+            'kind': 'discovery', 'evidence_status': 'Unverified discovery',
+            'topics': classify(title), 'description': 'Publication metadata from an official feed.',
+            'screening_version': quality['version'], 'screening_status': quality['status'],
+            'screening_reason': quality['reason'], 'first_seen': iso(now), 'retrieved_at': iso(now),
+            'pipeline_version': 'collector-2026.11', 'original_language': 'en',
+        }
+        if candidates is not None:
+            candidates.append(item)
+        if quality['status'] == 'candidate_relevant':
+            result.append(item)
+    if counts is not None:
+        counts.update(received_items=received, usable_items=usable)
+    if received and not usable:
+        raise ValueError('Feed returned entries without usable publication metadata')
     return result
 
 
@@ -282,6 +356,15 @@ def run():
         query = config_item['query']
         url = 'https://news.google.com/rss/search?' + urlencode({'q':query, 'hl':'en-GB', 'gl':'GB', 'ceid':'GB:en'})
         sources.append(process_source(config_item, 'news', lambda: parse_rss(fetch_bytes(url), config_item, now, candidates), new_items, warnings, now))
+    for feed in config.get('official_feeds', []):
+        if feed['id'] not in OFFICIAL_RECORD_HOSTS:
+            raise ValueError('Unapproved official feed identifier')
+        counts = {}
+        source = process_source(feed, 'official',
+                                lambda: parse_official_feed(fetch_bytes(feed['url']), feed, now, candidates, counts),
+                                new_items, warnings, now)
+        source.update(feed_url=feed['url'], reuse_url=feed['reuse_url'], reuse_basis=feed['reuse_basis'], **counts)
+        sources.append(source)
     for config_item in config['academic_queries']:
         params = {'query.bibliographic':config_item['query'], 'filter': f'from-pub-date:{(now-timedelta(days=MAX_AGE_DAYS)).date().isoformat()}', 'rows':'75', 'select':'DOI,title,published,published-print,published-online,issued,created,type,publisher,container-title', 'sort':'published', 'order':'desc'}
         url = 'https://api.crossref.org/works?' + urlencode(params)
@@ -323,7 +406,7 @@ def run():
                   'academic_records_accepted':sum(x.get('kind')=='academic' for x in new_items),
                   'source_counts':[{k:meta[k] for k in ('id','status','items')} for meta in sources],
                   'candidate_archive_total':candidate_total,
-                  'scope':'bounded RSS and Crossref result windows, not full web coverage'
+                  'scope':'bounded news, official feed and bibliographic result windows'
               }}
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_FILE.write_text(json.dumps(output, ensure_ascii=False, indent=2)+'\n',encoding='utf-8')

@@ -54,7 +54,7 @@ The research portal supports **English (default)**, **Traditional Chinese**, **G
 5. View the site at **https://e4e421.github.io/supply-chain-rights-observatory/** or use **Settings → Pages → Visit site**. It can take several minutes for the initial deployment.
 6. Optional but recommended: **Settings → Actions → General**: use least-privilege workflow permissions; review **SECURITY.md** and protect your account with 2FA.
 
-Data collection is scheduled daily at **10:23 and 22:23 UTC**. On Sundays at **22:43 UTC**, an additional collection includes source link checks for approved institutional URLs. The website reports the timestamp of the last successful collection.
+Data collection is scheduled daily at **10:23 and 22:23 UTC**. On Sundays at **22:43 UTC**, an additional collection includes source link checks for approved institutional URLs. The website reports the timestamp of the last successful collection. Each collection also reads the European Commission Press Corner, the EUR-Lex Official Journal L feed, and the Eurostat social-statistics release feed. It keeps original titles, release dates, publisher attribution and links for matching publications. The source directory links the applicable metadata reuse notices. To refresh the feeds and check reference links immediately, run the workflow with `deploy_only` turned off. A main-branch commit titled `Refresh public source feeds: …` also starts a collection and reference check.
 
 ## Long-term research database and source governance
 
