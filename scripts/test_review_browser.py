@@ -155,9 +155,11 @@ def run():
      navigate('workbench/',language,width)
      self_readonly=browser.evaluate('document.querySelector("#review-panel")===null&&document.getElementById("rv-publish-batch")===null&&document.querySelector("[data-scope=all]").getAttribute("aria-pressed")==="true"')
      if not self_readonly:raise AssertionError('Public Workbench exposes editing controls or wrong default scope')
-     assert browser.evaluate('!document.querySelector(".wb-editor-notice, .wb-header .wb-editor-link")&&'
-       'document.querySelector("footer.wb-footer .wb-editor-link")?.href===new URL("./edit/",location.href).href')
-     navigate('workbench/edit/',language,width)
+     assert browser.evaluate('!document.querySelector(".wb-editor-notice, .wb-header .wb-editor-link")')
+     editor_href=browser.evaluate('document.querySelector("footer.wb-footer .wb-editor-link")?.href')
+     editor_url=f'http://127.0.0.1:{server.server_port}/supply-chain-rights-observatory/workbench/edit/'
+     assert editor_href==editor_url+'?lang='+language, 'Footer link lost the editor route or current language'
+     navigate(editor_href.split('/supply-chain-rights-observatory/',1)[1],language,width)
      for _ in range(2):
       browser.call('Input.dispatchKeyEvent',{'type':'rawKeyDown','key':'Tab','code':'Tab','windowsVirtualKeyCode':9})
       browser.call('Input.dispatchKeyEvent',{'type':'keyUp','key':'Tab','code':'Tab','windowsVirtualKeyCode':9})
