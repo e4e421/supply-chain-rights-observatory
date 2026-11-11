@@ -4,6 +4,7 @@ import json
 import re
 from pathlib import Path
 from urllib.parse import urlparse
+from source_urls import public_record_url
 
 ROOT = Path(__file__).resolve().parents[1]
 MAX_ITEMS = 240
@@ -32,10 +33,7 @@ def validate(data):
         if 'original_language' in item: assert item['original_language'] is None or item['original_language'] in ('en','de','zh-Hant','fr','nl','es','it','pt')
         assert re.fullmatch(r'[0-9a-f]{18}',item['id']) and item['id'] not in ids
         ids.add(item['id'])
-        url = urlparse(item['url'])
-        assert url.scheme == 'https' and not url.username and not url.password and url.hostname
-        assert url.hostname in ('news.google.com','doi.org')
-        assert len(item['url']) <= 1000
+        assert public_record_url(item['url'],item['source_id'])
         assert re.match(r'^\d{4}-\d{2}-\d{2}T',item['published_at'])
     for source in data['sources']:
         assert source['status'] in ('ok','failed')

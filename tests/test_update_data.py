@@ -40,6 +40,44 @@ class CollectorTests(unittest.TestCase):
         self.assertEqual(items[0]['evidence_status'], 'Unverified discovery')
         self.assertIn('forced-labour', items[0]['topics'])
 
+    def test_official_atom_retains_original_links_and_filters_titles(self):
+        feed = {'id':'eurostat-social-news','name':'Eurostat','publisher':'Eurostat',
+                'url':'https://ec.europa.eu/eurostat/example-feed'}
+        body = b"""<feed xmlns="http://www.w3.org/2005/Atom">
+          <entry><title>Forced labour in supply chains</title><link href="/eurostat/release"/>
+          <published>2026-11-08T01:15:00+01:00</published><summary>Do not archive this</summary></entry>
+          <entry><title>Industrial energy output</title><link href="/eurostat/unrelated"/>
+          <published>2026-11-08T00:00:00Z</published></entry>
+          <entry><title>Forced labour</title><link href="https://eur-lex.europa.eu/misplaced"/>
+          <published>2026-11-08T00:00:00Z</published></entry>
+        </feed>"""
+        candidates, counts = [], {}
+        rows = collector.parse_official_feed(body, feed, NOW, candidates, counts)
+        self.assertEqual(counts, {'received_items':3,'usable_items':2})
+        self.assertEqual(len(candidates), 2)
+        self.assertEqual(len(rows), 1)
+        row = rows[0]
+        self.assertEqual(row['url'], 'https://ec.europa.eu/eurostat/release')
+        self.assertEqual(row['published_at'], '2026-11-08T00:15:00Z')
+        self.assertEqual(row['publisher_hint'], 'Eurostat')
+        self.assertNotIn('Do not archive this', json.dumps(row))
+        row['id'] = collector.stable_id(row)
+        from archive_data import secure_record
+        from candidate_archive import row_for
+        self.assertEqual(secure_record(row, row['first_seen'])['url'], row['url'])
+        self.assertEqual(row_for(row)['url'], row['url'])
+
+    def test_official_rss_valid_empty_and_incompatible_entries(self):
+        feed = {'id':'eur-lex-oj-l','name':'EUR-Lex','publisher':'EUR-Lex',
+                'url':'https://eur-lex.europa.eu/EN/display-feed.rss?rssId=222'}
+        xml = b"""<rss><channel><item><title>Forced labour regulation</title>
+          <link>https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202600001</link>
+          <pubDate>Sun, 08 Nov 2026 00:00:00 GMT</pubDate></item></channel></rss>"""
+        self.assertEqual(len(collector.parse_official_feed(xml, feed, NOW)), 1)
+        self.assertEqual(collector.parse_official_feed(b'<rss><channel/></rss>', feed, NOW), [])
+        with self.assertRaises(ValueError):
+            collector.parse_official_feed(xml.replace(b'<pubDate>',b'<unknown>').replace(b'</pubDate>',b'</unknown>'), feed, NOW)
+
     def test_crossref_filters_unrelated_papers(self):
         def record(title, doi):
             return {'title':[title],'DOI':doi,'published':{'date-parts':[[2026,11,7]]}}

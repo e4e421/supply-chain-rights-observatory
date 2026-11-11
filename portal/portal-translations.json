@@ -186,5 +186,14 @@
 "Policy timelines distinguish announcement, application, publication and first observation.":{"zh":"政策時程分別記錄公告、適用、出版與首次觀測。","de":"Politikzeitpläne unterscheiden Ankündigung, Anwendung, Veröffentlichung und Ersterfassung.","es":"Las cronologías distinguen las fechas de anuncio, aplicación, publicación y primera detección."},
 "Publisher attribution supplied by the source.":{"zh":"來源提供的出版者資訊。","de":"Von der Quelle gelieferte Verlagsangabe.","es":"Entidad editora indicada por la fuente."},
 "Collection runs are scheduled daily at 10:23 and 22:23 UTC. An additional run with source link checks is scheduled on Sundays at 22:43 UTC. Use the actual collection timestamp.":{"zh":"資料擷取排程為每日 10:23 與 22:23（UTC）。每週日 22:43（UTC）另有一次擷取，並檢查來源連線。請以實際擷取時間為準。","de":"Die Erfassung ist täglich um 10:23 und 22:23 Uhr UTC geplant. Sonntags um 22:43 Uhr UTC ist ein zusätzlicher Lauf mit Quellenprüfung vorgesehen. Maßgeblich ist der tatsächliche Erfassungszeitpunkt.","es":"La recopilación está programada todos los días a las 10:23 y a las 22:23 UTC. Los domingos a las 22:43 UTC hay una ejecución adicional que comprueba los enlaces de las fuentes. Consulte la hora real de recopilación."},
-"Month groups use first observation. Date filters use publication date. Both use UTC.":{"zh":"月份依首次收錄時間分組，日期篩選依發布日期。兩者皆採 UTC。","de":"Monate beziehen sich auf die Ersterfassung. Datumsfilter verwenden das Veröffentlichungsdatum. Beides wird in UTC ausgewertet.","es":"Los meses se agrupan por primera detección. Los filtros de fecha se basan en la fecha de publicación. Ambos usan UTC."}
+"Month groups use first observation. Date filters use publication date. Both use UTC.":{"zh":"月份依首次收錄時間分組，日期篩選依發布日期。兩者皆採 UTC。","de":"Monate beziehen sich auf die Ersterfassung. Datumsfilter verwenden das Veröffentlichungsdatum. Beides wird in UTC ausgewertet.","es":"Los meses se agrupan por primera detección. Los filtros de fecha se basan en la fecha de publicación. Ambos usan UTC."},
+"Official feed":{"zh":"官方供稿","de":"Offizieller Feed","es":"Fuente oficial"},
+"Metadata reuse terms":{"zh":"中繼資料再利用條款","de":"Bedingungen zur Metadatennutzung","es":"Condiciones de reutilización de metadatos"},
+"Reference link":{"zh":"參考連結","de":"Referenzlink","es":"Enlace de referencia"},
+"Link-only references":{"zh":"僅提供參考連結","de":"Quellen mit Referenzlink","es":"Fuentes con enlace de referencia"},
+"Use on this site":{"zh":"本站使用方式","de":"Nutzung auf dieser Website","es":"Uso en este sitio"},
+"Inspect source use and reuse terms":{"zh":"查看來源使用方式與再利用條款","de":"Quellennutzung und Wiederverwendungsbedingungen ansehen","es":"Consultar el uso de las fuentes y las condiciones de reutilización"},
+"European Commission · Press Corner":{"zh":"歐盟執委會 · 新聞中心","de":"Europäische Kommission · Press Corner","es":"Comisión Europea · Sala de prensa"},
+"EUR-Lex · Official Journal L":{"zh":"EUR-Lex · 歐盟官方公報 L 系列","de":"EUR-Lex · Amtsblatt L","es":"EUR-Lex · Diario Oficial L"},
+"Eurostat · Population and social conditions releases":{"zh":"Eurostat · 人口與社會狀況統計發布","de":"Eurostat · Mitteilungen zu Bevölkerung und sozialen Bedingungen","es":"Eurostat · Publicaciones sobre población y condiciones sociales"}
 }

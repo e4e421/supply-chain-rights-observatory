@@ -73,5 +73,31 @@
       "name": "Research: supplier governance and labour standards",
       "query": "supply chain labor rights due diligence"
     }
+  ],
+  "official_feeds": [
+    {
+      "id": "ec-press-corner",
+      "name": "European Commission · Press Corner",
+      "publisher": "European Commission",
+      "url": "https://ec.europa.eu/commission/presscorner/api/rss?language=en",
+      "reuse_url": "https://commission.europa.eu/legal-notice_en",
+      "reuse_basis": "CC BY 4.0"
+    },
+    {
+      "id": "eur-lex-oj-l",
+      "name": "EUR-Lex · Official Journal L",
+      "publisher": "EUR-Lex",
+      "url": "https://eur-lex.europa.eu/EN/display-feed.rss?rssId=222",
+      "reuse_url": "https://eur-lex.europa.eu/content/legal-notice/legal-notice.html?locale=en",
+      "reuse_basis": "CC0 1.0"
+    },
+    {
+      "id": "eurostat-social-news",
+      "name": "Eurostat · Population and social conditions releases",
+      "publisher": "Eurostat",
+      "url": "https://ec.europa.eu/eurostat/en/search?_estatsearchportlet_WAR_estatsearchportlet_collection=CAT_PREREL&_estatsearchportlet_WAR_estatsearchportlet_theme=PER_POPSOC&p_p_id=estatsearchportlet_WAR_estatsearchportlet&p_p_lifecycle=2&p_p_mode=view&p_p_resource_id=atom&p_p_state=maximized",
+      "reuse_url": "https://ec.europa.eu/eurostat/help/copyright-notice",
+      "reuse_basis": "CC BY 4.0"
+    }
   ]
 }
