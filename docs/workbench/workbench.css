@@ -2,7 +2,7 @@
 body.wb{background:#e9efeb;color:#142e2a;font-size:13px}
 .wb-header{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:16px;min-height:54px;padding:7px 21px;background:#102c2a;color:#e7f4ec;border-bottom:3px solid #92bd81}
 .wb-home{display:flex;align-items:center;gap:8px;text-decoration:none;color:#d7e9de;font-size:12px;white-space:nowrap}.wb-logo{font-size:14px;letter-spacing:.12em;font-weight:800;color:#bfea9a}
-.wb-header-title{color:#fff;font-size:16px;letter-spacing:.02em}.wb-language{margin-left:0}.wb-editor-link,body[data-page="workbench-editor"] .wb-language{margin-left:auto}
+.wb-header-title{color:#fff;font-size:16px;letter-spacing:.02em}.wb-language{margin-left:auto}
 .wb-shell{max-width:1920px;margin:0 auto;padding:12px 15px 25px}
 .wb-status-strip{display:grid;grid-template-columns:1fr 1fr 1fr 1.4fr 1.4fr;gap:1px;background:#c3d1c8;border:1px solid #c3d1c8;margin-bottom:11px}
 .wb-status-strip>div{background:#f6faf7;padding:8px 13px;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:1px}
@@ -163,7 +163,8 @@ body.wb{background:#e9efeb;color:#142e2a;font-size:13px}
  background:#edf5e8;border:1px solid #89b29b;color:#153e32;
  padding:8px 12px;min-height:38px;border-radius:4px;font-size:11px;font-weight:750}
 .wb-editor-link:hover{background:#d5e8d7}
-.wb-header .wb-editor-link{flex-shrink:0}
+.wb-footer{max-width:1920px;margin:0 auto;padding:12px 15px 22px;border-top:1px solid #cbd8cc}
+.wb-footer h2{margin:0 0 6px;font-family:var(--sans);font-size:13px}
 .wb-editor-notice{display:flex;align-items:center;flex-wrap:wrap;gap:0 16px;
  padding:4px clamp(12px,2vw,21px);background:#fff0bd;color:#352500;
  border-bottom:1px solid #cead5d;font-size:13px;line-height:1.45}
@@ -174,6 +175,4 @@ body.wb{background:#e9efeb;color:#142e2a;font-size:13px}
 @media(max-width:900px){.wb-scope-heading{align-items:flex-start;flex-direction:column}
  .wb-scope-tabs{width:100%}.wb-scope-tabs button{flex:1 1 110px}}
 @media(max-width:520px){.wb-scope-nav{padding:9px}
- .wb-scope-tabs button{font-size:11px}
- .wb-header .wb-editor-link{order:4;flex:1 1 100%;justify-content:center}
-}
+ .wb-scope-tabs button{font-size:11px}}

@@ -193,7 +193,7 @@ def build() -> None:
     # element (the site's Content-Security-Policy explicitly disallows base-uri).
     edit=wb.replace('data-page="workbench" data-page-title="Research Workbench"',
                     'data-page="workbench-editor" data-page-title="Review Editor"')
-    edit=edit.replace('<a class="wb-editor-link" href="./edit/" data-l10n="Open Review Editor">Open Review Editor</a>', '')
+    edit=re.sub(r'\n  <footer class="wb-footer">.*?</footer>', '', edit, count=1, flags=re.DOTALL)
     editor_notice = ('<div class="wb-editor-notice">'
                      '<strong data-l10n="You are in the Review Editor">You are in the Review Editor</strong>'
                      '<a id="wb-return-to-reader" href="./"><span aria-hidden="true">←</span> '
