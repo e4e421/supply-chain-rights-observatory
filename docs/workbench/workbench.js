@@ -5,8 +5,10 @@ const $ = id => document.getElementById(id);
 const baseI18n = window.SCRO_I18N || {language:'en', t:x=>x, onChange:()=>{}};
 const locale = () => baseI18n.language || 'en';
 const wbAssetRoot=new URL('./',document.currentScript.src);
+const editorMode=document.body.dataset.page==='workbench-editor';
 const L = {
 zh:{
+"Advanced tools":"進階工具",
 "Open Review Editor":"開啟研究編輯頁",
 "You are in the Review Editor":"您正在使用審核編輯器",
 "Return to the read-only view":"返回檢視頁",
@@ -76,6 +78,7 @@ zh:{
 'Publication title is shown in its original language.':'出版標題保留原始語言。',
 },
 de:{
+"Advanced tools":"Erweiterte Werkzeuge",
 "Open Review Editor":"Review-Editor öffnen",
 "You are in the Review Editor":"Sie befinden sich im Review-Editor",
 "Return to the read-only view":"Zurück zur Leseansicht",
@@ -158,6 +161,7 @@ const COLS=[
  {key:'topics',label:'Topics'},{key:'kind',label:'Type'},{key:'evidence',label:'Evidence'},{key:'id',label:'Record ID'}
 ];
 const STORAGE='scro.workbench.views.v1', MAX_FILES=24, MAX_ROWS=10000, MAX_PAGE_SIZE=40;
+const EDITOR_PAGE_SIZE=10;
 let live=null,catalog=null,latest=[],archiveCache=new Map(),activeRecords=[],filtered=[],
 scopeStatus='',loading=false,archiveError=false,coveragePartial=false,chosen='',runNumber=0;
 let pageIndex=0,pageSize=6,pageAnchor=0,locateSelection=false,layoutFrame=0;
@@ -265,7 +269,7 @@ function localiseStatic(){
  document.querySelectorAll('[data-l10n]').forEach(n=>{n.textContent=t(n.dataset.l10n);});
  $('wb-search').placeholder=t('Search titles, publishers, DOI, record IDs…');
  $('language-select').setAttribute('aria-label',t('Select website language'));
- document.title=t(document.body.dataset.page==='workbench-editor'?'Review Editor':'Research Workbench')+' | Supply Chain Rights Observatory';
+ document.title=t(editorMode?'Review Editor':'Research Workbench')+' | Supply Chain Rights Observatory';
  updateRecordScope();
  $('wb-table').parentElement.setAttribute('aria-label',t('Paged research results table'));
  render();
@@ -369,7 +373,8 @@ function setupPagination(){
  document.body.classList.add('wb-paged');
  const stylesheet=document.createElement('link');
  stylesheet.rel='stylesheet';stylesheet.href=new URL('./pagination.css',wbAssetRoot).href;
- stylesheet.addEventListener('load',schedulePageLayout);document.head.append(stylesheet);
+ if(!editorMode)stylesheet.addEventListener('load',schedulePageLayout);
+ document.head.append(stylesheet);
  const controls=text('nav','','wb-page-controls');
  controls.id='wb-page-controls';controls.setAttribute('aria-label',t('Results pagination'));
  const previous=text('button',t('Previous page'),'wb-action');previous.type='button';previous.id='wb-prev';
@@ -380,8 +385,9 @@ function setupPagination(){
  const next=$('wb-more');next.id='wb-next';next.hidden=false;next.textContent=t('Next page');
  next.removeAttribute('data-l10n');next.setAttribute('aria-controls','wb-tbody');
  controls.append(previous,status,next);
- document.querySelector('.wb-head-actions').append(controls);
+ document.querySelector(editorMode?'.wb-results-meta':'.wb-head-actions').append(controls);
  const count=$('wb-count');count.setAttribute('role','status');count.setAttribute('aria-live','polite');count.setAttribute('aria-atomic','true');
+ if(editorMode)return;
  window.addEventListener('resize',schedulePageLayout,{passive:true});
  if(window.visualViewport)window.visualViewport.addEventListener('resize',schedulePageLayout,{passive:true});
  if('ResizeObserver' in window){
@@ -417,6 +423,30 @@ function turnPage(direction){
  pageAnchor=next*pageSize;
  drawTable();showRecord();syncURL();
 }
+function sizeReaderPage(wrap,thead,rowHeight){
+ // Use the viewport or the natural height of a sidebar sharing the grid row.
+ const panel=$('wb-results'),panelBox=panel.getBoundingClientRect();
+ const wrapBox=wrap.getBoundingClientRect();
+ const scale=wrap.offsetWidth>0?wrapBox.width/wrap.offsetWidth:1;
+ const unit=Number.isFinite(scale)&&scale>0?scale:1;
+ const viewport=window.visualViewport?.height||window.innerHeight;
+ const footer=(document.querySelector('.wb-pagination')?.getBoundingClientRect().height||40)/unit;
+ const panelBorder=parseFloat(getComputedStyle(panel).borderBottomWidth)||0;
+ const chrome=(wrapBox.top-panelBox.top)/unit+footer+panelBorder;
+ const peers=[...document.querySelectorAll('.wb-filters,.wb-inspector')]
+  .map(node=>node.getBoundingClientRect())
+  .filter(box=>box.width>0&&Math.abs(box.top-panelBox.top)<=2);
+ const peerHeight=peers.reduce((height,box)=>Math.max(height,box.height/unit),0);
+ const viewportBudget=(viewport-(wrapBox.top+window.scrollY)-22)/unit-footer;
+ const preferred=peers.length
+  ? Math.max(230,viewportBudget,peerHeight-chrome)
+  : Math.max(230,Math.min(760,viewport*.62/unit));
+ const headingHeight=Math.ceil(thead.getBoundingClientRect().height/unit)||40;
+ const budget=Math.min(headingHeight+MAX_PAGE_SIZE*rowHeight+22,Math.max(headingHeight+rowHeight+22,Math.ceil(preferred)));
+ // Leave room for a horizontal scrollbar and keep the frame on the final page.
+ wrap.style.height=budget+'px';
+ return Math.max(1,Math.min(MAX_PAGE_SIZE,Math.floor((budget-headingHeight-22)/rowHeight)));
+}
 function drawTable(){
  const c=readControls();filtered=selectedRecords();
  const table=$('wb-table'),wrap=table.parentElement;
@@ -451,38 +481,13 @@ function drawTable(){
  // Fixed-height cells prevent a page from changing shape when long titles wrap.
  const rowHeight=c.density==='comfortable'?84:68;
  table.style.setProperty('--wb-page-row-height',rowHeight+'px');
- // Use one shared row budget: viewport space OR the natural height of a sidebar
- // occupying this grid row. Never use the results' own height (a feedback loop),
- // and never count the inspector when responsive CSS has moved it below the table.
- const panel=$('wb-results'),panelBox=panel.getBoundingClientRect();
- const wrapBox=wrap.getBoundingClientRect();
- const scale=wrap.offsetWidth>0?wrapBox.width/wrap.offsetWidth:1;
- const unit=Number.isFinite(scale)&&scale>0?scale:1;
- const viewport=window.visualViewport?.height||window.innerHeight;
- const footer=(document.querySelector('.wb-pagination')?.getBoundingClientRect().height||40)/unit;
- const panelBorder=parseFloat(getComputedStyle(panel).borderBottomWidth)||0;
- const chrome=(wrapBox.top-panelBox.top)/unit+footer+panelBorder;
- const peers=[...document.querySelectorAll('.wb-filters,.wb-inspector')]
-  .map(node=>node.getBoundingClientRect())
-  .filter(box=>box.width>0&&Math.abs(box.top-panelBox.top)<=2);
- const peerHeight=peers.reduce((height,box)=>Math.max(height,box.height/unit),0);
- const viewportBudget=(viewport-(wrapBox.top+window.scrollY)-22)/unit-footer;
- const preferred=peers.length
-  ? Math.max(230,viewportBudget,peerHeight-chrome)
-  : Math.max(230,Math.min(760,viewport*.62/unit));
- const headingHeight=Math.ceil(thead.getBoundingClientRect().height/unit)||40;
- const budget=Math.min(headingHeight+MAX_PAGE_SIZE*rowHeight+22,Math.max(headingHeight+rowHeight+22,Math.ceil(preferred)));
- pageSize=Math.max(1,Math.min(MAX_PAGE_SIZE,Math.floor((budget-headingHeight-22)/rowHeight)));
+ pageSize=editorMode?EDITOR_PAGE_SIZE:sizeReaderPage(wrap,thead,rowHeight);
  if(!loading && live){
   if(locateSelection){const at=filtered.findIndex(x=>x.record_id===chosen);if(at>=0)pageAnchor=at;locateSelection=false;}
   pageIndex=Math.min(Math.max(0,Math.ceil(filtered.length/pageSize)-1),Math.floor(pageAnchor/pageSize));
   pageAnchor=pageIndex*pageSize;
  }
  const start=pageIndex*pageSize,end=Math.min(start+pageSize,filtered.length);
- // Reserve a small gutter for optional horizontal scrolling; no inner Y scroll.
- // Fill the shared row, including the sub-row remainder, rather than leaving a
- // large hole beneath the results. The final page keeps the same stable frame.
- wrap.style.height=budget+'px';
  wrap.scrollTop=0;
  for(const item of filtered.slice(start,end)){
   const row=document.createElement('tr');row.tabIndex=0;row.dataset.recordId=item.record_id;

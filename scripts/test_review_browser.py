@@ -24,7 +24,7 @@ PROBE=r'''
    de:['Sie befinden sich im Review-Editor','Zurück zur Leseansicht','Weiter zu GitHub, um die Prüfung einzureichen']}[lang];
  check(notice?.nextElementSibling?.matches('.wb-header')&&notice.contains(back),'Editor notice missing or misplaced');
  check(notice.querySelector('strong').textContent===editorCopy[0]&&back.lastElementChild.textContent===editorCopy[1],'Editor notice not translated');
- check(!document.querySelector('.wb-header .wb-editor-link'),'Duplicate editor return link');
+ check(!document.querySelector('.wb-editor-link, .wb-footer'),'Editor exposes its own entry link');
  check(back.getBoundingClientRect().height>=24&&getComputedStyle(back).textDecorationLine==='underline','Return link lacks size or visible affordance');
  check(document.activeElement===back&&getComputedStyle(back).outlineStyle==='solid','Return link lacks keyboard focus indication');
  check(document.querySelector('[data-scope=all]').getAttribute('aria-pressed')==='true','All searchable records not default');
@@ -42,7 +42,7 @@ PROBE=r'''
  check(document.getElementById('wb-month').closest('label').hidden,'Unnecessary month filter still visible');
  await settle();
  const rows=[...document.querySelectorAll('#wb-tbody [data-record-id]')];
- check(rows.length>=2,'Need two visible research records');
+ check(rows.length===10,'Editor does not show ten records per page');
  const first=rows[0].dataset.recordId,second=rows[1].dataset.recordId;
  check(first!==second,'Repeated record IDs in current page');
  const store=SCRO_REVIEW_STORE;
@@ -62,6 +62,20 @@ PROBE=r'''
  document.getElementById('rv-save').click();await settle();
  const queue=document.getElementById('rv-queue');
  check(queue.querySelectorAll('[data-review-id]').length===2,'Both drafts not visible');
+ queue.open=true;
+ await settle();
+ const wrap=document.querySelector('.wb-table-wrap'),pager=document.getElementById('wb-page-controls');
+ check(wrap.previousElementSibling.contains(pager)&&
+   queue.getBoundingClientRect().bottom<=pager.getBoundingClientRect().top,'Pager is not next to the results below the queue');
+ const visibleRows=()=>[...document.querySelectorAll('#wb-tbody [data-record-id]')];
+ check(visibleRows().length===10,'Expanding the queue reduced the result count');
+ const next=document.getElementById('wb-next'),previous=document.getElementById('wb-prev');
+ check(previous.disabled&&!next.disabled,'First page navigation state is incorrect');
+ next.click();await settle();
+ check(visibleRows().length===10&&visibleRows().every(row=>!rows.some(initial=>initial.dataset.recordId===row.dataset.recordId)),
+   'Next page did not show the next ten records');
+ previous.click();await settle();
+ check(visibleRows()[0]?.dataset.recordId===first,'Previous page did not restore the first results');
  check(store.selectedIds().length===1&&store.selectedIds()[0]===second,
    'Saving second draft accidentally retained first selection');
  check(queue.querySelector('[data-review-id="'+first+'"] .rv-change'),'First draft changes not previewed');
@@ -99,7 +113,6 @@ PROBE=r'''
  check(store.batches().length===2,'Two handoffs not tracked');
  check(!store.getDraft(first)===false,'Draft unexpectedly removed');
  window.open=oldOpen;
- const wrap=document.querySelector('.wb-table-wrap');
  check(wrap.scrollHeight<=wrap.clientHeight+2,'Nested vertical scroll reintroduced');
  check(document.documentElement.scrollWidth<=innerWidth+3,'Horizontal viewport overflow');
  const search=document.getElementById('wb-search');search.value=second;
@@ -142,7 +155,8 @@ def run():
      navigate('workbench/',language,width)
      self_readonly=browser.evaluate('document.querySelector("#review-panel")===null&&document.getElementById("rv-publish-batch")===null&&document.querySelector("[data-scope=all]").getAttribute("aria-pressed")==="true"')
      if not self_readonly:raise AssertionError('Public Workbench exposes editing controls or wrong default scope')
-     assert browser.evaluate('!document.querySelector(".wb-editor-notice")&&!!document.querySelector(".wb-editor-link")')
+     assert browser.evaluate('!document.querySelector(".wb-editor-notice, .wb-header .wb-editor-link")&&'
+       'document.querySelector("footer.wb-footer .wb-editor-link")?.href===new URL("./edit/",location.href).href')
      navigate('workbench/edit/',language,width)
      for _ in range(2):
       browser.call('Input.dispatchKeyEvent',{'type':'rawKeyDown','key':'Tab','code':'Tab','windowsVirtualKeyCode':9})
@@ -156,7 +170,7 @@ def run():
      navigate(result['readerPath'],language,width)
      assert browser.evaluate('document.getElementById("wb-search").value==='+json.dumps(result['second'])+
        '&&document.querySelector("#wb-tbody .is-selected")?.dataset.recordId==='+json.dumps(result['second']))
-     print('PASS editor notice, contextual return and selected review submissions',language,width,flush=True)
+     print('PASS footer editor entry, ten-record pagination, contextual return and review submissions',language,width,flush=True)
      browser.evaluate('localStorage.removeItem("scro.review.drafts.v1");localStorage.removeItem("scro.review.queue.v2")')
    # Controlled manual exclusion in the temporary deployment only.
    rid=result['first'];records=load_records()
