@@ -29,6 +29,7 @@ def run():
   assert s.lang=='en' and s.headings[0]=='h1',(rel,s.headings)
   assert not s.errors,(rel,s.errors)
   assert 'Content-Security-Policy' in raw and 'language-select' in s.ids,rel
+  assert '<option value="es" lang="es">Español</option>' in raw,rel
   assert all(k in keys for k in s.keys),(rel,sorted(set(s.keys)-keys))
   for u in s.urls:
    uri=urlparse(u)
@@ -40,7 +41,7 @@ def run():
   print('PASS output links, headings, labels and translation keys:',rel)
  for k,v in new.items():
   assert not re.search('[\u3400-\u9fff]',k),k
-  assert v.get('zh') and v.get('de'),k
+  assert all(v.get(code) for code in ('zh','de','es')),k
  script=(OUT/'portal.js').read_text()
  assert not any(x in script for x in ['.innerHTML','eval(','new Function(','document.write('])
  index=json.loads((OUT/'data/record-index.json').read_text());cat=json.loads((OUT/'data/archive/catalog.json').read_text())

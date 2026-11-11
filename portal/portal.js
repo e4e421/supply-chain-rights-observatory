@@ -7,11 +7,12 @@ let dictionary={}, redraw=()=>{}, shareParams={}, archiveRows=[], archiveFound=[
     buildInfo=null, archiveLoading=false, archiveFailed=false, partial=false, loadedFiles=[], epoch=0, visible=40;
 const TOPICS={policy:'Policy & governance','forced-labour':'Forced labour','working-conditions':'Working conditions','worker-voice':'Worker voice & remedy',network:'Supply networks',research:'Academic research'};
 const t=x=>I.language==='en'?String(x):(dictionary[x]?.[I.language] || I.t(String(x)));
+const number=value=>I.formatNumber?.(value)??String(value);
 const node=(tag,text='',cls='')=>{const n=document.createElement(tag);n.textContent=String(text??'');if(cls)n.className=cls;return n;};
 const uri=(path,params={})=>{const u=new URL(path,ROOT);for(const [k,v] of Object.entries({...params,lang:I.language}))if(v!==undefined&&v!==null&&v!=='')u.searchParams.set(k,String(v));return u.href;};
 const internal=(path,label,params={})=>{const a=node('a',t(label));a.href=uri(path,params);return a;};
 const publicLink=(url,label)=>{try{const u=new URL(url);if(u.protocol!=='https:'||u.username||u.password)throw Error();const a=node('a',t(label));a.href=u.href;a.target='_blank';a.rel='noopener noreferrer';return a;}catch{return node('span',t('Link unavailable'));}};
-function date(s,withTime=false){const d=new Date(s||'');if(!Number.isFinite(d.getTime()))return t('Not available');return new Intl.DateTimeFormat(({en:'en-GB',zh:'zh-TW',de:'de-DE'})[I.language]||'en-GB',{timeZone:withTime?'Asia/Taipei':'UTC',year:'numeric',month:'2-digit',day:'2-digit',...(withTime?{hour:'2-digit',minute:'2-digit',hour12:false}:{})}).format(d);}
+function date(s,withTime=false){const d=new Date(s||'');if(!Number.isFinite(d.getTime()))return t('Not available');return new Intl.DateTimeFormat(({en:'en-GB',zh:'zh-TW',de:'de-DE',es:'es-ES'})[I.language]||'en-GB',{timeZone:withTime?'Asia/Taipei':'UTC',year:'numeric',month:'2-digit',day:'2-digit',...(withTime?{hour:'2-digit',minute:'2-digit',hour12:false}:{})}).format(d);}
 async function json(path){const abort=new AbortController(),timer=setTimeout(()=>abort.abort(),15000);try{const r=await fetch(new URL(path,ROOT),{credentials:'omit',cache:'no-store',signal:abort.signal});if(!r.ok)throw Error('Resource unavailable');const text=await r.text();if(text.length>12000000)throw Error('Resource too large');return JSON.parse(text);}finally{clearTimeout(timer);}}
 function feedback(s){if($('portal-feedback'))$('portal-feedback').textContent=t(s);}
 function links(){for(const a of document.querySelectorAll('a[href]')){try{const u=new URL(a.getAttribute('href'),location.href);if(u.origin===ROOT.origin&&u.pathname.startsWith(ROOT.pathname)&&!u.pathname.match(/\.(md|json|jsonl|csv|cff|zip)$/i)){u.searchParams.set('lang',I.language);a.href=u.href;}}catch{}}}
@@ -29,7 +30,7 @@ function recordCard(r,withBack=false){const card=node('article','','portal-recor
 async function home(){
  const result=await Promise.allSettled([json('data/latest.json'),json('data/archive/catalog.json'),json('data/references.json')]);
  const live=result[0].status==='fulfilled'?result[0].value:null,cat=result[1].status==='fulfilled'?result[1].value:null,refs=result[2].status==='fulfilled'?result[2].value:null;
- redraw=()=>{const list=$('home-latest');list.replaceChildren();$('home-total').textContent=cat?.total_records??'—';$('home-sources').textContent=Array.isArray(refs)?refs.length:'—';$('home-updated').textContent=date(live?.last_successful_collection,true);
+ redraw=()=>{const list=$('home-latest');list.replaceChildren();$('home-total').textContent=number(cat?.total_records??'—');$('home-sources').textContent=Array.isArray(refs)?number(refs.length):'—';$('home-updated').textContent=date(live?.last_successful_collection,true);
  const old=Date.now()-Date.parse(live?.last_successful_collection||'')>48*3600000;
  $('home-health').textContent=t(!live?'Unavailable':old?'Data stale':live.status==='ok'?'Operational (technical)':live.status==='partial'?'Partial sources':'Collection failed');
  $('home-status').textContent=!live?t('Public data could not be loaded.'):old?t('The last successful collection is over 48 hours old.'):'';
@@ -44,11 +45,11 @@ function archiveRender(){
  $('archive-results').replaceChildren();
  const status=archiveLoading?'Loading archive…':archiveFailed?'Archive unavailable. No complete result set can be reported.':reverse?'Date range is reversed.':partial?'Partial coverage: browser limit reached. Use a specific month or the canonical archive.':'All requested partitions loaded.';
  $('archive-coverage').textContent=t(status);$('archive-coverage').classList.toggle('is-warning',archiveFailed||partial||!!reverse);
- $('archive-count').textContent=archiveLoading||archiveFailed?t('Results unavailable'):archiveFound.length+' '+t('matching public records')+' / '+archiveRows.length+' '+t('records loaded');
+ $('archive-count').textContent=archiveLoading||archiveFailed?t('Results unavailable'):number(archiveFound.length)+' '+t('matching public records')+' / '+number(archiveRows.length)+' '+t('records loaded');
  if(!archiveLoading&&!archiveFailed){if(archiveFound.length)archiveFound.slice(0,visible).forEach(r=>$('archive-results').append(recordCard(r,true)));else $('archive-results').append(node('p',t('No matching records. Adjust the filters.')));}
  $('archive-show-more').hidden=visible>=archiveFound.length||archiveLoading||archiveFailed;
  for(const id of ['archive-export','archive-metadata'])$(id).disabled=archiveLoading||archiveFailed;
- $('archive-total').textContent=archiveCatalog?.total_records??'—';$('archive-partitions').textContent=archiveCatalog?.months?.length??'—';$('archive-revision').textContent=(buildInfo?.git_revision||'—').slice(0,12);links();
+ $('archive-total').textContent=number(archiveCatalog?.total_records??'—');$('archive-partitions').textContent=number(archiveCatalog?.months?.length??'—');$('archive-revision').textContent=(buildInfo?.git_revision||'—').slice(0,12);links();
 }
 async function loadArchive(){
  const generation=++epoch,s=archiveState();archiveLoading=true;archiveFailed=false;partial=false;archiveRows=[];loadedFiles=[];visible=40;archiveRender();
@@ -95,14 +96,14 @@ async function sources(){
   const row=node('tr');row.dataset.sourceId=feed.id;
   const availability=node('td');
   availability.append(sourceAvailability(feed.status==='ok',feed.last_attempt,feed.consecutive_failures,'Data retrieved'));
-  row.append(node('th',t(feed.name)),availability,node('td',feed.status==='ok'?feed.items:'—'),node('td',date(feed.last_attempt,true)));
+  row.append(node('th',t(feed.name)),availability,node('td',feed.status==='ok'?number(feed.items??'—'):'—'),node('td',date(feed.last_attempt,true)));
   row.firstChild.scope='row';feedRows.append(row);
  }
  if(!feeds?.length){const row=node('tr'),cell=node('td',t('No check recorded'));cell.colSpan=4;row.append(cell);feedRows.append(row);}
  const filter=$('source-review').value,cat=$('source-category').value,q=$('source-search').value.toLowerCase();$('source-rows').replaceChildren();
  for(const o of $('source-category').options)if(o.value!=='all')o.textContent=t(o.value);
  const records=refs.map(ref=>({ref,h:(health?.sources||[]).find(s=>s.name===ref.name)})).filter(({ref,h})=>{if(cat!=='all'&&ref.category!==cat)return false;if(q&&![ref.name,ref.category,ref.use,t(ref.use)].join(' ').toLowerCase().includes(q))return false;if(filter==='needs'&&!h?.review_needed)return false;if(filter==='licence'&&h?.licence_review_status!=='pending')return false;if(filter==='connection'&&(!h?.last_probe||['responded','manual_only'].includes(h.reachability)))return false;return true;});
- $('source-count').textContent=records.length+' / '+refs.length+' '+t('curated sources')+(health?'':' · '+t('Source-health report unavailable; review states are unknown.'));
+ $('source-count').textContent=number(records.length)+' / '+number(refs.length)+' '+t('curated sources')+(health?'':' · '+t('Source-health report unavailable; review states are unknown.'));
  for(const {ref,h} of records){const row=node('tr'),name=node('td');name.append(publicLink(ref.url,ref.name),node('p',t(ref.use)),node('small',h?.id||'—'));row.append(name,node('td',t(ref.category)));
  const editorial=node('td');editorial.append(node('strong',t(!h?'Unknown':h.review_needed?'Review needed':'Review recorded')),node('p',date(h?.last_editorial_review)),node('small',t('Next review')+': '+date(h?.review_due)));row.append(editorial);
  row.append(node('td',t(!h?'Unknown':h.licence_review_status==='pending'?'Pending':h.licence_review_status||'Unknown')));
@@ -124,7 +125,7 @@ async function start(){
  if(legacy())return;window.addEventListener('hashchange',legacy);
  try{dictionary=await json('portal-translations.json');}catch{dictionary={};}
  const search=$('site-search');if(search){const submit=()=>{location.href=uri('archive/',{q:search.value.trim().slice(0,120)});};$('site-search-go').addEventListener('click',submit);search.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();submit();}});}
- $('share-query')?.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(location.href);feedback('Shareable link copied');}catch{window.prompt(t('Copy this link'),location.href);}});
+ $('share-query')?.addEventListener('click',async()=>{const url=new URL(location.href);url.searchParams.set('lang',I.language);try{await navigator.clipboard.writeText(url.href);feedback('Shareable link copied');}catch{window.prompt(t('Copy this link'),url.href);}});
  I.onChange(translate);translate();
  if(PAGE==='home')await home();else if(PAGE==='archive')await archive();else if(PAGE==='sources')await sources();else if(PAGE==='record')await record();
  translate();window.__PORTAL_READY__=true;

@@ -18,10 +18,14 @@ PROBE=r'''
  check(document.body.dataset.page==='workbench-editor','Not the editor subpage');
  check(window.SCRO_REVIEW_STORE&&document.getElementById('review-panel'),'Review editor not mounted');
  const lang=document.documentElement.lang;
+ const header=getComputedStyle(document.querySelector('.wb-header'));
+ check(header.backgroundColor==='rgb(34, 60, 104)'&&header.borderBottomColor==='rgb(143, 184, 230)',
+   'Editor header is missing its mode-specific colors');
  const notice=document.querySelector('.wb-editor-notice'),back=document.getElementById('wb-return-to-reader');
  const editorCopy={en:['You are in the Review Editor','Return to the read-only view','Continue to GitHub to submit review'],
    'zh-Hant':['您正在使用審核編輯器','返回檢視頁','前往 GitHub 提交審核'],
-   de:['Sie befinden sich im Review-Editor','Zurück zur Leseansicht','Weiter zu GitHub, um die Prüfung einzureichen']}[lang];
+   de:['Sie befinden sich im Review-Editor','Zurück zur Leseansicht','Weiter zu GitHub, um die Prüfung einzureichen'],
+   es:['Está en el editor de revisión','Volver a la vista de solo lectura','Continuar en GitHub para enviar la revisión']}[lang];
  check(notice?.nextElementSibling?.matches('.wb-header')&&notice.contains(back),'Editor notice missing or misplaced');
  check(notice.querySelector('strong').textContent===editorCopy[0]&&back.lastElementChild.textContent===editorCopy[1],'Editor notice not translated');
  check(!document.querySelector('.wb-editor-link, .wb-footer'),'Editor exposes its own entry link');
@@ -48,6 +52,13 @@ PROBE=r'''
  const store=SCRO_REVIEW_STORE;
  rows[0].click();await settle();
  check(document.getElementById('rv-decision'),'Selected record lacks editing controls');
+ if(lang==='es'){
+  check(document.querySelector('#wb-prev').textContent==='Página anterior','Spanish pagination label missing');
+  check(document.querySelector('#review-panel').getAttribute('aria-label')==='Pertinencia y revisión','Spanish editor landmark label missing');
+  check(document.querySelector('#rv-save').textContent==='Guardar borrador local','Spanish draft action missing');
+  check(document.querySelector('input[name="rv-topic"][value="forced-labour"]').closest('label').textContent==='Trabajo forzoso',
+    'Spanish review topic missing');
+ }
  const before=JSON.stringify(SCRO_RELEVANCE.get(first).review);
  document.getElementById('rv-decision').value='include';
  document.getElementById('rv-note').value='Public acceptance fixture only.';
@@ -119,10 +130,23 @@ PROBE=r'''
  search.dispatchEvent(new Event('input',{bubbles:true}));
  const reader=new URL(back.href),here=new URL(location.href);
  check(reader.pathname===new URL('../',here).pathname,'Return link did not target read-only Workbench');
- check(reader.searchParams.get('lang')===({en:'en','zh-Hant':'zh',de:'de'})[lang]&&
+ check(reader.searchParams.get('lang')===({en:'en','zh-Hant':'zh',de:'de',es:'es'})[lang]&&
    reader.searchParams.get('q')===second&&reader.searchParams.get('record')===second&&
    reader.searchParams.get('scope')==='all','Return link lost research context');
  check(!reader.searchParams.has('qa')&&!reader.searchParams.has('relevance'),'Editor-only query parameters leaked');
+ if(lang==='es'){
+  const picker=document.getElementById('language-select');
+  const choose=value=>{picker.value=value;picker.dispatchEvent(new Event('change',{bubbles:true}));};
+  choose('en');choose('es');
+  check(document.documentElement.lang==='es'&&localStorage.getItem('scro.language')==='es'&&search.value===second,
+    'Spanish language selection was not stored or lost the search');
+  let copied='';
+  Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async url=>{copied=url;}}});
+  const clean=new URL(location.href);clean.searchParams.delete('lang');history.replaceState(null,'',clean.href);
+  document.getElementById('wb-share').click();await settle();
+  const shared=new URL(copied);
+  check(shared.searchParams.get('lang')==='es'&&shared.searchParams.get('q')===second,'Shared link lost Spanish or the search');
+ }
  return {first,second,batchOne:body1,batchTwo:body2,readerPath:'workbench/'+reader.search};
 })()
 '''
@@ -150,12 +174,13 @@ def run():
     time.sleep(.03)
    raise AssertionError('Generated review page not ready: '+path)
   try:
-   for language in ('en','zh','de'):
+   for language in ('en','zh','de','es'):
     for width in (1920,390):
      navigate('workbench/',language,width)
      self_readonly=browser.evaluate('document.querySelector("#review-panel")===null&&document.getElementById("rv-publish-batch")===null&&document.querySelector("[data-scope=all]").getAttribute("aria-pressed")==="true"')
      if not self_readonly:raise AssertionError('Public Workbench exposes editing controls or wrong default scope')
      assert browser.evaluate('!document.querySelector(".wb-editor-notice, .wb-header .wb-editor-link")')
+     assert browser.evaluate('getComputedStyle(document.querySelector(".wb-header")).backgroundColor==="rgb(16, 44, 42)"')
      editor_href=browser.evaluate('document.querySelector("footer.wb-footer .wb-editor-link")?.href')
      editor_url=f'http://127.0.0.1:{server.server_port}/supply-chain-rights-observatory/workbench/edit/'
      assert editor_href==editor_url+'?lang='+language, 'Footer link lost the editor route or current language'

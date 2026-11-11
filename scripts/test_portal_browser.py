@@ -14,7 +14,13 @@ PROBE=r'''
  const page=document.body.dataset.page;
  const check=(value,message)=>{if(!value)errors.push(message);};
  check(window.__PORTAL_READY__,'Portal did not finish loading');
- check(document.documentElement.lang===({en:'en',zh:'zh-Hant',de:'de'})[new URL(location.href).searchParams.get('lang')||'en'],'Incorrect language');
+ check(document.documentElement.lang===({en:'en',zh:'zh-Hant',de:'de',es:'es'})[new URL(location.href).searchParams.get('lang')||'en'],'Incorrect language');
+ if(document.documentElement.lang==='es'){
+  const picker=document.getElementById('language-select');
+  check(picker.value==='es'&&picker.options[picker.options.length-1].textContent==='Español','Spanish picker option missing');
+  check(picker.getAttribute('aria-label')==='Seleccionar el idioma del sitio','Spanish accessible label missing');
+  check(window.SCRO_I18N.formatNumber(12345)===new Intl.NumberFormat('es-ES').format(12345),'Spanish number formatting is incorrect');
+ }
  if(page==='home')check(document.querySelectorAll('.portal-record').length>0,'Homepage records absent');
  if(page==='archive'){
    const input=document.getElementById('archive-search');
@@ -54,11 +60,11 @@ PROBE=r'''
   check(document.querySelector('#source-rows .is-ok'),'Successful reference status missing');
   check(document.querySelector('#source-rows .is-manual'),'Manual reference status missing');
   const media=[...document.querySelectorAll('#source-rows td small')].filter(n=>n.textContent.startsWith('media-'));
-  const manualStatus={en:'Not checked automatically','zh-Hant':'未執行自動連線檢查',de:'Nicht automatisch geprüft'}[document.documentElement.lang];
+  const manualStatus={en:'Not checked automatically','zh-Hant':'未執行自動連線檢查',de:'Nicht automatisch geprüft',es:'Comprobación automática no realizada'}[document.documentElement.lang];
   check(media.length===11&&media.every(n=>n.closest('tr').lastElementChild.textContent.includes(manualStatus)),
     'Approved manual media missing or mislabelled');
   const section=document.getElementById('academic-monitoring');
-  const expectedTitle={en:'Academic literature monitoring','zh-Hant':'學術文獻觀察',de:'Beobachtung wissenschaftlicher Literatur'};
+  const expectedTitle={en:'Academic literature monitoring','zh-Hant':'學術文獻觀察',de:'Beobachtung wissenschaftlicher Literatur',es:'Seguimiento de literatura académica'};
   check(section?.querySelector('h2')?.textContent===expectedTitle[document.documentElement.lang],'Academic monitoring section missing or untranslated');
   const hosts=id=>[...document.querySelectorAll('#'+id+' a')].map(a=>new URL(a.href).hostname).join(',');
   check(hosts('academic-automatic')==='www.crossref.org,help.openalex.org','Incorrect automated academic source list');
@@ -134,8 +140,9 @@ def run():
   base=f'http://127.0.0.1:{server.server_port}/{prefix}/'
   rid=next(iter(json.loads((site/'data/record-index.json').read_text())['records']))
   paths=['','archive/','sources/','policy/','research/','methodology/','record.html?id='+rid,'workbench/']
-  cases=[(p,lang,1440) for lang in ('en','zh','de') for p in paths]
+  cases=[(p,lang,1440) for lang in ('en','zh','de','es') for p in paths]
   cases += [(p,'de',w) for w in (500,820,1600) for p in ('','archive/','sources/','workbench/')]
+  cases += [(p,'es',390) for p in ('','archive/','sources/','workbench/')]
   cases += [('archive/?q=NO_MATCH_9031','en',1280)]
   cases += [('?lang=de#'+old,'de',1280) for old in ('archive-explorer','sources','lenses','method')]
   reports=[]

@@ -53,9 +53,9 @@ def integrate_runtime():
         file.write_text(marker+'\n'+content,encoding='utf-8')
     file=OUT/'portal-translations.json';translations=json.loads(file.read_text())
     translations.update({
-      'Excluded by editorial review. The original observation is retained.':{'zh':'已由人工審核排除，原始觀測紀錄仍保留。','de':'Redaktionell ausgeschlossen. Die ursprüngliche Beobachtung bleibt erhalten.'},
-      'Keyword review index unavailable; original records remain visible.':{'zh':'關鍵字審核索引無法載入，原始紀錄仍可瀏覽。','de':'Prüfindex nicht verfügbar; Originaldatensätze bleiben sichtbar.'},
-      'Publisher confirmed':{'zh':'出版歸屬已確認','de':'Herausgeber bestätigt'}
+      'Excluded by editorial review. The original observation is retained.':{'zh':'已由人工審核排除，原始觀測紀錄仍保留。','de':'Redaktionell ausgeschlossen. Die ursprüngliche Beobachtung bleibt erhalten.','es':'Excluido en la revisión editorial. Se conserva el registro original.'},
+      'Keyword review index unavailable; original records remain visible.':{'zh':'關鍵字審核索引無法載入，原始紀錄仍可瀏覽。','de':'Prüfindex nicht verfügbar; Originaldatensätze bleiben sichtbar.','es':'Índice de revisión no disponible. Puede seguir consultando los registros originales.'},
+      'Publisher confirmed':{'zh':'出版歸屬已確認','de':'Herausgeber bestätigt','es':'Entidad editora confirmada'}
     })
     write(file,translations)
 

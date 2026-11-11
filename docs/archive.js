@@ -5,7 +5,7 @@ const $=id=>document.getElementById(id),i18n=window.SCRO_I18N||{t:x=>x,onChange:
 let catalog=null,records=[],month='',visible=30,loading=false,failed=false;
 const el=(tag,value,cls)=>{const n=document.createElement(tag);if(cls)n.className=cls;n.textContent=value==null?'':String(value);return n};
 const safe=x=>{try{const u=new URL(x);return u.protocol==='https:'&&!u.username&&!u.password?u.href:null}catch{return null}};
-function dateText(iso){const d=new Date(iso||'');return Number.isNaN(d.getTime())?t('Date unavailable'):new Intl.DateTimeFormat(({en:'en-GB',zh:'zh-TW',de:'de-DE'})[i18n.language]||'en-GB',{year:'numeric',month:'2-digit',day:'2-digit',timeZone:'UTC'}).format(d)}
+function dateText(iso){const d=new Date(iso||'');return Number.isNaN(d.getTime())?t('Date unavailable'):new Intl.DateTimeFormat(({en:'en-GB',zh:'zh-TW',de:'de-DE',es:'es-ES'})[i18n.language]||'en-GB',{year:'numeric',month:'2-digit',day:'2-digit',timeZone:'UTC'}).format(d)}
 function selected(){
  const q=$('archive-search').value.trim().toLowerCase(),topic=$('archive-topic').value,from=$('archive-from').value,to=$('archive-to').value;
  const selectedTopics=[...document.querySelectorAll('#archive-multi-topic input:checked')].map(x=>x.value);
@@ -20,7 +20,7 @@ function selected(){
 }
 function render(){
  const list=$('archive-results');list.replaceChildren();const found=selected();
- $('archive-count').textContent=loading?t('Loading archive…'):failed?t('Archive is temporarily unavailable'):String(found.length)+' '+t('matching public records')+' · '+(month||'—');
+ $('archive-count').textContent=loading?t('Loading archive…'):failed?t('Archive is temporarily unavailable'):(i18n.formatNumber?.(found.length)??String(found.length))+' '+t('matching public records')+' · '+(month||'—');
  if(loading||failed||!found.length)list.append(el('p',loading?t('Loading archive…'):failed?t('Archive is temporarily unavailable'):t('No matching records in the selected month.'),'archive-notice'));
  else for(const item of found.slice(0,visible)){
    const card=el('article','','archive-item');
