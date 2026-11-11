@@ -4,6 +4,7 @@
   const $ = id => document.getElementById(id);
   const i18n = window.SCRO_I18N || { t: x => String(x || ''), english: x => String(x || ''), language: 'en', onChange: () => {} };
   const t = key => i18n.t(key);
+  const number = value => i18n.formatNumber?.(value) ?? String(value);
   const english = key => i18n.english(key);
   const topics = {
     'policy':'Policy & governance',
@@ -29,7 +30,7 @@
     if (!iso) return t(withTime ? 'No successful update yet' : 'Date unavailable');
     const date = new Date(iso);
     if (Number.isNaN(date.getTime())) return t(withTime ? 'No successful update yet' : 'Date unavailable');
-    const locale = {zh:'zh-TW',en:'en-GB',de:'de-DE'}[i18n.language] || 'en-GB';
+    const locale = {zh:'zh-TW',en:'en-GB',de:'de-DE',es:'es-ES'}[i18n.language] || 'en-GB';
     const opts = { timeZone:'Asia/Taipei', year:'numeric', month:'2-digit', day:'2-digit' };
     if (withTime) {opts.hour='2-digit';opts.minute='2-digit';opts.hour12=false;}
     return new Intl.DateTimeFormat(locale,opts).format(date);
@@ -43,8 +44,8 @@
   function sourceLabel(value) { return t(value || 'Unknown'); }
   function renderMetrics() {
     if (!data) return;
-    $('metric-total').textContent = String(items.length);
-    $('metric-recent').textContent = String(items.filter(x => dateAgeDays(x.published_at) >= 0 && dateAgeDays(x.published_at) <= 30).length);
+    $('metric-total').textContent = number(items.length);
+    $('metric-recent').textContent = number(items.filter(x => dateAgeDays(x.published_at) >= 0 && dateAgeDays(x.published_at) <= 30).length);
     $('metric-updated').textContent = localDate(data.last_successful_collection,true);
     $('metric-updated').classList.add('compact');
     const good = (data.sources || []).filter(x => x.status === 'ok').length;
@@ -56,13 +57,13 @@
     status.classList.toggle('is-bad',stale || failed);
     status.textContent = failed ? t('Collection incomplete') : stale ? t('Data stale') :
       data.status === 'partial' ? t('Partial source failures') : t('Operational');
-    $('metric-coverage').textContent = good + ' / ' + total + ' ' + t('automated sources successful');
+    $('metric-coverage').textContent = number(good) + ' / ' + number(total) + ' ' + t('automated sources successful');
     const quality=data.retrieval_quality;
     $('quality-summary').textContent=quality ?
-       String(quality.candidate_count)+' '+t('bounded public candidates')+' · '+
-       String(quality.accepted_observations)+' '+t('screened-in leads')+' · '+
-       String(quality.excluded_observations)+' '+t('excluded by preliminary title screen')+' · '+
-       String(quality.academic_records_accepted)+' '+t('academic records found') :
+       number(quality.candidate_count)+' '+t('bounded public candidates')+' · '+
+       number(quality.accepted_observations)+' '+t('screened-in leads')+' · '+
+       number(quality.excluded_observations)+' '+t('excluded by preliminary title screen')+' · '+
+       number(quality.academic_records_accepted)+' '+t('academic records found') :
        t('Legacy records have not yet been evaluated by the updated relevance screen.');
     const alert = $('data-alert');
     if (failed || stale || data.status === 'partial') {
@@ -136,7 +137,7 @@
       return;
     }
     const found = filteredItems();
-    $('results-count').textContent=String(found.length) + ' ' + t('records · sorted by publication date');
+    $('results-count').textContent=number(found.length) + ' ' + t('records · sorted by publication date');
     if (!found.length) {
       const empty=el('div','','empty-state');
       empty.append(
@@ -166,13 +167,13 @@
 
   function renderGovernance() {
     $('archive-total').textContent = archiveInfo && Number.isInteger(archiveInfo.total_records)
-      ? String(archiveInfo.total_records) : t('Pending first archive');
+      ? number(archiveInfo.total_records) : t('Pending first archive');
     $('source-approved').textContent = sourceHealth && Number.isInteger(sourceHealth.approved_reference_count)
-      ? String(sourceHealth.approved_reference_count) : String(references.length || 0);
+      ? number(sourceHealth.approved_reference_count) : number(references.length || 0);
     $('source-overdue').textContent = sourceHealth && Number.isInteger(sourceHealth.review_needed_count ?? sourceHealth.review_overdue)
-      ? String(sourceHealth.review_needed_count ?? sourceHealth.review_overdue) : t('Not yet reviewed');
+      ? number(sourceHealth.review_needed_count ?? sourceHealth.review_overdue) : t('Not yet reviewed');
     $('source-licence').textContent = sourceHealth && Number.isInteger(sourceHealth.licence_review_pending_count)
-      ? String(sourceHealth.licence_review_pending_count) : t('Not yet reviewed');
+      ? number(sourceHealth.licence_review_pending_count) : t('Not yet reviewed');
   }
   function csvCell(value) {
     let valueString=String(value == null ? '' : value).replace(/[\u0000-\u001f\u007f]/g,' ');

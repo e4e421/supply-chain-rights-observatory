@@ -1,6 +1,7 @@
 /* Dense three-pane research workspace. Shared typography and tokens remain in ../styles.css. */
 body.wb{background:#e9efeb;color:#142e2a;font-size:13px}
 .wb-header{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:16px;min-height:54px;padding:7px 21px;background:#102c2a;color:#e7f4ec;border-bottom:3px solid #92bd81}
+.wb[data-page="workbench-editor"] .wb-header{background:#223c68;border-bottom-color:#8fb8e6}
 .wb-home{display:flex;align-items:center;gap:8px;text-decoration:none;color:#d7e9de;font-size:12px;white-space:nowrap}.wb-logo{font-size:14px;letter-spacing:.12em;font-weight:800;color:#bfea9a}
 .wb-header-title{color:#fff;font-size:16px;letter-spacing:.02em}.wb-language{margin-left:auto}
 .wb-shell{max-width:1920px;margin:0 auto;padding:12px 15px 25px}

@@ -4,6 +4,7 @@
 const $ = id => document.getElementById(id);
 const baseI18n = window.SCRO_I18N || {language:'en', t:x=>x, onChange:()=>{}};
 const locale = () => baseI18n.language || 'en';
+const number = value => baseI18n.formatNumber?.(value)??String(value);
 const wbAssetRoot=new URL('./',document.currentScript.src);
 const editorMode=document.body.dataset.page==='workbench-editor';
 const L = {
@@ -149,6 +150,155 @@ de:{
 'Data could not be loaded. Check the GitHub Pages deployment.':'Daten konnten nicht geladen werden; GitHub-Pages-Bereitstellung prüfen.',
 'Source unavailable':'Quelle unbekannt','No selected record':'Kein Datensatz ausgewählt',
 'No active filters':'Keine aktiven Filter','Publication title is shown in its original language.':'Originaltitel bleibt in der Veröffentlichungssprache.',
+},
+es:{
+"Other":"Otros",
+"Advanced tools":"Herramientas avanzadas",
+"Open Review Editor":"Abrir el editor de revisión",
+"You are in the Review Editor":"Está en el editor de revisión",
+"Return to the read-only view":"Volver a la vista de solo lectura",
+"Review Editor":"Editor de revisión",
+"Record scope":"Alcance de la búsqueda",
+"Select record scope":"Seleccionar el alcance de la búsqueda",
+"All searchable records":"Todos los registros consultables",
+"Recent snapshot":"Datos recientes",
+"First-seen month":"Mes de primera detección",
+"Recent snapshot records":"Registros recientes",
+"Permanent archive records":"Registros del archivo permanente",
+"All searchable records combine current and archived items by ID. Partial coverage is indicated when limits are reached.":"Los registros recientes y archivados se combinan por identificador. Si se alcanza el límite de carga, se indica que la cobertura es parcial.",
+"Recent snapshot retains up to 150 days and 240 records; it overlaps with the permanent archive.":"La vista de datos recientes conserva hasta 150 días y 240 registros. Puede incluir registros del archivo permanente.",
+"Archive month groups records by first observed date, not publication date.":"El archivo agrupa los registros por mes de primera detección. Los filtros de publicación usan la fecha de publicación.",
+"Previous page":"Página anterior",
+"Next page":"Página siguiente",
+"Page":"Página",
+"of":"de",
+"Showing":"Se muestran",
+"records":"registros",
+"Results pagination":"Paginación de resultados",
+"Paged research results table":"Tabla paginada de resultados",
+"Full text in record inspector":"Texto completo en los detalles del registro",
+"Skip to results":"Ir a los resultados",
+"Visitor portal":"Portal de visitantes",
+"Research Workbench":"Espacio de investigación",
+"Latest records":"Registros recientes",
+"Historical records":"Registros históricos",
+"Collection status":"Estado de la recopilación",
+"Last successful update (Taipei)":"Última actualización exitosa (Taipéi)",
+"Source directory":"Directorio de fuentes",
+"Methodology":"Metodología",
+"Dataset":"Conjunto de datos",
+"Latest":"Recientes",
+"Archive month":"Mes del archivo",
+"All available":"Todos los disponibles",
+"Sort by":"Ordenar por",
+"Published: newest":"Publicación: más reciente",
+"Published: oldest":"Publicación: más antigua",
+"Observed: newest":"Primera detección: más reciente",
+"Title: A–Z":"Título: A–Z",
+"Publisher: A–Z":"Entidad editora: A–Z",
+"Reset":"Restablecer",
+"Filters":"Filtros",
+"Combinable criteria":"Criterios combinables",
+"Published from":"Publicado desde",
+"Through":"Hasta",
+"Record type":"Tipo de registro",
+"All types":"Todos los tipos",
+"Academic metadata":"Metadatos académicos",
+"Discovery leads":"Referencias para investigación",
+"Evidence class":"Categoría de evidencia",
+"Any evidence class":"Cualquier categoría de evidencia",
+"Unverified discovery":"Referencia sin verificar",
+"Bibliographic record":"Registro bibliográfico",
+"Research themes (OR)":"Temas de investigación (OR)",
+"Visible columns":"Columnas visibles",
+"Date":"Fecha",
+"Title":"Título",
+"Publisher":"Entidad editora",
+"Topics":"Temas",
+"Type":"Tipo",
+"Evidence":"Evidencia",
+"Record ID":"ID del registro",
+"Quick views":"Vistas rápidas",
+"Labour & remedy":"Derechos laborales y reparación",
+"EU policy & HRDD":"Política de la UE y diligencia debida en derechos humanos",
+"Academic research":"Investigación académica",
+"Research records":"Registros de investigación",
+"AND / OR / quoted phrases supported":"Se admiten AND, OR y frases entre comillas",
+"Density":"Densidad",
+"Compact":"Compacta",
+"Comfortable":"Espaciada",
+"Export CSV":"Exportar CSV",
+"Show more":"Mostrar más",
+"Record inspector":"Detalles del registro",
+"Clear selection":"Borrar la selección",
+"Select a record to inspect its provenance, dates and evidence status.":"Seleccione un registro para consultar su procedencia, sus fechas y la categoría de evidencia.",
+"Workspace & sharing":"Espacio de trabajo y enlaces",
+"Saved views stay in this browser. Shared links include the current search terms.":"Las vistas se guardan en este navegador. Los enlaces compartidos incluyen los términos de búsqueda actuales.",
+"Save current view":"Guardar vista actual",
+"Choose a saved view":"Elegir una vista guardada",
+"Delete saved view":"Eliminar vista guardada",
+"Copy shareable link":"Copiar enlace para compartir",
+"Research integrity":"Integridad de la investigación",
+"Methods & limitations":"Métodos y limitaciones",
+"Language":"Idioma",
+"Search records":"Buscar registros",
+"Select website language":"Seleccionar el idioma del sitio",
+"Scrollable research results table":"Tabla desplazable de resultados",
+"Loading public records…":"Cargando registros públicos…",
+"Loading months…":"Cargando meses…",
+"Search titles, publishers, DOI, record IDs…":"Buscar por título, entidad editora, DOI o ID del registro…",
+"/ search · J/K navigate · Enter details · Esc clear":"/ buscar · J/K navegar · Intro ver detalles · Esc borrar",
+"Operational (technical)":"Operativo (estado técnico)",
+"Partial sources":"Fallos en algunas fuentes",
+"Collection failed":"Error de recopilación",
+"Not started":"Pendiente de inicio",
+"Unavailable":"No disponible",
+"No results":"Sin resultados",
+"No records in this scope":"Sin registros en este ámbito",
+"Records shown":"registros mostrados",
+"Records loaded":"registros cargados",
+"Scope: latest snapshot":"Alcance: datos recientes",
+"Scope: archive month":"Alcance: mes del archivo",
+"Scope: combined catalogue":"Alcance: catálogo combinado",
+"All available archive shards loaded.":"Se han cargado todos los segmentos disponibles del archivo.",
+"Partial archive scope: only recent shards loaded. Narrow the month or use the canonical archive for full analysis.":"Cobertura parcial. Acote el mes o use el archivo JSONL para consultar el historial completo.",
+"Archive could not be loaded; results are not complete.":"Error al cargar el archivo. Los resultados están incompletos.",
+"Loading historical records…":"Cargando registros históricos…",
+"Last collection":"Última recopilación",
+"Source review needed":"Fuente pendiente de revisión",
+"Licence review pending":"Licencia pendiente de revisión",
+"Curated references":"Referencias seleccionadas",
+"Editorial status":"Estado editorial",
+"Reachability":"Disponibilidad del enlace",
+"Not independently verified":"Pendiente de verificación independiente",
+"Publisher credit is unverified.":"Entidad editora pendiente de verificación.",
+"Original discovery link":"Enlace a la referencia original",
+"Open DOI":"Abrir DOI",
+"Publication date":"Fecha de publicación",
+"First observed":"Primera detección",
+"Monitoring query":"Consulta de seguimiento",
+"Publisher hint":"Entidad editora indicada",
+"Publisher verified":"Entidad editora verificada",
+"No":"No",
+"Yes":"Sí",
+"Source type":"Tipo de fuente",
+"Screening status":"Estado del filtrado",
+"Event ID":"ID del evento",
+"Not assigned":"Pendiente de asignación",
+"Topics (preliminary)":"Temas (preliminares)",
+"Source inspection":"Revisión de la fuente",
+"View saved":"Vista guardada",
+"View limit reached (12)":"Se ha alcanzado el límite de 12 vistas",
+"View name":"Nombre de la vista",
+"Saved view removed":"Vista guardada eliminada",
+"Shareable link copied":"Enlace copiado",
+"Unable to copy automatically; copy the address shown.":"Error al copiar automáticamente. Copie la dirección que se muestra.",
+"Date range is reversed.":"La fecha inicial es posterior a la fecha final.",
+"Data could not be loaded. Check the GitHub Pages deployment.":"Error al cargar los datos. Compruebe la publicación en GitHub Pages.",
+"Source unavailable":"Fuente no disponible",
+"No selected record":"Seleccione un registro",
+"No active filters":"Sin filtros activos",
+"Publication title is shown in its original language.":"El título se muestra en el idioma de publicación.",
 }};
 const t = s => locale()==='en' ? s : (L[locale()] && L[locale()][s]) || baseI18n.t(s);
 const text = (tag,value,className) => {const n=document.createElement(tag); if(className)n.className=className;n.textContent=value==null?'':String(value);return n;};
@@ -176,7 +326,7 @@ function dateView(date,withTime) {
  const value=new Date(date||'');if(!Number.isFinite(value.getTime()))return '—';
  const opts={timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'};
  if(withTime){opts.hour='2-digit';opts.minute='2-digit';opts.hour12=false;}
- return new Intl.DateTimeFormat(({en:'en-GB',zh:'zh-TW',de:'de-DE'})[locale()]||'en-GB',opts).format(value);
+ return new Intl.DateTimeFormat(({en:'en-GB',zh:'zh-TW',de:'de-DE',es:'es-ES'})[locale()]||'en-GB',opts).format(value);
 }
 function https(value) {try{const u=new URL(value);return u.protocol==='https:' && !u.username && !u.password ? u.href : null;}catch(_){return null;}}
 function readControls(){
@@ -282,8 +432,8 @@ async function fetchJSON(path) {
 
 function renderStatus(){
  updateRecordScope();
- $('wb-latest-count').textContent=live?String(latest.length):'—';
- $('wb-archive-count').textContent=catalog?String(catalog.total_records):'—';
+ $('wb-latest-count').textContent=live?number(latest.length):'—';
+ $('wb-archive-count').textContent=catalog?number(catalog.total_records):'—';
  $('wb-data-status').textContent=!live?t('Unavailable'):live.status==='ok'?t('Operational (technical)'):
   live.status==='partial'?t('Partial sources'):live.status==='failed'?t('Collection failed'):t('Not started');
  $('wb-updated').textContent=live?dateView(live.last_successful_collection,true):'—';
@@ -516,11 +666,11 @@ function drawTable(){
   row.className='wb-page-empty';cell.colSpan=fields.length;row.append(cell);tbody.append(row);
  }
  const pages=Math.ceil(filtered.length/pageSize);
- $('wb-page-status').textContent=t('Page')+' '+(pages?pageIndex+1:0)+' '+t('of')+' '+pages;
+ $('wb-page-status').textContent=t('Page')+' '+number(pages?pageIndex+1:0)+' '+t('of')+' '+number(pages);
  $('wb-prev').disabled=loading||!pages||pageIndex===0;
  $('wb-next').disabled=loading||!pages||pageIndex>=pages-1;
  $('wb-count').dataset.total=String(filtered.length);
- $('wb-count').textContent=filtered.length?t('Showing')+' '+(start+1)+'–'+end+' '+t('of')+' '+filtered.length+' '+t('records'):'0 '+t('Records shown');
+ $('wb-count').textContent=filtered.length?t('Showing')+' '+number(start+1)+'–'+number(end)+' '+t('of')+' '+number(filtered.length)+' '+t('records'):'0 '+t('Records shown');
  const terms=[];
  if(c.q)terms.push(c.q);
  if(c.topics.length)terms.push(c.topics.map(k=>t(TOPICS[k]||k)).join(' OR '));
@@ -531,7 +681,7 @@ function drawTable(){
  else if(archiveError)status+=' · '+t('Archive could not be loaded; results are not complete.');
  else if(coveragePartial)status+=' · '+t('Partial archive scope: only recent shards loaded. Narrow the month or use the canonical archive for full analysis.');
  else if(c.scope==='all')status+=' · '+t('All available archive shards loaded.');
- else status+=' · '+String(activeRecords.length)+' '+t('Records loaded');
+ else status+=' · '+number(activeRecords.length)+' '+t('Records loaded');
  if(c.from&&c.to&&c.from>c.to)status+=' · '+t('Date range is reversed.');
  const alert=$('wb-coverage');alert.textContent=status;
  alert.classList.toggle('is-alert',archiveError||coveragePartial||Boolean(c.from&&c.to&&c.from>c.to));
@@ -617,8 +767,9 @@ function saveView(){
 function feedback(s){$('wb-feedback').textContent=t(s);}
 async function share(){
  syncURL();
- try {await navigator.clipboard.writeText(location.href);feedback('Shareable link copied');}
- catch(_){window.prompt(t('Unable to copy automatically; copy the address shown.'),location.href);}
+ const url=new URL(location.href);url.searchParams.set('lang',locale());
+ try {await navigator.clipboard.writeText(url.href);feedback('Shareable link copied');}
+ catch(_){window.prompt(t('Unable to copy automatically; copy the address shown.'),url.href);}
 }
 function reset(){
  applyControls({scope:'all',sort:'published-desc',kind:'all',evidence:'all'});
