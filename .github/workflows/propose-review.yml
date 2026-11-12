@@ -13,6 +13,7 @@ permissions:
 concurrency:
   group: scro-review-proposals
   cancel-in-progress: false
+  queue: max
 jobs:
   prepare:
     if: >-

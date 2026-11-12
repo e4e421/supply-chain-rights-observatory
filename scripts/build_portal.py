@@ -14,6 +14,8 @@ import re
 import shutil
 import subprocess
 from pathlib import Path
+from archive_data import ARCHIVE, load_partition
+from build_catalog import FIELDS
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / '_site'
@@ -196,16 +198,32 @@ def build() -> None:
 
     # Build a lightweight record locator; it contains no new research claims.
     catalog=json.loads((OUT/'data/archive/catalog.json').read_text(encoding='utf-8'))
+    expected={}
+    for partition in sorted(ARCHIVE.glob('????-??.jsonl')):
+        for rec in load_partition(partition):
+            rid=rec['record_id']
+            if rid in expected:
+                raise ValueError('Duplicate canonical archive ID')
+            expected[rid]=(partition.stem,{field:rec[field] for field in FIELDS if field in rec})
     locator={}
     for month in catalog['months']:
+        month_count=0
         for part in month['files']:
             if not re.fullmatch(r'\d{4}-\d{2}-\d{4}\.json',part['file']):raise ValueError('Unsafe shard filename')
-            shard=json.loads((OUT/'data/archive'/part['file']).read_text(encoding='utf-8'))
+            payload=(OUT/'data/archive'/part['file']).read_bytes()
+            if hashlib.sha256(payload).hexdigest()!=part['sha256']:
+                raise ValueError('Archive shard digest mismatch: '+part['file'])
+            shard=json.loads(payload)
+            if shard['month']!=month['month'] or len(shard['records'])!=part['records']:
+                raise ValueError('Archive shard inventory mismatch: '+part['file'])
+            month_count+=len(shard['records'])
             for rec in shard['records']:
                 rid=rec['record_id']
                 if not re.fullmatch(r'[a-f0-9]{18}',rid) or rid in locator:raise ValueError('Invalid or duplicate archive ID')
+                if expected.get(rid)!=(month['month'],rec):raise ValueError('Archive projection mismatch: '+rid)
                 locator[rid]={'month':month['month'],'file':part['file']}
-    if len(locator)!=catalog['total_records']:raise ValueError('Record index count mismatch')
+        if month_count!=month['records']:raise ValueError('Archive month count mismatch: '+month['month'])
+    if len(locator)!=catalog['total_records'] or set(locator)!=set(expected):raise ValueError('Record index inventory mismatch')
     (OUT/'data/record-index.json').write_text(json.dumps({'schema_version':1,'records':locator},ensure_ascii=False)+'\n',encoding='utf-8')
     latest=json.loads((OUT/'data/latest.json').read_text(encoding='utf-8'))
     try:
@@ -213,9 +231,15 @@ def build() -> None:
     except (OSError,subprocess.CalledProcessError):
         revision=os.environ.get('GITHUB_SHA','local-preview')
     build={'schema_version':1,'portal_version':'index-v1','git_revision':revision,
+           'workflow_run_id':os.environ.get('GITHUB_RUN_ID'),
            'collection_generated_at':latest.get('generated_at'),
            'catalog_sha256':hashlib.sha256((OUT/'data/archive/catalog.json').read_bytes()).hexdigest(),
            'total_archive_records':catalog['total_records']}
+    for key,path in [('archive_manifest_sha256','data/archive/manifest.json'),
+                     ('source_health_sha256','docs/data/source-health.json'),
+                     ('review_sha256','data/reviews/decisions.json')]:
+        source=ROOT/path
+        if source.exists():build[key]=hashlib.sha256(source.read_bytes()).hexdigest()
     (OUT/'data/build-info.json').write_text(json.dumps(build,indent=2)+'\n',encoding='utf-8')
     # The deployment publishes the generated site files.
     print(f'Built public portal, compatibility route, record view and connected Workbench; {len(locator)} record locators.')

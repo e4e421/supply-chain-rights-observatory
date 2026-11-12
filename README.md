@@ -60,6 +60,10 @@ Data collection is scheduled daily at **10:23 and 22:23 UTC**. On Sundays at **2
 
 The **Monitor public collection freshness** workflow checks the last successful collection every six hours. It reports a failed check once the snapshot is more than 18 hours old. GitHub delivers workflow notifications according to the maintainer's Actions notification settings.
 
+Collection logs separate received results, accepted observations, unique accepted records, newly archived records and retained snapshot records. The public snapshot carries the last attempt, successful collection and archive addition times.
+
+Collection, owner review writes and Pages deployment share a queue. The deployment checks out an immutable revision and confirms the public build metadata and index hashes. The owner review Issue closes after the published revision contains the submitted batch.
+
 The daily collection workflow appends newly accepted records to the permanent archive, grouped by first-observation month. The collection snapshot retains up to 240 records published within the past 150 days and supplies the latest research section on the homepage.
 
 - One immutable first-observation entry per `record_id` in `data/archive/YYYY-MM.jsonl`; stable IDs use the existing 18-character public SHA-256 prefix. Collision/fingerprint mismatches fail closed. Each record has `first_seen` and `event_id: null`.
@@ -69,6 +73,7 @@ The daily collection workflow appends newly accepted records to the permanent ar
 - Weekly reference checks use HTTPS HEAD with an approved host list. News and specialist sources in the check also require a robots.txt check for the registered link and any same-host redirects. The source directory records the latest outcome and consecutive failures.
 - At least quarterly, manually review institutional status, editorial independence, dataset revisions, data rights and methods, source links, false positives and event coverage.
 - On-demand local CSV: `python3 scripts/export_archive_csv.py --output /tmp/scro-public-archive.csv`; English field identifiers remain stable for R, Python, DuckDB and Excel.
+- Public Workbench search and its CSV group equivalent observations when their current review and tags agree. Archived IDs and their source observations remain addressable for research and editorial review.
 - Monthly off-repository backups to an access-controlled storage location are recommended. GitHub commit history alone is not adequate for disaster recovery.
 
 See [data architecture](docs/ARCHITECTURE.md) and [source issue templates](.github/ISSUE_TEMPLATE/new-source.yml).
