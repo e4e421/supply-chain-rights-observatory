@@ -125,7 +125,7 @@ def stable_id(item):
     return hashlib.sha256(key.encode('utf-8')).hexdigest()[:18]
 
 
-def parse_rss(body, config, now, candidates=None):
+def parse_rss(body, config, now, candidates=None, counts=None):
     root = parse_feed_xml(body)
     if root.tag != 'rss' and not root.tag.endswith('}rss'):
         raise ValueError('Expected RSS XML document')
@@ -133,7 +133,10 @@ def parse_rss(body, config, now, candidates=None):
     if channel is None:
         raise ValueError('RSS channel missing')
     result = []
-    for node in channel.findall('./item')[:80]:
+    entries = channel.findall('./item')
+    if counts is not None:
+        counts['received_items'] = len(entries)
+    for node in entries[:80]:
         title = clean_text(node.findtext('title'))
         link = public_https_url((node.findtext('link') or '').strip(), 'news.google.com')
         if not title or not link:
@@ -240,11 +243,13 @@ def parse_official_feed(body, config, now, candidates=None, counts=None):
     return result
 
 
-def parse_crossref(payload, config, now, candidates=None):
+def parse_crossref(payload, config, now, candidates=None, counts=None):
     result = []
     records = payload['message']['items']
     if not isinstance(records, list):
         raise ValueError('Crossref items must be a list')
+    if counts is not None:
+        counts['received_items'] = len(records)
     for record in records[:75]:
         title = clean_text((record.get('title') or [''])[0])
         doi = str(record.get('DOI') or '').strip()
@@ -276,12 +281,14 @@ def parse_crossref(payload, config, now, candidates=None):
     return result
 
 
-def parse_openalex(payload, config, now, candidates=None):
+def parse_openalex(payload, config, now, candidates=None, counts=None):
     """Collect a bounded page of OpenAlex bibliographic metadata."""
     result=[]
     records=payload['results']
     if not isinstance(records,list):
         raise ValueError('OpenAlex results must be a list')
+    if counts is not None:
+        counts['received_items'] = len(records)
     for record in records[:50]:
         title=clean_text(record.get('display_name') or record.get('title'))
         doi_value=record.get('doi') or ''
@@ -356,7 +363,9 @@ def run():
     for config_item in config['news_queries']:
         query = config_item['query']
         url = 'https://news.google.com/rss/search?' + urlencode({'q':query, 'hl':'en-GB', 'gl':'GB', 'ceid':'GB:en'})
-        sources.append(process_source(config_item, 'news', lambda: parse_rss(fetch_bytes(url), config_item, now, candidates), new_items, warnings, now))
+        counts = {}
+        source = process_source(config_item, 'news', lambda: parse_rss(fetch_bytes(url), config_item, now, candidates, counts), new_items, warnings, now)
+        sources.append({**source, **counts})
     for feed in config.get('official_feeds', []):
         if feed['id'] not in OFFICIAL_RECORD_HOSTS:
             raise ValueError('Unapproved official feed identifier')
@@ -367,25 +376,31 @@ def run():
         source.update(feed_url=feed['url'], reuse_url=feed['reuse_url'], reuse_basis=feed['reuse_basis'], **counts)
         sources.append(source)
     for config_item in config['academic_queries']:
+        counts = {}
         params = {'query.bibliographic':config_item['query'], 'filter': f'from-pub-date:{(now-timedelta(days=MAX_AGE_DAYS)).date().isoformat()}', 'rows':'75', 'select':'DOI,title,published,published-print,published-online,issued,created,type,publisher,container-title', 'sort':'published', 'order':'desc'}
         url = 'https://api.crossref.org/works?' + urlencode(params)
         def crossref_fetch(url=url, cfg=config_item):
-            return parse_crossref(json.loads(fetch_bytes(url).decode('utf-8')), cfg, now, candidates)
-        sources.append(process_source(config_item, 'academic', crossref_fetch, new_items, warnings, now))
+            return parse_crossref(json.loads(fetch_bytes(url).decode('utf-8')), cfg, now, candidates, counts)
+        source = process_source(config_item, 'academic', crossref_fetch, new_items, warnings, now)
+        sources.append({**source, **counts})
     for config_item in config.get('openalex_queries',[]):
+        counts = {}
         params={'search':config_item['query'],
                 'filter':f'from_publication_date:{(now-timedelta(days=MAX_AGE_DAYS)).date().isoformat()}',
                 'per_page':'50',
                 'select':'id,display_name,doi,publication_date,type,primary_location'}
         url='https://api.openalex.org/works?'+urlencode(params)
         def openalex_fetch(url=url,cfg=config_item):
-            return parse_openalex(json.loads(fetch_bytes(url).decode('utf-8')),cfg,now,candidates)
-        sources.append(process_source(config_item,'academic',openalex_fetch,new_items,warnings,now))
+            return parse_openalex(json.loads(fetch_bytes(url).decode('utf-8')),cfg,now,candidates,counts)
+        source = process_source(config_item,'academic',openalex_fetch,new_items,warnings,now)
+        sources.append({**source, **counts})
     previous_sources = {row['id']:row for row in previous.get('sources', [])}
     for source in sources:
         prior = previous_sources.get(source['id'], {})
         prior_failures = prior.get('consecutive_failures', int(prior.get('status') == 'failed'))
         source['consecutive_failures'] = 0 if source['status'] == 'ok' else prior_failures + 1
+        prior_success=prior.get('last_successful_attempt') or (prior.get('last_attempt') if prior.get('status')=='ok' else None)
+        source['last_successful_attempt']=source['last_attempt'] if source['status']=='ok' else prior_success
     success = sum(x['status'] == 'ok' for x in sources)
     status = 'failed' if success == 0 or (not new_items and not previous.get('items')) else 'partial' if success < len(sources) else 'ok'
     merged = merge_items(new_items, previous.get('items', []), now)
@@ -394,16 +409,23 @@ def run():
     candidate_total, candidate_new = persist_candidates(candidates)
     print(f'Candidate register: {candidate_total} total; {candidate_new} new; {len(new_items)} screened in')
     # Archive all accepted observations BEFORE the 240-item recent-snapshot cap.
-    from archive_data import persist as persist_archive
+    from archive_data import MANIFEST, persist as persist_archive
     archived_total, archived_new = persist_archive([*new_items, *merged], iso(now))
     print(f'Permanent archive: {archived_total} public records, {archived_new} newly archived')
     # Prior successes remain visible even when this collection fails.
     last_success = iso(now) if status in ('ok', 'partial') else previous.get('last_successful_collection')
-    output = {'schema_version':1, 'generated_at':iso(now),'last_successful_collection':last_success,
+    last_archive_addition=json.loads(MANIFEST.read_text(encoding='utf-8')).get('updated_at') if archived_total else None
+    received=sum(source['received_items'] for source in sources if source.get('received_items') is not None)
+    unique=len({stable_id(item) for item in new_items})
+    output = {'schema_version':1, 'generated_at':iso(now),'last_attempted_collection':iso(now),
+              'last_successful_collection':last_success,'last_new_archived_at':last_archive_addition,
               'status':status,'sources':sources,'items':merged,'warnings':warnings[:20],
               'retrieval_quality':{
                   'screening_version':SCREEN_VERSION,'candidate_count':len(candidates),
                   'accepted_observations':len(new_items),'excluded_observations':len(candidates)-len(new_items),
+                   'received_items':received,'unique_accepted_observations':unique,
+                   'duplicate_observations':len(new_items)-unique,'new_archived_records':archived_new,
+                   'retained_records':len(merged),
                   'academic_records_accepted':sum(x.get('kind')=='academic' for x in new_items),
                   'source_counts':[{k:meta[k] for k in ('id','status','items')} for meta in sources],
                   'candidate_archive_total':candidate_total,
@@ -411,7 +433,7 @@ def run():
               }}
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_FILE.write_text(json.dumps(output, ensure_ascii=False, indent=2)+'\n',encoding='utf-8')
-    print(f'Collection status: {status}; sources ok: {success}/{len(sources)}; new: {len(new_items)}; retained: {len(merged)}')
+    print(f'Collection status: {status}. Sources ok: {success}/{len(sources)}. Received: {received}. Accepted: {len(new_items)}. Unique accepted: {unique}. Newly archived: {archived_new}. Retained: {len(merged)}.')
     if status == 'failed':
         print('WARNING: no successful useful collection. The workflow must signal failure after publishing.', file=sys.stderr)
 
@@ -424,6 +446,15 @@ def process_source(item, kind, task, new_items, warnings, now):
         meta['status'] = 'ok'
         meta['items'] = len(entries)
     except (HTTPError, URLError, ValueError, KeyError, TypeError, ElementTree.ParseError, UnicodeError, TimeoutError, OSError) as exc:
+        if isinstance(exc,HTTPError):
+            meta['http_status']=exc.code
+            meta['failure_kind']='rate_limited' if exc.code==429 else 'access_restricted' if exc.code in (401,403,405) else 'http_error'
+        elif isinstance(getattr(exc,'reason',exc),TimeoutError):
+            meta['failure_kind']='timeout'
+        elif isinstance(exc,(URLError,OSError)):
+            meta['failure_kind']='connection_unconfirmed'
+        else:
+            meta['failure_kind']='invalid_response'
         # Never print request headers, credentials, full responses, or environment variables.
         warning = f"{item['id']}: {type(exc).__name__} (see source connectivity and format)"
         warnings.append(warning)

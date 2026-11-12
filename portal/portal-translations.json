@@ -200,5 +200,9 @@
 "Inspect source use and reuse terms":{"zh":"查看來源使用方式與再利用條款","de":"Quellennutzung und Wiederverwendungsbedingungen ansehen","es":"Consultar el uso de las fuentes y las condiciones de reutilización"},
 "European Commission · Press Corner":{"zh":"歐盟執委會 · 新聞中心","de":"Europäische Kommission · Press Corner","es":"Comisión Europea · Sala de prensa"},
 "EUR-Lex · Official Journal L":{"zh":"EUR-Lex · 歐盟官方公報 L 系列","de":"EUR-Lex · Amtsblatt L","es":"EUR-Lex · Diario Oficial L"},
-"Eurostat · Population and social conditions releases":{"zh":"Eurostat · 人口與社會狀況統計發布","de":"Eurostat · Mitteilungen zu Bevölkerung und sozialen Bedingungen","es":"Eurostat · Publicaciones sobre población y condiciones sociales"}
+"Eurostat · Population and social conditions releases":{"zh":"Eurostat · 人口與社會狀況統計發布","de":"Eurostat · Mitteilungen zu Bevölkerung und sozialen Bedingungen","es":"Eurostat · Publicaciones sobre población y condiciones sociales"},
+"Website rate limit":{"zh":"來源網站限制請求頻率","de":"Anfragelimit der Website","es":"Límite de solicitudes del sitio"},
+"Website limits automated requests":{"zh":"來源網站限制自動請求","de":"Website beschränkt automatisierte Anfragen","es":"El sitio limita las solicitudes automáticas"},
+"Connection timed out":{"zh":"連線逾時","de":"Zeitüberschreitung der Verbindung","es":"Tiempo de espera agotado"},
+"Connection unconfirmed":{"zh":"連線尚待確認","de":"Verbindung unbestätigt","es":"Conexión sin confirmar"}
 }

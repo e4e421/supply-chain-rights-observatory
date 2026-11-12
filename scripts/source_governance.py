@@ -199,8 +199,24 @@ def probe(url):
     except HTTPError as exc:
         # 403 and 405 do not mean a source is untrustworthy.
         return {'reachability':'http_restriction_or_error','http_status':int(exc.code)}
-    except (URLError,ValueError,OSError,TimeoutError):
-        return {'reachability':'not_confirmed','http_status':None}
+    except (URLError,ValueError,OSError,TimeoutError) as exc:
+        result={'reachability':'not_confirmed','http_status':None}
+        if isinstance(getattr(exc,'reason',exc),TimeoutError):
+            result['failure_kind']='timeout'
+        return result
+
+
+def probe_failure_kind(status):
+    code=status.get('http_status')
+    if code==429:
+        return 'rate_limited'
+    if code in (401,403,405) or status.get('reachability')=='policy_restricted':
+        return 'access_restricted'
+    if status.get('reachability')=='http_restriction_or_error':
+        return 'http_error'
+    if status.get('reachability')=='not_confirmed':
+        return status.get('failure_kind') or 'connection_unconfirmed'
+    return None
 
 def run(online=False):
     registry=json.loads(REGISTRY.read_text(encoding='utf-8'))
@@ -214,12 +230,17 @@ def run(online=False):
     entries=[]
     for entry in registry['sources']:
         prior=old.get(entry['id'],{})
-        if prior.get('reachability')=='manual_only':
+        enabled=entry.get('probe_enabled',True)
+        if (prior.get('reachability')=='manual_only' or
+                prior.get('url',entry['url'])!=entry['url'] or
+                prior.get('probe_enabled',enabled)!=enabled):
             prior={}
         prior_failure=bool(prior.get('last_probe') and prior.get('reachability') not in ('responded','policy_restricted'))
         status={
             'id':entry['id'],
             'name':entry['name'],
+            'url':entry['url'],
+            'probe_enabled':enabled,
             'authority_type':entry['authority_type'],
             'editorial_status':entry['status'],
             'last_editorial_review':entry.get('verified_on'),
@@ -229,17 +250,23 @@ def run(online=False):
             'reachability':prior.get('reachability','untested'),
             'http_status':prior.get('http_status'),
             'last_probe':prior.get('last_probe'),
+            'last_successful_probe':prior.get('last_successful_probe',prior.get('last_probe') if prior.get('reachability')=='responded' else None),
+            'failure_kind':prior.get('failure_kind'),
             'consecutive_failures':prior.get('consecutive_failures',int(prior_failure))
         }
         if entry.get('metadata_reuse_notice'):
             status['metadata_reuse_notice']=entry['metadata_reuse_notice']
-        if entry.get('probe_enabled', True) is False:
-            status.update(reachability='manual_only', http_status=None, last_probe=None, consecutive_failures=0)
+        if not enabled:
+            status.update(reachability='manual_only', http_status=None, last_probe=None, last_successful_probe=None, consecutive_failures=0)
         elif online:
             result=probe(entry['url'])
+            status['failure_kind']=None
             status.update(result)
             status['consecutive_failures']=0 if result['reachability'] in ('responded','policy_restricted') else status['consecutive_failures']+1
             status['last_probe']=now
+            if result['reachability']=='responded':
+                status['last_successful_probe']=now
+        status['failure_kind']=probe_failure_kind(status)
         entries.append(status)
     report={
         'schema_version':1,'method':'editorial_registry_plus_optional_HTTPS_HEAD',
