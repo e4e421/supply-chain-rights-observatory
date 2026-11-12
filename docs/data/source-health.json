@@ -331,7 +331,7 @@
       "review_due": "2027-02-10",
       "licence_review_status": "pending",
       "review_needed": false,
-      "reachability": "manual_only",
+      "reachability": "untested",
       "http_status": null,
       "last_probe": null,
       "consecutive_failures": 0
@@ -359,7 +359,7 @@
       "review_due": "2027-02-10",
       "licence_review_status": "pending",
       "review_needed": false,
-      "reachability": "manual_only",
+      "reachability": "untested",
       "http_status": null,
       "last_probe": null,
       "consecutive_failures": 0
@@ -373,7 +373,7 @@
       "review_due": "2027-02-10",
       "licence_review_status": "pending",
       "review_needed": false,
-      "reachability": "manual_only",
+      "reachability": "untested",
       "http_status": null,
       "last_probe": null,
       "consecutive_failures": 0
@@ -387,7 +387,7 @@
       "review_due": "2027-02-10",
       "licence_review_status": "pending",
       "review_needed": false,
-      "reachability": "manual_only",
+      "reachability": "untested",
       "http_status": null,
       "last_probe": null,
       "consecutive_failures": 0
@@ -401,7 +401,7 @@
       "review_due": "2027-02-10",
       "licence_review_status": "pending",
       "review_needed": false,
-      "reachability": "manual_only",
+      "reachability": "untested",
       "http_status": null,
       "last_probe": null,
       "consecutive_failures": 0
@@ -415,7 +415,7 @@
       "review_due": "2027-02-10",
       "licence_review_status": "pending",
       "review_needed": false,
-      "reachability": "manual_only",
+      "reachability": "untested",
       "http_status": null,
       "last_probe": null,
       "consecutive_failures": 0
@@ -429,7 +429,7 @@
       "review_due": "2027-02-10",
       "licence_review_status": "pending",
       "review_needed": false,
-      "reachability": "manual_only",
+      "reachability": "untested",
       "http_status": null,
       "last_probe": null,
       "consecutive_failures": 0
