@@ -9,6 +9,7 @@ body.wb{background:#e9efeb;color:#142e2a;font-size:13px}
 .wb-status-strip>div{background:#f6faf7;padding:8px 13px;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:1px}
 .wb-status-strip small{font-size:10px;color:#62786d;font-weight:650;text-transform:uppercase;letter-spacing:.035em}
 .wb-status-strip strong{font-size:16px;line-height:1.35;overflow-wrap:anywhere}
+.wb-status-strip time{font-size:11px;line-height:1.45;color:#425e52}
 .wb-status-strip .wb-strip-links{display:flex;flex-flow:row wrap;align-items:center;gap:5px 12px}
 .wb-strip-links a{color:#285749;font-size:11px;text-decoration:underline;text-underline-offset:3px}
 .wb-toolbar{display:flex;flex-wrap:wrap;align-items:end;gap:8px;padding:9px;background:#fff;border:1px solid #cbd6cc;margin-bottom:10px}
