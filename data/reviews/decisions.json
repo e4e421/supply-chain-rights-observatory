@@ -134,9 +134,38 @@
       ],
       "issue": 41,
       "issue_digest": "83e8351e047f7ff61f0cdafbf069935a0e63e51143f4510b84180bc5137b63a8"
+    },
+    "9e81dfc8dfb5626520": {
+      "tags": [
+        "uk-supplychain-hrdd-law"
+      ],
+      "issue": 48,
+      "issue_digest": "01e74ebcc2626339c0190056f7f556a30b31b63d21239ea1ac5b54ad5801d44c"
+    },
+    "2ac00be78f8b3c37e3": {
+      "tags": [
+        "uk-supplychain-hrdd-law"
+      ],
+      "issue": 48,
+      "issue_digest": "01e74ebcc2626339c0190056f7f556a30b31b63d21239ea1ac5b54ad5801d44c"
+    },
+    "31240a78227891e26c": {
+      "tags": [
+        "uk-supplychain-hrdd-law"
+      ],
+      "issue": 48,
+      "issue_digest": "01e74ebcc2626339c0190056f7f556a30b31b63d21239ea1ac5b54ad5801d44c"
+    },
+    "f9840c0488b3544fb1": {
+      "tags": [
+        "uk-supplychain-hrdd-law"
+      ],
+      "issue": 48,
+      "issue_digest": "01e74ebcc2626339c0190056f7f556a30b31b63d21239ea1ac5b54ad5801d44c"
     }
   },
   "tag_catalog": [
-    "iphone"
+    "iphone",
+    "uk-supplychain-hrdd-law"
   ]
 }
