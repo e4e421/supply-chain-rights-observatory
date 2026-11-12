@@ -16,16 +16,9 @@ zh:{
 "You are in the Review Editor":"您正在使用審核編輯器",
 "Return to the read-only view":"返回檢視頁",
 
-"Record scope":"資料範圍",
-"Select record scope":"選擇資料範圍",
-"All searchable records":"全部可搜尋紀錄",
-"Recent snapshot":"近期快照",
+"Searchable records":"可搜尋紀錄總數",
 "First-seen month":"首次收錄月份（UTC）",
-"Recent snapshot records":"近期快照筆數",
-"Permanent archive records":"歷史封存筆數",
-"All searchable records combine current and archived items by ID. Partial coverage is indicated when limits are reached.":"將近期與歷史資料依識別編號去重合併；超過載入限制時會顯示部分涵蓋。",
-"Recent snapshot retains up to 150 days and 240 records; it overlaps with the permanent archive.":"近期快照最多保留150天及240筆紀錄，與永久歷史封存可能重疊。",
-"Archive month groups records by first observed date, not publication date.":"歷史月份依首次收錄日期分組，不是新聞發布日期。",
+"Remove first-seen month filter":"移除首次收錄月份條件",
 'Previous page':'上一頁','Next page':'下一頁','Page':'第','of':'／','Showing':'顯示','records':'筆','Results pagination':'結果分頁','Paged research results table':'分頁研究結果表格','Full text in record inspector':'完整內容請見右側紀錄詳情',
 'Skip to results':'跳至搜尋結果','Visitor portal':'一般訪客首頁',
 'Latest records':'最新情報','Historical records':'歷史紀錄',
@@ -56,13 +49,10 @@ zh:{
 '/ search · J/K navigate · Enter details · Esc clear':'/ 搜尋 · J/K 切換 · Enter 詳情 · Esc 清除',
 'Operational (technical)':'正常（技術狀態）','Partial sources':'部分來源異常',
 'Collection failed':'擷取失敗','Not started':'尚未開始','Unavailable':'無法取得',
-'No results':'沒有符合的紀錄','No records in this scope':'此範圍沒有紀錄',
-'Records shown':'筆結果','Records loaded':'筆已載入','Scope: latest snapshot':'範圍：最新快照',
-'Scope: archive month':'範圍：歷史月份','Scope: combined catalogue':'範圍：合併查詢',
-'All available archive shards loaded.':'已讀取所有可取得的歷史分片。',
-'Partial archive scope: only recent shards loaded. Narrow the month or use the canonical archive for full analysis.':'歷史資料只載入近期分片；請縮小月份範圍，或使用原始封存檔進行完整研究。',
-'Archive could not be loaded; results are not complete.':'歷史資料無法載入；結果不完整。',
-'Loading historical records…':'正在讀取歷史紀錄…',
+'No results':'沒有符合的紀錄','Records shown':'筆結果',
+'Some records could not be loaded. Search results may be incomplete.':'部分紀錄載入失敗，搜尋結果可能不完整。',
+'Search covers part of the archive. Browse by month in the Research Archive.':'目前搜尋涵蓋部分封存資料。可到研究封存依月份瀏覽。',
+'The review index could not be loaded.':'審核索引載入失敗。',
 'Last collection':'最近擷取','Source review needed':'來源待審查',
 'Licence review pending':'授權審查待處理','Curated references':'收錄參考來源',
 'Editorial status':'編輯審查狀態','Reachability':'連線狀態',
@@ -86,16 +76,9 @@ de:{
 "You are in the Review Editor":"Sie befinden sich im Review-Editor",
 "Return to the read-only view":"Zurück zur Leseansicht",
 
-"Record scope":"Datenbereich",
-"Select record scope":"Datenbereich auswählen",
-"All searchable records":"Alle durchsuchbaren Datensätze",
-"Recent snapshot":"Aktueller Datenausschnitt",
+"Searchable records":"Durchsuchbare Datensätze insgesamt",
 "First-seen month":"Monat der Ersterfassung (UTC)",
-"Recent snapshot records":"Aktueller Datenbestand",
-"Permanent archive records":"Historische Archivdatensätze",
-"All searchable records combine current and archived items by ID. Partial coverage is indicated when limits are reached.":"Aktuelle und archivierte Datensätze werden anhand ihrer IDs zusammengeführt. Bei Begrenzungen wird eine unvollständige Abdeckung angezeigt.",
-"Recent snapshot retains up to 150 days and 240 records; it overlaps with the permanent archive.":"Der aktuelle Datenausschnitt enthält höchstens 150 Tage und 240 Datensätze; Überschneidungen mit dem Archiv sind möglich.",
-"Archive month groups records by first observed date, not publication date.":"Archivmonate beziehen sich auf die Ersterfassung, nicht auf das Veröffentlichungsdatum.",
+"Remove first-seen month filter":"Filter für den Monat der Ersterfassung entfernen",
 'Previous page':'Vorherige Seite','Next page':'Nächste Seite','Page':'Seite','of':'von','Showing':'Anzeige','records':'Einträge','Results pagination':'Ergebnisseiten','Paged research results table':'Seitengesteuerte Ergebnistabelle','Full text in record inspector':'Volltext in den Datensatzdetails',
 'Skip to results':'Zu den Suchergebnissen','Visitor portal':'Besucherportal',
 'Latest records':'Aktuelle Meldungen','Historical records':'Historische Datensätze',
@@ -129,13 +112,10 @@ de:{
 '/ search · J/K navigate · Enter details · Esc clear':'/ Suche · J/K Navigation · Enter Details · Esc Auswahl löschen',
 'Operational (technical)':'Betriebsbereit (technisch)','Partial sources':'Teilweise Quellenfehler',
 'Collection failed':'Erfassung fehlgeschlagen','Not started':'Noch nicht begonnen','Unavailable':'Nicht verfügbar',
-'No results':'Keine Treffer','No records in this scope':'Keine Datensätze in diesem Bereich',
-'Records shown':'Treffer','Records loaded':'Datensätze geladen','Scope: latest snapshot':'Bereich: aktueller Stand',
-'Scope: archive month':'Bereich: Archivmonat','Scope: combined catalogue':'Bereich: Gesamtübersicht',
-'All available archive shards loaded.':'Alle verfügbaren Archivteile geladen.',
-'Partial archive scope: only recent shards loaded. Narrow the month or use the canonical archive for full analysis.':'Archiv nur teilweise geladen. Monat eingrenzen oder für vollständige Analysen das kanonische Archiv verwenden.',
-'Archive could not be loaded; results are not complete.':'Archiv konnte nicht geladen werden; Ergebnisse sind unvollständig.',
-'Loading historical records…':'Historische Datensätze werden geladen …',
+'No results':'Keine Treffer','Records shown':'Treffer',
+'Some records could not be loaded. Search results may be incomplete.':'Einige Datensätze konnten nicht geladen werden. Die Suchergebnisse sind möglicherweise unvollständig.',
+'Search covers part of the archive. Browse by month in the Research Archive.':'Die Suche deckt einen Teil des Archivs ab. Im Forschungsarchiv können Sie nach Monaten suchen.',
+'The review index could not be loaded.':'Der Prüfindex konnte nicht geladen werden.',
 'Last collection':'Letzte Erfassung','Source review needed':'Quellenprüfung erforderlich',
 'Licence review pending':'Lizenzprüfung ausstehend','Curated references':'Kuratierte Referenzen',
 'Editorial status':'Redaktioneller Prüfstatus','Reachability':'Erreichbarkeit',
@@ -160,16 +140,9 @@ es:{
 "You are in the Review Editor":"Está en el editor de revisión",
 "Return to the read-only view":"Volver a la vista de solo lectura",
 
-"Record scope":"Alcance de la búsqueda",
-"Select record scope":"Seleccionar el alcance de la búsqueda",
-"All searchable records":"Todos los registros consultables",
-"Recent snapshot":"Datos recientes",
+"Searchable records":"Total de registros consultables",
 "First-seen month":"Mes de primera detección (UTC)",
-"Recent snapshot records":"Registros recientes",
-"Permanent archive records":"Registros del archivo permanente",
-"All searchable records combine current and archived items by ID. Partial coverage is indicated when limits are reached.":"Los registros recientes y archivados se combinan por identificador. Si se alcanza el límite de carga, se indica que la cobertura es parcial.",
-"Recent snapshot retains up to 150 days and 240 records; it overlaps with the permanent archive.":"La vista de datos recientes conserva hasta 150 días y 240 registros. Puede incluir registros del archivo permanente.",
-"Archive month groups records by first observed date, not publication date.":"El archivo agrupa los registros por mes de primera detección. Los filtros de publicación usan la fecha de publicación.",
+"Remove first-seen month filter":"Quitar el filtro por mes de primera detección",
 "Previous page":"Página anterior",
 "Next page":"Página siguiente",
 "Page":"Página",
@@ -253,16 +226,10 @@ es:{
 "Not started":"Pendiente de inicio",
 "Unavailable":"No disponible",
 "No results":"Sin resultados",
-"No records in this scope":"Sin registros en este ámbito",
 "Records shown":"registros mostrados",
-"Records loaded":"registros cargados",
-"Scope: latest snapshot":"Alcance: datos recientes",
-"Scope: archive month":"Alcance: mes del archivo",
-"Scope: combined catalogue":"Alcance: catálogo combinado",
-"All available archive shards loaded.":"Se han cargado todos los segmentos disponibles del archivo.",
-"Partial archive scope: only recent shards loaded. Narrow the month or use the canonical archive for full analysis.":"Cobertura parcial. Acote el mes o use el archivo JSONL para consultar el historial completo.",
-"Archive could not be loaded; results are not complete.":"Error al cargar el archivo. Los resultados están incompletos.",
-"Loading historical records…":"Cargando registros históricos…",
+"Some records could not be loaded. Search results may be incomplete.":"Algunos registros no se pudieron cargar. Los resultados pueden estar incompletos.",
+"Search covers part of the archive. Browse by month in the Research Archive.":"La búsqueda abarca parte del archivo. Consulte los registros por mes en el Archivo de investigación.",
+"The review index could not be loaded.":"No se pudo cargar el índice de revisión.",
 "Last collection":"Última recopilación",
 "Source review needed":"Fuente pendiente de revisión",
 "Licence review pending":"Licencia pendiente de revisión",
@@ -311,15 +278,17 @@ const COLS=[
 ];
 const STORAGE='scro.workbench.views.v1', MAX_FILES=24, MAX_ROWS=10000, MAX_PAGE_SIZE=40;
 const EDITOR_PAGE_SIZE=10;
-let live=null,catalog=null,latest=[],archiveCache=new Map(),activeRecords=[],filtered=[],
-scopeStatus='',loading=false,archiveError=false,coveragePartial=false,chosen='',runNumber=0;
+const archiveCache=new Map();
+let live=null,catalog=null,activeRecords=[],filtered=[],loading=true,archiveError=false,
+ coveragePartial=false,chosen='',firstSeenMonth='',catalogueMonth='';
 let pageIndex=0,pageSize=6,pageAnchor=0,locateSelection=false,layoutFrame=0;
 let selectedTags=[];
 const param = new URL(location.href).searchParams;
-const SAFE_SCOPE=['latest','archive','all'],SAFE_SORT=['published-desc','published-asc','observed-desc','title-asc','publisher-asc'];
+const SAFE_SORT=['published-desc','published-asc','observed-desc','title-asc','publisher-asc'];
 const SAFE_KIND=['all','discovery','academic'],SAFE_EVIDENCE=['all','unverified','bibliographic'];
 const safeValue=(value,allowed,fallback)=>allowed.includes(value)?value:fallback;
 function canonicalID(item){return item.record_id || item.id || '';}
+const validRecordID=id=>/^[0-9a-f]{18}$/.test(id);
 function normalise(item,month) {return {...item,record_id:canonicalID(item),archive_month:month || (item.first_seen||'').slice(0,7)};}
 function dateAge(date){const n=Date.parse(date||'');return Number.isFinite(n)?n:0;}
 function dateView(date,withTime) {
@@ -328,7 +297,7 @@ function dateView(date,withTime) {
 function https(value) {try{const u=new URL(value);return u.protocol==='https:' && !u.username && !u.password ? u.href : null;}catch(_){return null;}}
 function readControls(){
  return {
- scope:$('wb-scope').value,month:$('wb-month').value,q:$('wb-search').value.trim().slice(0,120),
+ firstSeenMonth,q:$('wb-search').value.trim().slice(0,120),
  from:$('wb-from').value,to:$('wb-to').value,kind:$('wb-kind').value,
  evidence:$('wb-evidence').value,sort:$('wb-sort').value,
  relevance:window.SCRO_REVIEW?.filterValue()||'all',
@@ -338,9 +307,10 @@ function readControls(){
  };
 }
 function applyControls(values) {
- pageAnchor=Math.min(MAX_ROWS,Math.max(0,parseInt(values.offset,10)||0));
+ pageAnchor=values.scope==='latest'?0:Math.min(MAX_ROWS,Math.max(0,parseInt(values.offset,10)||0));
  pageIndex=0;
- $('wb-scope').value=safeValue(values.scope,SAFE_SCOPE,'all');
+ const month=values.firstSeenMonth||(values.scope==='archive'?values.month:'');
+ firstSeenMonth=/^\d{4}-(0[1-9]|1[0-2])$/.test(month)?month:'';
  $('wb-sort').value=safeValue(values.sort,SAFE_SORT,'published-desc');
  $('wb-kind').value=safeValue(values.kind,SAFE_KIND,'all');
  $('wb-evidence').value=safeValue(values.evidence,SAFE_EVIDENCE,'all');
@@ -355,18 +325,16 @@ function applyControls(values) {
  const columns=Array.isArray(values.cols)?values.cols:COLS.filter(x=>x.key!=='id').map(x=>x.key);
  document.querySelectorAll('[data-column]').forEach(x=>x.checked=x.disabled||columns.includes(x.dataset.column));
  $('wb-density').value=values.density==='comfortable'?'comfortable':'compact';
- const month=values.month||'';
- if([...$('wb-month').options].some(o=>o.value===month))$('wb-month').value=month;
 }
 function parseURL(){
  const p=new URL(location.href).searchParams;
- return {scope:p.get('scope'),month:p.get('month'),q:p.get('q'),from:p.get('from'),to:p.get('to'),
+ return {scope:p.get('scope'),month:p.get('month'),firstSeenMonth:p.get('firstSeenMonth'),q:p.get('q'),from:p.get('from'),to:p.get('to'),
  kind:p.get('kind'),evidence:p.get('evidence'),sort:p.get('sort'),
  relevance:p.get('relevance'),
  topics:(p.get('topics')||'').split(',').filter(Boolean),tags:(p.get('tag')||'').split(','),cols:p.has('cols')?p.get('cols').split(','):undefined,
  density:p.get('density'),offset:p.get('offset')};
 }
-const workbenchQueryKeys=['scope','month','q','from','to','kind','evidence','sort','topics','tag','cols','density','record','offset'];
+const workbenchQueryKeys=['firstSeenMonth','q','from','to','kind','evidence','sort','topics','tag','cols','density','record','offset'];
 function updateReaderLink(params){
  const link=$('wb-return-to-reader');
  if(!link)return;
@@ -376,13 +344,15 @@ function updateReaderLink(params){
   const value=params.get(key);
   if(value!==null)destination.searchParams.set(key,value);
  }
+ if(firstSeenMonth)destination.searchParams.set('firstSeenMonth',firstSeenMonth);
  link.href=destination.href;
 }
 function syncURL(){
  const s=readControls(),url=new URL(location.href);
  for(const key of workbenchQueryKeys)url.searchParams.delete(key);
- url.searchParams.set('scope',s.scope);
- if(s.scope!=='latest'&&s.month)url.searchParams.set('month',s.month);
+ url.searchParams.delete('scope');
+ url.searchParams.delete('month');
+ if(s.firstSeenMonth)url.searchParams.set('firstSeenMonth',s.firstSeenMonth);
  if(s.q)url.searchParams.set('q',s.q);
  for(const id of ['from','to'])if(s[id])url.searchParams.set(id,s[id]);
  if(s.kind!=='all')url.searchParams.set('kind',s.kind);
@@ -399,32 +369,12 @@ function syncURL(){
  history.replaceState(null,'',url.pathname+url.search+url.hash);
  updateReaderLink(url.searchParams);
 }
-function updateRecordScope(){
- const value=$('wb-scope')?.value||'all';
- document.querySelectorAll('[data-scope]').forEach(button=>{
-  const active=button.dataset.scope===value;
-  button.setAttribute('aria-pressed',String(active));
-  button.textContent=t(button.dataset.l10n||button.textContent);
- });
- const explanations={
-  all:'All searchable records combine current and archived items by ID. Partial coverage is indicated when limits are reached.',
-  latest:'Recent snapshot retains up to 150 days and 240 records; it overlaps with the permanent archive.',
-  archive:'Archive month groups records by first observed date, not publication date.'
- };
- const label=$('wb-scope-hint');if(label)label.textContent=t(explanations[value]||explanations.all);
- const month=$('wb-month')?.closest('label');if(month)month.hidden=value!=='archive';
- const scope=document.querySelector('.wb-scope-nav');
- if(scope)scope.setAttribute('aria-label',t('Record scope'));
- const tabs=document.querySelector('.wb-scope-tabs');
- if(tabs)tabs.setAttribute('aria-label',t('Select record scope'));
-}
 function localiseStatic(){
  updateReaderLink(new URL(location.href).searchParams);
  document.querySelectorAll('[data-l10n]').forEach(n=>{n.textContent=t(n.dataset.l10n);});
  $('wb-search').placeholder=t('Search titles, publishers, DOI, record IDs…');
  $('language-select').setAttribute('aria-label',t('Select website language'));
  document.title=t(editorMode?'Review Editor':'Research Workbench')+' | Supply Chain Rights Observatory';
- updateRecordScope();
  $('wb-table').parentElement.setAttribute('aria-label',t('Paged research results table'));
  render();
 }
@@ -435,9 +385,12 @@ async function fetchJSON(path) {
 }
 
 function renderStatus(){
- updateRecordScope();
- $('wb-latest-count').textContent=live?number(latest.length):'—';
- $('wb-archive-count').textContent=catalog?number(catalog.total_records):'—';
+ const review=window.SCRO_RELEVANCE;
+ const complete=!loading&&live&&!archiveError&&!coveragePartial&&!review?.failed;
+ const count=$('wb-searchable-count');
+ count.textContent=complete?number(activeRecords.filter(row=>review?.included(row)!==false).length):'—';
+ $('wb-legacy-month').hidden=!firstSeenMonth;
+ $('wb-legacy-month-value').textContent=firstSeenMonth;
  $('wb-data-status').textContent=!live?t('Unavailable'):live.status==='ok'?t('Operational (technical)'):
   live.status==='partial'?t('Partial sources'):live.status==='failed'?t('Collection failed'):t('Not started');
  $('wb-updated').textContent=live?dateView(live.last_successful_collection,true):'—';
@@ -448,49 +401,53 @@ async function fetchMonth(month){
  if(!data || !/^\d{4}-\d{2}$/.test(month) || !Array.isArray(data.files) || data.files.length>MAX_FILES)throw new Error('Unsupported archive month');
  let all=[];
  for(const part of data.files){
-  if(!/^\d{4}-\d{2}-\d{4}\.json$/.test(part.file))throw new Error('Unsafe archive filename');
+  if(!/^\d{4}-\d{2}-\d{4}\.json$/.test(part.file)||!part.file.startsWith(month+'-'))throw new Error('Invalid archive filename');
   const shard=await fetchJSON(new URL('../data/archive/'+part.file,wbAssetRoot).href);
   if(!Array.isArray(shard.records) || (typeof part.records==='number'&&shard.records.length!==part.records))throw new Error('Archive integrity mismatch');
-  all.push(...shard.records.map(x=>normalise(x,month)));
+  const records=shard.records.map(x=>normalise(x,month));
+  if(records.some(row=>!validRecordID(row.record_id)))throw new Error('Invalid archive record ID');
+  all.push(...records);
   if(all.length>MAX_ROWS)throw new Error('Archive exceeds browser cap');
  }
  if(all.length!==data.records)throw new Error('Archive count mismatch');
  archiveCache.set(month,all);
  return all;
 }
-async function prepareScope(){
- const req=++runNumber;
- loading=true;archiveError=false;coveragePartial=false;activeRecords=[];
+async function loadCatalogue(){
+ catalogueMonth=firstSeenMonth;
+ loading=true;archiveError=false;coveragePartial=false;
  render();
- const s=readControls();
+ const records=new Map();
+ for(const row of live?.items||[]){
+  if(!row||!validRecordID(canonicalID(row))){archiveError=true;continue;}
+  const record=normalise(row);
+  records.set(record.record_id,record);
+ }
  try {
-  let combined=s.scope==='latest'?[...latest]:[];
-  if(s.scope==='archive'){
-   if(!catalog?.months?.length)throw new Error('No archive months');
-   const month=s.month||catalog.months[0].month;
-   combined=await fetchMonth(month);
-  } else if(s.scope==='all'){
-   if(!catalog || !Array.isArray(catalog.months))throw new Error('Archive catalogue unavailable');
-   combined=[...latest];
-   let fileCount=0,rowCount=0;
-   for(const month of catalog.months){
-    const fragments=month.files?.length||0;
-    if(fileCount+fragments>MAX_FILES||rowCount+month.records>MAX_ROWS){coveragePartial=true;break;}
-    combined.push(...await fetchMonth(month.month));
-    fileCount+=fragments;rowCount+=month.records;
+  if(!catalog)throw new Error('Archive catalogue unavailable');
+  const requested=catalog.months.find(entry=>entry.month===catalogueMonth);
+  const months=requested?[requested,...catalog.months.filter(entry=>entry!==requested)]:catalog.months;
+  let fileCount=0,rowCount=0;
+  for(const month of months){
+   const fragments=month.files?.length||0;
+   if(fileCount+fragments>MAX_FILES||rowCount+month.records>MAX_ROWS){
+    coveragePartial=true;continue;
    }
+   fileCount+=fragments;rowCount+=month.records;
+   try{
+    for(const archived of await fetchMonth(month.month)){
+     // Use recent fields with the archive's original observation date.
+     const current=records.get(archived.record_id);
+     records.set(archived.record_id,current?{...current,first_seen:archived.first_seen,archive_month:archived.archive_month}:archived);
+    }
+   }catch(_){archiveError=true;}
   }
-  if(req!==runNumber)return;
-  const map=new Map();
-  for(const item of combined) {
-   const id=canonicalID(item);
-   if(!/^[0-9a-f]{18}$/.test(id))continue;
-   // Prefer current snapshot if both current and archived observations exist.
-   if(!map.has(id))map.set(id,normalise(item,item.archive_month));
-  }
-  activeRecords=[...map.values()];
- }catch(_) {if(req!==runNumber)return;archiveError=true;activeRecords=s.scope==='all'?[...latest]:[];}
- finally{if(req===runNumber){loading=false;render();}}
+ }catch(_){archiveError=true;}
+ finally{
+  activeRecords=[...records.values()];loading=false;
+  if(coveragePartial&&firstSeenMonth!==catalogueMonth)await loadCatalogue();
+  else render();
+ }
 }
 function selectedRecords(){
  const c=readControls();
@@ -498,6 +455,7 @@ function selectedRecords(){
  const {query,tags}=recordTags.search(c.q);
  const requiredTags=[...new Set([...c.tags,...tags])];
  let arr=activeRecords.filter(x=>{
+  if(c.firstSeenMonth&&x.archive_month!==c.firstSeenMonth)return false;
   if(requiredTags.length&&!requiredTags.every(tag=>publishedTags(x).includes(tag)))return false;
   if(c.kind!=='all'&&x.kind!==c.kind)return false;
   if(c.evidence==='unverified'&&!String(x.evidence_status).toLowerCase().includes('unverified'))return false;
@@ -641,7 +599,7 @@ function drawTable(){
  const rowHeight=c.density==='comfortable'?84:68;
  table.style.setProperty('--wb-page-row-height',rowHeight+'px');
  pageSize=editorMode?EDITOR_PAGE_SIZE:sizeReaderPage(wrap,thead,rowHeight);
- if(!loading && live){
+ if(!loading){
   if(locateSelection){const at=filtered.findIndex(x=>x.record_id===chosen);if(at>=0)pageAnchor=at;locateSelection=false;}
   pageIndex=Math.min(Math.max(0,Math.ceil(filtered.length/pageSize)-1),Math.floor(pageAnchor/pageSize));
   pageAnchor=pageIndex*pageSize;
@@ -671,7 +629,7 @@ function drawTable(){
   tbody.append(row);
  }
  if(!filtered.length){
-  const row=document.createElement('tr'),cell=text('td',t(loading?'Loading historical records…':archiveError?'Archive could not be loaded; results are not complete.':'No results'));
+  const row=document.createElement('tr'),cell=text('td',t(loading?'Loading public records…':'No results'));
   row.className='wb-page-empty';cell.colSpan=fields.length;row.append(cell);tbody.append(row);
  }
  const pages=Math.ceil(filtered.length/pageSize);
@@ -682,6 +640,7 @@ function drawTable(){
  $('wb-count').textContent=filtered.length?t('Showing')+' '+number(start+1)+'–'+number(end)+' '+t('of')+' '+number(filtered.length)+' '+t('records'):'0 '+t('Records shown');
  const terms=[];
  if(c.q)terms.push(c.q);
+ if(c.firstSeenMonth)terms.push(t('First-seen month')+' '+c.firstSeenMonth);
  if(c.topics.length)terms.push(c.topics.map(k=>t(TOPICS[k]||k)).join(' OR '));
  if(c.tags.length)terms.push(c.tags.map(tag=>'#'+tag).join(' '));
  if(c.kind!=='all')terms.push(t(c.kind==='academic'?'Academic metadata':'Discovery leads'));
@@ -691,16 +650,16 @@ function drawTable(){
  const relevanceLabel=window.SCRO_REVIEW?.filterLabel();
  if(relevanceLabel)terms.push(relevanceLabel);
  $('wb-active-filters').textContent=terms.join(' · ')||t('No active filters');
- let status=c.scope==='latest'?t('Scope: latest snapshot'):c.scope==='archive'?t('Scope: archive month')+': '+c.month:t('Scope: combined catalogue');
- if(loading)status+=' · '+t('Loading historical records…');
- else if(archiveError)status+=' · '+t('Archive could not be loaded; results are not complete.');
- else if(coveragePartial)status+=' · '+t('Partial archive scope: only recent shards loaded. Narrow the month or use the canonical archive for full analysis.');
- else if(c.scope==='all')status+=' · '+t('All available archive shards loaded.');
- else status+=' · '+number(activeRecords.length)+' '+t('Records loaded');
- if(c.from&&c.to&&c.from>c.to)status+=' · '+t('Date range is reversed.');
- const alert=$('wb-coverage');alert.textContent=status;
- alert.classList.toggle('is-alert',archiveError||coveragePartial||Boolean(c.from&&c.to&&c.from>c.to));
- if(live&&!loading)syncURL();
+ const warnings=[];
+ if(!loading){
+  if(archiveError||!live)warnings.push(t('Some records could not be loaded. Search results may be incomplete.'));
+  if(coveragePartial)warnings.push(t('Search covers part of the archive. Browse by month in the Research Archive.'));
+  if(window.SCRO_RELEVANCE?.failed)warnings.push(t('The review index could not be loaded.'));
+ }
+ if(c.from&&c.to&&c.from>c.to)warnings.push(t('Date range is reversed.'));
+ const alert=$('wb-coverage');alert.textContent=warnings.join(' · ');
+ alert.classList.toggle('is-alert',warnings.length>0);
+ if(!loading)syncURL();
 }
 
 function filterTag(tag){
@@ -712,6 +671,7 @@ function filterTag(tag){
 function renderTagFilters(){
  const select=$('wb-tag-filter'),chips=$('wb-tag-filters'),counts=new Map();
  for(const item of activeRecords){
+  if(firstSeenMonth&&item.archive_month!==firstSeenMonth)continue;
   if(window.SCRO_RELEVANCE?.included(item)===false)continue;
   for(const tag of publishedTags(item))counts.set(tag,(counts.get(tag)||0)+1);
  }
@@ -783,10 +743,11 @@ function selectRecord(id){
  document.querySelectorAll('#wb-tbody tr').forEach(row=>row.classList.toggle('is-selected',row.dataset.recordId===id));
 }
 function render(){renderStatus();drawTable();showRecord();}
-function changed(reload,keepPosition=false){
+function changed(keepPosition=false){
  if(!keepPosition){pageAnchor=0;pageIndex=0;}
  syncURL();
- if(reload)prepareScope();else render();
+ if(!loading&&coveragePartial&&firstSeenMonth!==catalogueMonth)loadCatalogue();
+ else render();
 }
 function csvCell(value) {
  let s=String(value==null?'':Array.isArray(value)?value.join('; '):value).replace(/[\u0000-\u001f\u007f]/g,' ');
@@ -800,7 +761,7 @@ function exportCSV(){
  const csv='\ufeff'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n');
  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
  const url=URL.createObjectURL(blob);
- const a=document.createElement('a');a.href=url;a.download='scro-'+$('wb-scope').value+'-'+new Date().toISOString().slice(0,10)+'.csv';
+ const a=document.createElement('a');a.href=url;a.download='scro-records-'+new Date().toISOString().slice(0,10)+'.csv';
  document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),750);
 }
 function views(){
@@ -827,45 +788,28 @@ async function share(){
  catch(_){window.prompt(t('Unable to copy automatically; copy the address shown.'),url.href);}
 }
 function reset(){
- applyControls({scope:'all',sort:'published-desc',kind:'all',evidence:'all'});
- chosen='';changed(true);
+ applyControls({sort:'published-desc',kind:'all',evidence:'all'});
+ chosen='';changed();
 }
 function setPreset(key){
- const base={scope:'all',sort:'published-desc',kind:'all',evidence:'all'};
+ const base={sort:'published-desc',kind:'all',evidence:'all'};
  if(key==='labour')base.topics=['forced-labour','working-conditions','worker-voice'];
  if(key==='policy')base.topics=['policy','network'];
  if(key==='academic')base.kind='academic';
- applyControls(base);chosen='';changed(true);
+ applyControls(base);chosen='';changed();
 }
 async function init(){
  applyControls(parseURL());
  chosen=(param.get('record')||'').match(/^[0-9a-f]{18}$/)?.[0]||'';
  locateSelection=Boolean(chosen);
  localiseStatic();
- try{
-  const [a,b]=await Promise.allSettled([
-   fetchJSON(new URL('../data/latest.json',wbAssetRoot).href),
-   fetchJSON(new URL('../data/archive/catalog.json',wbAssetRoot).href)
-  ]);
-  if(a.status!=='fulfilled'||!Array.isArray(a.value.items))throw Error('Latest snapshot unavailable');
-  live=a.value;
-  latest=live.items.map(x=>normalise(x)).filter(x=>/^[0-9a-f]{18}$/.test(x.record_id));
-  catalog=b.status==='fulfilled'&&Array.isArray(b.value.months)?b.value:null;
-  const months=$('wb-month');months.replaceChildren();
-  if(catalog){
-   for(const m of catalog.months){
-    if(!/^\d{4}-\d{2}$/.test(m.month))continue;
-    const op=text('option',m.month+' ('+m.records+')');op.value=m.month;months.append(op);
-   }
-  }
-  const month=parseURL().month;
-  if(month&&[...months.options].some(o=>o.value===month))months.value=month;
-  await prepareScope();
- }catch(_){
-  live=null;archiveError=true;loading=false;
-  $('wb-coverage').textContent=t('Data could not be loaded. Check the GitHub Pages deployment.');
-  render();
- }
+ const [snapshot,archive]=await Promise.allSettled([
+  fetchJSON(new URL('../data/latest.json',wbAssetRoot).href),
+  fetchJSON(new URL('../data/archive/catalog.json',wbAssetRoot).href)
+ ]);
+ if(snapshot.status==='fulfilled'&&Array.isArray(snapshot.value?.items))live=snapshot.value;
+ if(archive.status==='fulfilled'&&Array.isArray(archive.value?.months))catalog=archive.value;
+ await loadCatalogue();
 }
 function bind(){
  setupPagination();
@@ -883,22 +827,18 @@ function bind(){
    document.getElementById('review-panel')?.scrollIntoView({block:'nearest'});
   }else{
    const url=new URL(location.href);
-   url.searchParams.set('scope','all');url.searchParams.set('record',rid);
-   for(const key of ['q','from','to','kind','evidence','topics','tag','relevance','offset','month'])url.searchParams.delete(key);
+   url.searchParams.set('record',rid);
+   for(const key of ['q','from','to','kind','evidence','topics','tag','relevance','offset','scope','month','firstSeenMonth'])url.searchParams.delete(key);
    location.assign(url.href);
   }
  });
  for(const id of ['wb-search','wb-sort','wb-kind','wb-evidence','wb-from','wb-to','wb-density'])
-  $(id).addEventListener(id==='wb-search'?'input':'change',()=>changed(false,id==='wb-density'));
- $('wb-scope').addEventListener('change',()=>changed(true));
- document.querySelectorAll('[data-scope]').forEach(button=>button.addEventListener('click',()=>{
-  if($('wb-scope').value===button.dataset.scope)return;
-  $('wb-scope').value=button.dataset.scope;
-  chosen='';changed(true);
- }));
- $('wb-month').addEventListener('change',()=>changed(true));
+  $(id).addEventListener(id==='wb-search'?'input':'change',()=>changed(id==='wb-density'));
+ $('wb-clear-legacy-month').addEventListener('click',()=>{
+  firstSeenMonth='';changed();$('wb-search').focus();
+ });
  $('wb-tag-filter').addEventListener('change',event=>{filterTag(event.target.value);});
- document.querySelectorAll('[name="wb-topic"],[data-column]').forEach(x=>x.addEventListener('change',()=>changed(false,Boolean(x.dataset.column))));
+ document.querySelectorAll('[name="wb-topic"],[data-column]').forEach(x=>x.addEventListener('change',()=>changed(Boolean(x.dataset.column))));
  $('wb-clear').addEventListener('click',reset);
  $('wb-export').addEventListener('click',exportCSV);
  $('wb-prev').addEventListener('click',()=>turnPage(-1));
@@ -912,7 +852,7 @@ function bind(){
  });
  $('wb-saved-list').addEventListener('change',()=>{
   const v=views().find(x=>x.id===$('wb-saved-list').value);
-  if(v){applyControls(v.state);chosen='';changed(true);}
+  if(v){applyControls(v.state);chosen='';changed();}
  });
  document.querySelectorAll('[data-preset]').forEach(x=>x.addEventListener('click',()=>setPreset(x.dataset.preset)));
  window.addEventListener('keydown',e=>{

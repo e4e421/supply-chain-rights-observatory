@@ -4,7 +4,7 @@
 Requires locally installed Chrome/Chromium. Outputs explicit SKIPPED status if
 the browser is absent; must not be reported as a passed accessibility audit.
 """
-import json,os,shutil,subprocess,tempfile,time
+import json,os,re,shutil,subprocess,tempfile,time
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 CHROME=next((shutil.which(x) for x in ("google-chrome","chromium","chromium-browser","google-chrome-stable") if shutil.which(x)),None)
@@ -35,20 +35,22 @@ def run():
             for code,expected in [("en","Research Workbench"),("zh","研究工作台"),("de","Forschungsarbeitsplatz"),("es","Espacio de investigación")]:
                 args=[CHROME,"--headless=new","--no-sandbox","--disable-dev-shm-usage","--disable-gpu",
                       "--virtual-time-budget=5500","--user-data-dir="+profile+"-workbench-"+code,
-                      "--dump-dom","http://127.0.0.1:8765/workbench/?scope=latest&lang="+code]
+                      "--dump-dom","http://127.0.0.1:8765/workbench/?lang="+code]
                 got=subprocess.run(args,capture_output=True,text=True,timeout=55,check=True).stdout
                 if expected not in got:raise ValueError("Workbench language failed: "+code)
                 if 'id="wb-tbody"' not in got:raise ValueError("Workbench table missing")
-                if not __import__('re').search(r'data-record-id="[a-f0-9]{18}"',got):
+                if not re.search(r'data-record-id="[a-f0-9]{18}"',got):
                     raise ValueError("Workbench did not load live records: "+code)
+                if not re.search(r'id="wb-searchable-count">[0-9][0-9.,]*</strong>',got):
+                    raise ValueError("Workbench total did not load: "+code)
                 print("PASS browser workbench:",code)
             catalog=json.loads((ROOT/"docs/data/archive/catalog.json").read_text())
             if catalog.get("months"):
                 m=catalog["months"][0]
-                # Verify professional deep links, month scope and URL-based query state.
+                # Exercise legacy links as well as the default complete catalogue.
                 checks=[
-                    ("archive","/workbench/?scope=archive&month="+m["month"]+"&lang=en",'data-record-id="'),
-                    ("combined","/workbench/?scope=all&lang=en","Scope: combined catalogue"),
+                    ("archive","/workbench/?scope=archive&month="+m["month"]+"&lang=en",f'id="wb-legacy-month-value">{m["month"]}</strong>'),
+                    ("combined","/workbench/?scope=all&lang=en",'id="wb-coverage" role="status" aria-live="polite"></div>'),
                     ("empty-filter","/workbench/?scope=latest&q=SCRO_SENTINEL_NO_RESULT_9031&lang=en","0 Records shown")
                 ]
                 for label,path,needle in checks:
@@ -67,7 +69,7 @@ def run():
                               "--virtual-time-budget=6000","--user-data-dir="+profile+"-workbench-selected",
                               "--dump-dom",uri]
                         got=subprocess.run(args,capture_output=True,text=True,timeout=55,check=True).stdout
-                        selected_row=__import__("re").search(r'<tr[^>]*data-record-id="'+rid+r'"[^>]*>',got)
+                        selected_row=re.search(r'<tr[^>]*data-record-id="'+rid+r'"[^>]*>',got)
                         if not selected_row or 'is-selected' not in selected_row.group(0):
                             raise ValueError("Workbench selected record deep link failed")
                         print("PASS browser workbench selected record:",rid)

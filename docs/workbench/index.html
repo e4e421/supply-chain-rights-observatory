@@ -29,8 +29,7 @@
   <main class="wb-shell">
     <h1 class="sr-only" data-l10n="Research Workbench">Research Workbench</h1>
     <section class="wb-status-strip" aria-label="Dataset status">
-      <div><small data-l10n="Recent snapshot records">Recent snapshot records</small><strong id="wb-latest-count">—</strong></div>
-      <div><small data-l10n="Permanent archive records">Permanent archive records</small><strong id="wb-archive-count">—</strong></div>
+      <div><small data-l10n="Searchable records">Searchable records</small><strong id="wb-searchable-count">—</strong></div>
       <div><small data-l10n="Collection status">Collection status</small><strong id="wb-data-status">—</strong></div>
       <div><small data-l10n="Last successful collection">Last successful collection</small><strong id="wb-updated">—</strong></div>
       <div class="wb-strip-links"><a href="../index.html#sources" data-l10n="Source directory">Source directory</a><a href="../index.html#method" data-l10n="Methodology">Methodology</a></div>
@@ -41,31 +40,20 @@
         <span aria-hidden="true">⌕</span><input id="wb-search" type="search" maxlength="120" autocomplete="off" placeholder="Search titles, publishers, DOI, record IDs…">
         <kbd>/</kbd>
       </div>
-      <div class="wb-scope-select-state" hidden>
-        <label for="wb-scope">Record scope</label>
-        <select id="wb-scope" tabindex="-1" aria-hidden="true"><option value="all">All searchable records</option><option value="latest">Recent snapshot</option><option value="archive">First-seen month</option></select>
-      </div>
       <div class="wb-toolbar-select">
         <label for="wb-sort" data-l10n="Sort by">Sort by</label>
         <select id="wb-sort"><option value="published-desc" data-l10n="Published: newest">Published: newest</option><option value="published-asc" data-l10n="Published: oldest">Published: oldest</option><option value="observed-desc" data-l10n="Observed: newest">Observed: newest</option><option value="title-asc" data-l10n="Title: A–Z">Title: A–Z</option><option value="publisher-asc" data-l10n="Publisher: A–Z">Publisher: A–Z</option></select>
       </div>
       <button type="button" class="wb-action" id="wb-clear" data-l10n="Reset">Reset</button>
     </section>
-    <section class="wb-scope-nav" aria-label="Record scope">
-      <div class="wb-scope-heading"><strong data-l10n="Record scope">Record scope</strong>
-        <div class="wb-scope-tabs" role="group" aria-label="Select record scope">
-          <button type="button" data-scope="all" aria-pressed="true" data-l10n="All searchable records">All searchable records</button>
-          <button type="button" data-scope="latest" aria-pressed="false" data-l10n="Recent snapshot">Recent snapshot</button>
-          <button type="button" data-scope="archive" aria-pressed="false" data-l10n="First-seen month">First-seen month</button>
-        </div>
-      </div>
-      <p class="wb-scope-hint" id="wb-scope-hint" role="status" aria-live="polite">Archive and recent records are deduplicated; some periods may be partially loaded.</p>
-    </section>
     <div class="wb-grid">
       <aside class="wb-filters" aria-label="Advanced filters">
         <div class="wb-pane-head"><h2 data-l10n="Filters">Filters</h2><small data-l10n="Combinable criteria">Combinable criteria</small></div>
         <div class="wb-filter-body">
-          <label class="wb-field"><span data-l10n="Archive month">Archive month</span><select id="wb-month"><option value="" data-l10n="Loading months…">Loading months…</option></select></label>
+          <div class="wb-legacy-month" id="wb-legacy-month" hidden>
+            <div><span data-l10n="First-seen month">First-seen month</span> <strong id="wb-legacy-month-value"></strong></div>
+            <button type="button" class="wb-action" id="wb-clear-legacy-month" data-l10n="Remove first-seen month filter">Remove first-seen month filter</button>
+          </div>
           <div class="wb-field-split">
             <label class="wb-field"><span data-l10n="Published from (UTC)">Published from (UTC)</span><input type="date" id="wb-from"></label>
             <label class="wb-field"><span data-l10n="Published through (UTC)">Published through (UTC)</span><input type="date" id="wb-to"></label>
