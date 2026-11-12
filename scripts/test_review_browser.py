@@ -625,8 +625,13 @@ def run():
        .filter(path=>/\/data\/archive\/\d{4}-\d{2}-\d{4}\.json$/.test(path));
       return document.getElementById('wb-first-seen-month').value==='2026-10'&&shards.length===1&&shards[0].endsWith('/2026-10-0001.json');
      })()'''), 'Month filter downloaded unrelated archive shards'
-     browser.evaluate('document.getElementById("wb-clear-legacy-month").click()')
-     assert browser.evaluate('document.getElementById("wb-legacy-month").hidden&&document.getElementById("wb-count").dataset.total==="7"&&!new URL(location.href).searchParams.has("firstSeenMonth")')
+     assert browser.evaluate(r'''(async()=>{
+      document.getElementById('wb-clear-legacy-month').click();
+      const count=document.getElementById('wb-count');
+      for(let i=0;i<100&&count.dataset.total!=='7';i++)await new Promise(resolve=>setTimeout(resolve,25));
+      return document.getElementById('wb-legacy-month').hidden&&count.dataset.total==='7'&&
+       !new URL(location.href).searchParams.has('firstSeenMonth');
+     })()'''), 'Clearing the month did not reload the combined catalogue'
      print('PASS legacy search URLs, first-observation month and stable catalogue total',language,width,flush=True)
      print('PASS localized collection age and full English UTC timestamp in both workbench modes',language,width,flush=True)
      if width==390:
