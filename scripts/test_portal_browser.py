@@ -137,7 +137,9 @@ PROBE=r'''
   check(fixtureRow?.querySelector('.wb-date-cell')?.textContent===utcDay,'Workbench date filter or display differs from UTC');
   dispatch('wb-to','2026-11-09','change');
   check(!document.querySelector('[data-record-id="'+fixtureRecord+'"]'),'Workbench included a record after the UTC cutoff');
-  check(document.getElementById('wb-updated').textContent.endsWith(' UTC'),'Collection timestamp lacks UTC');
+  const collectionTime=document.getElementById('wb-updated-utc');
+  check(collectionTime?.tagName==='TIME'&&!collectionTime.hidden&&collectionTime.textContent.endsWith(' UTC'),
+   'Collection timestamp lacks a visible UTC time');
  }
  if(page==='policy')check(document.body.textContent.includes('2027-12-14')&&document.body.textContent.includes('2029-07-26'),'Policy dates absent');
  check(document.documentElement.scrollWidth<=innerWidth+3,'Horizontal document overflow');

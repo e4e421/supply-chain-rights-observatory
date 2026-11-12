@@ -11,6 +11,34 @@ from build_relevance import load_records
 from relevance_engine import decorate,digest,fingerprint
 from propose_reviews import prepare
 from publish_reviews import parse_publish_body as parse_body
+COLLECTION_CLOCK_PROBE=r'''
+(()=>{
+ const relative=document.getElementById('wb-updated');
+ const absolute=document.getElementById('wb-updated-utc');
+ const language=document.documentElement.lang;
+ const format=new Intl.RelativeTimeFormat(language,{numeric:'always',style:'long'});
+ const collection=Date.parse('2026-11-11T17:57:00Z');
+ if(relative?.textContent!==format.format(-7,'hour')||absolute?.tagName!=='TIME'||absolute.hidden||
+    absolute.textContent!=='11 November 2026, 17:57 UTC'||!absolute.dateTime.endsWith('Z')||
+    Date.parse(absolute.dateTime)!==collection)return false;
+ const justNow={en:'Just now','zh-Hant':'剛剛',de:'Gerade eben',es:'Ahora mismo'}[language];
+ const now=Date.now;
+ try{
+  for(const [minutes,expected] of [
+   [0.5,justNow],[59,format.format(-59,'minute')],[60,format.format(-1,'hour')],
+   [47*60,format.format(-47,'hour')],[48*60,format.format(-2,'day')]
+  ]){
+   Date.now=()=>collection+minutes*60_000;
+   document.dispatchEvent(new Event('visibilitychange'));
+   if(relative.textContent!==expected||absolute.textContent!=='11 November 2026, 17:57 UTC')return false;
+  }
+ }finally{
+  Date.now=now;
+  document.dispatchEvent(new Event('visibilitychange'));
+ }
+ return true;
+})()
+'''
 PROBE=r'''
 (async()=>{
  const check=(value,message)=>{if(!value)throw Error(message);};
@@ -406,7 +434,7 @@ def install_filter_fixture(site):
         document.update(fields)
         path.write_text(json.dumps(document))
 
-    replace('latest.json', items=records[:-1])
+    replace('latest.json', items=records[:-1], last_successful_collection='2026-11-11T17:57:00Z')
     months = []
     for month, row in (('2026-11', records[0]), ('2026-10', records[-1])):
         shard = month+'-0001.json'
@@ -500,24 +528,33 @@ def run():
    assert browser.evaluate('document.getElementById("record-content").textContent.includes("Excluded by editorial review")')
    print('PASS excluded original record remains accessible with warning',flush=True)
    install_filter_fixture(site)
+   clock_script=browser.call('Page.addScriptToEvaluateOnNewDocument',{
+    'source':"Date.now=()=>Date.parse('2026-11-12T01:21:00Z');"
+   })['identifier']
+   browser.call('Emulation.setTimezoneOverride',{'timezoneId':'Asia/Taipei'})
    for language in ('en','zh','de','es'):
     for width in (1920,390):
      navigate('workbench/edit/?relevance=high',language,width)
+     assert browser.evaluate(COLLECTION_CLOCK_PROBE), f'Editor collection clock failed for {language}, {width}px'
      assert browser.evaluate(FILTER_PROBE)
      reports.append({'language':language,'width':width,'relevance_filters':'passed'})
      print('PASS relevance options, combined filters, locale switching, shared and saved views, reset and sort',
            language,width,flush=True)
      navigate('workbench/?scope=latest&q=flood+theta',language,width)
+     assert browser.evaluate(COLLECTION_CLOCK_PROBE), f'Reader collection clock failed for {language}, {width}px'
      assert browser.evaluate('document.getElementById("wb-count").dataset.total==="1"&&document.getElementById("wb-searchable-count").textContent==="7"&&document.querySelector("#wb-tbody [data-record-id]")?.dataset.recordId==="000000000000000008"&&!new URL(location.href).searchParams.has("scope")')
      navigate('workbench/edit/?scope=archive&month=2026-10&record=000000000000000008',language,width)
      assert browser.evaluate('document.getElementById("wb-count").dataset.total==="1"&&document.getElementById("wb-searchable-count").textContent==="7"&&!document.getElementById("wb-legacy-month").hidden&&document.getElementById("wb-legacy-month-value").textContent==="2026-10"&&document.querySelector("#wb-tbody .is-selected")?.dataset.recordId==="000000000000000008"&&new URL(document.getElementById("wb-return-to-reader").href).searchParams.get("firstSeenMonth")==="2026-10"')
      browser.evaluate('document.getElementById("wb-clear-legacy-month").click()')
      assert browser.evaluate('document.getElementById("wb-legacy-month").hidden&&document.getElementById("wb-count").dataset.total==="7"&&!new URL(location.href).searchParams.has("firstSeenMonth")')
      print('PASS legacy search URLs, first-observation month and stable catalogue total',language,width,flush=True)
+     print('PASS localized collection age and full English UTC timestamp in both workbench modes',language,width,flush=True)
      if width==390:
       assert browser.evaluate(STALE_QUEUE_PROBE)
       browser.evaluate('localStorage.removeItem("scro.review.drafts.v1");localStorage.removeItem("scro.review.queue.v2")')
       print('PASS bulk removal of outdated drafts preserves current, unindexed and handoff drafts',language,flush=True)
+   browser.call('Page.removeScriptToEvaluateOnNewDocument',{'identifier':clock_script})
+   browser.call('Emulation.setTimezoneOverride',{'timezoneId':''})
    browser.evaluate(r'''(()=>{
     const rid='000000000000000004',index=SCRO_RELEVANCE,record=index.get(rid);
     const draft={...SCRO_REVIEW_STORE.publicationFields(record.review),expected_review_digest:'2'.repeat(64),
