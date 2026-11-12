@@ -38,7 +38,7 @@ The research portal supports **English (default)**, **Traditional Chinese**, **G
 ## Two public fronts: visitor portal and professional workbench
 
 - **Visitor portal:** https://e4e421.github.io/supply-chain-rights-observatory/ — introductory research context, latest headlines, references, historical archive, methods and limitations.
-- **Professional workbench:** https://e4e421.github.io/supply-chain-rights-observatory/workbench/ — high-density table, three-pane inspection, latest/monthly/combined search, AND/OR/phrase queries, editable filters and visible columns, date sorting, DOI/record ID lookup, and publication provenance. See the [Source Directory](https://e4e421.github.io/supply-chain-rights-observatory/sources/#data-availability) for feed and reference availability.
+- **Professional workbench:** https://e4e421.github.io/supply-chain-rights-observatory/workbench/ — search the combined index, narrow results by publication date (UTC), and sort by first observation to see recently collected records. The workbench also supports AND/OR/phrase queries, DOI and record ID lookup, and publication provenance. Use the [Research Archive](https://e4e421.github.io/supply-chain-rights-observatory/archive/) to browse by first-observation month and the [Source Directory](https://e4e421.github.io/supply-chain-rights-observatory/sources/#data-availability) for feed and reference availability.
 - Bookmark \`/workbench/\` for a fast daily research entry. Shared URLs retain filters. Named views are stored in the current browser.
 - Keyboard controls: \`/\` to focus search, \`J/K\` to navigate records, \`Enter\` to inspect the selected record, and \`Escape\` to clear selection. Dense and comfortable table modes are available.
 - **Combined archive search:** monthly static JSON shards are loaded on demand. A conservative 24-shard / 10,000-record browser limit prevents runaway loads; when exceeded, the interface explicitly labels results as **partial**. The canonical JSONL remains the research-grade export source.
@@ -58,7 +58,7 @@ Data collection is scheduled daily at **10:23 and 22:23 UTC**. On Sundays at **2
 
 ## Long-term research database and source governance
 
-The long-term archive is **already initialized**; existing public records were backfilled from the latest snapshot, and future new records are appended by the daily collection workflow. The current user-facing snapshot remains deliberately bounded (150 days and 240 records). The archive **does not expire on this snapshot schedule**.
+The daily collection workflow appends newly accepted records to the permanent archive, grouped by first-observation month. The collection snapshot retains up to 240 records published within the past 150 days and supplies the latest research section on the homepage.
 
 - One immutable first-observation entry per `record_id` in `data/archive/YYYY-MM.jsonl`; stable IDs use the existing 18-character public SHA-256 prefix. Collision/fingerprint mismatches fail closed. Each record has `first_seen` and `event_id: null`.
 - `manifest.json` enumerates monthly files with SHA-256 digests, sizes and record counts. **Integrity checks are not authenticated third-party signatures**; project administrators can still alter history.

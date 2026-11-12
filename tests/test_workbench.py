@@ -25,9 +25,12 @@ class WorkbenchContractTests(unittest.TestCase):
   self.assertIn("../i18n.js",m.links)
   self.assertIn("../query.js",m.links)
   self.assertIn("./workbench.js",m.links)
-  required=["wb-search","wb-scope","wb-sort","wb-month","wb-tbody","wb-detail",
-            "wb-count","wb-export","wb-share","wb-save","wb-saved-list","wb-more"]
+  required=["wb-search","wb-sort","wb-searchable-count","wb-tbody","wb-detail",
+            "wb-count","wb-export","wb-share","wb-save","wb-saved-list","wb-more",
+            "wb-legacy-month","wb-legacy-month-value","wb-clear-legacy-month"]
   self.assertTrue(set(required).issubset(m.ids))
+  self.assertTrue({"wb-scope","wb-month","wb-latest-count","wb-archive-count"}.isdisjoint(m.ids))
+  self.assertNotIn("data-scope=",WB)
   self.assertNotIn("wb-quality", m.ids)
  def test_public_research_safety(self):
   self.assertIn("Content-Security-Policy",WB)

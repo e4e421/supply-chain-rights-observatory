@@ -31,19 +31,16 @@ PROBE=r'''
  check(!document.querySelector('.wb-editor-link, .wb-footer'),'Editor exposes its own entry link');
  check(back.getBoundingClientRect().height>=24&&getComputedStyle(back).textDecorationLine==='underline','Return link lacks size or visible affordance');
  check(document.activeElement===back&&getComputedStyle(back).outlineStyle==='solid','Return link lacks keyboard focus indication');
- check(document.querySelector('[data-scope=all]').getAttribute('aria-pressed')==='true','All searchable records not default');
- check(document.getElementById('wb-scope').value==='all','Underlying scope inconsistent');
- const hint=document.getElementById('wb-scope-hint').textContent.trim();
- check(hint.length>12,'Scope explanation missing');
- check(!/^(All searchable records|Recent snapshot|First-seen month)$/.test(hint),'Scope description is only a label');
- document.querySelector('[data-scope="latest"]').click();
- check(document.getElementById('wb-scope').value==='latest','Recent snapshot toggle failed');
- check(document.querySelector('#wb-scope-hint').textContent.includes('150') ||
-   document.documentElement.lang!=='en','Recent snapshot meaning not visible');
- document.querySelector('[data-scope="archive"]').click();
- check(!document.getElementById('wb-month').closest('label').hidden,'First-seen month filter hidden');
- document.querySelector('[data-scope="all"]').click();
- check(document.getElementById('wb-month').closest('label').hidden,'Unnecessary month filter still visible');
+ check(!document.querySelector('[data-scope], #wb-scope, #wb-month, #wb-latest-count, #wb-archive-count'),
+   'Removed scope controls or counters are still present');
+ const total=document.getElementById('wb-searchable-count');
+ const totalLabel={en:'Searchable records','zh-Hant':'可搜尋紀錄總數',
+   de:'Durchsuchbare Datensätze insgesamt',es:'Total de registros consultables'}[lang];
+ check(total.previousElementSibling.textContent===totalLabel&&
+   Number(total.textContent.replace(/\D/g,''))===Number(document.getElementById('wb-count').dataset.total),
+   'Default searchable total is inconsistent or untranslated');
+ check(document.getElementById('wb-legacy-month').hidden&&!document.getElementById('wb-coverage').textContent,
+   'The default search still shows a scope or coverage message');
  await settle();
  const rows=[...document.querySelectorAll('#wb-tbody [data-record-id]')];
  check(rows.length===10,'Editor does not show ten records per page');
@@ -166,7 +163,7 @@ PROBE=r'''
  check(reader.pathname===new URL('../',here).pathname,'Return link did not target read-only Workbench');
  check(reader.searchParams.get('lang')===({en:'en','zh-Hant':'zh',de:'de',es:'es'})[lang]&&
    reader.searchParams.get('q')===second&&reader.searchParams.get('record')===second&&
-   reader.searchParams.get('scope')==='all','Return link lost research context');
+   !reader.searchParams.has('scope'),'Return link lost research context');
  check(!reader.searchParams.has('qa')&&!reader.searchParams.has('relevance'),'Editor-only query parameters leaked');
  if(lang==='es'){
   const picker=document.getElementById('language-select');
@@ -210,6 +207,7 @@ FILTER_PROBE=r'''
   const actual=rows.map(row=>parseInt(row.dataset.recordId,16)).sort((a,b)=>a-b);
   check(same(actual,ids)&&byId('wb-count').dataset.total===String(ids.length),
    label+' expected '+ids+' but showed '+actual+' ('+byId('wb-count').dataset.total+' total)');
+  check(byId('wb-searchable-count').textContent==='7','Filter changed the deduplicated header total');
  };
  const waitForResults=async(label,ids)=>{
   for(let i=0;i<90&&byId('wb-count').dataset.total!==String(ids.length);i++)
@@ -281,13 +279,14 @@ FILTER_PROBE=r'''
  check(filter.value==='high'&&query('relevance')==='high','Saved view lost relevance');
  byId('wb-remove-view').click();
  byId('wb-clear').click();
- await waitForResults('Reset before scope checks',expected.all);
+ await waitForResults('Reset before sorting',expected.all);
  change('rv-filter','low');
  assertResults('Low across snapshot and archive',expected.low);
- document.querySelector('[data-scope="latest"]').click();
- await waitForResults('Low within snapshot',[5]);
- document.querySelector('[data-scope="archive"]').click();
- await waitForResults('Low within archive',[8]);
+ change('rv-filter','all');
+ change('wb-sort','observed-desc');
+ assertResults('First-observation sort',expected.all);
+ check(document.querySelector('#wb-tbody [data-record-id]').dataset.recordId==='000000000000000001',
+   'First-observation sort used publication dates');
  return true;
 })()
 '''
@@ -313,8 +312,8 @@ def install_filter_fixture(site):
             'record_id': record_id, 'title': 'Fixture '+title, 'kind': kind,
             'publisher_hint': 'Fixture Publisher', 'topics': [topic],
             'source_id': 'filter-fixture', 'url': f'https://example.org/{record_id}',
-            'first_seen': '2026-11-11T01:00:00Z',
-            'published_at': '2026-11-10T23:59:00Z' if n == 1 else '2026-11-11T00:00:00Z',
+            'first_seen': {1:'2026-11-12T03:00:00Z', 8:'2026-10-31T01:00:00Z'}.get(n, '2026-11-11T01:00:00Z'),
+            'published_at': {1:'2026-11-10T23:59:00Z', 8:'2026-09-29T00:00:00Z'}.get(n, '2026-11-11T00:00:00Z'),
             'evidence_status': 'Bibliographic record' if kind == 'academic' else 'Unverified discovery lead',
         }
         records.append(record)
@@ -344,11 +343,12 @@ def install_filter_fixture(site):
         path.write_text(json.dumps(document))
 
     replace('latest.json', items=records[:-1])
-    shard = '2026-11-0001.json'
-    replace('archive/catalog.json', total_records=1, months=[
-        {'month': '2026-11', 'records': 1, 'files': [{'file': shard, 'records': 1}]},
-    ])
-    (data/'archive'/shard).write_text(json.dumps({'records': records[-1:]}))
+    months = []
+    for month, row in (('2026-11', records[0]), ('2026-10', records[-1])):
+        shard = month+'-0001.json'
+        months.append({'month': month, 'records': 1, 'files': [{'file': shard, 'records': 1}]})
+        (data/'archive'/shard).write_text(json.dumps({'records': [row]}))
+    replace('archive/catalog.json', total_records=2, months=months)
     replace('relevance-index.json', records=sidecar, coverage='partial', tag_catalog=['smoke'], record_tags=tags)
 
 
@@ -383,8 +383,8 @@ def run():
    for language in ('en','zh','de','es'):
     for width in (1920,390):
      navigate('workbench/',language,width)
-     self_readonly=browser.evaluate('document.querySelector("#review-panel")===null&&document.getElementById("rv-publish-batch")===null&&document.querySelector("[data-scope=all]").getAttribute("aria-pressed")==="true"')
-     if not self_readonly:raise AssertionError('Public Workbench exposes editing controls or wrong default scope')
+     self_readonly=browser.evaluate('!document.querySelector("#review-panel, #rv-publish-batch, [data-scope]")&&Boolean(Number(document.getElementById("wb-searchable-count").textContent.replace(/\\D/g,"")))')
+     if not self_readonly:raise AssertionError('Public Workbench editing separation or total failed')
      assert browser.evaluate('!document.querySelector(".wb-editor-notice, .wb-header .wb-editor-link")')
      assert browser.evaluate('getComputedStyle(document.querySelector(".wb-header")).backgroundColor==="rgb(16, 44, 42)"')
      editor_href=browser.evaluate('document.querySelector("footer.wb-footer .wb-editor-link")?.href')
@@ -441,8 +441,25 @@ def run():
      navigate('workbench/edit/?relevance=high',language,width)
      assert browser.evaluate(FILTER_PROBE)
      reports.append({'language':language,'width':width,'relevance_filters':'passed'})
-     print('PASS relevance options, combined filters, locale switching, shared and saved views, reset and scopes',
+     print('PASS relevance options, combined filters, locale switching, shared and saved views, reset and sort',
            language,width,flush=True)
+     navigate('workbench/?scope=latest&q=flood+theta',language,width)
+     assert browser.evaluate('document.getElementById("wb-count").dataset.total==="1"&&document.getElementById("wb-searchable-count").textContent==="7"&&document.querySelector("#wb-tbody [data-record-id]")?.dataset.recordId==="000000000000000008"&&!new URL(location.href).searchParams.has("scope")')
+     navigate('workbench/edit/?scope=archive&month=2026-10&record=000000000000000008',language,width)
+     assert browser.evaluate('document.getElementById("wb-count").dataset.total==="1"&&document.getElementById("wb-searchable-count").textContent==="7"&&!document.getElementById("wb-legacy-month").hidden&&document.getElementById("wb-legacy-month-value").textContent==="2026-10"&&document.querySelector("#wb-tbody .is-selected")?.dataset.recordId==="000000000000000008"&&new URL(document.getElementById("wb-return-to-reader").href).searchParams.get("firstSeenMonth")==="2026-10"')
+     browser.evaluate('document.getElementById("wb-clear-legacy-month").click()')
+     assert browser.evaluate('document.getElementById("wb-legacy-month").hidden&&document.getElementById("wb-count").dataset.total==="7"&&!new URL(location.href).searchParams.has("firstSeenMonth")')
+     print('PASS legacy search URLs, first-observation month and stable catalogue total',language,width,flush=True)
+   missing_shard=site/'data/archive/2026-10-0001.json'
+   shard=missing_shard.read_bytes()
+   missing_shard.unlink()
+   navigate('workbench/')
+   assert browser.evaluate('document.getElementById("wb-count").dataset.total==="6"&&document.getElementById("wb-searchable-count").textContent==="—"&&document.querySelector("#wb-coverage.is-alert").textContent.includes("incomplete")')
+   missing_shard.write_bytes(shard)
+   (site/'data/latest.json').unlink()
+   navigate('workbench/')
+   assert browser.evaluate('document.getElementById("wb-count").dataset.total==="2"&&document.getElementById("wb-searchable-count").textContent==="—"&&document.querySelector("#wb-coverage.is-alert").textContent.includes("incomplete")')
+   print('PASS catalogue fallback with missing archive shard or recent snapshot',flush=True)
   finally:
    browser.close();server.shutdown();server.server_close();thread.join(timeout=3)
  qa=ROOT/'_qa';qa.mkdir(exist_ok=True);(qa/'review-acceptance.json').write_text(json.dumps(reports,indent=2))
