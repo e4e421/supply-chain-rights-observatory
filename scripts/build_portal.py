@@ -43,12 +43,13 @@ def header(page: str, base: str) -> str:
 def shell(page: str, title: str, subtitle: str, body: str, home=False) -> str:
     base='./' if not page or page=='record' else '../'
     intro='' if home else f'<div class="portal-intro"><div class="breadcrumbs">{link(base+"index.html","Research Portal")} / {tx(title)}</div>{tx(title,"h1")}{tx(subtitle,"p")}</div>'
+    collection_script=f'<script defer src="{base}collection-time.js"></script>' if home else ''
     return f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="{E(subtitle, quote=True)}"><meta name="referrer" content="strict-origin-when-cross-origin">
 <meta http-equiv="Content-Security-Policy" content="{CSP}"><title>{E(title)} | Supply Chain Rights Observatory</title>
 <link rel="stylesheet" href="{base}styles.css"><link rel="stylesheet" href="{base}portal.css">
-<script defer src="{base}i18n.js"></script><script defer src="{base}portal.js"></script></head>
+<script defer src="{base}i18n.js"></script>{collection_script}<script defer src="{base}portal.js"></script></head>
 <body class="portal" data-page="{page or 'home'}" data-page-title="{E(title, quote=True)}">
 {header(page,base)}<main id="main" class="portal-main">{intro}{body}</main>
 <footer class="portal-footer"><b>Supply Chain Rights Observatory</b>
@@ -75,7 +76,7 @@ def build() -> None:
     home=f'''<section class="portal-hero"><div><p class="portal-kicker">SUPPLY CHAIN · HUMAN RIGHTS · LABOUR</p>
 <h1>Where supply chains<br>meet <em>human rights.</em></h1>{tx('A public research index. Start with a search, then inspect the source.','p')}</div>
 <aside>{tx('Research Workbench','h2')}{tx('Search by title, publisher, DOI or record ID.','p')}{link('./workbench/','Research Workbench','portal-workbench')}</aside></section>
-<section class="portal-stats" aria-label="Dataset overview"><div>{tx('Historical records')}<strong id="home-total">—</strong></div><div>{tx('Curated reference sources')}<strong id="home-sources">—</strong></div><div>{tx('Last successful collection')}<strong id="home-updated">—</strong></div><div>{tx('Technical collection status')}<strong id="home-health">—</strong></div></section>
+<section class="portal-stats" aria-label="Dataset overview"><div>{tx('Historical records')}<strong id="home-total">—</strong></div><div>{tx('Curated reference sources')}<strong id="home-sources">—</strong></div><div>{tx('Last successful collection')}<strong id="home-updated" data-collection-age>—</strong><time id="home-updated-utc" data-collection-utc lang="en" hidden></time></div><div>{tx('Technical collection status')}<strong id="home-health">—</strong></div></section>
 <section class="portal-sections">{tx('Explore the research index','h2')}<div class="portal-card-grid">{cards}</div></section>
 <section id="signals"><div class="portal-section-heading">{tx('Latest research intelligence','h2')}{link('./workbench/?sort=observed-desc','Browse research records')}</div><p id="home-status" role="status" aria-live="polite">Loading public data…</p><div id="home-latest" class="portal-record-list"></div></section>'''
     write('',shell('','Research Portal','Public research index for supply chains, human rights and labour.',home,True))
