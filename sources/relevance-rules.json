@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "version": "keywords-2.1.0",
+  "version": "keywords-2.1.1",
   "languages": ["en", "zh", "de"],
   "scope": "Research relevance only; never verifies an allegation or identifies an incident.",
   "topics": {
