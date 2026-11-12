@@ -25,7 +25,6 @@ zh:{
 'Skip to results':'跳至搜尋結果','Visitor portal':'一般訪客首頁',
 'Latest records':'最新情報','Historical records':'歷史紀錄',
 'Collection status':'擷取狀態','Last successful collection':'最後成功擷取',
-'Just now':'剛剛',
 'Methodology':'研究方法','Dataset':'資料範圍','Latest':'最新情報','Archive month':'歷史月份','All available':'全部可取得紀錄',
 'Sort by':'排序方式','Published: newest':'發布時間：最新','Published: oldest':'發布時間：最早',
 'Observed: newest':'首次收錄：最新','Title: A–Z':'標題：A–Z','Publisher: A–Z':'出版者：A–Z',
@@ -88,7 +87,6 @@ de:{
 'Skip to results':'Zu den Suchergebnissen','Visitor portal':'Besucherportal',
 'Latest records':'Aktuelle Meldungen','Historical records':'Historische Datensätze',
 'Collection status':'Erfassungsstatus','Last successful collection':'Letzte erfolgreiche Erfassung',
-'Just now':'Gerade eben',
 'Methodology':'Methodik','Dataset':'Datenbestand',
 'Latest':'Aktuell','Archive month':'Archivmonat','All available':'Alle verfügbaren',
 'Sort by':'Sortieren nach','Published: newest':'Veröffentlicht: neueste','Published: oldest':'Veröffentlicht: älteste',
@@ -168,7 +166,6 @@ es:{
 "Historical records":"Registros históricos",
 "Collection status":"Estado de la recopilación",
 "Last successful collection":"Última recopilación exitosa",
-"Just now":"Ahora mismo",
 
 "Methodology":"Metodología",
 "Dataset":"Conjunto de datos",
@@ -288,12 +285,7 @@ const COLS=[
 ];
 const STORAGE='scro.workbench.views.v1', MAX_FILES=24, MAX_ROWS=10000, MAX_PAGE_SIZE=40;
 const EDITOR_PAGE_SIZE=10;
-const utcCollectionFormat=new Intl.DateTimeFormat('en-GB',{
- timeZone:'UTC',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',hourCycle:'h23'
-});
-const relativeCollectionFormats=new Map();
 const archiveCache=new Map();
-let collectionTime=NaN;
 let live=null,catalog=null,buildInfo=null,loadedShards=[],activeRecords=[],filtered=[],loading=true,archiveError=false,
  coveragePartial=false,chosen='',firstSeenMonth='',catalogueMonth='';
 let pageIndex=0,pageSize=6,pageAnchor=0,locateSelection=false,layoutFrame=0;
@@ -401,41 +393,6 @@ async function fetchJSON(path) {
  return response.json();
 }
 
-function setCollectionTime(value){
- collectionTime=typeof value==='string'&&/(?:Z|[+-]\d{2}:\d{2})$/.test(value)?Date.parse(value):NaN;
- const timestamp=$('wb-updated-utc');
- if(!Number.isFinite(collectionTime)){
-  timestamp.hidden=true;
-  timestamp.removeAttribute('datetime');
-  return;
- }
- const parts=utcCollectionFormat.formatToParts(collectionTime);
- const {day,month,year,hour,minute}=Object.fromEntries(parts.map(({type,value})=>[type,value]));
- timestamp.dateTime=new Date(collectionTime).toISOString();
- timestamp.textContent=`${day} ${month} ${year}, ${hour}:${minute} UTC`;
- timestamp.hidden=false;
-}
-function renderCollectionAge(){
- const elapsed=Date.now()-collectionTime;
- let label='—';
- if(elapsed>=0){
-  const minutes=Math.floor(elapsed/60_000);
-  const hours=Math.floor(minutes/60);
-  if(minutes===0)label=t('Just now');
-  else{
-   const language=document.documentElement.lang;
-   if(!relativeCollectionFormats.has(language)){
-    relativeCollectionFormats.set(language,new Intl.RelativeTimeFormat(language,{numeric:'always',style:'long'}));
-   }
-   const formatter=relativeCollectionFormats.get(language);
-   if(hours>=48)label=formatter.format(-Math.floor(hours/24),'day');
-   else if(hours)label=formatter.format(-hours,'hour');
-   else label=formatter.format(-minutes,'minute');
-  }
- }
- const age=$('wb-updated');
- if(age.textContent!==label)age.textContent=label;
-}
 function populateMonths(){
  const select=$('wb-first-seen-month');
  const months=(catalog?.months||[]).map(entry=>entry.month).filter(validMonth);
@@ -468,7 +425,6 @@ function renderStatus(){
  $('wb-legacy-month-value').textContent=firstSeenMonth;
  $('wb-data-status').textContent=!live?t('Unavailable'):live.status==='ok'?t('Operational (technical)'):
   live.status==='partial'?t('Partial sources'):live.status==='failed'?t('Collection failed'):t('Not started');
- renderCollectionAge();
 }
 async function fetchMonth(month){
  if(archiveCache.has(month))return archiveCache.get(month);
@@ -907,7 +863,7 @@ async function init(){
   fetchJSON(new URL('../data/build-info.json',wbAssetRoot).href)
  ]);
  if(snapshot.status==='fulfilled'&&Array.isArray(snapshot.value?.items))live=snapshot.value;
- setCollectionTime(live?.last_successful_collection);
+ window.SCRO_COLLECTION_TIME?.set(live?.last_successful_collection);
  if(archive.status==='fulfilled'&&Array.isArray(archive.value?.months))catalog=archive.value;
  if(build.status==='fulfilled'&&build.value?.schema_version===1)buildInfo=build.value;
  populateMonths();
@@ -915,9 +871,6 @@ async function init(){
 }
 function bind(){
  setupPagination();
- const updateVisibleCollectionAge=()=>{if(!document.hidden)renderCollectionAge();};
- window.setInterval(updateVisibleCollectionAge,60_000);
- document.addEventListener('visibilitychange',updateVisibleCollectionAge);
  window.SCRO_WORKBENCH=Object.freeze({
   getRecord:id=>{
    const record=activeRecords.find(x=>x.record_id===id);
