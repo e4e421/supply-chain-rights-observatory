@@ -88,10 +88,41 @@
       "publisher_confirmed": false,
       "canonical_url": null,
       "note": "",
-      "reviewed_at": "2026-11-11T23:09:16Z",
+      "reviewed_at": "2026-11-12T00:17:41Z",
       "reviewed_by": "e4e421",
-      "issue": 39,
-      "issue_digest": "10b2cd470d2fbf572c686f1dfc55070c238c0e3b3a29f053e418ee3dc8d63b6c"
+      "issue": 41,
+      "issue_digest": "83e8351e047f7ff61f0cdafbf069935a0e63e51143f4510b84180bc5137b63a8"
+    },
+    "7ef151e7bf924a952e": {
+      "content_fingerprint": "4464e830eacb864b6bbca975ed5621371163ca4bf1698fa1575209959c8600fd",
+      "relevance": "needs_review",
+      "topics": null,
+      "publisher_confirmed": false,
+      "canonical_url": null,
+      "note": "",
+      "reviewed_at": "2026-11-12T00:17:41Z",
+      "reviewed_by": "e4e421",
+      "issue": 41,
+      "issue_digest": "83e8351e047f7ff61f0cdafbf069935a0e63e51143f4510b84180bc5137b63a8"
     }
-  }
+  },
+  "record_tags": {
+    "2cb876b587979424ca": {
+      "tags": [
+        "iphone"
+      ],
+      "issue": 41,
+      "issue_digest": "83e8351e047f7ff61f0cdafbf069935a0e63e51143f4510b84180bc5137b63a8"
+    },
+    "7ef151e7bf924a952e": {
+      "tags": [
+        "iphone"
+      ],
+      "issue": 41,
+      "issue_digest": "83e8351e047f7ff61f0cdafbf069935a0e63e51143f4510b84180bc5137b63a8"
+    }
+  },
+  "tag_catalog": [
+    "iphone"
+  ]
 }
