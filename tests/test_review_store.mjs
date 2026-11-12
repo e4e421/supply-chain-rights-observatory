@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
-import {webcrypto} from 'node:crypto';
+import {createHash,webcrypto} from 'node:crypto';
 
 const source=fs.readFileSync('docs/workbench/review-store.js','utf8');
 const A='a'.repeat(18),B='b'.repeat(18),C='c'.repeat(18);
@@ -21,7 +21,7 @@ function harness(seed={},fetchImpl=()=>Promise.reject(Error('no network'))){
   removeItem:key=>data.delete(key)
  };
  const window={addEventListener(){}};
- const context={window,localStorage,URL,crypto:webcrypto,Uint8Array,fetch:fetchImpl,
+ const context={window,localStorage,URL,crypto:webcrypto,Uint8Array,TextEncoder,fetch:fetchImpl,
   AbortController,setTimeout,clearTimeout};
  vm.runInNewContext(source,context,{filename:'review-store.js'});
  return {store:window.SCRO_REVIEW_STORE,data,localStorage};
@@ -67,8 +67,11 @@ test('tag-only handoffs preserve other reviews and clear only after the matching
   user:{login:'e4e421'},body:batch.body,html_url:'https://github.com/example/issues/16'};
  const index={records:{},record_tags:{[A]:{tags:['工廠事故','iphone'],issue:16}}};
  assert.equal(store.refreshPublished(index),false);
- await store.refreshFromGitHub(index);
- assert.equal(store.refreshPublished(index),true);
+ const result=await store.refreshFromGitHub(index);
+ assert.equal(result.matched,1);
+ assert.equal(result.unavailable,false);
+ assert.equal(store.batches()[0].status,'published');
+ assert.equal(store.refreshPublished(index),false);
  assert.equal(store.getDraft(A),null);
  assert.equal(store.getDraft(B).note,'existing review');
  store.saveTags(B,change,'tagged record');
@@ -101,7 +104,8 @@ test('drafts stay after new tab; only a matching *confirmed Issue* and published
  assert.equal(clone.getDraft(A)?.note,'a');
  const result=await clone.refreshFromGitHub(index);
  assert.equal(result.matched,1);
- assert.equal(clone.refreshPublished(index),true);
+ assert.equal(result.unavailable,false);
+ assert.equal(clone.refreshPublished(index),false);
  assert.equal(clone.getDraft(A),null);
  assert.equal(clone.getDraft(B)?.note,'b');
  assert.equal(clone.batches()[0].status,'published');
@@ -125,11 +129,101 @@ test('GitHub Issue match is checked by owner, title and exact payload before mar
  result=await store.refreshFromGitHub({records:{}});
  assert.equal(result.matched,0);
  issue.body=batch.body;
+ issue.pull_request={url:'https://api.github.com/repos/example/pulls/123'};
+ result=await store.refreshFromGitHub({records:{}});
+ assert.equal(result.matched,0);
+ delete issue.pull_request;
  result=await store.refreshFromGitHub({records:{}});
  assert.equal(result.matched,1);
  assert.equal(store.batches()[0].status,'submitted');
  assert.equal(store.cancelHandoff(batch.id),false);
  assert.ok(store.getDraft(A));
+});
+test('status checks use the public index after a GitHub Issue is confirmed',async()=>{
+ let issue,requests=0;
+ const {store,localStorage}=harness({},async()=>{
+  requests++;
+  if(requests>1)throw Error('unexpected network request');
+  return {ok:true,json:async()=>[issue]};
+ });
+ store.saveDraft(A,draft('published review'));
+ const batch=store.makeHandoff(()=>true);
+ store.saveDraft(B,draft('keep this local edit'));
+ issue={number:17,state:'closed',title:'[Publish Workbench review]',
+  user:{login:'e4e421'},body:batch.body,
+  html_url:'https://github.com/e4e421/supply-chain-rights-observatory/issues/17'};
+ await store.refreshFromGitHub({records:{}});
+ assert.equal(store.batches()[0].status,'submitted');
+ assert.equal(store.getDraft(A).note,'published review');
+ const pending=await store.refreshFromGitHub({records:{}});
+ assert.equal(pending.unavailable,false);
+ assert.equal(requests,1);
+ assert.equal(store.batches()[0].status,'submitted');
+ await store.refreshFromGitHub({records:{[A]:indexed({...batch.decisions[0],issue:17})}});
+ assert.equal(requests,1);
+ assert.equal(store.batches()[0].status,'published');
+ assert.equal(store.getDraft(A),null);
+ assert.equal(store.getDraft(B).note,'keep this local edit');
+ assert.equal(JSON.parse(localStorage.getItem(QUEUE)).batches[0].status,'published');
+ assert.deepEqual([...store.selectedIds()],[B]);
+});
+test('exact UTF-8 issue digest proves publication of an unresolved mixed review and tag batch',async()=>{
+ let requests=0;
+ const {store,localStorage}=harness({},async()=>{
+  requests++;
+  throw Error('GitHub unavailable');
+ });
+ const reviewDraft=draft('工廠安全\nRésumé de la décision');
+ store.saveDraft(A,reviewDraft);
+ store.saveTags(A,{content_fingerprint:reviewDraft.content_fingerprint,
+  expected_tag_digest:'d'.repeat(64),tags:['iphone','工廠事故']},'tagged record');
+ const batch=store.makeHandoff(()=>true);
+ store.saveDraft(B,draft('keep this local edit'));
+ const issue_digest=createHash('sha256').update(JSON.stringify({body:batch.body}),'utf8').digest('hex');
+ const index={records:{[A]:indexed({...batch.decisions[0],issue:71,issue_digest})},
+  record_tags:{[A]:{tags:['工廠事故','iphone'],issue:71,issue_digest}}};
+ const result=await store.refreshFromGitHub(index);
+ assert.equal(requests,0);
+ assert.equal(result.unavailable,false);
+ assert.equal(store.batches()[0].status,'published');
+ assert.equal(store.batches()[0].issue_number,71);
+ assert.equal(store.getDraft(A),null);
+ assert.equal(store.getDraft(B).note,'keep this local edit');
+ assert.equal(JSON.parse(localStorage.getItem(QUEUE)).batches[0].status,'published');
+ assert.deepEqual([...store.selectedIds()],[B]);
+});
+test('incomplete publication evidence and an HTTP 403 keep the batch and local drafts intact',async()=>{
+ let requests=0;
+ const {store,localStorage}=harness({},async()=>{
+  requests++;
+  return {ok:false,status:403};
+ });
+ const reviewDraft=draft('pending review');
+ store.saveDraft(A,reviewDraft);
+ store.saveTags(A,{content_fingerprint:reviewDraft.content_fingerprint,
+  expected_tag_digest:'d'.repeat(64),tags:['iphone']},'tagged record');
+ const batch=store.makeHandoff(()=>true);
+ store.saveDraft(B,draft('keep this local edit'));
+ const issue_digest=createHash('sha256').update(JSON.stringify({body:batch.body}),'utf8').digest('hex');
+ const previousDrafts=localStorage.getItem(DRAFTS),previousQueue=localStorage.getItem(QUEUE);
+ const review={records:{[A]:indexed({...batch.decisions[0],issue:71,issue_digest})}};
+ const insufficientProofs=[
+  {tags:['iphone'],issue:71},
+  {tags:['iphone'],issue:71,issue_digest:'0'.repeat(64)},
+  {tags:['iphone'],issue:72,issue_digest}
+ ];
+ for(const tagged of insufficientProofs){
+  const result=await store.refreshFromGitHub({...review,record_tags:{[A]:tagged}});
+  assert.equal(result.checked,1);
+  assert.equal(result.matched,0);
+  assert.equal(result.unavailable,true);
+ }
+ assert.equal(requests,insufficientProofs.length);
+ assert.equal(store.active(A).status,'handoff');
+ assert.equal(store.getDraft(A).note,'pending review');
+ assert.equal(store.getDraft(B).note,'keep this local edit');
+ assert.equal(localStorage.getItem(DRAFTS),previousDrafts);
+ assert.equal(localStorage.getItem(QUEUE),previousQueue);
 });
 test('outdated or ambiguous handoffs do not silently publish or erase drafts',()=>{
  const {store}=harness();

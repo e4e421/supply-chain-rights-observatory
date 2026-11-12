@@ -72,6 +72,8 @@
 .rv-history{margin:12px 10px 6px;border:1px solid #ceddd1;border-radius:4px;background:#fff}
 .rv-history-head{display:flex;align-items:center;gap:8px;justify-content:space-between;flex-wrap:wrap;padding:10px;border-bottom:1px solid #dbe6df}
 .rv-history-head h3{font-size:12px;font-weight:750;margin:0}
+.rv-history-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.rv-history-actions a{font-size:11px;color:#165d43}
 .rv-history-head button{font:inherit;font-size:11px;padding:8px;border:1px solid #98b6a1;border-radius:3px;background:#f1f8f2;color:#155039}
 .rv-history-list{display:flex;flex-direction:column;max-height:340px;overflow-y:auto}
 .rv-history-item{padding:10px;border-bottom:1px solid #e3ebe5;display:flex;flex-direction:column;gap:6px;font-size:11px}
