@@ -10,14 +10,14 @@ Editable new UI sources are `portal/portal.js`, `portal/portal.css`, `portal/por
 
 | Route | Purpose |
 | --- | --- |
-| `/` | First-visit portal: one archive search, dataset overview, directory cards and six recent records. |
-| `/workbench/` | Read-only professional workspace, saved views, inspection and data checks; explicit editor entry. |
+| `/` | First-visit portal with a Workbench search entry, dataset overview, directory cards and six recent records. |
+| `/workbench/` | Public record search with UTC date and first-observed month filters, CSV, query metadata, saved views and record inspection. |
 | `/workbench/edit/` | Advanced review UI with selected-only Review Queue, local handoffs and GitHub publication status checks. |
-| `/archive/` | Cross-month publication index, date/topic/type filters, exact IDs, CSV and query metadata. |
+| `/archive/` | Compatibility redirect to Workbench with the search and filters carried forward. |
 | `/sources/` | Searchable institution directory with separate editorial, licensing and availability states. |
 | `/policy/` | Manually maintained policy reference dates and official legal sources. |
-| `/research/` | Four research lenses, pre-filtered archive links and academic discovery. |
-| `/methodology/` | Data fields, retention, measurement limitations, security and technical documents. |
+| `/research/` | Four research lenses, pre-filtered Workbench links and academic discovery. |
+| `/methodology/` | Data fields, retention, measurement limitations, technical documents and canonical JSONL archive downloads. |
 | `/record.html?id=...` | Stable publication view. Previous `month` plus `id` links remain valid. |
 
 The old `#archive-explorer`, `#sources`, `#lenses` and `#method` homepage bookmarks redirect to the appropriate child page while preserving language and query parameters. `#signals` remains on the homepage. All internal links respect the repository project subpath; no absolute root-host assumptions are made.

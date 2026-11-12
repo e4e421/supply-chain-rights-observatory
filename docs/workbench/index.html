@@ -54,6 +54,10 @@
       <aside class="wb-filters" aria-label="Advanced filters">
         <div class="wb-pane-head"><h2 data-l10n="Filters">Filters</h2><small data-l10n="Combinable criteria">Combinable criteria</small></div>
         <div class="wb-filter-body">
+          <label class="wb-field">
+            <span data-l10n="First-seen month">First-seen month</span>
+            <select id="wb-first-seen-month"><option value="" data-l10n="All available months">All available months</option></select>
+          </label>
           <div class="wb-legacy-month" id="wb-legacy-month" hidden>
             <div><span data-l10n="First-seen month">First-seen month</span> <strong id="wb-legacy-month-value"></strong></div>
             <button type="button" class="wb-action" id="wb-clear-legacy-month" data-l10n="Remove first-seen month filter">Remove first-seen month filter</button>
@@ -105,7 +109,13 @@
           <div><h2 data-l10n="Research records">Research records</h2><p class="wb-hint" data-l10n="AND / OR / quoted phrases supported">AND / OR / quoted phrases supported</p></div>
           <div class="wb-head-actions">
             <label class="wb-density"><span data-l10n="Density">Density</span><select id="wb-density"><option value="compact" data-l10n="Compact">Compact</option><option value="comfortable" data-l10n="Comfortable">Comfortable</option></select></label>
-            <button id="wb-export" type="button" class="wb-action" data-l10n="Export CSV">Export CSV</button>
+            <details class="wb-export-tools">
+              <summary class="wb-action" data-l10n="Export">Export</summary>
+              <div class="wb-export-actions">
+                <button id="wb-export" type="button" class="wb-action" data-l10n="Export CSV">Export CSV</button>
+                <button id="wb-query-metadata" type="button" class="wb-action" data-l10n="Export query metadata">Export query metadata</button>
+              </div>
+            </details>
           </div>
         </div>
         <div class="wb-notice" id="wb-coverage" role="status" aria-live="polite"></div>

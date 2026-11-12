@@ -501,6 +501,9 @@ def install_filter_fixture(site):
         entry['analysis']['level'] = level
         entry['effective_topics'] = [topic]
         sidecar[record_id] = entry
+    sidecar[records[-1]['record_id']]['similar'] = [
+        {'record_id': records[0]['record_id'], 'shared_terms': ['fixture']},
+    ]
 
     def replace(name, **fields):
         path = data/name
@@ -515,7 +518,8 @@ def install_filter_fixture(site):
         months.append({'month': month, 'records': 1, 'files': [{'file': shard, 'records': 1}]})
         (data/'archive'/shard).write_text(json.dumps({'records': [row]}))
     replace('archive/catalog.json', total_records=2, months=months)
-    replace('relevance-index.json', records=sidecar, coverage='partial', tag_catalog=['smoke'], record_tags=tags)
+    replace('relevance-index.json', records=sidecar, total_records=len(records), coverage='partial',
+            tag_catalog=['smoke'], record_tags=tags)
 
 
 def run():
@@ -593,7 +597,7 @@ def run():
    empty=json.loads((ROOT/'data/reviews/decisions.json').read_text())
    prepared=prepare(payload,records,empty,'reviewer',1,'b'*64,'2026-11-09T00:00:00Z')
    index=json.loads((site/'data/relevance-index.json').read_text());index['records'][rid]=decorate(records[rid],prepared['records']);(site/'data/relevance-index.json').write_text(json.dumps(index))
-   for path in ('','archive/','workbench/'):
+   for path in ('','workbench/'):
     navigate(path)
     if path=='workbench/':assert browser.evaluate('!document.querySelector(\'[data-record-id="'+rid+'"]\')')
     else:assert browser.evaluate('[...document.querySelectorAll(".portal-record-title")].every(a=>new URL(a.href).searchParams.get("id")!=='+json.dumps(rid)+')')
@@ -619,8 +623,23 @@ def run():
      assert browser.evaluate('document.getElementById("wb-count").dataset.total==="1"&&document.getElementById("wb-searchable-count").textContent==="7"&&document.querySelector("#wb-tbody [data-record-id]")?.dataset.recordId==="000000000000000008"&&!new URL(location.href).searchParams.has("scope")')
      navigate('workbench/edit/?scope=archive&month=2026-10&record=000000000000000008',language,width)
      assert browser.evaluate('document.getElementById("wb-count").dataset.total==="1"&&document.getElementById("wb-searchable-count").textContent==="7"&&!document.getElementById("wb-legacy-month").hidden&&document.getElementById("wb-legacy-month-value").textContent==="2026-10"&&document.querySelector("#wb-tbody .is-selected")?.dataset.recordId==="000000000000000008"&&new URL(document.getElementById("wb-return-to-reader").href).searchParams.get("firstSeenMonth")==="2026-10"')
-     browser.evaluate('document.getElementById("wb-clear-legacy-month").click()')
-     assert browser.evaluate('document.getElementById("wb-legacy-month").hidden&&document.getElementById("wb-count").dataset.total==="7"&&!new URL(location.href).searchParams.has("firstSeenMonth")')
+     assert browser.evaluate(r'''(()=>{
+      const shards=performance.getEntriesByType('resource').map(entry=>new URL(entry.name).pathname)
+       .filter(path=>/\/data\/archive\/\d{4}-\d{2}-\d{4}\.json$/.test(path));
+      return document.getElementById('wb-first-seen-month').value==='2026-10'&&shards.length===1&&shards[0].endsWith('/2026-10-0001.json');
+     })()'''), 'Month filter downloaded unrelated archive shards'
+     assert browser.evaluate(r'''(()=>{
+      const link=[...document.querySelectorAll('#review-panel a')].map(a=>new URL(a.href))
+       .find(url=>url.searchParams.get('record')==='000000000000000001');
+      return link&&!link.searchParams.has('firstSeenMonth')&&!link.searchParams.has('month');
+     })()'''), 'Related record link retained the selected month'
+     assert browser.evaluate(r'''(async()=>{
+      document.getElementById('wb-clear-legacy-month').click();
+      const count=document.getElementById('wb-count');
+      for(let i=0;i<100&&count.dataset.total!=='7';i++)await new Promise(resolve=>setTimeout(resolve,25));
+      return document.getElementById('wb-legacy-month').hidden&&count.dataset.total==='7'&&
+       !new URL(location.href).searchParams.has('firstSeenMonth');
+     })()'''), 'Clearing the month did not reload the combined catalogue'
      print('PASS legacy search URLs, first-observation month and stable catalogue total',language,width,flush=True)
      print('PASS localized collection age and full English UTC timestamp in both workbench modes',language,width,flush=True)
      if width==390:

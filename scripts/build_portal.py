@@ -18,7 +18,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / '_site'
 REPO = 'https://github.com/e4e421/supply-chain-rights-observatory'
-NAMES = [('','Research Portal'),('archive','Research Archive'),('sources','Source Directory'),
+NAMES = [('','Research Portal'),('workbench','Search research records'),('sources','Source Directory'),
          ('policy','Policy Monitor'),('research','Research Framework'),('methodology','Data & Methodology')]
 CSP = "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; upgrade-insecure-requests"
 E = html.escape
@@ -32,27 +32,23 @@ def link(path: str, label: str, cls: str='') -> str:
 def external(url: str, label: str) -> str:
     return f'<a href="{E(url, quote=True)}" target="_blank" rel="noopener noreferrer">{tx(label)} <span aria-hidden="true">↗</span></a>'
 
-def searchbox(id: str='site-search') -> str:
-    return f'<div class="portal-search" role="search"><label class="sr-only" for="{id}">{tx("Search public records")}</label><input id="{id}" type="search" maxlength="120" autocomplete="off" data-ph="Title, publisher, DOI or record ID" placeholder="Title, publisher, DOI or record ID"><button type="button" id="{id}-go">{tx("Search archive")}</button></div>'
-
 def header(page: str, base: str) -> str:
     nav=''.join(f'<a href="{base}{route+"/" if route else "index.html"}"'+(' aria-current="page"' if route==page else '')+'>'+tx(name)+'</a>' for route,name in NAMES)
     return f'''<a class="skip-link" href="#main">{tx('Skip to content')}</a>
 <header class="portal-header"><div class="portal-top">
 <a class="portal-brand" href="{base}index.html"><b>SCRO</b><span>SUPPLY CHAIN<br>RIGHTS OBSERVATORY</span></a>
-<div class="portal-actions"><label for="language-select" class="language-picker"><span class="sr-only">Language</span><select id="language-select" aria-label="Select website language"><option value="en">English</option><option value="zh">繁體中文</option><option value="de">Deutsch</option><option value="es" lang="es">Español</option></select></label>
-{link(base+'workbench/','Research Workbench','portal-workbench')}</div></div>
+<div class="portal-actions"><label for="language-select" class="language-picker"><span class="sr-only">Language</span><select id="language-select" aria-label="Select website language"><option value="en">English</option><option value="zh">繁體中文</option><option value="de">Deutsch</option><option value="es" lang="es">Español</option></select></label></div></div>
 <nav class="portal-nav" aria-label="Main navigation">{nav}</nav></header>'''
 
 def shell(page: str, title: str, subtitle: str, body: str, home=False) -> str:
     base='./' if not page or page=='record' else '../'
-    intro='' if home else f'<div class="portal-intro"><div class="breadcrumbs">{link(base+"index.html","Research Portal")} / {tx(title)}</div>{tx(title,"h1")}{tx(subtitle,"p")}{searchbox()}</div>'
+    intro='' if home else f'<div class="portal-intro"><div class="breadcrumbs">{link(base+"index.html","Research Portal")} / {tx(title)}</div>{tx(title,"h1")}{tx(subtitle,"p")}</div>'
     return f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="{E(subtitle, quote=True)}"><meta name="referrer" content="strict-origin-when-cross-origin">
 <meta http-equiv="Content-Security-Policy" content="{CSP}"><title>{E(title)} | Supply Chain Rights Observatory</title>
 <link rel="stylesheet" href="{base}styles.css"><link rel="stylesheet" href="{base}portal.css">
-<script defer src="{base}i18n.js"></script><script defer src="{base}query.js"></script><script defer src="{base}portal.js"></script></head>
+<script defer src="{base}i18n.js"></script><script defer src="{base}portal.js"></script></head>
 <body class="portal" data-page="{page or 'home'}" data-page-title="{E(title, quote=True)}">
 {header(page,base)}<main id="main" class="portal-main">{intro}{body}</main>
 <footer class="portal-footer"><b>Supply Chain Rights Observatory</b>
@@ -65,45 +61,26 @@ def option(value: str, label: str) -> str:
 def field(id: str, label: str, inner: str) -> str:
     return f'<label for="{id}" class="portal-field">{tx(label)}{inner}</label>'
 
-def topics() -> str:
-    return ''.join(option(k,v) for k,v in [('all','All topics'),('policy','Policy & governance'),('forced-labour','Forced labour'),('working-conditions','Working conditions'),('worker-voice','Worker voice & remedy'),('network','Supply networks'),('research','Academic research')])
-
 def build() -> None:
     if OUT.exists(): shutil.rmtree(OUT)
     shutil.copytree(ROOT/'docs',OUT,symlinks=False)
     for name in ('portal.js','portal.css','portal-translations.json'):
         shutil.copy2(ROOT/'portal'/name,OUT/name)
     cards=''.join(f'<a href="./{route}/" class="portal-card"><small>{num:02d}</small>{tx(title,"h2")}{tx(desc,"p")}{tx("Explore","span", "class=card-arrow")}</a>' for num,(route,title,desc) in enumerate([
-        ('archive','Research Archive','Search historical publication records, dates, DOI and stable IDs.'),
+        ('workbench','Search research records','Filter research records by theme, record type or date.'),
         ('sources','Source Directory','Inspect institutional sources, editorial review and link availability.'),
         ('policy','Policy Monitor','Separate policy dates from publication dates and find official texts.'),
         ('research','Research Framework','Turn supply-network, governance and labour questions into searches.'),
-        ('methodology','Data & Methodology','Understand field definitions, coverage, exports and research limitations.'),
-        ('workbench','Research Workbench','Open the dense researcher workspace for daily data checks.')],1))
+        ('methodology','Data & Methodology','Understand field definitions, coverage, exports and research limitations.')],1))
     home=f'''<section class="portal-hero"><div><p class="portal-kicker">SUPPLY CHAIN · HUMAN RIGHTS · LABOUR</p>
-<h1>Where supply chains<br>meet <em>human rights.</em></h1>{tx('A public research index. Start with a search, then inspect the source.','p')}{searchbox()}
-<div class="portal-hero-links">{link('./archive/','Browse historical records')} {link('./workbench/','Research Workbench')}</div></div>
-<aside>{tx('Two ways to work','h2')}{tx('New here? Explore records and sources. Returning researcher? Open the Workbench.','p')}</aside></section>
+<h1>Where supply chains<br>meet <em>human rights.</em></h1>{tx('A public research index. Start with a search, then inspect the source.','p')}</div>
+<aside>{tx('Research Workbench','h2')}{tx('Search by title, publisher, DOI or record ID.','p')}{link('./workbench/','Search research records','portal-workbench')}</aside></section>
 <section class="portal-stats" aria-label="Dataset overview"><div>{tx('Historical records')}<strong id="home-total">—</strong></div><div>{tx('Curated reference sources')}<strong id="home-sources">—</strong></div><div>{tx('Last successful collection')}<strong id="home-updated">—</strong></div><div>{tx('Technical collection status')}<strong id="home-health">—</strong></div></section>
 <section class="portal-sections">{tx('Explore the research index','h2')}<div class="portal-card-grid">{cards}</div></section>
 <section id="signals"><div class="portal-section-heading">{tx('Latest research intelligence','h2')}{link('./workbench/?sort=observed-desc','Browse research records')}</div><p id="home-status" role="status" aria-live="polite">Loading public data…</p><div id="home-latest" class="portal-record-list"></div></section>'''
     write('',shell('','Research Portal','Public research index for supply chains, human rights and labour.',home,True))
-    archive=f'''<section class="portal-stats"><div>{tx('Historical records')}<strong id="archive-total">—</strong></div><div>{tx('First-observation partitions')}<strong id="archive-partitions">—</strong></div><div>{tx('Dataset build revision')}<code id="archive-revision">—</code></div></section>
-<p class="portal-notice">{tx('Month groups use first observation. Date filters use publication date. Both use UTC.')}</p>
-<div class="portal-filter-grid">
-{field('archive-month','First observed month','<select id="archive-month">'+option('all','All available months')+'</select>')}
-{field('archive-search','Search title, publisher, DOI or record ID','<input id="archive-search" type="search" maxlength="120" autocomplete="off">')}
-{field('archive-topic','Research theme','<select id="archive-topic">'+topics()+'</select>')}
-{field('archive-kind','Record type','<select id="archive-kind">'+option('all','All types')+option('academic','Academic metadata')+option('discovery','Discovery leads')+'</select>')}
-{field('archive-from','Published from (UTC)','<input id="archive-from" type="date">')}
-{field('archive-to','Published through (UTC)','<input id="archive-to" type="date">')}
-</div><p class="portal-help">{tx('Search terms use AND by default. Use OR for alternatives and quotes for exact phrases.')}</p>
-<div class="portal-tools"><button id="archive-reset" type="button">{tx('Reset filters')}</button><button id="archive-export" type="button">{tx('Export filtered CSV')}</button><button id="archive-metadata" type="button">{tx('Export query metadata')}</button><button id="share-query" type="button">{tx('Copy shareable link')}</button>{link('../workbench/','Advanced search')}{link('../sources/#academic-monitoring','Academic literature monitoring')}</div>
-<p id="archive-coverage" class="portal-notice" role="status"></p><p id="archive-count" role="status" aria-live="polite">Loading archive…</p><div id="archive-results" class="portal-record-list"></div><button id="archive-show-more" type="button" hidden>{tx('Show more archive records')}</button>
-<p id="portal-feedback" role="status" aria-live="polite"></p>
-<details class="portal-document"><summary>{tx('Canonical data and integrity')}</summary>{tx('The browser has bounded loading. Partial coverage is labelled explicitly; the canonical JSONL archive is the long-term source.','p')}
-{external(REPO+'/tree/main/data/archive','Public JSONL archive')} · {external(REPO+'/blob/main/data/archive/manifest.json','Integrity manifest')}</details>'''
-    write('archive',shell('archive','Research Archive','Search historical publication records, dates, DOI and stable IDs.',archive))
+    archive=f'<section class="portal-document">{link("../workbench/","Search research records","portal-workbench")}</section>'
+    write('archive',shell('archive','Research Archive','Search research records in the Workbench.',archive))
     automatic_academic = [
         ('https://www.crossref.org/documentation/retrieve-metadata/rest-api/', 'Crossref',
          'Publisher-deposited bibliographic metadata and DOI lookup.'),
@@ -122,7 +99,7 @@ def build() -> None:
     ]
     academic_channels = f'''<section class="portal-document" id="academic-monitoring" aria-labelledby="academic-monitoring-title">
 {tx('Academic literature monitoring','h2','id="academic-monitoring-title"')}
-{link('../archive/?kind=academic','Search academic records')}
+{link('../workbench/?kind=academic','Search academic records')}
 {tx('Automatic metadata collection','h3')}
 <ul id="academic-automatic">{''.join('<li>'+external(url,name)+' '+tx(use)+'</li>' for url,name,use in automatic_academic)}</ul>
 {tx('External research and alerts','h3')}
@@ -153,10 +130,10 @@ def build() -> None:
     flr='https://single-market-economy.ec.europa.eu/single-market/goods/forced-labour-regulation/what-forced-labour-regulation-and-how-does-it-work_en'
     policy=f'''<p class="portal-notice">{tx('Reference timeline checked on 2026-11-09. Consult the current official text for applicability.')}</p><div class="portal-policy-grid">
 <article class="portal-document"><span class="portal-tag">EU / FLR</span>{tx('EU Forced Labour Regulation','h2')}<time datetime="2027-12-14">2027-12-14</time>
-{tx('Product prohibition becomes applicable. This regulation does not itself impose a corporate due-diligence procedure.','p')}{external(flr,'European Commission source')}<p>{link('../archive/?topic=forced-labour','Find related records')}</p></article>
+{tx('Product prohibition becomes applicable. This regulation does not itself impose a corporate due-diligence procedure.','p')}{external(flr,'European Commission source')}<p>{link('../workbench/?topics=forced-labour','Find related records')}</p></article>
 <article class="portal-document"><span class="portal-tag">EU / CSDDD</span><h2>CSDDD</h2><dl>
 {tx('National transposition deadline','dt')}<dd><time datetime="2028-07-26">2028-07-26</time></dd>{tx('Application of principal duties','dt')}<dd><time datetime="2029-07-26">2029-07-26</time></dd>{tx('Article 16 reporting: financial years beginning from','dt')}<dd><time datetime="2030-01-01">2030-01-01</time></dd></dl>
-{tx('Based on the amended framework. Check the current official text and national implementation before coding exposure.','p')}{external(csddd,'European Commission source')}<p>{link('../archive/?topic=policy','Find related records')}</p></article></div>
+{tx('Based on the amended framework. Check the current official text and national implementation before coding exposure.','p')}{external(csddd,'European Commission source')}<p>{link('../workbench/?topics=policy','Find related records')}</p></article></div>
 <section class="portal-document">{tx('Keep four clocks separate','h2')}{tx('Policy timelines distinguish announcement, application, publication and first observation.','p')}
 {link('../methodology/','Data & Methodology')} · {link('../sources/?category=EU%20LAW','Official legal sources')}</section>'''
     write('policy',shell('policy','Policy Monitor','Separate policy dates from publication dates and find official texts.',policy))
@@ -167,19 +144,22 @@ def build() -> None:
     articles=re.findall(r'<article class="lens-card">.*?</article>',lens.group(1),re.S)
     if len(articles)!=4:raise ValueError('Expected four research themes')
     for i,topic in enumerate(['network','policy','worker-voice','research']):
-        articles[i]=articles[i].replace('</article>',f'<p>{link("../archive/?topic="+topic,"Find related records")}</p></article>')
+        articles[i]=articles[i].replace('</article>',f'<p>{link("../workbench/?topics="+topic,"Find related records")}</p></article>')
     research=f'''<p class="portal-notice">{tx('Explore research themes in supply-chain governance and social sustainability.')}</p>
 <div class="portal-card-grid">{''.join(articles)}</div>
-<section class="portal-document">{tx('Literature discovery','h2')}{tx('Check the DOI, publication version and peer-review status at the publisher.','p')}{link('../archive/?kind=academic','Search academic records')} · {link('../sources/#academic-monitoring','Academic literature monitoring')}</section>'''
+<section class="portal-document">{tx('Literature discovery','h2')}{tx('Check the DOI, publication version and peer-review status at the publisher.','p')}{link('../workbench/?kind=academic','Search academic records')} · {link('../sources/#academic-monitoring','Academic literature monitoring')}</section>'''
     write('research',shell('research','Research Framework','Turn supply-network, governance and labour questions into searches.',research))
     dictionary=[('record_id','Stable publication identifier.'),('event_id','Unassigned until a separately reviewed event-linking decision.'),('published_at','Publication timestamp supplied by the source.'),('first_seen','First observation by this collection pipeline.'),('publisher_hint','Publisher attribution supplied by the source.'),('evidence_status','Discovery or bibliographic class; not a verdict.'),('topics','Preliminary machine tags, not human-reviewed entity coding.')]
     methodology=f'''<section class="portal-document">{tx('Storage and retention','h2')}{tx('The collection snapshot retains up to 240 records published within the past 150 days. The permanent archive groups records by the month they were first observed.','p')}{tx('Corrections need an auditable review. A normal Git deletion does not erase public history.','p')}</section>
 <section class="portal-document">{tx('Core field dictionary','h2')}<dl class="portal-dictionary">{''.join('<dt><code>'+field+'</code></dt><dd>'+tx(definition)+'</dd>' for field,definition in dictionary)}</dl></section>
 <section class="portal-document">{tx('Coverage and research use','h2')}{tx('Search ranking, language, reporting and title screening introduce selection bias. Record counts must not be interpreted as violation rates.','p')}{tx('Full-text articles are not redistributed. Metadata reuse rights still require source-specific review.','p')}{link('../sources/#data-availability','Inspect source use and reuse terms')}</section>
-<section class="portal-document">{tx('Updates and reproducibility','h2')}{tx('Collection runs are scheduled daily at 10:23 and 22:23 UTC. An additional run with source link checks is scheduled on Sundays at 22:43 UTC. Use the actual collection timestamp.','p')}{tx('Record links remain stable across pages. CSV uses English field names; query metadata records filters, coverage and the build revision.','p')}{link('../archive/','Research Archive')} · {external(REPO+'/blob/main/CITATION.cff','Citation metadata')}</section>
+<section class="portal-document">{tx('Updates and reproducibility','h2')}{tx('Collection runs are scheduled daily at 10:23 and 22:23 UTC. An additional run with source link checks is scheduled on Sundays at 22:43 UTC. Use the actual collection timestamp.','p')}{tx('Record links remain stable across pages. CSV uses English field names; query metadata records filters, coverage and the build revision.','p')}{link('../workbench/','Search research records')} · {external(REPO+'/blob/main/CITATION.cff','Citation metadata')}</section>
+<section class="portal-document" id="canonical-archive">{tx('Canonical data and integrity','h2')}{tx('The browser has bounded loading. Partial coverage is labelled explicitly; the canonical JSONL archive is the long-term source.','p')}
+{external(REPO+'/tree/main/data/archive','Public JSONL archive')} · {external(REPO+'/blob/main/data/archive/manifest.json','Integrity manifest')}</section>
 <section class="portal-document">{tx('Technical documentation (English)','h2')}<ul>{''.join('<li>'+link('../'+file,label)+'</li>' for file,label in [('DATA_DICTIONARY.md','Data dictionary'),('DATASET_CARD.md','Dataset card'),('ARCHITECTURE.md','Data architecture'),('BACKUP_RECOVERY.md','Backup and recovery'),('SECURITY_QA.md','Security verification'),('ACCESSIBILITY_QA.md','Accessibility checks')])}</ul></section>'''
     write('methodology',shell('methodology','Data & Methodology','Understand field definitions, coverage, exports and research limitations.',methodology))
-    write('record',shell('record','Research record','Inspect publication details and provenance.', '<section id="record-content" class="record-page" aria-live="polite"><p>Loading archive…</p></section>'+link('./archive/','Return to archive')))
+    record=f'<section id="record-content" class="record-page" aria-live="polite"><p>{tx("Loading archive…")}</p></section><div class="portal-tools"><a id="record-return-to-search" href="./workbench/">{tx("Return to search")}</a></div>'
+    write('record',shell('record','Research record','Inspect publication details and provenance.',record))
     # Preserve the existing professional UI and its hard-won responsive layout.
     p=OUT/'workbench/index.html';wb=p.read_text(encoding='utf-8')
     wb=wb.replace('../index.html#sources','../sources/#data-availability').replace('../index.html#method','../methodology/')
@@ -237,7 +217,7 @@ def build() -> None:
            'total_archive_records':catalog['total_records']}
     (OUT/'data/build-info.json').write_text(json.dumps(build,indent=2)+'\n',encoding='utf-8')
     # The deployment publishes the generated site files.
-    print(f'Built 5 index subpages, homepage, record view and connected Workbench; {len(locator)} record locators.')
+    print(f'Built public portal, compatibility route, record view and connected Workbench; {len(locator)} record locators.')
 
 def write(page: str, content: str) -> None:
     path=OUT/('record.html' if page=='record' else page+'/index.html' if page else 'index.html')

@@ -47,6 +47,10 @@ body.wb{background:#e9efeb;color:#142e2a;font-size:13px}
 .wb-presets{display:flex;flex-direction:column;gap:6px}.wb-presets strong{font-size:11px;color:#4f685b}.wb-presets button{background:#ecf4ee;border:1px solid #c7dbcd;color:#275746;padding:8px;text-align:left;border-radius:3px;font-size:11px;cursor:pointer}
 .wb-presets button:hover{background:#dbeedc}
 .wb-results-head{flex-wrap:wrap}.wb-head-actions{display:flex;align-items:end;gap:8px}.wb-density{display:flex;flex-direction:column;gap:1px}.wb-density select{min-width:112px}
+.wb-export-tools{max-width:100%}
+.wb-export-tools summary{cursor:pointer}
+.wb-export-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.wb-export-tools:not([open]) > .wb-export-actions{display:none}
 .wb-notice{font-size:11px;color:#435d50;padding:7px 12px;background:#edf4ed;border-bottom:1px solid #d6e4d6;overflow-wrap:anywhere}
 .wb-notice:empty{display:none}.wb-notice.is-alert{color:#873f30;background:#ffefe8}
 .wb-results-meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:9px 12px;color:#5c7465;font-size:11px}
