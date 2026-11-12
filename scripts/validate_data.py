@@ -40,12 +40,28 @@ def validate(data):
         assert isinstance(source['items'],int) and source['items'] >= 0
     return True
 
+def validate_references(refs):
+    if not isinstance(refs, list) or len(refs) < 3:
+        raise ValueError('Reference directory requires at least three sources')
+    urls = set()
+    for ref in refs:
+        if not isinstance(ref, dict) or any(
+            not isinstance(ref.get(key), str) or not ref[key].strip()
+            for key in ('name', 'url', 'category', 'use')
+        ):
+            raise ValueError('Invalid reference directory entry')
+        u=urlparse(ref['url'])
+        if u.scheme!='https' or not u.hostname or u.username is not None or u.password is not None or u.port not in (None,443):
+            raise ValueError('Reference must use public HTTPS without credentials')
+        if ref['url'] in urls:
+            raise ValueError('Duplicate reference URL')
+        urls.add(ref['url'])
+    return True
+
+
 if __name__ == '__main__':
     data = json.loads((ROOT/'docs/data/latest.json').read_text(encoding='utf-8'))
-    assert validate(data)
+    validate(data)
     refs = json.loads((ROOT/'docs/data/references.json').read_text(encoding='utf-8'))
-    assert isinstance(refs,list) and 3 <= len(refs) <= 30
-    for ref in refs:
-        u=urlparse(ref['url'])
-        assert u.scheme=='https' and u.hostname and not u.username and not u.password
+    validate_references(refs)
     print(f'Validated {len(data["items"])} research leads and {len(refs)} reference sources.')

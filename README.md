@@ -58,6 +58,8 @@ Data collection is scheduled daily at **10:23 and 22:23 UTC**. On Sundays at **2
 
 ## Long-term research database and source governance
 
+The **Monitor public collection freshness** workflow checks the last successful collection every six hours. It reports a failed check once the snapshot is more than 18 hours old. GitHub delivers workflow notifications according to the maintainer's Actions notification settings.
+
 The daily collection workflow appends newly accepted records to the permanent archive, grouped by first-observation month. The collection snapshot retains up to 240 records published within the past 150 days and supplies the latest research section on the homepage.
 
 - One immutable first-observation entry per `record_id` in `data/archive/YYYY-MM.jsonl`; stable IDs use the existing 18-character public SHA-256 prefix. Collision/fingerprint mismatches fail closed. Each record has `first_seen` and `event_id: null`.
