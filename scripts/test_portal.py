@@ -3,10 +3,10 @@
 import json,re
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import urlparse,unquote
+from urllib.parse import parse_qs,urlparse,unquote
 ROOT=Path(__file__).resolve().parents[1];OUT=ROOT/'_site'
 class Scan(HTMLParser):
- def __init__(self):super().__init__();self.ids=set();self.urls=[];self.headings=[];self.lang=None;self.errors=[];self.keys=[]
+ def __init__(self):super().__init__();self.ids=set();self.urls=[];self.links=[];self.headings=[];self.lang=None;self.errors=[];self.keys=[]
  def handle_starttag(self,tag,attrs):
   a=dict(attrs)
   if tag=='html':self.lang=a.get('lang')
@@ -16,6 +16,7 @@ class Scan(HTMLParser):
   if tag in ('h1','h2','h3'):self.headings.append(tag)
   for k in ('href','src'):
    if k in a:self.urls.append(a[k])
+  if tag=='a' and 'href' in a:self.links.append(urlparse(a['href']))
   if tag=='script' and a.get('src','').startswith(('http:','https:','//')):self.errors.append('external runtime script')
   if tag=='a' and a.get('target')=='_blank' and 'noopener' not in a.get('rel',''):self.errors.append('unsafe new window')
   if any(re.fullmatch(r'on(click|load|error|change)',x) for x in a):self.errors.append('inline JS handler')
@@ -26,7 +27,7 @@ def run():
  paths=['index.html','archive/index.html','sources/index.html','policy/index.html','research/index.html','methodology/index.html','record.html','workbench/index.html','workbench/edit/index.html']
  for rel in paths:
   p=OUT/rel;raw=p.read_text(encoding='utf-8');s=Scan();s.feed(raw)
-  assert s.lang=='en' and s.headings[0]=='h1',(rel,s.headings)
+  assert s.lang=='en' and s.headings and s.headings[0]=='h1',(rel,s.headings)
   assert not s.errors,(rel,s.errors)
   assert 'Content-Security-Policy' in raw and 'language-select' in s.ids,rel
   assert '<option value="es" lang="es">Español</option>' in raw,rel
@@ -38,6 +39,19 @@ def run():
    assert target.is_relative_to(OUT.resolve()),(rel,u)
    if uri.path.endswith('/'):target=target/'index.html'
    assert target.exists(),(rel,u)
+  if not rel.startswith('workbench/'):
+   assert not {'site-search','archive-search','archive-results','wb-search'}&s.ids,rel
+  else:
+   assert {'wb-search','wb-first-seen-month','wb-query-metadata'}<=s.ids,rel
+  assert not any(not u.netloc and u.path.rstrip('/').endswith('/archive') for u in s.links),rel
+  if rel in ('index.html','archive/index.html','policy/index.html'):
+   workbench=[u for u in s.links if not u.netloc and u.path.rstrip('/').endswith('/workbench')]
+   assert workbench,('Missing Workbench link',rel)
+   if rel=='policy/index.html':
+    assert {'forced-labour','policy'}<={topic for u in workbench for topic in parse_qs(u.query).get('topics',[])},rel
+  if rel=='methodology/index.html':
+   assert any(u.path.endswith('/tree/main/data/archive') for u in s.links),'Canonical archive link missing'
+   assert any(u.path.endswith('/blob/main/data/archive/manifest.json') for u in s.links),'Integrity manifest link missing'
   print('PASS output links, headings, labels and translation keys:',rel)
  for k,v in new.items():
   assert not re.search('[\u3400-\u9fff]',k),k

@@ -34,14 +34,11 @@ def integrate_runtime():
       'portal.js':[
         ("const t=x=>", "const relevance=window.SCRO_RELEVANCE;\nconst t=x=>"),
         ("(live?.items||[]).slice(0,6)", "(live?.items||[]).filter(r=>!relevance||relevance.included(r)).map(r=>relevance?relevance.apply(r):r).slice(0,6)"),
-        ("archiveRows.filter(r=>{", "archiveRows.filter(r=>{if(relevance&&!relevance.included(r))return false;"),
-        ("archiveRows=[...records.values()];", "archiveRows=[...records.values()].map(r=>relevance?relevance.apply(r):r);"),
-        ("'topics','doi','url'];const rows=", "'topics','doi','url','relevance_level','rule_version','review_state','manual_relevance'];const rows="),
         ("rec=shard.records.find(r=>r.record_id===id);", "rec=shard.records.find(r=>r.record_id===id);if(rec&&relevance)rec=relevance.apply(rec);"),
         ("const title=node('h2',rec.title);", "if(relevance&&!relevance.included(rec))root.append(node('p',t('Excluded by editorial review. The original observation is retained.'),'portal-notice'));\n const title=node('h2',rec.title);"),
         ("['Publisher credit (unverified)',rec.publisher_hint", "[rec.publisher_confirmed?'Publisher confirmed':'Publisher credit (unverified)',rec.publisher_hint"),
         ("publicLink(rec.url,'Open original discovery link')", "publicLink(rec.reviewed_canonical_url||rec.url,'Open original discovery link')"),
-        ("async function start(){", "async function start(){\n if(relevance){await relevance.ready;if(relevance.failed)document.querySelector('main')?.prepend(node('p',t('Keyword review index unavailable; original records remain visible.'),'portal-notice'));}")
+        (" if(legacy())return;window.addEventListener('hashchange',legacy);", " if(legacy())return;window.addEventListener('hashchange',legacy);\n if(relevance&&(PAGE==='home'||PAGE==='record')){await relevance.ready;if(relevance.failed)document.querySelector('main')?.prepend(node('p',t('Keyword review index unavailable; original records remain visible.'),'portal-notice'));}")
       ]
     }
     for relative,pairs in patches.items():
@@ -105,13 +102,19 @@ def build():
           'target_range':[150,200],'sampling_pool_limit':5000,'metrics':None,'notes':'Keyword-derived strata for evaluation after independent annotation.','cases':sample})
     for path in OUT.rglob('*.html'):
         source=path.read_text(encoding='utf-8')
-        # Root page, one-level section and nested editor all share one data index.
+        # The homepage and record view use the review data for their record cards.
+        # Workbench views load it alongside the shared search runtime.
         depth=len(path.parent.relative_to(OUT).parts)
         prefix='./' if depth==0 else '../'*depth
-        anchor=f'<script defer src="{prefix}query.js"></script>'
-        if anchor not in source:continue
         addition=f'<script defer src="{prefix}relevance-client.js"></script>'
-        if addition not in source:source=source.replace(anchor,anchor+addition)
+        if path in {OUT/'index.html',OUT/'record.html'}:
+            anchor=f'<script defer src="{prefix}portal.js"></script>'
+            if source.count(anchor)!=1:raise ValueError('Portal script anchor changed')
+            if addition not in source:source=source.replace(anchor,addition+anchor)
+        else:
+            anchor=f'<script defer src="{prefix}query.js"></script>'
+            if anchor not in source:continue
+            if addition not in source:source=source.replace(anchor,anchor+addition)
         editor=path==OUT/'workbench/edit/index.html'
         if editor:
             target='<script defer src="../workbench.js"></script>'
