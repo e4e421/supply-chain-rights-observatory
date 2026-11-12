@@ -18,6 +18,13 @@ const D={
 'Edit draft':['返回修改','Entwurf bearbeiten',"Editar borrador"],
 'Remove draft':['移除草稿','Entwurf entfernen',"Eliminar borrador"],
 'Remove this local draft?':['確定移除此筆本機草稿？','Diesen lokalen Entwurf entfernen?',"¿Eliminar este borrador local?"],
+'Outdated drafts':['過期草稿','Veraltete Entwürfe',"Borradores desactualizados"],
+'Clear outdated drafts':['清除過期草稿','Veraltete Entwürfe löschen',"Eliminar borradores desactualizados"],
+'Clear {count} outdated drafts from this browser?':['確定清除這個瀏覽器中的 {count} 筆過期草稿？','{count} veraltete Entwürfe aus diesem Browser löschen?',"¿Eliminar {count} borradores desactualizados de este navegador?"],
+'Outdated drafts cleared: {count}.':['已清除 {count} 筆過期草稿。','Gelöschte veraltete Entwürfe: {count}.',"Borradores desactualizados eliminados: {count}."],
+'Drafts cleared after matching the published version: {count}.':['已自動清除 {count} 筆與發布版本相同的草稿。','Nach Abgleich mit der veröffentlichten Fassung gelöschte Entwürfe: {count}.',"Borradores eliminados al coincidir con la versión publicada: {count}."],
+'The outdated draft list was refreshed.':['已更新過期草稿清單。','Die Liste der veralteten Entwürfe wurde aktualisiert.',"Se actualizó la lista de borradores desactualizados."],
+'Browser storage unavailable. Try clearing the drafts again.':['瀏覽器儲存空間目前無法寫入，請再試一次。','Browserspeicher nicht verfügbar. Versuchen Sie erneut, die Entwürfe zu löschen.',"El almacenamiento del navegador no está disponible. Intente eliminar los borradores de nuevo."],
 'Use suggested topics':['沿用規則建議的主題','Regelvorschläge beibehalten',"Usar los temas sugeridos"],
 'Not confirmed':['未確認','Nicht bestätigt',"Sin confirmar"],
 'Confirmed':['已確認','Bestätigt',"Confirmado"],
@@ -119,7 +126,7 @@ const timestamp=value=>I.formatDate?.(value,true)||'—';
 const topicLabel=names=>I.t?.(names.en)||names[I.language]||names.en;
 const el=(tag,value='',cls='')=>{const n=document.createElement(tag);n.textContent=value;if(cls)n.className=cls;return n;};
 const ASSET_ROOT=new URL('./',document.currentScript.src);
-let callback=()=>{},current=null,signature='',feedback='';
+let callback=()=>{},current=null,signature='',feedback='',feedbackCount=0;
 const root=el('section','','rv-panel');root.id='review-panel';
 root.setAttribute('aria-label','Relevance and review');
 document.getElementById('wb-detail')?.after(root);
@@ -148,13 +155,20 @@ const summary=el('summary','','rv-queue-summary');summary.id='rv-queue-title';qu
 const introduction=el('p','','rv-queue-intro');
 const queueList=el('ol','','rv-queue-list');queueList.id='rv-queue-list';
 queueList.setAttribute('aria-label',t('Pending review changes'));
+const staleDrafts=el('details','','rv-stale-drafts');staleDrafts.id='rv-stale-drafts';staleDrafts.hidden=true;
+const staleSummary=el('summary');staleSummary.id='rv-stale-title';
+const staleActions=el('div','','rv-stale-actions');
+const clearStale=el('button','','rv-action rv-action-danger');clearStale.id='rv-clear-stale';clearStale.type='button';
+staleActions.append(clearStale);
+const staleList=el('ol','','rv-queue-list');staleList.setAttribute('aria-labelledby',staleSummary.id);
+staleDrafts.append(staleSummary,staleActions,staleList);
 const queueActions=el('div','','rv-queue-actions');
 const exportButton=el('button');exportButton.id='rv-export-batch';exportButton.type='button';
 const send=el('button');send.id='rv-publish-batch';send.type='button';
 const submitHint=el('p','','rv-submit-hint');submitHint.id='rv-submit-hint';
 send.setAttribute('aria-describedby',submitHint.id);
 queueActions.append(submitHint,exportButton,send);
-queue.append(introduction,queueList,queueActions);
+queue.append(introduction,staleDrafts,queueList,queueActions);
 const info=el('p','','rv-message');info.id='rv-feedback';
 info.setAttribute('role','status');info.setAttribute('aria-live','polite');
 
@@ -179,15 +193,19 @@ function makeChange(label,before,after){
  p.append(el('strong',after,'rv-change-after'));
  return p;
 }
-function draftCurrent(rid,d){
- const indexed=R.get(rid);
- if(!indexed)return false;
- const reviewCurrent=!S.hasDecision(d)||(d.content_fingerprint===indexed.analysis.content_fingerprint
-    &&d.expected_review_digest===indexed.review_digest);
- const tagged=R.data?.record_tags?.[rid],change=d._tagChange;
- const tagsCurrent=!change||(change.content_fingerprint===indexed.analysis.content_fingerprint
-    &&change.expected_tag_digest===(tagged?.digest||R.data?.empty_tag_digest));
- return reviewCurrent&&tagsCurrent;
+const reviewIndex=()=>R.failed?null:R.data;
+const draftStatus=(rid,d)=>S.draftStatus(rid,d,reviewIndex());
+const draftCurrent=(rid,d)=>draftStatus(rid,d)==='current';
+const outdated=(rid,d)=>!S.active(rid)&&draftStatus(rid,d)==='outdated';
+const selectedForQueue=()=>S.selectedEntries().filter(([rid,d])=>!outdated(rid,d));
+const withCount=(key,value)=>t(key).replace('{count}',number(value));
+function reconcileDrafts(index){
+ const result=S.reconcileStaleDrafts(index);
+ if(!result.persisted)feedback='Browser storage unavailable. Try clearing the drafts again.';
+ else if(result.removed){
+  feedback='Drafts cleared after matching the published version: {count}.';
+  feedbackCount=result.removed;
+ }
 }
 function download(name,obj){
  const url=URL.createObjectURL(new Blob([JSON.stringify(obj,null,2)],{type:'application/json;charset=utf-8'}));
@@ -195,24 +213,34 @@ function download(name,obj){
  setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 function renderQueue(){
- const entries=S.draftEntries(),selected=S.selectedEntries();
- summary.textContent=t('Review Queue')+' ('+number(entries.length)+')';
+ const entries=S.draftEntries(),selected=selectedForQueue();
+ const staleIds=new Set(entries.filter(([rid,d])=>outdated(rid,d)).map(([rid])=>rid));
+ const queuedCount=entries.length-staleIds.size;
+ summary.textContent=t('Review Queue')+' ('+number(queuedCount)+')';
+ staleSummary.textContent=t('Outdated drafts')+' ('+number(staleIds.size)+')';
+ clearStale.textContent=t('Clear outdated drafts');
+ staleDrafts.hidden=staleIds.size===0;
+ if(staleDrafts.hidden)staleDrafts.open=false;
+ introduction.hidden=queueActions.hidden=queuedCount===0;
+ queueList.hidden=queuedCount===0&&staleIds.size>0;
  introduction.textContent=t('You can only submit the explicitly selected records.')+' '+t('Draft selection is stored only in your browser.');
- count.textContent=number(selected.length)+' / '+number(entries.length)+' '+t('Selected for publication');
+ count.textContent=number(selected.length)+' / '+number(queuedCount)+' '+t('Selected for publication');
  queueList.replaceChildren();
+ staleList.replaceChildren();
  if(!entries.length)queueList.append(el('li',t('No saved changes yet. Select a record and choose Save local draft.'),'rv-queue-empty'));
  for(const [rid,d] of entries){
-  const active=S.active(rid),indexed=R.get(rid),stale=!draftCurrent(rid,d);
+  const active=S.active(rid),indexed=R.get(rid),state=draftStatus(rid,d);
   const prior=indexed?.review_state==='current'?indexed.review:null;
   const li=el('li','','rv-queue-item');li.dataset.reviewId=rid;
   const top=el('div','','rv-queue-item-head');
   const check=el('input');check.type='checkbox';check.className='rv-review-select';
   check.dataset.selectRecord=rid;check.checked=S.selectedIds().includes(rid);
-  check.disabled=!!active||stale;check.setAttribute('aria-label',t('Select for publication')+' '+rid);
+  check.disabled=!!active||state!=='current';check.setAttribute('aria-label',t('Select for publication')+' '+rid);
   check.addEventListener('change',()=>S.setSelected(rid,check.checked));
   top.append(check,el('strong',String(d._title||window.SCRO_WORKBENCH?.getRecord(rid)?.title||rid).slice(0,200),'rv-queue-title'));
   const label=S.hasDecision(d)?decisionLabel(d.relevance):t('Tag changes');
-  top.append(el('span',active?t(({handoff:'Handoff pending',submitted:'Submitted',published:'Published',needs_attention:'Needs attention'})[active.status]||active.status):stale?t('Local draft is outdated'):label,'rv-queue-status'));
+  const badge=state==='outdated'?'Local draft is outdated':state==='unavailable'?'Record unavailable from current index':null;
+  top.append(el('span',active?t(({handoff:'Handoff pending',submitted:'Submitted',published:'Published',needs_attention:'Needs attention'})[active.status]||active.status):badge?t(badge):label,'rv-queue-status'));
   li.append(top,el('small',t('Record ID')+': '+rid,'rv-queue-id'));
   if(indexed&&S.hasDecision(d)){
     li.append(makeChange('Relevance',prior?decisionLabel(prior.relevance):t('Unreviewed'),decisionLabel(d.relevance)));
@@ -222,7 +250,7 @@ function renderQueue(){
     if(d.note)li.append(makeChange('Public note',prior?.note||t('No public note'),d.note));
   }
   if(d._tagChange)li.append(makeChange('Custom tags',formatTags(R.tags(rid)),formatTags(d._tagChange.tags)));
-  if(stale)li.append(el('p',t('Published review has changed. Reopen and save again.'),'rv-alert'));
+  if(state==='outdated')li.append(el('p',t('Published review has changed. Reopen and save again.'),'rv-alert'));
   if(active)li.append(el('p',t('An earlier batch already includes this record. Check its publication status first.'),'rv-small'));
   const actions=el('div','','rv-queue-item-actions');
   const edit=el('button',t('Edit draft'),'rv-action');edit.type='button';edit.dataset.editRecord=rid;
@@ -233,9 +261,13 @@ function renderQueue(){
   remove.type='button';remove.dataset.removeRecord=rid;remove.disabled=!!active;
   remove.addEventListener('click',()=>{
    if(!window.confirm(t('Remove this local draft?')))return;
-   if(S.removeDraft(rid)){feedback='Draft removed from this browser.';refresh();}
+   if(S.removeDraft(rid)){
+    feedback='Draft removed from this browser.';refresh();
+    (staleIds.has(rid)&&!staleDrafts.hidden?staleSummary:summary).focus();
+   }
   });
-  actions.append(edit,remove);li.append(actions);queueList.append(li);
+  actions.append(edit,remove);li.append(actions);
+  (staleIds.has(rid)?staleList:queueList).append(li);
  }
  if(selected.length>25)queueList.prepend(el('li',t('Too many changes for one Issue (maximum 25). Export your draft and submit smaller groups.'),'rv-alert'));
  const staleSelected=selected.some(([id,d])=>!draftCurrent(id,d));
@@ -244,8 +276,18 @@ function renderQueue(){
  submitHint.textContent=t('A prefilled GitHub form opens in a new tab. Selected changes are published after you submit the issue and validation succeeds.');
  exportButton.disabled=!selected.length;
  send.disabled=!selected.length||selected.length>25||staleSelected||R.failed;
- info.textContent=R.failed?t('Keyword analysis unavailable; records remain visible.'):t(feedback);
+ info.textContent=R.failed?t('Keyword analysis unavailable; records remain visible.'):withCount(feedback,feedbackCount);
 }
+clearStale.addEventListener('click',()=>{
+ const ids=S.draftEntries().filter(([rid,d])=>outdated(rid,d)).map(([rid])=>rid);
+ if(!ids.length||!window.confirm(withCount('Clear {count} outdated drafts from this browser?',ids.length)))return;
+ const result=S.removeStaleDrafts(ids,reviewIndex());
+ feedbackCount=result.removed;
+ feedback=!result.persisted?'Browser storage unavailable. Try clearing the drafts again.':
+  result.removed?'Outdated drafts cleared: {count}.':'The outdated draft list was refreshed.';
+ refresh();
+ (staleDrafts.hidden?summary:staleSummary).focus();
+});
 function renderHistory(){
  historyHead.querySelector('h3').textContent=t('Publication history');
  statusBtn.textContent=t('Check GitHub and publication status');
@@ -281,10 +323,12 @@ function updateTools(){
  renderQueue();renderHistory();
 }
 exportButton.addEventListener('click',()=>{
- if(S.selectedEntries().length)download('scro-selected-review-batch.json',S.payload(S.selectedEntries()));
+ const selected=selectedForQueue();
+ if(selected.length)download('scro-selected-review-batch.json',S.payload(selected));
 });
 send.addEventListener('click',()=>{
  try{
+  reconcileDrafts(reviewIndex());
   const entry=S.makeHandoff(draftCurrent);feedback='The Issue has not been confirmed yet; this is not a published review.';
   updateTools();window.open(entry.url,'_blank','noopener,noreferrer');
  }catch(e){
@@ -302,6 +346,7 @@ statusBtn.addEventListener('click',async()=>{
   S.refreshPublished(index);
   callback();
   feedback='Refresh or reopen to see newly published decisions.';
+  reconcileDrafts(index);
  }catch(_){feedback='GitHub status check failed; no draft was lost.';}
  finally{statusBtn.disabled=false;refresh();}
 });
@@ -522,7 +567,7 @@ function includes(item){
 function refresh(){updateTools();inspect(current,true);}
 S.onChange(()=>{if(savingTags)updateTools();else refresh();});
 I.onChange(refresh);
-R.ready.then(()=>{S.refreshPublished(R.data);refresh();});
+R.ready.then(()=>{S.refreshPublished(reviewIndex());reconcileDrafts(reviewIndex());refresh();});
 refresh();inspect(null);
 window.SCRO_REVIEW=Object.freeze({connect:f=>{callback=f;},inspect,includes,refresh,setFilter,
  filterValue:()=>filter.value,

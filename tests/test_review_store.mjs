@@ -6,6 +6,8 @@ import {webcrypto} from 'node:crypto';
 
 const source=fs.readFileSync('docs/workbench/review-store.js','utf8');
 const A='a'.repeat(18),B='b'.repeat(18),C='c'.repeat(18);
+const D='1'.repeat(18),E='2'.repeat(18),F='3'.repeat(18);
+const DRAFTS='scro.review.drafts.v1',QUEUE='scro.review.queue.v2';
 function draft(name){
  return {content_fingerprint:'f'.repeat(64),expected_review_digest:'d'.repeat(64),
   relevance:'include',topics:null,publisher_confirmed:false,canonical_url:null,
@@ -140,4 +142,111 @@ test('outdated or ambiguous handoffs do not silently publish or erase drafts',()
  assert.equal(store.refreshPublished(mismatched),false);
  assert.equal(store.batches()[0].status,'handoff');
  assert.ok(store.getDraft(C));
+});
+
+function indexed(published,digest='e'.repeat(64)){
+ return {analysis:{content_fingerprint:published.content_fingerprint},
+  review_state:'current',review_digest:digest,review:published};
+}
+test('bulk removal rechecks explicit draft IDs and keeps current, unavailable and handed-off drafts',()=>{
+ const {store,localStorage}=harness();
+ const active=draft('handoff'),current=draft('current'),stale=draft('stale');
+ store.saveDraft(C,active);
+ const batch=store.makeHandoff(()=>true);
+ store.saveDraft(A,stale);
+ store.saveDraft(B,current);
+ store.saveDraft(D,draft('outside index'));
+ store.saveDraft(E,draft('outdated but not confirmed for removal'));
+ store.setSelected(A,true);
+ store.setSelected(B,true);
+ store.setSelected(D,true);
+ const index={records:{[A]:indexed(stale),[B]:indexed(current,current.expected_review_digest),
+  [C]:indexed(active),[E]:indexed(draft('published changes'))}};
+ assert.equal(store.draftStatus(A,store.getDraft(A),null),'unavailable');
+ assert.equal(store.draftStatus(D,store.getDraft(D),index),'unavailable');
+ assert.equal(store.draftStatus(A,store.getDraft(A),index),'outdated');
+ assert.equal(store.draftStatus(B,store.getDraft(B),index),'current');
+ assert.equal(store.removeStaleDrafts([A],null).removed,0);
+ let notifications=0;
+ store.onChange(()=>{notifications++;});
+ const result=store.removeStaleDrafts([A,A,B,C,D,'invalid'],index);
+ assert.equal(result.removed,1);
+ assert.equal(result.persisted,true);
+ assert.equal(notifications,1);
+ assert.equal(store.getDraft(A),null);
+ assert.equal(store.getDraft(B).note,'current');
+ assert.equal(store.getDraft(C).note,'handoff');
+ assert.equal(store.getDraft(D).note,'outside index');
+ assert.equal(store.getDraft(E).note,'outdated but not confirmed for removal');
+ assert.deepEqual([...store.selectedIds()],[E,B,D]);
+ assert.equal(store.active(C).id,batch.id);
+ assert.equal(JSON.parse(localStorage.getItem(DRAFTS))[A],undefined);
+});
+test('automatic reconciliation clears matching stale edits and deselects unique stale edits',()=>{
+ const {store,localStorage}=harness();
+ const a=draft('already published'),b=draft('unpublished note'),c=draft('handoff');
+ const e=draft('current draft'),f=draft('unpublished tag edit');
+ const tagChange={content_fingerprint:a.content_fingerprint,expected_tag_digest:'d'.repeat(64),tags:['iphone','工廠事故']};
+ store.saveDraft(C,c);
+ const batch=store.makeHandoff(()=>true);
+ store.saveDraft(A,a);store.saveTags(A,tagChange,'mixed');
+ store.saveDraft(B,b);
+ store.saveDraft(D,draft('outside index'));
+ store.saveDraft(E,e);
+ store.saveDraft(F,f);store.saveTags(F,{...tagChange,tags:['new']},'different tags');
+ for(const rid of [A,B,D,E])store.setSelected(rid,true);
+ const index={records:{[A]:indexed(a),[B]:indexed(draft('different note')),[C]:indexed(c),
+  [E]:indexed(e,e.expected_review_digest),[F]:indexed(f)},
+  record_tags:{[A]:{tags:['工廠事故','iphone'],digest:'e'.repeat(64)},
+   [F]:{tags:['iphone'],digest:'e'.repeat(64)}},empty_tag_digest:'0'.repeat(64)};
+ let notifications=0;
+ store.onChange(()=>{notifications++;});
+ const result=store.reconcileStaleDrafts(index);
+ assert.equal(result.removed,1);
+ assert.equal(result.persisted,true);
+ assert.equal(notifications,1);
+ assert.equal(store.getDraft(A),null);
+ assert.equal(store.getDraft(B).note,'unpublished note');
+ assert.equal(store.getDraft(F)._tagChange.tags[0],'new');
+ assert.equal(store.active(C).id,batch.id);
+ assert.deepEqual([...store.selectedIds()],[D,E]);
+ assert.deepEqual(JSON.parse(localStorage.getItem(QUEUE)).selected,[D,E]);
+ assert.equal(store.reconcileStaleDrafts(index).removed,0);
+ assert.equal(notifications,1);
+});
+test('cleanup preserves drafts and selection when a storage write fails',()=>{
+ const {store,localStorage}=harness();
+ const a=draft('already published');
+ store.saveDraft(A,a);
+ const oldDrafts=localStorage.getItem(DRAFTS),oldQueue=localStorage.getItem(QUEUE);
+ const setItem=localStorage.setItem;
+ localStorage.setItem=(key,value)=>{
+  if(key===DRAFTS)throw Error('storage blocked');
+  setItem(key,value);
+ };
+ let notifications=0;
+ store.onChange(()=>{notifications++;});
+ const result=store.reconcileStaleDrafts({records:{[A]:indexed(a)}});
+ assert.equal(result.removed,0);
+ assert.equal(result.persisted,false);
+ assert.equal(store.getDraft(A).note,a.note);
+ assert.deepEqual([...store.selectedIds()],[A]);
+ assert.equal(localStorage.getItem(DRAFTS),oldDrafts);
+ assert.equal(localStorage.getItem(QUEUE),oldQueue);
+ assert.equal(notifications,0);
+});
+test('cleanup preserves newer drafts and handoffs from another tab before its storage event',()=>{
+ const {store,localStorage}=harness();
+ const a=draft('already published');
+ store.saveDraft(A,a);
+ const secondTab=harness({[DRAFTS]:localStorage.getItem(DRAFTS),[QUEUE]:localStorage.getItem(QUEUE)}).store;
+ const newerDraft=draft('new edit');
+ secondTab.saveDraft(A,newerDraft);
+ const newerBatch=secondTab.makeHandoff(()=>true);
+ localStorage.setItem(DRAFTS,JSON.stringify({[A]:newerDraft}));
+ localStorage.setItem(QUEUE,JSON.stringify({schema_version:2,selected:[],batches:[newerBatch]}));
+ const result=store.removeStaleDrafts([A],{records:{[A]:indexed(a)}});
+ assert.equal(result.removed,0);
+ assert.equal(JSON.parse(localStorage.getItem(DRAFTS))[A].note,newerDraft.note);
+ assert.equal(JSON.parse(localStorage.getItem(QUEUE)).batches[0].id,newerBatch.id);
 });
