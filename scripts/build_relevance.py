@@ -76,7 +76,7 @@ def build():
           'coverage':'complete' if len(selected)==len(records) else 'partial','indexed_records':len(index),
           'total_records':len(records),'counts':counts,'records':index,
           'tag_catalog':overlay.get('tag_catalog',[]),
-          'record_tags':{rid:{'tags':row['tags'],'issue':row['issue'],'digest':digest(row)}
+          'record_tags':{rid:{'tags':row['tags'],'issue':row['issue'],'issue_digest':row['issue_digest'],'digest':digest(row)}
                          for rid,row in assignments.items()},'empty_tag_digest':digest(None)}
     write(OUT/'data/relevance-index.json',data)
     # Stratified, deterministic pool. Labels remain null until the research team reviews them.

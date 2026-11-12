@@ -96,31 +96,35 @@ function draftStatus(rid,d,index){
   const outdatedTags=tagChange&&(tagChange.content_fingerprint!==fingerprint||tagChange.expected_tag_digest!==tagDigest);
   return outdatedReview||outdatedTags?'outdated':'current';
 }
+function saveDraftAndQueueChanges(nextDrafts,nextQueue){
+  const priorDrafts=JSON.stringify(drafts),priorQueue=JSON.stringify(state);
+  const updatedDrafts=JSON.stringify(nextDrafts),updatedQueue=JSON.stringify(nextQueue);
+  // A storage event from another tab can still be queued after a confirmation.
+  if(JSON.stringify(readDrafts())!==priorDrafts||JSON.stringify(readQueue())!==priorQueue)return false;
+  let queueSaved=false;
+  try{
+    if(updatedQueue!==priorQueue){
+      localStorage.setItem(QUEUE,updatedQueue);
+      queueSaved=true;
+    }
+    if(updatedDrafts!==priorDrafts)localStorage.setItem(DRAFTS,updatedDrafts);
+  }catch(_){
+    if(queueSaved){
+      try{localStorage.setItem(QUEUE,priorQueue);}catch(_){}
+    }
+    return false;
+  }
+  drafts=nextDrafts;state=nextQueue;
+  changes();
+  return true;
+}
 function applyDraftCleanup(removed,deselected){
   const selected=state.selected.filter(rid=>!deselected.has(rid));
-  const selectionChanged=selected.length!==state.selected.length;
-  if(!removed.size&&!selectionChanged)return {removed:0,persisted:true};
-  // A storage event from another tab can still be queued after a confirmation.
-  if(JSON.stringify(readDrafts())!==JSON.stringify(drafts)||JSON.stringify(readQueue())!==JSON.stringify(state))
-    return {removed:0,persisted:false};
+  if(!removed.size&&selected.length===state.selected.length)return {removed:0,persisted:true};
   const remaining={...drafts};
   for(const rid of removed)delete remaining[rid];
-  let selectionSaved=false;
-  try{
-    if(selectionChanged){
-      localStorage.setItem(QUEUE,JSON.stringify({...state,selected}));
-      selectionSaved=true;
-    }
-    if(removed.size)localStorage.setItem(DRAFTS,JSON.stringify(remaining));
-  }catch(_){
-    if(selectionSaved){
-      try{localStorage.setItem(QUEUE,JSON.stringify(state));}catch(_){}
-    }
-    return {removed:0,persisted:false};
-  }
-  drafts=remaining;state.selected=selected;
-  changes();
-  return {removed:removed.size,persisted:true};
+  const persisted=saveDraftAndQueueChanges(remaining,{...state,selected});
+  return {removed:persisted?removed.size:0,persisted};
 }
 function removeStaleDrafts(ids=[],index){
   const removed=new Set();
@@ -192,46 +196,85 @@ function matches(a,b){
   return FIELDS.filter(k=>k!=='expected_review_digest').every(k=>
     JSON.stringify(a?.[k]??null)===JSON.stringify(b?.[k]??null));
 }
-function refreshPublished(index){
+function publishedRows(batch,index){
+  if(!Array.isArray(batch.decisions)||!Array.isArray(batch.tagChanges??[]))return [];
+  const reviews=batch.decisions.map(d=>{
+    if(!d||!ID.test(d.record_id))return null;
+    const indexed=index.records[d.record_id];
+    const reviewed=indexed?.review_state==='current'?indexed.review:null;
+    return reviewed&&matches(d,reviewed)?reviewed:null;
+  });
+  const tags=(batch.tagChanges||[]).map(d=>{
+    if(!d||!ID.test(d.record_id))return null;
+    const tagged=index.record_tags?.[d.record_id];
+    return Array.isArray(tagged?.tags)&&Array.isArray(d.tags)&&sameTags(tagged.tags,d.tags)?tagged:null;
+  });
+  return [...reviews,...tags];
+}
+function issueLink(number){
+  return 'https://github.com/e4e421/supply-chain-rights-observatory/issues/'+number;
+}
+function refreshPublished(index,proofs=new Map()){
   if(!index?.records)return false;
+  const nextQueue=clone(state),nextDrafts=clone(drafts);
   let modified=false;
-  for(const batch of state.batches){
+  for(const batch of nextQueue.batches){
     if(!['handoff','submitted','needs_attention'].includes(batch.status))continue;
-    if(!Number.isInteger(batch.issue_number)||batch.issue_number<1)continue;
+    const proof=proofs.get(batch.id);
+    const issue=batch.issue_number||(proof?.body===batch.body?proof.issue:null);
+    if(!Number.isInteger(issue)||issue<1)continue;
     const tagChanges=batch.tagChanges||[];
-    const published=batch.decisions.every(d=>{
-      const indexed=index.records[d.record_id];
-      const reviewed=indexed?.review_state==='current'?indexed.review:null;
-      return reviewed&&matches(d,reviewed)&&reviewed.issue===batch.issue_number;
-    })&&tagChanges.every(d=>{
-      const tagged=index.record_tags?.[d.record_id];
-      return tagged?.issue===batch.issue_number&&sameTags(tagged.tags,d.tags);
-    });
+    const rows=publishedRows(batch,index);
+    const published=rows.length&&rows.every(row=>row?.issue===issue);
     if(published){
+      batch.issue_number=issue;batch.issue_url=issueLink(issue);
       batch.status='published';batch.published_at=new Date().toISOString();modified=true;
       for(const d of batch.decisions){
         // Never discard more recent edits which differ from the submitted snapshot.
-        if(matches(d,drafts[d.record_id])){
-          for(const field of FIELDS)delete drafts[d.record_id][field];
+        const saved=nextDrafts[d.record_id];
+        if(hasDecision(saved)&&matches(d,saved)&&saved.expected_review_digest===d.expected_review_digest){
+          for(const field of FIELDS)delete saved[field];
         }
       }
       for(const d of tagChanges){
-        const saved=drafts[d.record_id]?._tagChange;
-        if(saved?.expected_tag_digest===d.expected_tag_digest&&sameTags(saved.tags,d.tags))delete drafts[d.record_id]._tagChange;
+        const saved=nextDrafts[d.record_id]?._tagChange;
+        if(Array.isArray(saved?.tags)&&saved.content_fingerprint===d.content_fingerprint
+          &&saved.expected_tag_digest===d.expected_tag_digest&&sameTags(saved.tags,d.tags))delete nextDrafts[d.record_id]._tagChange;
       }
       for(const rid of batch.ids){
-        if(!hasDecision(drafts[rid])&&!drafts[rid]?._tagChange)delete drafts[rid];
-        state.selected=state.selected.filter(x=>x!==rid);
+        if(!hasDecision(nextDrafts[rid])&&!nextDrafts[rid]?._tagChange)delete nextDrafts[rid];
+        nextQueue.selected=nextQueue.selected.filter(x=>x!==rid);
       }
     }
   }
-  if(modified){persist();changes();}
-  return modified;
+  return modified&&saveDraftAndQueueChanges(nextDrafts,nextQueue);
+}
+async function refreshPublishedFromIndex(index){
+  if(!index?.records)return false;
+  const proofs=new Map();
+  if(crypto?.subtle){
+    for(const batch of state.batches){
+      if(batch.status!=='handoff'||batch.issue_number||typeof batch.body!=='string')continue;
+      const rows=publishedRows(batch,index);
+      const issue=rows[0]?.issue,digest=rows[0]?.issue_digest;
+      if(!Number.isInteger(issue)||issue<1||!/^[a-f0-9]{64}$/.test(digest)||
+          !rows.every(row=>row?.issue===issue&&row.issue_digest===digest))continue;
+      try{
+        for(const body of new Set([batch.body,normalizeBody(batch.body)])){
+          const bytes=new TextEncoder().encode(JSON.stringify({body}));
+          const hash=new Uint8Array(await crypto.subtle.digest('SHA-256',bytes));
+          const actual=Array.from(hash,x=>x.toString(16).padStart(2,'0')).join('');
+          if(actual===digest){proofs.set(batch.id,{issue,body:batch.body});break;}
+        }
+      }catch(_){/* An unavailable digest check leaves the handoff pending. */}
+    }
+  }
+  return refreshPublished(index,proofs);
 }
 function sameTags(a,b){return JSON.stringify([...a].sort())===JSON.stringify([...b].sort());}
 function normalizeBody(s){return String(s||'').trim().replace(/\r\n/g,'\n');}
 function confirmIssue(b,issue){
-  return issue?.title==='[Publish Workbench review]'&&issue.user?.login==='e4e421'
+  return issue?.title==='[Publish Workbench review]'&&issue.user?.login==='e4e421'&&!issue.pull_request
     &&normalizeBody(issue.body)===normalizeBody(b.body)
     &&Number.isInteger(issue.number)&&issue.number>0;
 }
@@ -245,25 +288,29 @@ async function request(url){
   }finally{clearTimeout(timeout);}
 }
 async function refreshFromGitHub(index){
-  refreshPublished(index);
-  const pending=state.batches.filter(b=>['handoff','submitted'].includes(b.status));
-  if(!pending.length)return {checked:0,matched:0};
+  await refreshPublishedFromIndex(index);
+  const pending=new Map(state.batches.filter(b=>b.status==='handoff'&&!b.issue_number).map(b=>[b.id,b.body]));
+  if(!pending.size)return {checked:0,matched:0,unavailable:false};
   let matchesFound=0,issues;
   const listURL='https://api.github.com/repos/e4e421/supply-chain-rights-observatory/issues?state=all&per_page=100&sort=created&direction=desc';
-  issues=await request(listURL);
-  if(!Array.isArray(issues))throw Error('Unexpected GitHub Issue response');
-  for(const b of pending){
-    let issue=b.issue_number?issues.find(i=>i.number===b.issue_number):null;
-    if(!issue)issue=issues.find(i=>confirmIssue(b,i));
-    if(!issue||!confirmIssue(b,issue))continue;
-    b.status='submitted';b.issue_number=issue.number;b.issue_url=issue.html_url;matchesFound++;
-    if(issue.state==='closed'){
-      // A closed Issue alone is not proof that the public index deployed.
-      b.status='submitted';
-    }
+  try{
+    issues=await request(listURL);
+    if(!Array.isArray(issues))throw Error('Unexpected GitHub Issue response');
+  }catch(_){
+    return {checked:pending.size,matched:0,unavailable:true};
   }
-  if(matchesFound){persist();changes();}
-  return {checked:pending.length,matched:matchesFound};
+  const nextQueue=clone(state);
+  for(const b of nextQueue.batches){
+    if(pending.get(b.id)!==b.body||!pending.has(b.id)||b.status!=='handoff'||b.issue_number)continue;
+    const issue=issues.find(i=>confirmIssue(b,i));
+    if(!issue)continue;
+    b.status='submitted';b.issue_number=issue.number;b.issue_url=issueLink(issue.number);matchesFound++;
+  }
+  if(matchesFound){
+    if(!saveDraftAndQueueChanges(drafts,nextQueue))return {checked:pending.size,matched:0,unavailable:false,storageUnavailable:true};
+    refreshPublished(index);
+  }
+  return {checked:pending.size,matched:matchesFound,unavailable:false};
 }
 function cancelHandoff(batchId){
   const b=state.batches.find(x=>x.id===batchId);
@@ -282,7 +329,7 @@ window.SCRO_REVIEW_STORE=Object.freeze({
   draftEntries,availableEntries,selectedEntries,selectedIds:()=>[...state.selected],
   getDraft:rid=>drafts[rid]||null,active:latestActive,hasDecision,saveDraft,saveTags,removeDraft,
   draftStatus,removeStaleDrafts,reconcileStaleDrafts,
-  setSelected,selectOnly,payload,makeHandoff,batches,refreshPublished,
+  setSelected,selectOnly,payload,makeHandoff,batches,refreshPublished,refreshPublishedFromIndex,
   refreshFromGitHub,cancelHandoff,onChange,publicationFields
 });
 })();

@@ -99,7 +99,11 @@ const D={
 "Needs attention":["需要處理","Handlungsbedarf","Requiere atención"],
 "Check GitHub and publication status":["查核 GitHub 與發布狀態","GitHub- und Veröffentlichungsstatus prüfen","Comprobar GitHub y el estado de publicación"],
 "Publication history":["發布紀錄與處理狀態","Veröffentlichungsverlauf","Historial de publicación"],
-"GitHub status check failed; no draft was lost.":["GitHub 狀態查核失敗；草稿未遺失。","GitHub-Statusprüfung fehlgeschlagen; kein Entwurf ging verloren.","Error al consultar el estado en GitHub. Los borradores siguen guardados."],
+"Published review status refreshed.":["已更新審核發布狀態。","Der Veröffentlichungsstatus der Prüfungen wurde aktualisiert.","Se actualizó el estado de publicación de las revisiones."],
+"Published review status refreshed. Pending submissions could not be checked on GitHub.":["已更新審核發布狀態。GitHub 暫時無法查核待確認的提交。","Der Veröffentlichungsstatus wurde aktualisiert. Offene Einreichungen konnten auf GitHub nicht geprüft werden.","Se actualizó el estado de publicación. No se pudieron comprobar los envíos pendientes en GitHub."],
+"Published review data could not be loaded. Try again.":["目前無法載入已發布的審核資料，請再試一次。","Die veröffentlichten Prüfungsdaten konnten nicht geladen werden. Versuchen Sie es erneut.","No se pudieron cargar los datos de revisión publicados. Inténtelo de nuevo."],
+"Browser storage unavailable. Try checking publication status again.":["目前無法寫入瀏覽器儲存空間，請重新查核發布狀態。","Der Browserspeicher ist nicht verfügbar. Prüfen Sie den Veröffentlichungsstatus erneut.","El almacenamiento del navegador no está disponible. Vuelva a comprobar el estado de publicación."],
+"View GitHub Issues":["查看 GitHub Issues","GitHub-Issues ansehen","Ver incidencias de GitHub"],
 "Open GitHub handoff":["重新開啟 GitHub 提交頁","GitHub-Einreichung öffnen","Abrir el formulario de envío de GitHub"],
 "View GitHub Issue":["查看 GitHub Issue","GitHub-Issue öffnen","Ver incidencia en GitHub"],
 "Reset unsubmitted handoff":["重設未提交的交接","Nicht eingereichten Übergang zurücksetzen","Restablecer el envío pendiente"],
@@ -109,7 +113,6 @@ const D={
 "No publishing history in this browser.":["此瀏覽器尚無提交紀錄。","Kein Veröffentlichungsverlauf in diesem Browser.","Todavía no hay historial de publicación en este navegador."],
 "Changes in this batch":["此批次的變更","Änderungen in diesem Batch","Cambios de este lote"],
 "Saved in this browser only":["僅儲存於此瀏覽器","Nur in diesem Browser gespeichert","Guardado solo en este navegador"],
-"Refresh or reopen to see newly published decisions.":["請重新載入頁面，查看最新發布的決策。","Seite neu laden, um neue Veröffentlichungen zu sehen.","Actualice o vuelva a abrir la página para ver las últimas decisiones publicadas."],
 "Reload current review index":["重新載入審核索引","Prüfindex neu laden","Volver a cargar el índice de revisión"],
 "Review Queue":["審核變更清單","Prüfwarteschlange","Cola de revisión"],
 "Editing tools are public; only the GitHub owner may publish.":["編輯介面可公開瀏覽，只有授權的 GitHub 擁有者能正式發布。","Bearbeitung ist öffentlich sichtbar; veröffentlichen darf nur der berechtigte GitHub-Inhaber.","Las herramientas de edición son públicas. Solo el propietario del repositorio puede publicar."],
@@ -177,7 +180,13 @@ const historyHead=el('div','','rv-history-head');
 historyHead.append(el('h3',t('Publication history')));
 const statusBtn=el('button',t('Check GitHub and publication status'),'rv-action');
 statusBtn.id='rv-check-status';statusBtn.type='button';
-historyHead.append(statusBtn);
+const statusActions=el('div','','rv-history-actions');
+const issuesLink=el('a',t('View GitHub Issues'));
+issuesLink.id='rv-github-issues';
+issuesLink.href='https://github.com/e4e421/supply-chain-rights-observatory/issues?q=is%3Aissue+%22Publish+Workbench+review%22';
+issuesLink.target='_blank';issuesLink.rel='noopener noreferrer';issuesLink.hidden=true;
+statusActions.append(statusBtn,issuesLink);
+historyHead.append(statusActions);
 const historyList=el('div','','rv-history-list');historyList.id='rv-history-list';
 history.append(historyHead,historyList);
 document.querySelector('.wb-pagination')?.after(queue,info,history);
@@ -206,6 +215,7 @@ function reconcileDrafts(index){
   feedback='Drafts cleared after matching the published version: {count}.';
   feedbackCount=result.removed;
  }
+ return result;
 }
 function download(name,obj){
  const url=URL.createObjectURL(new Blob([JSON.stringify(obj,null,2)],{type:'application/json;charset=utf-8'}));
@@ -276,7 +286,7 @@ function renderQueue(){
  submitHint.textContent=t('A prefilled GitHub form opens in a new tab. Selected changes are published after you submit the issue and validation succeeds.');
  exportButton.disabled=!selected.length;
  send.disabled=!selected.length||selected.length>25||staleSelected||R.failed;
- info.textContent=R.failed?t('Keyword analysis unavailable; records remain visible.'):withCount(feedback,feedbackCount);
+ info.textContent=feedback?withCount(feedback,feedbackCount):R.failed?t('Keyword analysis unavailable; records remain visible.'):'';
 }
 clearStale.addEventListener('click',()=>{
  const ids=S.draftEntries().filter(([rid,d])=>outdated(rid,d)).map(([rid])=>rid);
@@ -291,6 +301,7 @@ clearStale.addEventListener('click',()=>{
 function renderHistory(){
  historyHead.querySelector('h3').textContent=t('Publication history');
  statusBtn.textContent=t('Check GitHub and publication status');
+ issuesLink.textContent=t('View GitHub Issues');
  historyList.replaceChildren();
  const batches=S.batches();
  if(!batches.length)historyList.append(el('p',t('No publishing history in this browser.'),'rv-small'));
@@ -339,15 +350,20 @@ send.addEventListener('click',()=>{
  }
 });
 statusBtn.addEventListener('click',async()=>{
- statusBtn.disabled=true;
+ statusBtn.disabled=true;issuesLink.hidden=true;
+ let index=null;
+ try{index=await R.refresh();}catch(_){/* The Issue lookup can still run independently. */}
  try{
-  const index=await R.refresh();
-  await S.refreshFromGitHub(index);
-  S.refreshPublished(index);
-  callback();
-  feedback='Refresh or reopen to see newly published decisions.';
-  reconcileDrafts(index);
- }catch(_){feedback='GitHub status check failed; no draft was lost.';}
+  let result;
+  try{result=await S.refreshFromGitHub(index);}catch(_){result={unavailable:true};}
+  issuesLink.hidden=!result.unavailable;
+  const cleanup=index?reconcileDrafts(index):null;
+  if(index)callback();
+  feedback=result.storageUnavailable||cleanup?.persisted===false?'Browser storage unavailable. Try checking publication status again.':
+   !index?'Published review data could not be loaded. Try again.':
+   result.unavailable?'Published review status refreshed. Pending submissions could not be checked on GitHub.':
+   'Published review status refreshed.';
+ }
  finally{statusBtn.disabled=false;refresh();}
 });
 function field(label,node){
@@ -567,7 +583,11 @@ function includes(item){
 function refresh(){updateTools();inspect(current,true);}
 S.onChange(()=>{if(savingTags)updateTools();else refresh();});
 I.onChange(refresh);
-R.ready.then(()=>{S.refreshPublished(reviewIndex());reconcileDrafts(reviewIndex());refresh();});
+R.ready.then(async()=>{
+ const index=reviewIndex();
+ await S.refreshPublishedFromIndex(index);
+ reconcileDrafts(index);refresh();
+});
 refresh();inspect(null);
 window.SCRO_REVIEW=Object.freeze({connect:f=>{callback=f;},inspect,includes,refresh,setFilter,
  filterValue:()=>filter.value,

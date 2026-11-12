@@ -382,6 +382,56 @@ STALE_QUEUE_PROBE=r'''
  return true;
 })()
 '''
+PUBLICATION_STATUS_PROBE=r'''
+(async()=>{
+ const check=(value,message)=>{if(!value)throw Error(message);};
+ const store=SCRO_REVIEW_STORE,rid='000000000000000004',record=SCRO_RELEVANCE.get(rid);
+ check(store.saveDraft(rid,{...store.publicationFields(record.review),
+  expected_review_digest:record.review_digest,note:'Pending fixture draft'}),'Draft setup failed');
+ const batch=store.makeHandoff(()=>true);
+ const draftBefore=JSON.stringify(store.getDraft(rid));
+ const batchBefore=JSON.stringify(store.active(rid));
+ const status=document.getElementById('rv-check-status'),feedback=document.getElementById('rv-feedback');
+ const issues=document.getElementById('rv-github-issues');
+ const originalFetch=window.fetch;
+ let apiCalls=0,indexCalls=0,indexUnavailable=false;
+ window.fetch=(input,...args)=>{
+  const url=new URL(input instanceof Request?input.url:input,location.href);
+  if(url.origin==='https://api.github.com'){
+   apiCalls++;
+   return Promise.resolve(indexUnavailable?new Response('[]'):new Response(null,{status:403}));
+  }
+  if(url.origin===location.origin&&url.pathname.endsWith('/data/relevance-index.json')){
+   indexCalls++;
+   if(indexUnavailable)return Promise.resolve(new Response(null,{status:503}));
+  }
+  return originalFetch(input,...args);
+ };
+ const refresh=async()=>{
+  status.click();
+  check(status.disabled,'Status check did not show a pending state');
+  for(let i=0;i<200&&status.disabled;i++)await new Promise(resolve=>setTimeout(resolve,25));
+  check(!status.disabled,'Status button did not become available again');
+  check(JSON.stringify(store.getDraft(rid))===draftBefore&&JSON.stringify(store.active(rid))===batchBefore&&
+   store.active(rid).id===batch.id,'A status lookup changed the pending handoff or draft');
+ };
+ try{
+  await refresh();
+  check(apiCalls===1&&indexCalls===1,'Publication status did not refresh both sources');
+  check(feedback.textContent==='Published review status refreshed. Pending submissions could not be checked on GitHub.',
+   'Partial status was not reported after GitHub returned 403');
+  check(issues&&!issues.hidden&&issues.getClientRects().length&&
+   new URL(issues.href).pathname==='/e4e421/supply-chain-rights-observatory/issues',
+   'Direct Issues link was unavailable after GitHub returned 403');
+  indexUnavailable=true;
+  await refresh();
+  check(apiCalls===2&&indexCalls===2&&issues.hidden&&
+   feedback.textContent==='Published review data could not be loaded. Try again.',
+   'The review-data error did not stay distinct from a GitHub error');
+ }finally{window.fetch=originalFetch;}
+ return true;
+})()
+'''
 
 
 def install_filter_fixture(site):
@@ -572,6 +622,8 @@ def run():
      SCRO_RELEVANCE.get(rid).review.relevance==='needs_review'&&SCRO_RELEVANCE.tags(rid).includes('smoke');
    })()''')
    print('PASS editor reload clears a fully published-equivalent outdated local draft',flush=True)
+   assert browser.evaluate(PUBLICATION_STATUS_PROBE)
+   print('PASS separate GitHub and published-review status failures preserve pending drafts',flush=True)
    missing_shard=site/'data/archive/2026-10-0001.json'
    shard=missing_shard.read_bytes()
    missing_shard.unlink()
