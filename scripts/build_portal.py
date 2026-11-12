@@ -18,7 +18,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / '_site'
 REPO = 'https://github.com/e4e421/supply-chain-rights-observatory'
-NAMES = [('','Research Portal'),('workbench','Search research records'),('sources','Source Directory'),
+NAMES = [('','Research Portal'),('workbench','Research Workbench'),('sources','Source Directory'),
          ('policy','Policy Monitor'),('research','Research Framework'),('methodology','Data & Methodology')]
 CSP = "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; upgrade-insecure-requests"
 E = html.escape
@@ -67,19 +67,19 @@ def build() -> None:
     for name in ('portal.js','portal.css','portal-translations.json'):
         shutil.copy2(ROOT/'portal'/name,OUT/name)
     cards=''.join(f'<a href="./{route}/" class="portal-card"><small>{num:02d}</small>{tx(title,"h2")}{tx(desc,"p")}{tx("Explore","span", "class=card-arrow")}</a>' for num,(route,title,desc) in enumerate([
-        ('workbench','Search research records','Filter research records by theme, record type or date.'),
+        ('workbench','Research Workbench','Filter research records by theme, record type or date.'),
         ('sources','Source Directory','Inspect institutional sources, editorial review and link availability.'),
         ('policy','Policy Monitor','Separate policy dates from publication dates and find official texts.'),
         ('research','Research Framework','Turn supply-network, governance and labour questions into searches.'),
         ('methodology','Data & Methodology','Understand field definitions, coverage, exports and research limitations.')],1))
     home=f'''<section class="portal-hero"><div><p class="portal-kicker">SUPPLY CHAIN · HUMAN RIGHTS · LABOUR</p>
 <h1>Where supply chains<br>meet <em>human rights.</em></h1>{tx('A public research index. Start with a search, then inspect the source.','p')}</div>
-<aside>{tx('Research Workbench','h2')}{tx('Search by title, publisher, DOI or record ID.','p')}{link('./workbench/','Search research records','portal-workbench')}</aside></section>
+<aside>{tx('Research Workbench','h2')}{tx('Search by title, publisher, DOI or record ID.','p')}{link('./workbench/','Research Workbench','portal-workbench')}</aside></section>
 <section class="portal-stats" aria-label="Dataset overview"><div>{tx('Historical records')}<strong id="home-total">—</strong></div><div>{tx('Curated reference sources')}<strong id="home-sources">—</strong></div><div>{tx('Last successful collection')}<strong id="home-updated">—</strong></div><div>{tx('Technical collection status')}<strong id="home-health">—</strong></div></section>
 <section class="portal-sections">{tx('Explore the research index','h2')}<div class="portal-card-grid">{cards}</div></section>
 <section id="signals"><div class="portal-section-heading">{tx('Latest research intelligence','h2')}{link('./workbench/?sort=observed-desc','Browse research records')}</div><p id="home-status" role="status" aria-live="polite">Loading public data…</p><div id="home-latest" class="portal-record-list"></div></section>'''
     write('',shell('','Research Portal','Public research index for supply chains, human rights and labour.',home,True))
-    archive=f'<section class="portal-document">{link("../workbench/","Search research records","portal-workbench")}</section>'
+    archive=f'<section class="portal-document">{link("../workbench/","Research Workbench","portal-workbench")}</section>'
     write('archive',shell('archive','Research Archive','Search research records in the Workbench.',archive))
     automatic_academic = [
         ('https://www.crossref.org/documentation/retrieve-metadata/rest-api/', 'Crossref',
@@ -153,7 +153,7 @@ def build() -> None:
     methodology=f'''<section class="portal-document">{tx('Storage and retention','h2')}{tx('The collection snapshot retains up to 240 records published within the past 150 days. The permanent archive groups records by the month they were first observed.','p')}{tx('Corrections need an auditable review. A normal Git deletion does not erase public history.','p')}</section>
 <section class="portal-document">{tx('Core field dictionary','h2')}<dl class="portal-dictionary">{''.join('<dt><code>'+field+'</code></dt><dd>'+tx(definition)+'</dd>' for field,definition in dictionary)}</dl></section>
 <section class="portal-document">{tx('Coverage and research use','h2')}{tx('Search ranking, language, reporting and title screening introduce selection bias. Record counts must not be interpreted as violation rates.','p')}{tx('Full-text articles are not redistributed. Metadata reuse rights still require source-specific review.','p')}{link('../sources/#data-availability','Inspect source use and reuse terms')}</section>
-<section class="portal-document">{tx('Updates and reproducibility','h2')}{tx('Collection runs are scheduled daily at 10:23 and 22:23 UTC. An additional run with source link checks is scheduled on Sundays at 22:43 UTC. Use the actual collection timestamp.','p')}{tx('Record links remain stable across pages. CSV uses English field names; query metadata records filters, coverage and the build revision.','p')}{link('../workbench/','Search research records')} · {external(REPO+'/blob/main/CITATION.cff','Citation metadata')}</section>
+<section class="portal-document">{tx('Updates and reproducibility','h2')}{tx('Collection runs are scheduled daily at 10:23 and 22:23 UTC. An additional run with source link checks is scheduled on Sundays at 22:43 UTC. Use the actual collection timestamp.','p')}{tx('Record links remain stable across pages. CSV uses English field names; query metadata records filters, coverage and the build revision.','p')}{link('../workbench/','Research Workbench')} · {external(REPO+'/blob/main/CITATION.cff','Citation metadata')}</section>
 <section class="portal-document" id="canonical-archive">{tx('Canonical data and integrity','h2')}{tx('The browser has bounded loading. Partial coverage is labelled explicitly; the canonical JSONL archive is the long-term source.','p')}
 {external(REPO+'/tree/main/data/archive','Public JSONL archive')} · {external(REPO+'/blob/main/data/archive/manifest.json','Integrity manifest')}</section>
 <section class="portal-document">{tx('Technical documentation (English)','h2')}<ul>{''.join('<li>'+link('../'+file,label)+'</li>' for file,label in [('DATA_DICTIONARY.md','Data dictionary'),('DATASET_CARD.md','Dataset card'),('ARCHITECTURE.md','Data architecture'),('BACKUP_RECOVERY.md','Backup and recovery'),('SECURITY_QA.md','Security verification'),('ACCESSIBILITY_QA.md','Accessibility checks')])}</ul></section>'''
