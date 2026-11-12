@@ -14,6 +14,14 @@ on:
         required: false
         type: boolean
         default: false
+      review_revision:
+        description: Committed revision requested by the review workflow
+        type: string
+        required: false
+      publication_issue:
+        description: Owner-authored review Issue to confirm after deployment
+        type: string
+        required: false
   push:
     branches: [main]
     paths:
@@ -28,16 +36,17 @@ permissions:
   contents: read
 
 concurrency:
-  group: supply-chain-observatory-pages
+  group: supply-chain-observatory-main-writes
   cancel-in-progress: false
+  queue: max
 
 jobs:
   collect:
     if: >-
-      github.event_name == 'schedule' ||
+      github.ref == 'refs/heads/main' && (github.event_name == 'schedule' ||
       (github.event_name == 'workflow_dispatch' && !inputs.deploy_only) ||
       (github.event_name == 'push' && (startsWith(github.event.head_commit.message, 'Refresh public source feeds:') ||
-       startsWith(github.event.head_commit.message, 'Check reference links:')))
+       startsWith(github.event.head_commit.message, 'Check reference links:'))))
     # Pin runner to avoid the October-November 2026 ubuntu-latest transition to Ubuntu 26.04.
     # Reassess after validating collection and deployment on Ubuntu 26.04.
     runs-on: ubuntu-24.04
@@ -46,10 +55,14 @@ jobs:
       CHECK_REFERENCE_LINKS_ONLY: ${{ github.event_name == 'push' && startsWith(github.event.head_commit.message, 'Check reference links:') }}
     permissions:
       contents: write
+    outputs:
+      release_sha: ${{ steps.commit.outputs.release_sha }}
+      collected: ${{ steps.commit.outputs.collected }}
     steps:
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1 (Node.js 24)
         with:
+          ref: main
           persist-credentials: true
       - name: Fetch and archive public research metadata
         if: env.CHECK_REFERENCE_LINKS_ONLY != 'true'
@@ -71,6 +84,7 @@ jobs:
           python3 -m unittest discover -s tests -v
           python3 scripts/evaluate_relevance.py
       - name: Commit public data only
+        id: commit
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -85,10 +99,14 @@ jobs:
             fi
             git push origin HEAD:main
           fi
+          printf 'release_sha=%s\n' "$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          if [[ "$CHECK_REFERENCE_LINKS_ONLY" != true ]]; then
+            printf 'collected=true\n' >> "$GITHUB_OUTPUT"
+          fi
 
   deploy:
     needs: [collect]
-    if: always() && (needs.collect.result == 'success' || needs.collect.result == 'skipped')
+    if: always() && github.ref == 'refs/heads/main' && (needs.collect.result == 'success' || needs.collect.result == 'skipped')
     # Pin runner to avoid the October-November 2026 ubuntu-latest transition to Ubuntu 26.04.
     # Reassess after validating collection and deployment on Ubuntu 26.04.
     runs-on: ubuntu-24.04
@@ -97,15 +115,45 @@ jobs:
       contents: read
       pages: write
       id-token: write
+    outputs:
+      release_sha: ${{ steps.release.outputs.sha }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Checkout latest main
+      - name: Resolve immutable deployment revision
+        id: release
+        env:
+          COLLECTION_SHA: ${{ needs.collect.outputs.release_sha }}
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          revision="$COLLECTION_SHA"
+          if [[ -z "$revision" ]]; then
+            revision="$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main" --jq '.object.sha')"
+          fi
+          [[ "$revision" =~ ^[0-9a-f]{40}$ ]]
+          printf 'sha=%s\n' "$revision" >> "$GITHUB_OUTPUT"
+      - name: Check out the selected revision
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1 (Node.js 24)
         with:
-          ref: main
+          ref: ${{ steps.release.outputs.sha }}
+          fetch-depth: 0
           persist-credentials: false
+      - name: Verify release provenance
+        env:
+          RELEASE_SHA: ${{ steps.release.outputs.sha }}
+          REVIEW_SHA: ${{ inputs.review_revision }}
+          PUBLICATION_ISSUE: ${{ inputs.publication_issue }}
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = "$RELEASE_SHA"
+          if [[ -n "$REVIEW_SHA" || -n "$PUBLICATION_ISSUE" ]]; then
+            [[ "$REVIEW_SHA" =~ ^[0-9a-f]{40}$ ]]
+            [[ "$PUBLICATION_ISSUE" =~ ^[1-9][0-9]{0,9}$ ]]
+            git merge-base --is-ancestor "$REVIEW_SHA" "$RELEASE_SHA"
+          fi
+          printf 'Release revision: %s\n' "$RELEASE_SHA" >> "$GITHUB_STEP_SUMMARY"
       - name: Verify multilingual frontend and security contracts
         run: |
           node --check docs/i18n.js
@@ -116,6 +164,7 @@ jobs:
           node --check docs/record.js
           node --check docs/workbench/workbench.js
           node --check docs/relevance-client.js
+          node --test tests/test_publication_index.mjs
           node --check docs/workbench/review-panel.js
           node --check docs/workbench/review-store.js
           node --test tests/test_review_store.mjs
@@ -162,6 +211,27 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1 (Node.js 24)
+      - name: Confirm the public release and indexes
+        run: python3 scripts/confirm_release.py
       - name: Flag collection failure after displaying state on site
-        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        if: needs.collect.outputs.collected == 'true'
         run: python3 scripts/assert_health.py
+
+  confirm_review:
+    needs: [deploy]
+    if: github.event_name == 'workflow_dispatch' && inputs.deploy_only && inputs.publication_issue != '' && needs.deploy.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ needs.deploy.outputs.release_sha }}
+          persist-credentials: false
+      - name: Confirm the deployed review batch and close its Issue
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          RELEASE_SHA: ${{ needs.deploy.outputs.release_sha }}
+        run: python3 scripts/publish_reviews.py --finalize

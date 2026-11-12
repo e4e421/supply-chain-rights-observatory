@@ -407,10 +407,13 @@ function renderStatus(){
  const complete=!loading&&!incompleteCoverage();
  let searchableTotal=null;
  if(complete){
-  if(!catalogueMonth)searchableTotal=activeRecords.filter(row=>review?.included(row)!==false).length;
+  if(!catalogueMonth){
+   const rows=activeRecords.filter(row=>review?.included(row)!==false);
+   searchableTotal=(review?.distinct?.(rows)??rows).length;
+  }
   else if(Number.isSafeInteger(review?.data?.total_records)){
    const excluded=Object.values(review.data.records).filter(row=>row.included===false).length;
-   searchableTotal=review.data.total_records-excluded;
+   searchableTotal=review.data.total_records-excluded-(review.duplicateCount?.()??0);
   }
  }
  const count=$('wb-searchable-count');
@@ -518,7 +521,7 @@ function selectedRecords(){
   const dir=c.sort==='published-asc'?1:-1;
   return (dateAge(a[field])-dateAge(b[field]))*dir||str(a.record_id).localeCompare(str(b.record_id));
  });
- return arr;
+ return editorMode?arr:window.SCRO_RELEVANCE?.distinct?.(arr)??arr;
 }
 /* Viewport pagination replaces incremental rendering. Only the current page's
    rows enter the DOM. Long cells wrap to three lines; full text stays in the

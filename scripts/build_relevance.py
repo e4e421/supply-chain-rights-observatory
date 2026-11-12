@@ -1,14 +1,22 @@
 #!/usr/bin/env python3
 """Post-build relevance sidecars. Never edits canonical archive or invents human labels."""
-import hashlib,json,sys
+import hashlib,json,re,sys
 from pathlib import Path
 from relevance_engine import ROOT,analyze,decorate,digest,similarities,validate_overlay,rules,source_exclusion_reason
+from record_aliases import publication_aliases
 OUT=ROOT/'_site'
 
 def load_records():
     records={}
-    for file in sorted((ROOT/'docs/data/archive').glob('????-??-????.json')):
-        for row in json.loads(file.read_text())['records']:records[row['record_id']]=row
+    directory=ROOT/'docs/data/archive'
+    catalogue=json.loads((directory/'catalog.json').read_text(encoding='utf-8'))
+    for month in catalogue['months']:
+        for part in month['files']:
+            filename=part['file']
+            if not re.fullmatch(r'\d{4}-\d{2}-\d{4}\.json',filename):
+                raise ValueError('Invalid archive shard path')
+            for row in json.loads((directory/filename).read_text(encoding='utf-8'))['records']:
+                records[row['record_id']]=row
     for row in json.loads((ROOT/'docs/data/latest.json').read_text())['items']:
         rid=row.get('record_id') or row.get('id')
         records[rid]={**records.get(rid,{}),**row,'record_id':rid}
@@ -24,7 +32,7 @@ def integrate_runtime():
       'workbench/workbench.js':[
         ("const locale = () => baseI18n.language || 'en';", "const locale = () => baseI18n.language || 'en';\nconst relevance=window.SCRO_RELEVANCE,reviewPanel=window.SCRO_REVIEW;\nreviewPanel?.connect(()=>changed(false));"),
         ("function normalise(item,month) {return {...item,record_id:canonicalID(item),archive_month:month || (item.first_seen||'').slice(0,7)};}", "function normalise(item,month) {const row={...item,record_id:canonicalID(item),archive_month:month || (item.first_seen||'').slice(0,7)};return relevance?relevance.apply(row):row;}"),
-        ("let arr=activeRecords.filter(x=>{", "let arr=activeRecords.filter(x=>{\n if(reviewPanel&&!reviewPanel.includes(x))return false;\n if(!reviewPanel&&relevance&&!relevance.included(x))return false;"),
+        ("let arr=activeRecords.filter(x=>{", "let arr=activeRecords.filter(x=>{\n if(reviewPanel&&!reviewPanel.includes(x))return false;\n if(!reviewPanel&&!relevance?.included(x))return false;"),
         ("function showRecord(){", "function showRecord(){\n reviewPanel?.inspect(activeRecords.find(x=>x.record_id===chosen)||null);"),
         ("t(item.publisher_verified?'Yes':'No')", "t((item.publisher_confirmed||item.publisher_verified)?'Yes':'No')"),
         ("const url=https(item.canonical_url)||https(item.url);", "const url=https(item.reviewed_canonical_url)||https(item.canonical_url)||https(item.url);"),
@@ -33,12 +41,12 @@ def integrate_runtime():
       ],
       'portal.js':[
         ("const t=x=>", "const relevance=window.SCRO_RELEVANCE;\nconst t=x=>"),
-        ("(live?.items||[]).slice(0,6)", "(live?.items||[]).filter(r=>!relevance||relevance.included(r)).map(r=>relevance?relevance.apply(r):r).slice(0,6)"),
+        ("(live?.items||[]).slice(0,6)", "(relevance?.distinct((live?.items||[]).filter(r=>relevance.included(r)))||[]).map(r=>relevance.apply(r)).slice(0,6)"),
         ("rec=shard.records.find(r=>r.record_id===id);", "rec=shard.records.find(r=>r.record_id===id);if(rec&&relevance)rec=relevance.apply(rec);"),
-        ("const title=node('h2',rec.title);", "if(relevance&&!relevance.included(rec)){const notice=relevance.get(rec)?.source_exclusion?'Excluded by source screening: standalone company response or non-response.':'Excluded by editorial review. The original observation is retained.';root.append(node('p',t(notice),'portal-notice'));}\n const title=node('h2',rec.title);"),
+        ("const title=node('h2',rec.title);", "if(relevance?.excluded(rec)){const notice=relevance.get(rec)?.source_exclusion?'Excluded by source screening: standalone company response or non-response.':'Excluded by editorial review. The original observation is retained.';root.append(node('p',t(notice),'portal-notice'));}\n const title=node('h2',rec.title);"),
         ("['Publisher credit (unverified)',rec.publisher_hint", "[rec.publisher_confirmed?'Publisher confirmed':'Publisher credit (unverified)',rec.publisher_hint"),
         ("publicLink(rec.url,'Open original discovery link')", "publicLink(rec.reviewed_canonical_url||rec.url,'Open original discovery link')"),
-        (" if(legacy())return;window.addEventListener('hashchange',legacy);", " if(legacy())return;window.addEventListener('hashchange',legacy);\n if(relevance&&(PAGE==='home'||PAGE==='record')){await relevance.ready;if(relevance.failed)document.querySelector('main')?.prepend(node('p',t('Keyword review index unavailable; original records remain visible.'),'portal-notice'));}")
+        (" if(legacy())return;window.addEventListener('hashchange',legacy);", " if(legacy())return;window.addEventListener('hashchange',legacy);\n if(PAGE==='home'||PAGE==='record'){await relevance?.ready;if(!relevance||relevance.failed)document.querySelector('main')?.prepend(node('p',t('Some search or review data could not be loaded. Reload to retry.'),'portal-notice'));}")
       ]
     }
     for relative,pairs in patches.items():
@@ -52,7 +60,7 @@ def integrate_runtime():
     translations.update({
       'Excluded by source screening: standalone company response or non-response.':{'zh':'此筆為獨立企業回覆或未回覆紀錄，已依來源篩選規則排除。','de':'Als eigenständige Unternehmensantwort oder ausbleibende Antwort durch den Quellenfilter ausgeschlossen.','es':'Excluido por el filtro de fuentes: respuesta o ausencia de respuesta de una empresa como registro independiente.'},
       'Excluded by editorial review. The original observation is retained.':{'zh':'已由人工審核排除，原始觀測紀錄仍保留。','de':'Redaktionell ausgeschlossen. Die ursprüngliche Beobachtung bleibt erhalten.','es':'Excluido en la revisión editorial. Se conserva el registro original.'},
-      'Keyword review index unavailable; original records remain visible.':{'zh':'關鍵字審核索引無法載入，原始紀錄仍可瀏覽。','de':'Prüfindex nicht verfügbar; Originaldatensätze bleiben sichtbar.','es':'Índice de revisión no disponible. Puede seguir consultando los registros originales.'},
+      'Some search or review data could not be loaded. Reload to retry.':{'zh':'部分搜尋或審核資料載入失敗。請重新整理後再試。','de':'Einige Such- oder Prüfdaten konnten nicht geladen werden. Bitte laden Sie die Seite neu.','es':'No se pudieron cargar algunos datos de búsqueda o revisión. Recargue la página para volver a intentarlo.'},
       'Publisher confirmed':{'zh':'出版歸屬已確認','de':'Herausgeber bestätigt','es':'Entidad editora confirmada'}
     })
     write(file,translations)
@@ -67,8 +75,11 @@ def build():
     unknown=(set(decisions)|set(assignments))-set(records)
     if unknown:raise ValueError('Reviewed record absent from archive: '+','.join(sorted(unknown)))
     ordered=sorted(records,key=lambda k:(records[k].get('published_at',''),k),reverse=True)
-    selected=ordered[:10000]+[rid for rid in ordered[10000:] if source_exclusion_reason(records[rid])]
+    selected=ordered[:10000]+[rid for rid in ordered[10000:] if rid in decisions or source_exclusion_reason(records[rid])]
     index={rid:decorate(records[rid],decisions) for rid in selected}
+    publication={'schema_version':1,'excluded':sorted(rid for rid,row in index.items() if not row['included']),
+                 'aliases':publication_aliases(records,index,assignments)}
+    write(OUT/'data/publication-index.json',publication)
     similarities(index)
     counts={level:sum(row['analysis']['level']==level for row in index.values()) for level in ['high','review','low']}
     data={'schema_version':1,'rule_version':rules()['version'],'rule_digest':digest(rules()),'topics':rules()['topics'],
@@ -78,6 +89,11 @@ def build():
           'record_tags':{rid:{'tags':row['tags'],'issue':row['issue'],'issue_digest':row['issue_digest'],'digest':digest(row)}
                          for rid,row in assignments.items()},'empty_tag_digest':digest(None)}
     write(OUT/'data/relevance-index.json',data)
+    build_info=OUT/'data/build-info.json'
+    release=json.loads(build_info.read_text(encoding='utf-8'))
+    release['relevance_sha256']=hashlib.sha256((OUT/'data/relevance-index.json').read_bytes()).hexdigest()
+    release['publication_sha256']=hashlib.sha256((OUT/'data/publication-index.json').read_bytes()).hexdigest()
+    write(build_info,release)
     # Stratified, deterministic pool. Labels remain null until the research team reviews them.
     pool={('record:'+rid):{'sample_id':'record:'+rid,'title':row['title'],'url':row['url'],
                          'kind':row['kind'],'published_at':row.get('published_at'),'human_label':None}

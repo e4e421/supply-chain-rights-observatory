@@ -122,19 +122,46 @@ def run():
 
     # GITHUB_TOKEN pushes do not trigger Pages; workflow_dispatch is supported.
     api(token,"actions/workflows/refresh-and-publish.yml/dispatches","POST",
-        {"ref":"main","inputs":{"deploy_only":"true"}})
-    api(token,"issues/"+str(number)+"/comments","POST",{
-        "body":"Review metadata committed as "+published_sha+
-            ". A deploy-only Pages run was requested. No allegation or event identity is verified."})
-    api(token,"issues/"+str(number),"PATCH",{"state":"closed","state_reason":"completed"})
-    print("Owner review publication completed:",number,published_sha)
+        {"ref":"main","inputs":{"deploy_only":"true","review_revision":published_sha,"publication_issue":str(number)}})
+    print("Review batch committed and queued for Pages confirmation:",number,published_sha)
     if os.environ.get("GITHUB_STEP_SUMMARY"):
         with open(os.environ["GITHUB_STEP_SUMMARY"],"a",encoding="utf-8") as out:
             out.write("Review metadata committed: "+published_sha+
-                ". Deploy-only workflow dispatched; confirm its result separately.\n")
+                ". The deployment workflow will confirm the public review before closing the Issue.\n")
+
+
+def finalize():
+    if os.environ.get('GITHUB_REPOSITORY')!=REPO or os.environ.get('GITHUB_REF')!='refs/heads/main':
+        raise ValueError('Review confirmation requires the main release workflow')
+    event=json.loads(Path(os.environ['GITHUB_EVENT_PATH']).read_text(encoding='utf-8'))
+    number=str((event.get('inputs') or {}).get('publication_issue') or '')
+    revision=os.environ.get('RELEASE_SHA','')
+    if not re.fullmatch(r'[1-9][0-9]{0,9}',number) or not re.fullmatch(r'[0-9a-f]{40}',revision):
+        raise ValueError('Invalid review confirmation inputs')
+    checkout=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
+    if checkout!=revision:
+        raise ValueError('Review confirmation checkout differs from the public release')
+    token=os.environ['GITHUB_TOKEN']
+    issue=api(token,'issues/'+number)
+    if issue.get('state')=='closed':
+        print('Review Issue already closed:',number)
+        return
+    batch=valid_issue(issue,REPO.partition('/')[0])
+    overlay=json.loads((ROOT/PATH).read_text(encoding='utf-8'))
+    if not already_published(batch,overlay,int(number),digest({'body':issue['body']})):
+        raise ValueError('The public release does not contain this review batch')
+    api(token,'issues/'+number+'/comments','POST',{
+        'body':'Review confirmed on GitHub Pages from revision '+revision+'.',
+    })
+    api(token,'issues/'+number,'PATCH',{'state':'closed','state_reason':'completed'})
+    print('Review confirmed on GitHub Pages:',number,revision)
 
 if __name__=="__main__":
-    try:run()
+    try:
+        if sys.argv[1:]==['--finalize']:
+            finalize()
+        else:
+            run()
     except Exception as exc:
         print("Owner review auto-publication stopped: "+str(exc),file=sys.stderr)
         raise SystemExit(1)

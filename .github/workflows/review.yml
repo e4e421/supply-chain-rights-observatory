@@ -27,6 +27,7 @@ jobs:
           node --check docs/workbench/workbench.js
           node --check docs/i18n.js
           node --check docs/relevance-client.js
+          node --test tests/test_publication_index.mjs
           node --check docs/workbench/review-panel.js
           node --check docs/workbench/review-store.js
           node --test tests/test_review_store.mjs
