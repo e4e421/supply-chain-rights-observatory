@@ -130,6 +130,21 @@
       "reviewed_by": "e4e421",
       "issue": 49,
       "issue_digest": "eab913ed2e0d3a230d510ad88d3abea2b09a2d698e5146e34b046fe4dcd9542d"
+    },
+    "af284f2a66f9895a64": {
+      "content_fingerprint": "0201e5adb9718b6851547fb69e965109d3e2756ab1ce606c46591ff08ec98ce3",
+      "relevance": "include",
+      "topics": [
+        "policy",
+        "working-conditions"
+      ],
+      "publisher_confirmed": false,
+      "canonical_url": null,
+      "note": "",
+      "reviewed_at": "2026-11-12T02:24:11Z",
+      "reviewed_by": "e4e421",
+      "issue": 50,
+      "issue_digest": "59e53fc41dd4a15cddf6b22f9788468c14072d3381c63f7d85341edd62a38f7d"
     }
   },
   "record_tags": {
@@ -181,9 +196,17 @@
       ],
       "issue": 49,
       "issue_digest": "eab913ed2e0d3a230d510ad88d3abea2b09a2d698e5146e34b046fe4dcd9542d"
+    },
+    "af284f2a66f9895a64": {
+      "tags": [
+        "cop31"
+      ],
+      "issue": 50,
+      "issue_digest": "59e53fc41dd4a15cddf6b22f9788468c14072d3381c63f7d85341edd62a38f7d"
     }
   },
   "tag_catalog": [
+    "cop31",
     "iphone",
     "uk-supplychain-hrdd-law"
   ]
