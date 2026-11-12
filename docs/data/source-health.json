@@ -3,7 +3,7 @@
   "method": "editorial_registry_plus_optional_HTTPS_HEAD",
   "editorial_review_is_manual": true,
   "http_reachability_does_not_verify_claims": true,
-  "last_probe_run": "2026-11-11T17:12:22Z",
+  "last_probe_run": "2026-11-12T02:27:02Z",
   "approved_reference_count": 30,
   "pending_candidate_count": 0,
   "review_needed_count": 0,
@@ -21,7 +21,7 @@
       "review_needed": false,
       "reachability": "responded",
       "http_status": 200,
-      "last_probe": "2026-11-11T17:12:22Z",
+      "last_probe": "2026-11-12T02:27:02Z",
       "consecutive_failures": 0,
       "metadata_reuse_notice": "https://commission.europa.eu/legal-notice_en"
     },
@@ -34,10 +34,10 @@
       "review_due": "2027-02-10",
       "licence_review_status": "approved_for_metadata",
       "review_needed": false,
-      "reachability": "responded",
-      "http_status": 200,
-      "last_probe": "2026-11-11T17:12:22Z",
-      "consecutive_failures": 0,
+      "reachability": "http_restriction_or_error",
+      "http_status": 429,
+      "last_probe": "2026-11-12T02:27:02Z",
+      "consecutive_failures": 1,
       "metadata_reuse_notice": "https://commission.europa.eu/legal-notice_en"
     },
     {
@@ -50,8 +50,8 @@
       "licence_review_status": "approved_for_metadata",
       "review_needed": false,
       "reachability": "responded",
-      "http_status": 202,
-      "last_probe": "2026-11-11T17:12:22Z",
+      "http_status": 200,
+      "last_probe": "2026-11-12T02:27:02Z",
       "consecutive_failures": 0,
       "metadata_reuse_notice": "https://eur-lex.europa.eu/content/legal-notice/legal-notice.html?locale=en"
     },
@@ -66,7 +66,7 @@
       "review_needed": false,
       "reachability": "responded",
       "http_status": 200,
-      "last_probe": "2026-11-11T17:12:22Z",
+      "last_probe": "2026-11-12T02:27:02Z",
       "consecutive_failures": 0
     },
     {
@@ -80,7 +80,7 @@
       "review_needed": false,
       "reachability": "responded",
       "http_status": 200,
-      "last_probe": "2026-11-11T17:12:22Z",
+      "last_probe": "2026-11-12T02:27:02Z",
       "consecutive_failures": 0
     },
     {
@@ -94,8 +94,8 @@
       "review_needed": false,
       "reachability": "http_restriction_or_error",
       "http_status": 403,
-      "last_probe": "2026-11-11T17:12:22Z",
-      "consecutive_failures": 2
+      "last_probe": "2026-11-12T02:27:02Z",
+      "consecutive_failures": 3
     },
     {
       "id": "reference-07",
@@ -108,8 +108,8 @@
       "review_needed": false,
       "reachability": "http_restriction_or_error",
       "http_status": 403,
-      "last_probe": "2026-11-11T17:12:22Z",
-      "consecutive_failures": 2
+      "last_probe": "2026-11-12T02:27:02Z",
+      "consecutive_failures": 3
     },
     {
       "id": "reference-08",
@@ -122,8 +122,8 @@
       "review_needed": false,
       "reachability": "http_restriction_or_error",
       "http_status": 403,
-      "last_probe": "2026-11-11T17:12:22Z",
-      "consecutive_failures": 2
+      "last_probe": "2026-11-12T02:27:02Z",
+      "consecutive_failures": 3
     },
     {
       "id": "reference-09",
@@ -136,7 +136,7 @@
       "review_needed": false,
       "reachability": "responded",
       "http_status": 200,
-      "last_probe": "2026-11-11T17:12:22Z",
+      "last_probe": "2026-11-12T02:27:02Z",
       "consecutive_failures": 0
     },
     {
@@ -150,7 +150,7 @@
       "review_needed": false,
       "reachability": "responded",
       "http_status": 200,
-      "last_probe": "2026-11-11T17:12:22Z",
+      "last_probe": "2026-11-12T02:27:02Z",
       "consecutive_failures": 0
     },
     {
@@ -164,7 +164,7 @@
       "review_needed": false,
       "reachability": "responded",
       "http_status": 200,
-      "last_probe": "2026-11-11T17:12:22Z",
+      "last_probe": "2026-11-12T02:27:02Z",
       "consecutive_failures": 0
     },
     {
@@ -178,7 +178,7 @@
       "review_needed": false,
       "reachability": "responded",
       "http_status": 200,
-      "last_probe": "2026-11-11T17:12:22Z",
+      "last_probe": "2026-11-12T02:27:02Z",
       "consecutive_failures": 0,
       "metadata_reuse_notice": "https://ec.europa.eu/eurostat/help/copyright-notice"
     },
@@ -193,8 +193,8 @@
       "review_needed": false,
       "reachability": "not_confirmed",
       "http_status": null,
-      "last_probe": "2026-11-11T17:12:22Z",
-      "consecutive_failures": 2
+      "last_probe": "2026-11-12T02:27:02Z",
+      "consecutive_failures": 3
     },
     {
       "id": "oecd-ncp",
@@ -207,8 +207,8 @@
       "review_needed": false,
       "reachability": "http_restriction_or_error",
       "http_status": 403,
-      "last_probe": "2026-11-11T17:12:22Z",
-      "consecutive_failures": 2
+      "last_probe": "2026-11-12T02:27:02Z",
+      "consecutive_failures": 3
     },
     {
       "id": "eu-osha",
@@ -219,10 +219,10 @@
       "review_due": "2027-02-08",
       "licence_review_status": "pending",
       "review_needed": false,
-      "reachability": "responded",
-      "http_status": 200,
-      "last_probe": "2026-11-11T17:12:22Z",
-      "consecutive_failures": 0
+      "reachability": "http_restriction_or_error",
+      "http_status": 429,
+      "last_probe": "2026-11-12T02:27:02Z",
+      "consecutive_failures": 1
     },
     {
       "id": "wba-chrb",
@@ -235,7 +235,7 @@
       "review_needed": false,
       "reachability": "responded",
       "http_status": 200,
-      "last_probe": "2026-11-11T17:12:22Z",
+      "last_probe": "2026-11-12T02:27:02Z",
       "consecutive_failures": 0
     },
     {
@@ -249,7 +249,7 @@
       "review_needed": false,
       "reachability": "responded",
       "http_status": 200,
-      "last_probe": "2026-11-11T17:12:22Z",
+      "last_probe": "2026-11-12T02:27:02Z",
       "consecutive_failures": 0
     },
     {
@@ -263,7 +263,7 @@
       "review_needed": false,
       "reachability": "responded",
       "http_status": 200,
-      "last_probe": "2026-11-11T17:12:22Z",
+      "last_probe": "2026-11-12T02:27:02Z",
       "consecutive_failures": 0
     },
     {
@@ -277,8 +277,8 @@
       "review_needed": false,
       "reachability": "http_restriction_or_error",
       "http_status": 429,
-      "last_probe": "2026-11-11T17:12:22Z",
-      "consecutive_failures": 2
+      "last_probe": "2026-11-12T02:27:02Z",
+      "consecutive_failures": 3
     },
     {
       "id": "media-reuters",
