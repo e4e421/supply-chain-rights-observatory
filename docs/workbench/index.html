@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="./workbench.css">
   <script defer src="../i18n.js"></script>
+  <script defer src="../collection-time.js"></script>
   <script defer src="../query.js"></script>
   <script defer src="./record-tags.js"></script>
   <script defer src="./workbench.js"></script>
@@ -33,8 +34,8 @@
       <div><small data-l10n="Collection status">Collection status</small><strong id="wb-data-status">—</strong></div>
       <div>
         <small data-l10n="Last successful collection">Last successful collection</small>
-        <strong id="wb-updated">—</strong>
-        <time id="wb-updated-utc" lang="en" hidden></time>
+        <strong id="wb-updated" data-collection-age>—</strong>
+        <time id="wb-updated-utc" data-collection-utc lang="en" hidden></time>
       </div>
       <div class="wb-strip-links"><a href="../index.html#sources" data-l10n="Source directory">Source directory</a><a href="../index.html#method" data-l10n="Methodology">Methodology</a></div>
     </section>
