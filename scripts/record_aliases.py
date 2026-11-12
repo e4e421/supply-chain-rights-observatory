@@ -25,7 +25,7 @@ def publication_aliases(records, index, assignments):
         )
         url = record['doi'].casefold() if record.get('doi') else record['url']
         signature = (
-            record['kind'], url, record['published_at'], title_identity(record),
+            record['kind'], url, record['published_at'], title_identity(record), record.get('event_id'),
             tuple(sorted(entry['effective_topics'])), entry['review_state'], editorial,
             tuple(sorted(assignments.get(record_id, {}).get('tags', []))),
         )

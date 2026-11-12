@@ -66,6 +66,8 @@ class AliasTests(unittest.TestCase):
         index = {key: decorate(value, {}) for key, value in records.items()}
         self.assertEqual(publication_aliases(records, index, {}), {second: first})
         self.assertEqual(publication_aliases(records, index, {second: {'tags': ['iphone']}}), {})
+        other['event_id'] = 'curated-event'
+        self.assertEqual(publication_aliases(records, index, {}), {})
 
 
 if __name__ == '__main__':

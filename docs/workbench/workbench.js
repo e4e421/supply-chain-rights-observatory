@@ -409,11 +409,11 @@ function renderStatus(){
  if(complete){
   if(!catalogueMonth){
    const rows=activeRecords.filter(row=>review?.included(row)!==false);
-   searchableTotal=(review?.distinct?.(rows)??rows).length;
+   searchableTotal=(editorMode?rows:review?.distinct?.(rows)??rows).length;
   }
   else if(Number.isSafeInteger(review?.data?.total_records)){
    const excluded=Object.values(review.data.records).filter(row=>row.included===false).length;
-   searchableTotal=review.data.total_records-excluded-(review.duplicateCount?.()??0);
+   searchableTotal=review.data.total_records-excluded-(editorMode?0:review.duplicateCount?.()??0);
   }
  }
  const count=$('wb-searchable-count');
