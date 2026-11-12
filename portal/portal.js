@@ -53,7 +53,8 @@ function recordCard(r){const card=node('article','','portal-record'),rid=r.recor
 async function home(){
  const result=await Promise.allSettled([json('data/latest.json'),json('data/archive/catalog.json'),json('data/references.json')]);
  const live=result[0].status==='fulfilled'?result[0].value:null,cat=result[1].status==='fulfilled'?result[1].value:null,refs=result[2].status==='fulfilled'?result[2].value:null;
- redraw=()=>{const list=$('home-latest');list.replaceChildren();$('home-total').textContent=number(cat?.total_records??'—');$('home-sources').textContent=Array.isArray(refs)?number(refs.length):'—';$('home-updated').textContent=date(live?.last_successful_collection,true);
+ window.SCRO_COLLECTION_TIME?.set(live?.last_successful_collection);
+ redraw=()=>{const list=$('home-latest');list.replaceChildren();$('home-total').textContent=number(cat?.total_records??'—');$('home-sources').textContent=Array.isArray(refs)?number(refs.length):'—';
  const old=Date.now()-Date.parse(live?.last_successful_collection||'')>48*3600000;
  $('home-health').textContent=t(!live?'Unavailable':old?'Data stale':live.status==='ok'?'Operational (technical)':live.status==='partial'?'Partial sources':'Collection failed');
  $('home-status').textContent=!live?t('Public data could not be loaded.'):old?t('The last successful collection is over 48 hours old.'):'';
