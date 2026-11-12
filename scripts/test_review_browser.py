@@ -120,6 +120,12 @@ PROBE=r'''
  check(queue.querySelectorAll('[data-review-id]').length===2,'Both drafts not visible');
  const wrap=document.querySelector('.wb-table-wrap'),pager=document.getElementById('wb-page-controls');
  const shortcuts=document.querySelector('.wb-pagination'),historyPanel=document.getElementById('rv-history');
+ const historyToggle=document.getElementById('rv-history-toggle'),historyList=document.getElementById('rv-history-list');
+ const historyStatus=document.getElementById('rv-check-status');
+ const historyCollapsed=()=>historyToggle.getAttribute('aria-expanded')==='false'&&historyList.hidden&&
+   !historyList.getClientRects().length;
+ check(historyToggle?.tagName==='BUTTON'&&historyToggle.getAttribute('aria-controls')===historyList?.id&&
+   historyCollapsed()&&historyStatus?.getClientRects().length>0,'Publication history was not collapsed by default');
  const filter=document.getElementById('rv-filter');
  const beforeElement=(a,b)=>Boolean(a.compareDocumentPosition(b)&Node.DOCUMENT_POSITION_FOLLOWING);
  const top=element=>element.getBoundingClientRect().top+scrollY;
@@ -181,6 +187,21 @@ PROBE=r'''
  check(payload2.decisions.length===1&&payload2.decisions[0].record_id===first,
    'Second handoff repeated previously submitted record');
  check(store.batches().length===2,'Two handoffs not tracked');
+ check(historyCollapsed(),'New handoffs automatically expanded publication history');
+ historyToggle.click();
+ await settle();
+ const historyOpen=()=>historyToggle.getAttribute('aria-expanded')==='true'&&!historyList.hidden&&
+   historyList.getClientRects().length>0;
+ const historyIds=()=>[...historyList.querySelectorAll('[data-batch-id]')].map(row=>row.dataset.batchId).join(',');
+ const expectedHistory=store.batches().map(batch=>batch.id).join(',');
+ check(historyOpen()&&historyIds()===expectedHistory&&historyList.querySelectorAll('a, button').length===4,
+   'Expanding publication history did not reveal both handoffs and their controls');
+ const historyLanguage=SCRO_I18N.language;
+ SCRO_I18N.setLanguage(historyLanguage==='en'?'es':'en');
+ SCRO_I18N.setLanguage(historyLanguage);
+ check(historyOpen()&&historyIds()===expectedHistory,'A language rerender collapsed or changed publication history');
+ historyToggle.click();
+ check(historyCollapsed()&&historyStatus.getClientRects().length>0,'Publication history did not reclose independently');
  check(!store.getDraft(first)===false,'Draft unexpectedly removed');
  window.open=oldOpen;
  check(wrap.scrollHeight<=wrap.clientHeight+2,'Nested vertical scroll reintroduced');
@@ -412,6 +433,9 @@ PUBLICATION_STATUS_PROBE=r'''
   check(status.disabled,'Status check did not show a pending state');
   for(let i=0;i<200&&status.disabled;i++)await new Promise(resolve=>setTimeout(resolve,25));
   check(!status.disabled,'Status button did not become available again');
+  check(document.getElementById('rv-history-list').hidden&&
+   document.getElementById('rv-history-toggle').getAttribute('aria-expanded')==='false',
+   'Status check expanded publication history');
   check(JSON.stringify(store.getDraft(rid))===draftBefore&&JSON.stringify(store.active(rid))===batchBefore&&
    store.active(rid).id===batch.id,'A status lookup changed the pending handoff or draft');
  };
@@ -548,7 +572,7 @@ def run():
      navigate(result['readerPath'],language,width)
      assert browser.evaluate('document.getElementById("wb-search").value==='+json.dumps(result['second'])+
        '&&document.querySelector("#wb-tbody .is-selected")?.dataset.recordId==='+json.dumps(result['second']))
-     print('PASS footer editor entry, ten-record pagination, contextual return and review submissions',language,width,flush=True)
+     print('PASS editor entry, pagination, contextual return, submissions and collapsible publication history',language,width,flush=True)
      browser.evaluate('localStorage.removeItem("scro.review.drafts.v1");localStorage.removeItem("scro.review.queue.v2")')
    # Publish tags into the temporary deployment and verify the reader search.
    index=json.loads((site/'data/relevance-index.json').read_text())

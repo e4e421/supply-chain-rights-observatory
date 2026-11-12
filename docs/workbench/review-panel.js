@@ -177,7 +177,13 @@ info.setAttribute('role','status');info.setAttribute('aria-live','polite');
 
 const history=el('section','','rv-history');history.id='rv-history';
 const historyHead=el('div','','rv-history-head');
-historyHead.append(el('h3',t('Publication history')));
+const historyTitle=el('h3');historyTitle.id='rv-history-title';
+const historyToggle=el('button',t('Publication history'),'rv-history-toggle');
+historyToggle.id='rv-history-toggle';historyToggle.type='button';
+historyToggle.setAttribute('aria-controls','rv-history-list');
+historyToggle.setAttribute('aria-expanded','false');
+historyTitle.append(historyToggle);historyHead.append(historyTitle);
+history.setAttribute('aria-labelledby',historyTitle.id);
 const statusBtn=el('button',t('Check GitHub and publication status'),'rv-action');
 statusBtn.id='rv-check-status';statusBtn.type='button';
 const statusActions=el('div','','rv-history-actions');
@@ -188,6 +194,12 @@ issuesLink.target='_blank';issuesLink.rel='noopener noreferrer';issuesLink.hidde
 statusActions.append(statusBtn,issuesLink);
 historyHead.append(statusActions);
 const historyList=el('div','','rv-history-list');historyList.id='rv-history-list';
+historyList.hidden=true;
+historyToggle.addEventListener('click',()=>{
+ const expanded=historyList.hidden;
+ historyList.hidden=!expanded;
+ historyToggle.setAttribute('aria-expanded',String(expanded));
+});
 history.append(historyHead,historyList);
 document.querySelector('.wb-pagination')?.after(queue,info,history);
 const decisionLabel=value=>t(({include:'Include',exclude:'Exclude',needs_review:'Review needed'})[value]||value||'Unreviewed');
@@ -299,7 +311,7 @@ clearStale.addEventListener('click',()=>{
  (staleDrafts.hidden?summary:staleSummary).focus();
 });
 function renderHistory(){
- historyHead.querySelector('h3').textContent=t('Publication history');
+ historyToggle.textContent=t('Publication history');
  statusBtn.textContent=t('Check GitHub and publication status');
  issuesLink.textContent=t('View GitHub Issues');
  historyList.replaceChildren();
