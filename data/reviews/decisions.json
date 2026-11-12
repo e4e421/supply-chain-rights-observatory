@@ -145,6 +145,20 @@
       "reviewed_by": "e4e421",
       "issue": 50,
       "issue_digest": "59e53fc41dd4a15cddf6b22f9788468c14072d3381c63f7d85341edd62a38f7d"
+    },
+    "eae9f80c2cead5d72a": {
+      "content_fingerprint": "4d62ef163cbb9932b7b1071d5d659a890b697aef57353d25041d23e96c91558f",
+      "relevance": "include",
+      "topics": [
+        "working-conditions"
+      ],
+      "publisher_confirmed": true,
+      "canonical_url": "https://www.reuters.com/business/world-at-work/behind-bangladeshs-garment-boom-workers-cut-food-healthcare-wages-fall-short-2026-11-11/",
+      "note": "",
+      "reviewed_at": "2026-11-12T05:04:52Z",
+      "reviewed_by": "e4e421",
+      "issue": 55,
+      "issue_digest": "e65404ce82cb42882fd3d4123abadd38b0e09a59c20fc13d0b6eef698ece525c"
     }
   },
   "record_tags": {
