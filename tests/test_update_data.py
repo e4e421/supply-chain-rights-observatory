@@ -40,6 +40,40 @@ class CollectorTests(unittest.TestCase):
         self.assertEqual(items[0]['evidence_status'], 'Unverified discovery')
         self.assertIn('forced-labour', items[0]['topics'])
 
+    def test_bhrrc_standalone_response_screening_preserves_reporting(self):
+        from relevance_engine import decorate, source_exclusion_reason
+        publisher = 'Business and Human Rights Centre'
+        titles = (
+            "Baykar's non-response - Business and Human Rights Centre",
+            'BIO’s response',
+            'Telegram non-response re- alleged use of its platform by trafficking networks',
+            'Waaree Energies did not respond',
+            'PT Bangkanesia could not be reached for comment on legal notices',
+            'Philippines: Telegram allegedly used by trafficking networks; incl. co. non-response',
+        )
+        for index,title in enumerate(titles):
+            record = {'title':title,'kind':'discovery','publisher_hint':publisher if index else None}
+            with self.subTest(title=title):
+                expected = 'bhrrc_standalone_response' if index < 5 else None
+                self.assertEqual(source_exclusion_reason(record),expected)
+                self.assertEqual(decorate(record,{})['included'],expected is None)
+        self.assertIsNone(source_exclusion_reason({'title':titles[1],'kind':'discovery','publisher_hint':'Other publisher'}))
+        self.assertIsNone(source_exclusion_reason({'title':titles[0],'kind':'academic','publisher_hint':publisher}))
+
+    def test_bhrrc_responses_remain_candidates_and_leave_the_snapshot(self):
+        xml = b'''<rss><channel>
+        <item><title>Acme's response to alleged forced labour</title><source>Business and Human Rights Centre</source><link>https://news.google.com/rss/articles/123</link><pubDate>Sun, 08 Nov 2026 00:00:00 GMT</pubDate></item>
+        <item><title>Country: Forced labour at Acme; incl. co. response</title><source>Business and Human Rights Centre</source><link>https://news.google.com/rss/articles/456</link><pubDate>Sun, 08 Nov 2026 00:00:00 GMT</pubDate></item>
+        </channel></rss>'''
+        candidates = []
+        accepted = collector.parse_rss(xml, {'id':'forced-labour','name':'Test'}, NOW, candidates)
+        self.assertEqual(len(candidates),2)
+        self.assertEqual(candidates[0]['screening_reason'],'bhrrc_standalone_response')
+        self.assertEqual(candidates[0]['screening_status'],'excluded')
+        self.assertEqual(accepted,[candidates[1]])
+        previous = {**candidates[0], 'id':'86c0d3fc95a4906fc0'}
+        self.assertEqual(collector.merge_items([], [previous], NOW),[])
+
     def test_official_atom_retains_original_links_and_filters_titles(self):
         feed = {'id':'eurostat-social-news','name':'Eurostat','publisher':'Eurostat',
                 'url':'https://ec.europa.eu/eurostat/example-feed'}
