@@ -36,11 +36,14 @@ jobs:
     if: >-
       github.event_name == 'schedule' ||
       (github.event_name == 'workflow_dispatch' && !inputs.deploy_only) ||
-      (github.event_name == 'push' && startsWith(github.event.head_commit.message, 'Refresh public source feeds:'))
+      (github.event_name == 'push' && (startsWith(github.event.head_commit.message, 'Refresh public source feeds:') ||
+       startsWith(github.event.head_commit.message, 'Check reference links:')))
     # Pin runner to avoid the October-November 2026 ubuntu-latest transition to Ubuntu 26.04.
     # Reassess after validating collection and deployment on Ubuntu 26.04.
     runs-on: ubuntu-24.04
     timeout-minutes: 12
+    env:
+      CHECK_REFERENCE_LINKS_ONLY: ${{ github.event_name == 'push' && startsWith(github.event.head_commit.message, 'Check reference links:') }}
     permissions:
       contents: write
     steps:
@@ -49,8 +52,10 @@ jobs:
         with:
           persist-credentials: true
       - name: Fetch and archive public research metadata
+        if: env.CHECK_REFERENCE_LINKS_ONLY != 'true'
         run: python3 scripts/update_data.py
       - name: Build monthly public search catalogue
+        if: env.CHECK_REFERENCE_LINKS_ONLY != 'true'
         run: python3 scripts/build_catalog.py
       - name: Audit curated source registry
         run: |
@@ -73,7 +78,11 @@ jobs:
           if git diff --cached --quiet; then
             echo 'No data changes.'
           else
-            git commit -m 'data: refresh public research intelligence [skip ci]'
+            if [[ "$CHECK_REFERENCE_LINKS_ONLY" == true ]]; then
+              git commit -m 'data: refresh reference link availability [skip ci]'
+            else
+              git commit -m 'data: refresh public research intelligence [skip ci]'
+            fi
             git push origin HEAD:main
           fi
 
