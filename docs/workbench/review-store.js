@@ -12,15 +12,20 @@ function safeJSON(key,fallback){
   try {const data=JSON.parse(localStorage.getItem(key)||'null');return data===null?fallback:data;}
   catch (_) {return fallback;}
 }
-const all=safeJSON(DRAFTS,{});
-let drafts=all&&typeof all==='object'&&!Array.isArray(all)?all:{};
-const saved=safeJSON(QUEUE,{});
-let state={
-  schema_version:2,
-  selected:Array.isArray(saved?.selected)?saved.selected.filter(x=>ID.test(x)).slice(0,300):[],
-  batches:Array.isArray(saved?.batches)?saved.batches.filter(b=>b&&typeof b==='object'
-   && typeof b.id==='string'&&STATES.has(b.status)&&Array.isArray(b.ids)).slice(-40):[]
-};
+function readDrafts(){
+  const all=safeJSON(DRAFTS,{});
+  return all&&typeof all==='object'&&!Array.isArray(all)?all:{};
+}
+function readQueue(){
+  const saved=safeJSON(QUEUE,{});
+  return {
+    schema_version:2,
+    selected:Array.isArray(saved?.selected)?saved.selected.filter(x=>ID.test(x)).slice(0,300):[],
+    batches:Array.isArray(saved?.batches)?saved.batches.filter(b=>b&&typeof b==='object'
+      &&typeof b.id==='string'&&STATES.has(b.status)&&Array.isArray(b.ids)).slice(-40):[]
+  };
+}
+let drafts=readDrafts(),state=readQueue();
 const listeners=new Set();
 const changes=()=>{
   for(const fn of listeners) try{fn();}catch(_){}
@@ -77,6 +82,70 @@ function removeDraft(rid){
   if(latestActive(rid))return false;
   delete drafts[rid];state.selected=state.selected.filter(x=>x!==rid);
   const ok=persist();changes();return ok;
+}
+function draftStatus(rid,d,index){
+  if(!validDraft(rid,d))return 'unavailable';
+  const record=index?.records?.[rid],fingerprint=record?.analysis?.content_fingerprint;
+  const decision=hasDecision(d),tagChange=d._tagChange;
+  const tagDigest=index?.record_tags?.[rid]?.digest||index?.empty_tag_digest;
+  if(typeof fingerprint!=='string'||!fingerprint||(!decision&&!tagChange)
+    ||(decision&&(typeof record.review_digest!=='string'||!record.review_digest))
+    ||(tagChange&&(typeof tagDigest!=='string'||!tagDigest)))
+    return 'unavailable';
+  const outdatedReview=decision&&(d.content_fingerprint!==fingerprint||d.expected_review_digest!==record.review_digest);
+  const outdatedTags=tagChange&&(tagChange.content_fingerprint!==fingerprint||tagChange.expected_tag_digest!==tagDigest);
+  return outdatedReview||outdatedTags?'outdated':'current';
+}
+function applyDraftCleanup(removed,deselected){
+  const selected=state.selected.filter(rid=>!deselected.has(rid));
+  const selectionChanged=selected.length!==state.selected.length;
+  if(!removed.size&&!selectionChanged)return {removed:0,persisted:true};
+  // A storage event from another tab can still be queued after a confirmation.
+  if(JSON.stringify(readDrafts())!==JSON.stringify(drafts)||JSON.stringify(readQueue())!==JSON.stringify(state))
+    return {removed:0,persisted:false};
+  const remaining={...drafts};
+  for(const rid of removed)delete remaining[rid];
+  let selectionSaved=false;
+  try{
+    if(selectionChanged){
+      localStorage.setItem(QUEUE,JSON.stringify({...state,selected}));
+      selectionSaved=true;
+    }
+    if(removed.size)localStorage.setItem(DRAFTS,JSON.stringify(remaining));
+  }catch(_){
+    if(selectionSaved){
+      try{localStorage.setItem(QUEUE,JSON.stringify(state));}catch(_){}
+    }
+    return {removed:0,persisted:false};
+  }
+  drafts=remaining;state.selected=selected;
+  changes();
+  return {removed:removed.size,persisted:true};
+}
+function removeStaleDrafts(ids=[],index){
+  const removed=new Set();
+  for(const rid of ids){
+    if(typeof rid==='string'&&!latestActive(rid)&&draftStatus(rid,drafts[rid],index)==='outdated')
+      removed.add(rid);
+  }
+  return applyDraftCleanup(removed,removed);
+}
+function reconcileStaleDrafts(index){
+  const removed=new Set(),deselected=new Set();
+  for(const [rid,d] of availableEntries()){
+    if(draftStatus(rid,d,index)!=='outdated')continue;
+    deselected.add(rid);
+    const record=index.records[rid],tagChange=d._tagChange;
+    const reviewPublished=!hasDecision(d)||(record.review_state==='current'&&record.review
+      &&matches(d,record.review)&&d.content_fingerprint===record.analysis.content_fingerprint);
+    const publishedTagEntry=index.record_tags?.[rid];
+    const publishedTags=publishedTagEntry===undefined&&index.record_tags&&index.empty_tag_digest
+      ?[]:publishedTagEntry?.tags;
+    const tagsPublished=!tagChange||(tagChange.content_fingerprint===record.analysis.content_fingerprint
+      &&Array.isArray(tagChange.tags)&&Array.isArray(publishedTags)&&sameTags(tagChange.tags,publishedTags));
+    if(reviewPublished&&tagsPublished)removed.add(rid);
+  }
+  return applyDraftCleanup(removed,deselected);
 }
 function publicationFields(d){
   const cleaned={};
@@ -206,15 +275,13 @@ function batches(){return state.batches.map(clone).reverse();}
 function onChange(fn){listeners.add(fn);return()=>listeners.delete(fn);}
 window.addEventListener('storage',e=>{
   if(e.key!==DRAFTS&&e.key!==QUEUE)return;
-  const d=safeJSON(DRAFTS,{}),q=safeJSON(QUEUE,{});
-  drafts=d&&typeof d==='object'&&!Array.isArray(d)?d:{};
-  state.selected=Array.isArray(q.selected)?q.selected.filter(x=>ID.test(x)):[];
-  state.batches=Array.isArray(q.batches)?q.batches.filter(b=>STATES.has(b.status)):[];
+  drafts=readDrafts();state=readQueue();
   changes();
 });
 window.SCRO_REVIEW_STORE=Object.freeze({
   draftEntries,availableEntries,selectedEntries,selectedIds:()=>[...state.selected],
   getDraft:rid=>drafts[rid]||null,active:latestActive,hasDecision,saveDraft,saveTags,removeDraft,
+  draftStatus,removeStaleDrafts,reconcileStaleDrafts,
   setSelected,selectOnly,payload,makeHandoff,batches,refreshPublished,
   refreshFromGitHub,cancelHandoff,onChange,publicationFields
 });

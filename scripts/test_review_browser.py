@@ -290,6 +290,70 @@ FILTER_PROBE=r'''
  return true;
 })()
 '''
+STALE_QUEUE_PROBE=r'''
+(()=>{
+ const check=(value,message)=>{if(!value)throw Error(document.documentElement.lang+' · '+message);};
+ const store=SCRO_REVIEW_STORE,index=SCRO_RELEVANCE;
+ const id=n=>n.toString(16).padStart(18,'0');
+ const [staleReview,staleTags,current,locked,unindexed]=[1,2,3,4,7].map(id);
+ const queue=document.getElementById('rv-queue');
+ const stale=()=>document.getElementById('rv-stale-drafts');
+ const button=()=>document.getElementById('rv-clear-stale');
+ const visible=()=>Boolean(button()?.getClientRects().length);
+ const ids=container=>[...container.querySelectorAll('[data-review-id]')].map(row=>row.dataset.reviewId).sort();
+ const main=()=>document.getElementById('rv-queue-list');
+ const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
+ const saveReview=rid=>{
+  const record=index.get(rid);
+  return store.saveDraft(rid,{
+   content_fingerprint:record?.analysis.content_fingerprint||'0'.repeat(64),
+   expected_review_digest:record?.review_digest||'0'.repeat(64),
+   relevance:'needs_review',topics:null,publisher_confirmed:false,canonical_url:null,note:''
+  });
+ };
+ queue.open=true;
+ check(!visible(),'Bulk removal was visible without outdated drafts');
+ check(saveReview(locked),'Handoff fixture could not be saved');
+ const batch=store.makeHandoff((rid,d)=>rid===locked&&d.expected_review_digest===index.get(rid).review_digest);
+ check(saveReview(staleReview)&&saveReview(unindexed)&&saveReview(current),'Review fixtures could not be saved');
+ const tag=index.data.record_tags[staleTags];
+ check(store.saveTags(staleTags,{
+  content_fingerprint:index.get(staleTags).analysis.content_fingerprint,
+  expected_tag_digest:tag.digest,tags:['new-tag']
+ },'Fixture tag draft'),'Tag fixture could not be saved');
+ store.setSelected(staleReview,true);
+ index.get(staleReview).review_digest='1'.repeat(64);
+ index.get(locked).review_digest='1'.repeat(64);
+ tag.digest='1'.repeat(64);
+ store.setSelected(current,true);
+ check(same(ids(main()),[current,locked,unindexed])&&queue.querySelector('summary').textContent.endsWith('(3)'),
+  'Outdated drafts remained in the main queue count');
+ check(stale()&&!stale().hidden&&!stale().open,'The outdated section was not collapsed by default');
+ check(same(ids(stale()),[staleReview,staleTags]),'The outdated section contains the wrong drafts');
+ check(!visible(),'The bulk removal button occupies space while the section is collapsed');
+ document.getElementById('rv-stale-title').click();
+ check(stale().open&&visible()&&!button().disabled,'Bulk removal was unavailable in the outdated section');
+ const originalConfirm=window.confirm;
+ const prompts=[];
+ try{
+  window.confirm=message=>{prompts.push(message);return false;};
+  button().click();
+  check(prompts.length===1&&same(ids(stale()),[staleReview,staleTags]),
+   'Cancelling bulk removal changed the queue');
+  window.confirm=message=>{prompts.push(message);return true;};
+  button().focus();button().click();
+  check(prompts.length===2&&!store.getDraft(staleReview)&&!store.getDraft(staleTags)&&
+   same(ids(main()),[current,locked,unindexed]),'Bulk removal changed the wrong drafts');
+  check(same(store.selectedIds(),[current])&&store.active(locked)?.id===batch.id,
+   'Current selection or active handoff was lost');
+  check(index.tags(staleTags).includes('smoke'),'Bulk removal changed a published tag');
+  check(!visible()&&queue.querySelector('summary').textContent.endsWith('(3)'),
+   'Bulk removal visibility or queue count did not update');
+  check(document.activeElement===queue.querySelector('summary'),'Bulk removal did not restore focus to the queue');
+ }finally{window.confirm=originalConfirm;}
+ return true;
+})()
+'''
 
 
 def install_filter_fixture(site):
@@ -383,7 +447,7 @@ def run():
    for language in ('en','zh','de','es'):
     for width in (1920,390):
      navigate('workbench/',language,width)
-     self_readonly=browser.evaluate('!document.querySelector("#review-panel, #rv-publish-batch, [data-scope]")&&Boolean(Number(document.getElementById("wb-searchable-count").textContent.replace(/\\D/g,"")))')
+     self_readonly=browser.evaluate('!document.querySelector("#review-panel, #rv-publish-batch, #rv-clear-stale, [data-scope]")&&Boolean(Number(document.getElementById("wb-searchable-count").textContent.replace(/\\D/g,"")))')
      if not self_readonly:raise AssertionError('Public Workbench editing separation or total failed')
      assert browser.evaluate('!document.querySelector(".wb-editor-notice, .wb-header .wb-editor-link")')
      assert browser.evaluate('getComputedStyle(document.querySelector(".wb-header")).backgroundColor==="rgb(16, 44, 42)"')
@@ -450,6 +514,27 @@ def run():
      browser.evaluate('document.getElementById("wb-clear-legacy-month").click()')
      assert browser.evaluate('document.getElementById("wb-legacy-month").hidden&&document.getElementById("wb-count").dataset.total==="7"&&!new URL(location.href).searchParams.has("firstSeenMonth")')
      print('PASS legacy search URLs, first-observation month and stable catalogue total',language,width,flush=True)
+     if width==390:
+      assert browser.evaluate(STALE_QUEUE_PROBE)
+      browser.evaluate('localStorage.removeItem("scro.review.drafts.v1");localStorage.removeItem("scro.review.queue.v2")')
+      print('PASS bulk removal of outdated drafts preserves current, unindexed and handoff drafts',language,flush=True)
+   browser.evaluate(r'''(()=>{
+    const rid='000000000000000004',index=SCRO_RELEVANCE,record=index.get(rid);
+    const draft={...SCRO_REVIEW_STORE.publicationFields(record.review),expected_review_digest:'2'.repeat(64),
+     _tagChange:{content_fingerprint:record.analysis.content_fingerprint,
+      expected_tag_digest:'2'.repeat(64),tags:index.tags(rid)}};
+    localStorage.setItem('scro.review.drafts.v1',JSON.stringify({[rid]:draft}));
+    localStorage.setItem('scro.review.queue.v2',JSON.stringify({schema_version:2,selected:[rid],batches:[]}));
+   })()''')
+   navigate('workbench/edit/')
+   assert browser.evaluate(r'''(()=>{
+    const rid='000000000000000004';
+    return !SCRO_REVIEW_STORE.getDraft(rid)&&!SCRO_REVIEW_STORE.selectedIds().includes(rid)&&
+     !JSON.parse(localStorage.getItem('scro.review.drafts.v1')||'{}')[rid]&&
+     !document.querySelector('[data-review-id="'+rid+'"]')&&
+     SCRO_RELEVANCE.get(rid).review.relevance==='needs_review'&&SCRO_RELEVANCE.tags(rid).includes('smoke');
+   })()''')
+   print('PASS editor reload clears a fully published-equivalent outdated local draft',flush=True)
    missing_shard=site/'data/archive/2026-10-0001.json'
    shard=missing_shard.read_bytes()
    missing_shard.unlink()
