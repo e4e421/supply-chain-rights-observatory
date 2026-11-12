@@ -104,6 +104,20 @@
       "reviewed_by": "e4e421",
       "issue": 41,
       "issue_digest": "83e8351e047f7ff61f0cdafbf069935a0e63e51143f4510b84180bc5137b63a8"
+    },
+    "c9f3e1d4f297c68d0e": {
+      "content_fingerprint": "0a502ecc04917788101e7cba39cf1fdf7f863bfdca9ace05432538682ebd96d5",
+      "relevance": "needs_review",
+      "topics": [
+        "working-conditions"
+      ],
+      "publisher_confirmed": false,
+      "canonical_url": null,
+      "note": "",
+      "reviewed_at": "2026-11-12T00:25:40Z",
+      "reviewed_by": "e4e421",
+      "issue": 42,
+      "issue_digest": "ddb5afa5f72974dfc9e81573a7a7e29cd987e81e6da469967d90c427c1848f5c"
     }
   },
   "record_tags": {
