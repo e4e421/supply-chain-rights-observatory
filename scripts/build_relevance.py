@@ -2,7 +2,7 @@
 """Post-build relevance sidecars. Never edits canonical archive or invents human labels."""
 import hashlib,json,sys
 from pathlib import Path
-from relevance_engine import ROOT,analyze,decorate,digest,similarities,validate_overlay,rules
+from relevance_engine import ROOT,analyze,decorate,digest,similarities,validate_overlay,rules,source_exclusion_reason
 OUT=ROOT/'_site'
 
 def load_records():
@@ -35,7 +35,7 @@ def integrate_runtime():
         ("const t=x=>", "const relevance=window.SCRO_RELEVANCE;\nconst t=x=>"),
         ("(live?.items||[]).slice(0,6)", "(live?.items||[]).filter(r=>!relevance||relevance.included(r)).map(r=>relevance?relevance.apply(r):r).slice(0,6)"),
         ("rec=shard.records.find(r=>r.record_id===id);", "rec=shard.records.find(r=>r.record_id===id);if(rec&&relevance)rec=relevance.apply(rec);"),
-        ("const title=node('h2',rec.title);", "if(relevance&&!relevance.included(rec))root.append(node('p',t('Excluded by editorial review. The original observation is retained.'),'portal-notice'));\n const title=node('h2',rec.title);"),
+        ("const title=node('h2',rec.title);", "if(relevance&&!relevance.included(rec)){const notice=relevance.get(rec)?.source_exclusion?'Excluded by source screening: standalone company response or non-response.':'Excluded by editorial review. The original observation is retained.';root.append(node('p',t(notice),'portal-notice'));}\n const title=node('h2',rec.title);"),
         ("['Publisher credit (unverified)',rec.publisher_hint", "[rec.publisher_confirmed?'Publisher confirmed':'Publisher credit (unverified)',rec.publisher_hint"),
         ("publicLink(rec.url,'Open original discovery link')", "publicLink(rec.reviewed_canonical_url||rec.url,'Open original discovery link')"),
         (" if(legacy())return;window.addEventListener('hashchange',legacy);", " if(legacy())return;window.addEventListener('hashchange',legacy);\n if(relevance&&(PAGE==='home'||PAGE==='record')){await relevance.ready;if(relevance.failed)document.querySelector('main')?.prepend(node('p',t('Keyword review index unavailable; original records remain visible.'),'portal-notice'));}")
@@ -50,6 +50,7 @@ def integrate_runtime():
         file.write_text(marker+'\n'+content,encoding='utf-8')
     file=OUT/'portal-translations.json';translations=json.loads(file.read_text())
     translations.update({
+      'Excluded by source screening: standalone company response or non-response.':{'zh':'此筆為獨立企業回覆或未回覆紀錄，已依來源篩選規則排除。','de':'Als eigenständige Unternehmensantwort oder ausbleibende Antwort durch den Quellenfilter ausgeschlossen.','es':'Excluido por el filtro de fuentes: respuesta o ausencia de respuesta de una empresa como registro independiente.'},
       'Excluded by editorial review. The original observation is retained.':{'zh':'已由人工審核排除，原始觀測紀錄仍保留。','de':'Redaktionell ausgeschlossen. Die ursprüngliche Beobachtung bleibt erhalten.','es':'Excluido en la revisión editorial. Se conserva el registro original.'},
       'Keyword review index unavailable; original records remain visible.':{'zh':'關鍵字審核索引無法載入，原始紀錄仍可瀏覽。','de':'Prüfindex nicht verfügbar; Originaldatensätze bleiben sichtbar.','es':'Índice de revisión no disponible. Puede seguir consultando los registros originales.'},
       'Publisher confirmed':{'zh':'出版歸屬已確認','de':'Herausgeber bestätigt','es':'Entidad editora confirmada'}
@@ -65,7 +66,8 @@ def build():
     assignments=overlay.get('record_tags',{})
     unknown=(set(decisions)|set(assignments))-set(records)
     if unknown:raise ValueError('Reviewed record absent from archive: '+','.join(sorted(unknown)))
-    selected=sorted(records,key=lambda k:(records[k].get('published_at',''),k),reverse=True)[:10000]
+    ordered=sorted(records,key=lambda k:(records[k].get('published_at',''),k),reverse=True)
+    selected=ordered[:10000]+[rid for rid in ordered[10000:] if source_exclusion_reason(records[rid])]
     index={rid:decorate(records[rid],decisions) for rid in selected}
     similarities(index)
     counts={level:sum(row['analysis']['level']==level for row in index.values()) for level in ['high','review','low']}

@@ -9,12 +9,33 @@ ROOT=Path(__file__).resolve().parents[1]
 RULES=ROOT/'sources/relevance-rules.json'
 LEVELS={'high','review','low'}
 ID=re.compile(r'[a-f0-9]{18}')
+BHRRC_PUBLISHER=re.compile(r'business (?:and|&) human rights (?:resource )?cent(?:re|er)')
+BHRRC_RESPONSE=re.compile(
+    r"[^:;!?]{1,120}?(?:'s?)? (?:"
+    r"(?:non[- ]?)?response(?: (?:to|on|regarding|concerning|re[:-]?) .+)?|"
+    r"(?:did not respond|has not responded|could not be reached for comment|responded for comment)"
+    r"(?: (?:to|on|regarding|concerning) .+)?)\.?"
+)
 
 def digest(value):
     return hashlib.sha256(json.dumps(value,sort_keys=True,ensure_ascii=False,separators=(',',':')).encode()).hexdigest()
 
 def normalize(value):
     return re.sub(r'\s+',' ',unicodedata.normalize('NFKC',str(value)).casefold().translate(str.maketrans({'–':'-','—':'-','’':"'"}))).strip()
+
+def source_exclusion_reason(record):
+    if record.get('kind')!='discovery':
+        return None
+    title=normalize(record.get('title') or '').replace('‐','-')
+    headline,_,credit=title.rpartition(' - ')
+    publisher=normalize(record.get('publisher_hint') or '')
+    if BHRRC_PUBLISHER.fullmatch(credit):
+        title=headline
+    elif not BHRRC_PUBLISHER.fullmatch(publisher):
+        return None
+    if BHRRC_RESPONSE.fullmatch(title) and not re.search(r'\b(?:incl\.|including\b|in response to\b)',title):
+        return 'bhrrc_standalone_response'
+    return None
 
 @lru_cache(maxsize=1)
 def rules():
@@ -112,8 +133,10 @@ def decorate(record,decisions):
     current=review is not None and review['content_fingerprint']==analysis['content_fingerprint']
     state='current' if current else 'stale' if review else 'unreviewed'
     effective=review['topics'] if current and review['topics'] is not None else analysis['suggested_topics']
+    source_exclusion=source_exclusion_reason(record)
     return {'analysis':analysis,'review_state':state,'review':review,'review_digest':digest(review),
-            'effective_topics':effective,'included':not(current and review['relevance']=='exclude')}
+            'effective_topics':effective,'source_exclusion':source_exclusion,
+            'included':not(source_exclusion or (current and review['relevance']=='exclude'))}
 
 def similarities(index,limit=4):
     # Transparent, bounded, keyword-concept overlap. Never creates event IDs.

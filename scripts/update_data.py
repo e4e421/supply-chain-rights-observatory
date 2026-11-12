@@ -143,11 +143,12 @@ def parse_rss(body, config, now, candidates=None):
             continue  # Unknown dates are not silently labelled new.
         if not is_recent(date, now, MAX_AGE_DAYS):
             continue
-        quality = screen_title(title)
+        publisher = clean_text(node.findtext('source'),90) or publisher_hint(title)
+        quality = screen_title(title,publisher=publisher)
         record = {
             'title': title, 'url': link, 'published_at': date,
             'source': clean_text(config['name'], 90), 'source_id': config['id'],
-            'discovery_query_id': config['id'], 'publisher_hint': clean_text(node.findtext('source'),90) or publisher_hint(title),
+            'discovery_query_id': config['id'], 'publisher_hint': publisher,
             'publisher_provenance':'google_news_rss_unverified',
             'publisher_verified': False, 'canonical_url': None,
             'kind': 'discovery', 'evidence_status': 'Unverified discovery',
@@ -333,7 +334,7 @@ def merge_items(new, previous, now):
             continue
         if not isinstance(item.get('title'), str) or not isinstance(item.get('id'), str):
             continue
-        if item.get('kind') == 'academic' or screen_title(item.get('title'))['status'] == 'candidate_relevant':
+        if item.get('kind') == 'academic' or screen_title(item.get('title'),publisher=item.get('publisher_hint'))['status'] == 'candidate_relevant':
             merged[item['id']] = item
     for item in new:
         item['id'] = stable_id(item)
