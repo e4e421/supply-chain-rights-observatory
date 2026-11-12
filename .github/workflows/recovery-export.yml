@@ -1,0 +1,57 @@
+name: Verify and export recovery bundle
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/recovery-export.yml'
+      - '.github/workflows/refresh-and-publish.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  restore:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Export the complete main history
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/scro-recovery"
+          git branch scro-recovery HEAD
+          git bundle create "$RUNNER_TEMP/scro-recovery/main.bundle" refs/heads/scro-recovery
+          git bundle verify "$RUNNER_TEMP/scro-recovery/main.bundle"
+          git rev-parse HEAD > "$RUNNER_TEMP/scro-recovery/commit.txt"
+          git rev-parse HEAD^{tree} > "$RUNNER_TEMP/scro-recovery/tree.txt"
+          (cd "$RUNNER_TEMP/scro-recovery" && sha256sum main.bundle > SHA256SUMS)
+      - name: Restore and rebuild in isolation
+        shell: bash
+        run: |
+          export_dir="$RUNNER_TEMP/scro-recovery"
+          (cd "$export_dir" && sha256sum -c SHA256SUMS)
+          git clone --branch scro-recovery "$export_dir/main.bundle" "$RUNNER_TEMP/scro-restored"
+          cd "$RUNNER_TEMP/scro-restored"
+          test "$(git rev-parse HEAD)" = "$(cat "$export_dir/commit.txt")"
+          test "$(git rev-parse HEAD^{tree})" = "$(cat "$export_dir/tree.txt")"
+          git fsck --full
+          python3 scripts/validate_data.py
+          python3 scripts/validate_archive.py
+          python3 scripts/build_portal.py
+          python3 scripts/build_relevance.py
+          python3 scripts/test_portal.py
+          printf 'Restored and rebuilt %s\n' "$(git rev-parse HEAD)" >> "$GITHUB_STEP_SUMMARY"
+      - name: Retain verified bundle for transfer
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        with:
+          name: scro-recovery-${{ github.sha }}
+          path: ${{ runner.temp }}/scro-recovery/
+          retention-days: 7
+          if-no-files-found: error
