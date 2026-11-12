@@ -118,6 +118,18 @@
       "reviewed_by": "e4e421",
       "issue": 42,
       "issue_digest": "ddb5afa5f72974dfc9e81573a7a7e29cd987e81e6da469967d90c427c1848f5c"
+    },
+    "3235d984163f935f27": {
+      "content_fingerprint": "08424fe5dd3b98f27bd67deb6c7368016f539b9806b6e1eb2422b895119884c1",
+      "relevance": "needs_review",
+      "topics": null,
+      "publisher_confirmed": false,
+      "canonical_url": null,
+      "note": "",
+      "reviewed_at": "2026-11-12T02:19:16Z",
+      "reviewed_by": "e4e421",
+      "issue": 49,
+      "issue_digest": "eab913ed2e0d3a230d510ad88d3abea2b09a2d698e5146e34b046fe4dcd9542d"
     }
   },
   "record_tags": {
@@ -162,6 +174,13 @@
       ],
       "issue": 48,
       "issue_digest": "01e74ebcc2626339c0190056f7f556a30b31b63d21239ea1ac5b54ad5801d44c"
+    },
+    "3235d984163f935f27": {
+      "tags": [
+        "uk-supplychain-hrdd-law"
+      ],
+      "issue": 49,
+      "issue_digest": "eab913ed2e0d3a230d510ad88d3abea2b09a2d698e5146e34b046fe4dcd9542d"
     }
   },
   "tag_catalog": [
