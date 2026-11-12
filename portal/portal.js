@@ -59,9 +59,11 @@ async function home(){
  $('home-status').textContent=!live?t('Public data could not be loaded.'):old?t('The last successful collection is over 48 hours old.'):'';
  for(const r of (live?.items||[]).slice(0,6))list.append(recordCard(r));links();};redraw();
 }
-function sourceAvailability(success, attempted, failures, successLabel, manual=false){
+function sourceAvailability(success, attempted, failures, successLabel, referenceState=null){
+ const manual=['manual_only','policy_restricted'].includes(referenceState);
  const state=manual?'manual':!attempted?'unknown':success?'ok':failures>=3?'review':'retry';
- const labels={manual:'Not checked automatically',unknown:'No check recorded',ok:successLabel,
+ const labels={manual:referenceState==='policy_restricted'?'Site rules restrict automatic checks':'Manual link check',
+   unknown:referenceState?'Awaiting first check':'No check recorded',ok:successLabel,
    review:'Manual confirmation needed',retry:'Failed · retry scheduled'};
  return node('strong',t(labels[state])+(failures>0?' ('+failures+')':''),'portal-availability is-'+state);
 }
@@ -89,7 +91,7 @@ async function sources(){
  if(!feeds?.length){const row=node('tr'),cell=node('td',t('No check recorded'));cell.colSpan=4;row.append(cell);feedRows.append(row);}
  const filter=$('source-review').value,cat=$('source-category').value,q=$('source-search').value.toLowerCase();$('source-rows').replaceChildren();
  for(const o of $('source-category').options)if(o.value!=='all')o.textContent=t(o.value);
- const records=refs.map(ref=>({ref,h:(health?.sources||[]).find(s=>s.name===ref.name)})).filter(({ref,h})=>{if(cat!=='all'&&ref.category!==cat)return false;if(q&&![ref.name,ref.category,ref.use,t(ref.use)].join(' ').toLowerCase().includes(q))return false;if(filter==='needs'&&!h?.review_needed)return false;if(filter==='licence'&&h?.licence_review_status==='approved_for_metadata'&&h.metadata_reuse_notice)return false;if(filter==='connection'&&(!h?.last_probe||['responded','manual_only'].includes(h.reachability)))return false;return true;});
+ const records=refs.map(ref=>({ref,h:(health?.sources||[]).find(s=>s.name===ref.name)})).filter(({ref,h})=>{if(cat!=='all'&&ref.category!==cat)return false;if(q&&![ref.name,ref.category,ref.use,t(ref.use)].join(' ').toLowerCase().includes(q))return false;if(filter==='needs'&&!h?.review_needed)return false;if(filter==='licence'&&h?.licence_review_status==='approved_for_metadata'&&h.metadata_reuse_notice)return false;if(filter==='connection'&&(!h?.last_probe||['responded','manual_only','policy_restricted'].includes(h.reachability)))return false;return true;});
  $('source-count').textContent=number(records.length)+' / '+number(refs.length)+' '+t('curated sources')+(health?'':' · '+t('Source-health report unavailable; review states are unknown.'));
  for(const {ref,h} of records){const row=node('tr'),name=node('td');name.append(publicLink(ref.url,ref.name),node('p',t(ref.use)),node('small',h?.id||'—'));row.append(name,node('td',t(ref.category)));
  const editorial=node('td');editorial.append(node('strong',t(!h?'Unknown':h.review_needed?'Review needed':'Review recorded')),node('p',date(h?.last_editorial_review)),node('small',t('Next review')+': '+date(h?.review_due)));row.append(editorial);
@@ -98,7 +100,7 @@ async function sources(){
   use.append(publicLink(h.metadata_reuse_notice,'Metadata reuse terms'));
  }else use.textContent=t('Reference link');
  row.append(use);
- const reachable=node('td');reachable.append(sourceAvailability(h?.reachability==='responded',h?.last_probe,h?.consecutive_failures,'Website reachable',h?.reachability==='manual_only'));
+ const reachable=node('td');reachable.append(sourceAvailability(h?.reachability==='responded',h?.last_probe,h?.consecutive_failures,'Website reachable',h?.reachability));
  if(h?.last_probe)reachable.append(node('p',h.http_status?'HTTP '+h.http_status:'—'),node('small',date(h.last_probe,true)));
  row.append(reachable);$('source-rows').append(row);}
  if(!records.length){const row=node('tr'),td=node('td',t('No matching sources.'));td.colSpan=5;row.append(td);$('source-rows').append(row);}links();};
