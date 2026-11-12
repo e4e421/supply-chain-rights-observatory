@@ -501,6 +501,9 @@ def install_filter_fixture(site):
         entry['analysis']['level'] = level
         entry['effective_topics'] = [topic]
         sidecar[record_id] = entry
+    sidecar[records[-1]['record_id']]['similar'] = [
+        {'record_id': records[0]['record_id'], 'shared_terms': ['fixture']},
+    ]
 
     def replace(name, **fields):
         path = data/name
@@ -625,6 +628,11 @@ def run():
        .filter(path=>/\/data\/archive\/\d{4}-\d{2}-\d{4}\.json$/.test(path));
       return document.getElementById('wb-first-seen-month').value==='2026-10'&&shards.length===1&&shards[0].endsWith('/2026-10-0001.json');
      })()'''), 'Month filter downloaded unrelated archive shards'
+     assert browser.evaluate(r'''(()=>{
+      const link=[...document.querySelectorAll('#review-panel a')].map(a=>new URL(a.href))
+       .find(url=>url.searchParams.get('record')==='000000000000000001');
+      return link&&!link.searchParams.has('firstSeenMonth')&&!link.searchParams.has('month');
+     })()'''), 'Related record link retained the selected month'
      assert browser.evaluate(r'''(async()=>{
       document.getElementById('wb-clear-legacy-month').click();
       const count=document.getElementById('wb-count');

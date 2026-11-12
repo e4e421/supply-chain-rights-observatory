@@ -573,8 +573,8 @@ function inspect(item,force=false){
  if(!data.similar?.length)similar.append(el('p',t('No sufficiently similar records.')));
  for(const match of data.similar||[]){
   const line=el('p'),link=el('a',t('Open related record')+' '+match.record_id);
-  const u=new URL(location.href);u.searchParams.set('scope','all');u.searchParams.set('record',match.record_id);
-  for(const k of ['q','from','to','topics','tag','relevance','offset','kind','evidence'])u.searchParams.delete(k);
+  const u=new URL(location.href);u.searchParams.set('record',match.record_id);
+  for(const k of ['q','from','to','topics','tag','relevance','offset','kind','evidence','scope','month','firstSeenMonth'])u.searchParams.delete(k);
   link.href=u.href;line.append(link,el('small',' · '+match.shared_terms.join(', ')));similar.append(line);
  }
  root.append(similar);
