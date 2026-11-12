@@ -13,8 +13,8 @@ from propose_reviews import prepare
 from publish_reviews import parse_publish_body as parse_body
 COLLECTION_CLOCK_PROBE=r'''
 (()=>{
- const relative=document.getElementById('wb-updated');
- const absolute=document.getElementById('wb-updated-utc');
+ const relative=document.querySelector('[data-collection-age]');
+ const absolute=document.querySelector('[data-collection-utc]');
  const language=document.documentElement.lang;
  const format=new Intl.RelativeTimeFormat(language,{numeric:'always',style:'long'});
  const collection=Date.parse('2026-11-11T17:57:00Z');
@@ -621,6 +621,8 @@ def run():
      navigate('workbench/?scope=latest&q=flood+theta',language,width)
      assert browser.evaluate(COLLECTION_CLOCK_PROBE), f'Reader collection clock failed for {language}, {width}px'
      assert browser.evaluate('document.getElementById("wb-count").dataset.total==="1"&&document.getElementById("wb-searchable-count").textContent==="7"&&document.querySelector("#wb-tbody [data-record-id]")?.dataset.recordId==="000000000000000008"&&!new URL(location.href).searchParams.has("scope")')
+     navigate('',language,width)
+     assert browser.evaluate(COLLECTION_CLOCK_PROBE), f'Homepage collection clock failed for {language}, {width}px'
      navigate('workbench/edit/?scope=archive&month=2026-10&record=000000000000000008',language,width)
      assert browser.evaluate('document.getElementById("wb-count").dataset.total==="1"&&document.getElementById("wb-searchable-count").textContent==="7"&&!document.getElementById("wb-legacy-month").hidden&&document.getElementById("wb-legacy-month-value").textContent==="2026-10"&&document.querySelector("#wb-tbody .is-selected")?.dataset.recordId==="000000000000000008"&&new URL(document.getElementById("wb-return-to-reader").href).searchParams.get("firstSeenMonth")==="2026-10"')
      assert browser.evaluate(r'''(()=>{
@@ -641,7 +643,7 @@ def run():
        !new URL(location.href).searchParams.has('firstSeenMonth');
      })()'''), 'Clearing the month did not reload the combined catalogue'
      print('PASS legacy search URLs, first-observation month and stable catalogue total',language,width,flush=True)
-     print('PASS localized collection age and full English UTC timestamp in both workbench modes',language,width,flush=True)
+     print('PASS matching collection age and full English UTC timestamp on home and both workbench modes',language,width,flush=True)
      if width==390:
       assert browser.evaluate(STALE_QUEUE_PROBE)
       browser.evaluate('localStorage.removeItem("scro.review.drafts.v1");localStorage.removeItem("scro.review.queue.v2")')
