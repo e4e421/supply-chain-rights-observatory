@@ -5,10 +5,12 @@ Offline checks on every build, optional guarded availability probes on a weekly 
 The registry records editorial decisions and technical reachability separately.
 """
 from __future__ import annotations
-import argparse, hashlib, json, re
+import argparse, json, re
 from datetime import datetime, timezone
+from fnmatch import fnmatchcase
 from pathlib import Path
-from urllib.parse import urlparse
+from time import sleep
+from urllib.parse import quote, urlparse, urlsplit
 from urllib.request import Request, build_opener, HTTPRedirectHandler
 from urllib.error import URLError,HTTPError
 
@@ -25,12 +27,21 @@ ALLOWED={
  'www.worldbenchmarkingalliance.org','www.ela.europa.eu','www.eurofound.europa.eu'
 }
 
-# HTTPS links for candidate and manual-reference sources. Keep separate from probe hosts.
+# Candidate URLs are displayable, with a separate list for active reference checks.
 CANDIDATE_HOSTS={
  'www.reuters.com','www.theguardian.com','www.esgdive.com','www.esgtoday.com',
  'www.responsible-investor.com','www.hsfkramer.com','sustainable-procurement.org',
  'www.edie.net','www.iflr.com','news.mongabay.com','trellis.net'
 }
+GUARDED_PROBE_HOSTS={
+ 'www.esgtoday.com','www.hsfkramer.com','sustainable-procurement.org',
+ 'www.edie.net','www.iflr.com','news.mongabay.com','trellis.net'
+}
+PROBE_AGENT='SupplyChainRightsObservatory'
+PROBE_HEADERS={'User-Agent':PROBE_AGENT+'/1.0 (public source-availability check)'}
+ROBOTS_LIMIT=500*1024
+# HSF Kramer's published robots policy requests a five-second crawl interval.
+PROBE_DELAYS={'www.hsfkramer.com':5}
 
 def validate_manual_link(url):
     u=urlparse(str(url))
@@ -60,7 +71,10 @@ def validate(registry,candidates,refs):
             raise ValueError('Source licence review status missing or invalid')
         if entry.get('metadata_reuse_notice'):
             validate_link(entry['metadata_reuse_notice'])
-        if entry.get('probe_enabled', True) is False:
+        probe_enabled=entry.get('probe_enabled', True)
+        if not isinstance(probe_enabled,bool):
+            raise ValueError('Invalid reference probe setting')
+        if not probe_enabled or urlparse(entry['url']).hostname in GUARDED_PROBE_HOSTS:
             validate_manual_link(entry['url'])
         else:
             validate_link(entry['url'])
@@ -86,18 +100,102 @@ def validate(registry,candidates,refs):
     return True
 
 class RedirectBlocker(HTTPRedirectHandler):
+    def __init__(self, validate_redirect=validate_link, delay=0):
+        self.validate_redirect=validate_redirect
+        self.delay=delay
+
     def redirect_request(self,req,fp,code,msg,headers,newurl):
-        # Reachability does not require following redirect to unrelated infrastructure.
-        validate_link(newurl)
-        return super().redirect_request(req,fp,code,msg,headers,newurl)
+        self.validate_redirect(newurl)
+        redirected=super().redirect_request(req,fp,code,msg,headers,newurl)
+        if redirected is not None:
+            redirected.method=req.get_method()
+            if self.delay:
+                sleep(self.delay)
+        return redirected
+
+def robots_path(value):
+    # Match percent-encoded unreserved characters equivalently and preserve encoded delimiters.
+    def normalize_escape(match):
+        char=chr(int(match[1],16))
+        return char if re.fullmatch(r'[A-Za-z0-9._~-]',char) else match[0].upper()
+    value=quote(value,safe='!#$%&\'()*+,-./:;=?@[]_~')
+    return re.sub(r'%([0-9a-fA-F]{2})',normalize_escape,value)
+
+def robots_allows(text,url):
+    groups={}
+    agents=[]
+    rules_seen=False
+    for line in text.splitlines():
+        name,separator,value=line.partition('#')[0].partition(':')
+        if not separator:
+            continue
+        name,value=name.strip().lower(),value.strip()
+        if name=='user-agent':
+            if rules_seen:
+                agents=[]
+                rules_seen=False
+            agent=value.casefold()
+            agents.append(agent)
+            groups.setdefault(agent,[])
+        elif agents and name in ('allow','disallow'):
+            rules_seen=True
+            if value.startswith('/'):
+                for agent in agents:
+                    groups[agent].append((robots_path(value),name=='allow'))
+    target=urlsplit(url)
+    path=robots_path((target.path or '/')+('?' + target.query if target.query else ''))
+    best=(0,True)
+    for rule,allow in groups.get(PROBE_AGENT.casefold(),groups.get('*',[])):
+        pattern=rule[:-1] if rule.endswith('$') else rule+'*'
+        pattern=re.sub(r'([?\[\]])',r'[\1]',pattern)
+        if fnmatchcase(path,pattern):
+            best=max(best,(len(rule.rstrip('$').replace('*','')),allow))
+    return best[1]
+
+class PolicyRestricted(ValueError):
+    pass
+
+def robots_rules(url, same_host, delay):
+    robots_url=urlsplit(url)._replace(path='/robots.txt',query='',fragment='').geturl()
+    try:
+        request=Request(robots_url,headers=PROBE_HEADERS,method='GET')
+        with build_opener(RedirectBlocker(same_host,delay)).open(request,timeout=6) as response:
+            same_host(response.url)
+            contents=response.read(ROBOTS_LIMIT+1)
+            if len(contents)>ROBOTS_LIMIT or contents.lstrip().startswith(b'<'):
+                raise ValueError('Unexpected robots response')
+            return contents.decode('utf-8-sig')
+    except HTTPError as exc:
+        if exc.code in (404,410):
+            return ''
+        if exc.code in (401,403):
+            raise PolicyRestricted('Robots rules are access restricted') from exc
+        raise URLError('Robots rules could not be verified') from exc
 
 def probe(url):
     try:
-        validate_link(url)
-        req=Request(url,headers={'User-Agent':'SupplyChainRightsObservatory/1.0 (public source-availability check)'},method='HEAD')
-        with build_opener(RedirectBlocker()).open(req,timeout=6) as response:
-            validate_link(response.url)
+        validate_target=validate_link
+        host=urlsplit(url).hostname
+        delay=PROBE_DELAYS.get(host,0)
+        if host in GUARDED_PROBE_HOSTS:
+            def same_host(target):
+                if validate_manual_link(target)!=host:
+                    raise ValueError('Unexpected reference redirect host')
+            same_host(url)
+            rules=robots_rules(url,same_host,delay)
+            def validate_target(target):
+                same_host(target)
+                if not robots_allows(rules,target):
+                    raise PolicyRestricted('Path disallowed by robots rules')
+        validate_target(url)
+        if delay:
+            sleep(delay)
+        req=Request(url,headers=PROBE_HEADERS,method='HEAD')
+        with build_opener(RedirectBlocker(validate_target,delay)).open(req,timeout=6) as response:
+            validate_target(response.url)
             return {'reachability':'responded','http_status':int(response.status)}
+    except PolicyRestricted:
+        return {'reachability':'policy_restricted','http_status':None}
     except HTTPError as exc:
         # 403 and 405 do not mean a source is untrustworthy.
         return {'reachability':'http_restriction_or_error','http_status':int(exc.code)}
@@ -116,7 +214,9 @@ def run(online=False):
     entries=[]
     for entry in registry['sources']:
         prior=old.get(entry['id'],{})
-        prior_failure=bool(prior.get('last_probe') and prior.get('reachability')!='responded')
+        if prior.get('reachability')=='manual_only':
+            prior={}
+        prior_failure=bool(prior.get('last_probe') and prior.get('reachability') not in ('responded','policy_restricted'))
         status={
             'id':entry['id'],
             'name':entry['name'],
@@ -138,7 +238,7 @@ def run(online=False):
         elif online:
             result=probe(entry['url'])
             status.update(result)
-            status['consecutive_failures']=0 if result['reachability']=='responded' else status['consecutive_failures']+1
+            status['consecutive_failures']=0 if result['reachability'] in ('responded','policy_restricted') else status['consecutive_failures']+1
             status['last_probe']=now
         entries.append(status)
     report={

@@ -355,7 +355,7 @@
       "verification_level": "owner_approved_for_manual_reference",
       "review_due": "2027-02-10",
       "auto_ingest": false,
-      "probe_enabled": false,
+      "probe_enabled": true,
       "reason": "Frequent ESG policy and corporate disclosure coverage, including EU and UK HRDD; avoid redundant weekly summary and individual-article counting.",
       "licence_review_status": "pending",
       "methodology_review_status": "pending"
@@ -387,7 +387,7 @@
       "verification_level": "owner_approved_for_manual_reference",
       "review_due": "2027-02-10",
       "auto_ingest": false,
-      "probe_enabled": false,
+      "probe_enabled": true,
       "reason": "Legal commentary on implementation, supply-chain due diligence and litigation.",
       "licence_review_status": "pending",
       "methodology_review_status": "pending"
@@ -403,7 +403,7 @@
       "verification_level": "owner_approved_for_manual_reference",
       "review_due": "2027-02-10",
       "auto_ingest": false,
-      "probe_enabled": false,
+      "probe_enabled": true,
       "reason": "ICLEI resources on European public procurement, social clauses and supplier due diligence.",
       "licence_review_status": "pending",
       "methodology_review_status": "pending"
@@ -419,7 +419,7 @@
       "verification_level": "owner_approved_for_manual_reference",
       "review_due": "2027-02-10",
       "auto_ingest": false,
-      "probe_enabled": false,
+      "probe_enabled": true,
       "reason": "Corporate sustainability practice and social sustainability; broad environmental coverage requires strict topic filtering.",
       "licence_review_status": "pending",
       "methodology_review_status": "pending"
@@ -435,7 +435,7 @@
       "verification_level": "owner_approved_for_manual_reference",
       "review_due": "2027-02-10",
       "auto_ingest": false,
-      "probe_enabled": false,
+      "probe_enabled": true,
       "reason": "Legal regulatory change and cross-border compliance; distinguish sponsored legal commentary and paywalled content from official texts.",
       "licence_review_status": "pending",
       "methodology_review_status": "pending"
@@ -451,7 +451,7 @@
       "verification_level": "owner_approved_for_manual_reference",
       "review_due": "2027-02-10",
       "auto_ingest": false,
-      "probe_enabled": false,
+      "probe_enabled": true,
       "reason": "Forestry, agricultural commodity and extraction supply chains where land, Indigenous and labour rights intersect; environmental content needs narrow monitoring.",
       "licence_review_status": "pending",
       "methodology_review_status": "pending"
@@ -467,7 +467,7 @@
       "verification_level": "owner_approved_for_manual_reference",
       "review_due": "2027-02-10",
       "auto_ingest": false,
-      "probe_enabled": false,
+      "probe_enabled": true,
       "reason": "Corporate sustainability supply chain strategies and governance; renamed from GreenBiz, avoid double-registering the same publisher.",
       "licence_review_status": "pending",
       "methodology_review_status": "pending"

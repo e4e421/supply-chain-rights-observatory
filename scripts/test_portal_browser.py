@@ -46,9 +46,10 @@ PROBE=r'''
   check(document.querySelector('#source-rows .is-ok'),'Successful reference status missing');
   check(document.querySelector('#source-rows .is-manual'),'Manual reference status missing');
   const media=[...document.querySelectorAll('#source-rows td small')].filter(n=>n.textContent.startsWith('media-'));
-  const manualStatus={en:'Not checked automatically','zh-Hant':'未執行自動連線檢查',de:'Nicht automatisch geprüft',es:'Comprobación automática no realizada'}[document.documentElement.lang];
-  check(media.length===11&&media.every(n=>n.closest('tr').lastElementChild.textContent.includes(manualStatus)),
-    'Approved manual media missing or mislabelled');
+  const manualStatus={en:'Manual link check','zh-Hant':'請人工確認連結',de:'Link manuell prüfen',es:'Comprobar el enlace manualmente'}[document.documentElement.lang];
+  const manualIds=['media-reuters','media-guardian','media-esgdive','media-responsible-investor'];
+  check(media.length===11&&media.every(n=>n.closest('tr').lastElementChild.textContent.includes(manualStatus)===manualIds.includes(n.textContent)),
+    'Curated reference check policy missing or mislabelled');
   const section=document.getElementById('academic-monitoring');
   const expectedTitle={en:'Academic literature monitoring','zh-Hant':'學術文獻觀察',de:'Beobachtung wissenschaftlicher Literatur',es:'Seguimiento de literatura académica'};
   check(section?.querySelector('h2')?.textContent===expectedTitle[document.documentElement.lang],'Academic monitoring section missing or untranslated');
