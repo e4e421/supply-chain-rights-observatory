@@ -328,8 +328,9 @@ STALE_QUEUE_PROBE=r'''
  store.setSelected(current,true);
  check(same(ids(main()),[current,locked,unindexed])&&queue.querySelector('summary').textContent.endsWith('(3)'),
   'Outdated drafts remained in the main queue count');
- check(stale()&&!stale().open&&!visible()&&same(ids(stale()),[staleReview,staleTags]),
-  'Outdated drafts did not move to a collapsed section');
+ check(stale()&&!stale().hidden&&!stale().open,'The outdated section was not collapsed by default');
+ check(same(ids(stale()),[staleReview,staleTags]),'The outdated section contains the wrong drafts');
+ check(!visible(),'The bulk removal button occupies space while the section is collapsed');
  document.getElementById('rv-stale-title').click();
  check(stale().open&&visible()&&!button().disabled,'Bulk removal was unavailable in the outdated section');
  const originalConfirm=window.confirm;
