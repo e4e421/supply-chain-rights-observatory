@@ -73,7 +73,7 @@ The daily collection workflow appends newly accepted records to the permanent ar
 - Weekly reference checks use HTTPS HEAD with an approved host list. News and specialist sources in the check also require a robots.txt check for the registered link and any same-host redirects. The source directory records the latest outcome and consecutive failures.
 - At least quarterly, manually review institutional status, editorial independence, dataset revisions, data rights and methods, source links, false positives and event coverage.
 - On-demand local CSV: `python3 scripts/export_archive_csv.py --output /tmp/scro-public-archive.csv`; English field identifiers remain stable for R, Python, DuckDB and Excel.
-- Public Workbench search and its CSV group equivalent observations when their current review and tags agree. Archived IDs and their source observations remain addressable for research and editorial review.
+- Public Workbench search and its CSV group equivalent observations when their review, topics, tags and event assignment agree. Google News RSS links with the same normalized headline, credited publisher and UTC publication day can form one group even when their redirect URLs or timestamps differ. Archived IDs and their source observations remain addressable for research and editorial review.
 - Monthly off-repository backups to an access-controlled storage location are recommended. GitHub commit history alone is not adequate for disaster recovery.
 
 See [data architecture](docs/ARCHITECTURE.md) and [source issue templates](.github/ISSUE_TEMPLATE/new-source.yml).

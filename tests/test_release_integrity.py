@@ -55,6 +55,32 @@ class ReleaseVerificationTests(unittest.TestCase):
 
 
 class AliasTests(unittest.TestCase):
+    def test_opaque_google_news_links_for_the_same_publication_share_an_alias(self):
+        first, second = 'a' * 18, 'b' * 18
+        row = {'record_id': first, 'kind': 'discovery', 'url': 'https://news.google.com/rss/articles/old?oc=5',
+               'title': 'Mandatory human rights due diligence legislation - Wired Gov', 'publisher_hint': 'Wired Gov',
+               'published_at': '2026-11-11T12:18:15Z', 'first_seen': '2026-11-11T17:12:12Z'}
+        other = dict(row, record_id=second, url='https://news.google.com/rss/articles/new?oc=5',
+                     published_at='2026-11-11T13:28:17Z', first_seen='2026-11-12T07:08:32Z')
+
+        def aliases(candidate, assignments=None):
+            records = {first: row, second: candidate}
+            index = {key: decorate(value, {}) for key, value in records.items()}
+            return publication_aliases(records, index, assignments or {})
+
+        self.assertEqual(aliases(other), {second: first})
+        self.assertEqual(aliases(other, {second: {'tags': ['policy']}}), {})
+        for changes in (
+            {'published_at': '2026-11-12T13:28:17Z'},
+            {'title': 'Mandatory human rights due diligence legislation - techUK', 'publisher_hint': 'techUK'},
+            {'url': 'https://www.wired-gov.net/articles/distinct-release'},
+            {'url': 'https://news.google.com.example.org/rss/articles/new'},
+            {'canonical_url': 'https://www.wired-gov.net/articles/distinct-release'},
+            {'publisher_hint': ''},
+        ):
+            with self.subTest(changes=changes):
+                self.assertEqual(aliases(dict(other, **changes)), {})
+
     def test_matching_observations_are_grouped_but_different_tags_remain_independent(self):
         first, second = 'a' * 18, 'b' * 18
         row = {'record_id': first, 'kind': 'discovery', 'url': 'https://example.org/article',
