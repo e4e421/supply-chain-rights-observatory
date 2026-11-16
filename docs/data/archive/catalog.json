@@ -1,16 +1,16 @@
 {
   "schema_version": 1,
-  "total_records": 161,
+  "total_records": 167,
   "scope": "public_metadata_only_not_verified_incidents",
   "months": [
     {
       "month": "2026-11",
-      "records": 161,
+      "records": 167,
       "files": [
         {
           "file": "2026-11-0001.json",
-          "records": 161,
-          "sha256": "5561117a82f97d3b4020358112061ecd7bc7f22dbfd7597f62c70fe46c996230"
+          "records": 167,
+          "sha256": "1579732f6cd8e8d16b1f3a2abfa72244bac7933ed8351059ece0f2757ebc5dd3"
         }
       ]
     }

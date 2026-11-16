@@ -1,64 +1,65 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-16T02:23:03Z",
-  "last_attempted_collection": "2026-11-16T02:23:03Z",
-  "last_successful_collection": "2026-11-16T02:23:03Z",
-  "last_new_archived_at": "2026-11-16T02:23:03Z",
-  "status": "ok",
+  "generated_at": "2026-11-16T20:35:06Z",
+  "last_attempted_collection": "2026-11-16T20:35:06Z",
+  "last_successful_collection": "2026-11-16T20:35:06Z",
+  "last_new_archived_at": "2026-11-16T20:35:06Z",
+  "status": "partial",
   "sources": [
     {
       "id": "eu-policy",
       "name": "EU due diligence & supply chain law",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-16T02:23:03Z",
-      "items": 2,
+      "last_attempt": "2026-11-16T20:35:06Z",
+      "items": 4,
       "received_items": 32,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-16T02:23:03Z"
+      "last_successful_attempt": "2026-11-16T20:35:06Z"
     },
     {
       "id": "forced-labour",
       "name": "European forced labour & product rules",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-16T02:23:03Z",
+      "last_attempt": "2026-11-16T20:35:06Z",
       "items": 6,
       "received_items": 33,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-16T02:23:03Z"
+      "last_successful_attempt": "2026-11-16T20:35:06Z"
     },
     {
       "id": "worker-rights",
       "name": "Supply chain worker rights & conditions",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-16T02:23:03Z",
+      "last_attempt": "2026-11-16T20:35:06Z",
       "items": 6,
-      "received_items": 31,
+      "received_items": 30,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-16T02:23:03Z"
+      "last_successful_attempt": "2026-11-16T20:35:06Z"
     },
     {
       "id": "remedy",
       "name": "Grievances, unions & remedy",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-16T02:23:03Z",
+      "last_attempt": "2026-11-16T20:35:06Z",
       "items": 4,
       "received_items": 17,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-16T02:23:03Z"
+      "last_successful_attempt": "2026-11-16T20:35:06Z"
     },
     {
       "id": "accountability",
       "name": "Business & human rights monitors",
       "type": "news",
-      "status": "ok",
-      "last_attempt": "2026-11-16T02:23:03Z",
-      "items": 9,
-      "received_items": 66,
-      "consecutive_failures": 0,
+      "status": "failed",
+      "last_attempt": "2026-11-16T20:35:06Z",
+      "items": 0,
+      "http_status": 429,
+      "failure_kind": "rate_limited",
+      "consecutive_failures": 1,
       "last_successful_attempt": "2026-11-16T02:23:03Z"
     },
     {
@@ -66,18 +67,18 @@
       "name": "ILO & OECD responsible business conduct",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-16T02:23:03Z",
-      "items": 2,
-      "received_items": 60,
+      "last_attempt": "2026-11-16T20:35:06Z",
+      "items": 3,
+      "received_items": 63,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-16T02:23:03Z"
+      "last_successful_attempt": "2026-11-16T20:35:06Z"
     },
     {
       "id": "ec-press-corner",
       "name": "European Commission · Press Corner",
       "type": "official",
       "status": "ok",
-      "last_attempt": "2026-11-16T02:23:03Z",
+      "last_attempt": "2026-11-16T20:35:06Z",
       "items": 0,
       "feed_url": "https://ec.europa.eu/commission/presscorner/api/rss?language=en",
       "reuse_url": "https://commission.europa.eu/legal-notice_en",
@@ -85,29 +86,29 @@
       "received_items": 10,
       "usable_items": 10,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-16T02:23:03Z"
+      "last_successful_attempt": "2026-11-16T20:35:06Z"
     },
     {
       "id": "eur-lex-oj-l",
       "name": "EUR-Lex · Official Journal L",
       "type": "official",
       "status": "ok",
-      "last_attempt": "2026-11-16T02:23:03Z",
-      "items": 0,
+      "last_attempt": "2026-11-16T20:35:06Z",
+      "items": 2,
       "feed_url": "https://eur-lex.europa.eu/EN/display-feed.rss?rssId=222",
       "reuse_url": "https://eur-lex.europa.eu/content/legal-notice/legal-notice.html?locale=en",
       "reuse_basis": "CC0 1.0",
       "received_items": 80,
       "usable_items": 80,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-16T02:23:03Z"
+      "last_successful_attempt": "2026-11-16T20:35:06Z"
     },
     {
       "id": "eurostat-social-news",
       "name": "Eurostat · Population and social conditions releases",
       "type": "official",
       "status": "ok",
-      "last_attempt": "2026-11-16T02:23:03Z",
+      "last_attempt": "2026-11-16T20:35:06Z",
       "items": 1,
       "feed_url": "https://ec.europa.eu/eurostat/en/search?_estatsearchportlet_WAR_estatsearchportlet_collection=CAT_PREREL&_estatsearchportlet_WAR_estatsearchportlet_theme=PER_POPSOC&p_p_id=estatsearchportlet_WAR_estatsearchportlet&p_p_lifecycle=2&p_p_mode=view&p_p_resource_id=atom&p_p_state=maximized",
       "reuse_url": "https://ec.europa.eu/eurostat/help/copyright-notice",
@@ -115,54 +116,213 @@
       "received_items": 11,
       "usable_items": 11,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-16T02:23:03Z"
+      "last_successful_attempt": "2026-11-16T20:35:06Z"
     },
     {
       "id": "academic-hrdd",
       "name": "Research: HRDD & supplier governance",
       "type": "academic",
       "status": "ok",
-      "last_attempt": "2026-11-16T02:23:03Z",
+      "last_attempt": "2026-11-16T20:35:06Z",
       "items": 0,
       "received_items": 75,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-16T02:23:03Z"
+      "last_successful_attempt": "2026-11-16T20:35:06Z"
     },
     {
       "id": "academic-labour",
       "name": "Research: social sustainability & labour",
       "type": "academic",
-      "status": "ok",
-      "last_attempt": "2026-11-16T02:23:03Z",
+      "status": "failed",
+      "last_attempt": "2026-11-16T20:35:06Z",
       "items": 0,
-      "received_items": 75,
-      "consecutive_failures": 0,
+      "http_status": 429,
+      "failure_kind": "rate_limited",
+      "consecutive_failures": 1,
       "last_successful_attempt": "2026-11-16T02:23:03Z"
     },
     {
       "id": "openalex-human-rights",
       "name": "Research: human rights and global value chains",
       "type": "academic",
-      "status": "ok",
-      "last_attempt": "2026-11-16T02:23:03Z",
-      "items": 22,
-      "received_items": 50,
-      "consecutive_failures": 0,
+      "status": "failed",
+      "last_attempt": "2026-11-16T20:35:06Z",
+      "items": 0,
+      "http_status": 429,
+      "failure_kind": "rate_limited",
+      "consecutive_failures": 1,
       "last_successful_attempt": "2026-11-16T02:23:03Z"
     },
     {
       "id": "openalex-supplier-governance",
       "name": "Research: supplier governance and labour standards",
       "type": "academic",
-      "status": "ok",
-      "last_attempt": "2026-11-16T02:23:03Z",
-      "items": 24,
-      "received_items": 50,
-      "consecutive_failures": 0,
+      "status": "failed",
+      "last_attempt": "2026-11-16T20:35:06Z",
+      "items": 0,
+      "http_status": 429,
+      "failure_kind": "rate_limited",
+      "consecutive_failures": 1,
       "last_successful_attempt": "2026-11-16T02:23:03Z"
     }
   ],
   "items": [
+    {
+      "title": "Impact Report: Countering Forced Labor and Strengthening Markets - National Endowment for Democracy",
+      "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNeDNXa0ZJNUFQeXYtYUxibXdSdE5EYXU2ekphUGlISks4cWFsTjNNVnZVX0VJQTM0dDQyQkZPT0lBY3FkM2F6N3Ftb3R2MkZnSmNGa2J6b21JbzFRd3BHcEdCckE0UEd6ZjNheWhpdzhRekJPZ3VvZm9TSW9MVFZwd1hmb3NEZXJkSWxKYQ?oc=5",
+      "published_at": "2026-11-16T19:54:50Z",
+      "source": "Supply chain worker rights & conditions",
+      "source_id": "worker-rights",
+      "discovery_query_id": "worker-rights",
+      "publisher_hint": "National Endowment for Democracy",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour",
+        "working-conditions"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-16T20:35:06Z",
+      "retrieved_at": "2026-11-16T20:35:06Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "6d18e517628dffc1ec"
+    },
+    {
+      "title": "UK: Government to introduce human rights due diligence regime, Sara Feijao, James Marlow - Linklaters - Sustainable Futures",
+      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNYi1ZNmdUUTRDckpTVkhYM01vUjlvS0xNakRiYVRLSjBtckNIazFiTU01MXhCZ2VWTkphdVQyTDJiN2o2QXdWOEtkQ3owbjkyckREMDh6QXVHa1lEbUE2dVB3MlctODZLenNGMTRyRTNIcWo5US1KSFV0RERxQ29QWFlBQU1NNEFfNTZLQUdRSVJVUkN3OWlOZjJIemNIQTd2SGl6bEhVOW1FYTNoUHpoMnZ2T0JKdw?oc=5",
+      "published_at": "2026-11-16T15:37:51Z",
+      "source": "Supply chain worker rights & conditions",
+      "source_id": "worker-rights",
+      "discovery_query_id": "worker-rights",
+      "publisher_hint": "Linklaters - Sustainable Futures",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "policy",
+        "working-conditions"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "specific_hrdd_policy",
+      "first_seen": "2026-11-16T20:35:06Z",
+      "retrieved_at": "2026-11-16T20:35:06Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "a2e755d57aa4dd175d"
+    },
+    {
+      "title": "Forced Labor Import Bans Are Reaching the Coffee Sector. Are Companies Ready? - Daily Coffee News by Roast Magazine",
+      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQNDh6UWtsNEFxai1LQVdLRUhpcllhcE1uUm15Z1V3T19kWnNMWllTVklTMnVJSkVObTV3WnlSV2pnOGhvS2w3SkpaZ25QX21QNldpbGQwaU5OQnRKekROVEZtZ1g1Y2NtNURzN1drV3JFb3Z2dUh2d21mUl9oNktWX1RPTm55cFUzQlQ2YUszOGdKbG56WVZsLWdMUXppU2RWNm5fc3ZmUURpSHNETzVQbGJCZGlHQQ?oc=5",
+      "published_at": "2026-11-16T14:11:03Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "Daily Coffee News by Roast Magazine",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-16T20:35:06Z",
+      "retrieved_at": "2026-11-16T20:35:06Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "522073f1dbc12c1b6b"
+    },
+    {
+      "title": "ILO strengthens workers’ role in human rights due diligence in Thailand’s auto and electronics sectors - International Labour Organization",
+      "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxNNmhEUHA5S3JfQVl0Y0tmazNYYTBkSFZyV01xRWdmbEJsekstRVVGUDJDcC0xZEtuVF9OVjNjdDJEbGxoZExXMDZrSFJBSjJ1aEJXSS1oa2NQWUlLeHYyc00tYTMtTmo5ekN2WVA5M0RFTllXNThBcFZ5TTVhQkZsSERSbWEycGFlYTJWVkFqeE5VakZBOEc1T29wOVdtN25pRkl2b3BkR2VnaTRWVlRYd1BLbWRzZ3QzOE16c1JKbw?oc=5",
+      "published_at": "2026-11-16T08:38:47Z",
+      "source": "ILO & OECD responsible business conduct",
+      "source_id": "oecd-ilo",
+      "discovery_query_id": "oecd-ilo",
+      "publisher_hint": "International Labour Organization",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "policy"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "specific_hrdd_policy",
+      "first_seen": "2026-11-16T20:35:06Z",
+      "retrieved_at": "2026-11-16T20:35:06Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "4afc7311f2d6d73e81"
+    },
+    {
+      "title": "CELEX:32026R2569: Council Implementing Regulation (EU) 2026/2569 of 16 November 2026 implementing Regulation (EU) 2020/1998 concerning restrictive measures against serious human rights violations and abuses",
+      "url": "https://eur-lex.europa.eu/./legal-content/AUTO/?uri=CELEX:32026R2569",
+      "canonical_url": "https://eur-lex.europa.eu/./legal-content/AUTO/?uri=CELEX:32026R2569",
+      "published_at": "2026-11-15T23:00:00Z",
+      "source": "EUR-Lex · Official Journal L",
+      "source_id": "eur-lex-oj-l",
+      "publisher_hint": "EUR-Lex",
+      "publisher_provenance": "official_feed_metadata",
+      "publisher_verified": false,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "policy"
+      ],
+      "description": "Publication metadata from an official feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-16T20:35:06Z",
+      "retrieved_at": "2026-11-16T20:35:06Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": "en",
+      "id": "372ea42acd34dc277f"
+    },
+    {
+      "title": "CELEX:32026D2571: Council Decision (CFSP) 2026/2571 of 16 November 2026 amending Decision (CFSP) 2020/1999 concerning restrictive measures against serious human rights violations and abuses",
+      "url": "https://eur-lex.europa.eu/./legal-content/AUTO/?uri=CELEX:32026D2571",
+      "canonical_url": "https://eur-lex.europa.eu/./legal-content/AUTO/?uri=CELEX:32026D2571",
+      "published_at": "2026-11-15T23:00:00Z",
+      "source": "EUR-Lex · Official Journal L",
+      "source_id": "eur-lex-oj-l",
+      "publisher_hint": "EUR-Lex",
+      "publisher_provenance": "official_feed_metadata",
+      "publisher_verified": false,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "other"
+      ],
+      "description": "Publication metadata from an official feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-16T20:35:06Z",
+      "retrieved_at": "2026-11-16T20:35:06Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": "en",
+      "id": "0a98d00f2b507fc013"
+    },
     {
       "title": "Thailand: Joint investigation with Myanmar into alleged Chinese mining pollution in Shan State - Business and Human Rights Centre",
       "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxQaW5TYTJyUExPaW9PYmExalVvUWh5SEFTMEJNdkt6Umc0dmNnb0JNRGVDM3NGUnltb01NTkROcjZfRklCUV9RejU4bW9OMC1VaEdMWnlJaG5YYkhDS3hHZVQ0c21Pb283a0lVQzJtZHdWSjhMcUdwb05KR1RnaTFOdmZoZGtvaHlVZDJmMzRsN0I1ZXU2UlRWREZxd0owS2QyNUk2MlN5d2oxcjRWbzZScVA1ZjZldnhXZkgxOXpFb1VoNFlPZnNNSVhuQTQ0WmdYdS1sXzRUajNPWGFzdkww?oc=5",
@@ -291,7 +451,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-13T17:54:32Z",
-      "retrieved_at": "2026-11-16T02:23:03Z",
+      "retrieved_at": "2026-11-16T20:35:06Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "c13cb3dcb80f838374"
@@ -400,7 +560,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-13T02:43:21Z",
-      "retrieved_at": "2026-11-15T17:16:57Z",
+      "retrieved_at": "2026-11-16T20:35:06Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "9d5e575ea8275b7a1f"
@@ -426,7 +586,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
       "first_seen": "2026-11-13T17:54:32Z",
-      "retrieved_at": "2026-11-16T02:23:03Z",
+      "retrieved_at": "2026-11-16T20:35:06Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "8620240e5a9deacdb2"
@@ -1877,7 +2037,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-14T16:39:48Z",
-      "retrieved_at": "2026-11-16T02:23:03Z",
+      "retrieved_at": "2026-11-16T20:35:06Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "96cdb9bd0bc664b7ba"
@@ -1930,7 +2090,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-14T02:31:13Z",
-      "retrieved_at": "2026-11-16T02:23:03Z",
+      "retrieved_at": "2026-11-16T20:35:06Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "fb18efa2b3303d3f09"
@@ -2010,7 +2170,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "supply_and_labour_context",
       "first_seen": "2026-11-08T10:18:54Z",
-      "retrieved_at": "2026-11-16T02:23:03Z",
+      "retrieved_at": "2026-11-16T20:35:06Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "40c1eed0239f71d7ec"
@@ -2174,7 +2334,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-15T17:16:57Z",
-      "retrieved_at": "2026-11-16T02:23:03Z",
+      "retrieved_at": "2026-11-16T20:35:06Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "058519c59a17cb916d"
@@ -2640,7 +2800,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-11T17:12:12Z",
-      "retrieved_at": "2026-11-16T02:23:03Z",
+      "retrieved_at": "2026-11-16T20:35:06Z",
       "pipeline_version": "collector-2026.11",
       "original_language": "en",
       "id": "0faa2d922ec796cbcc"
@@ -2829,7 +2989,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-08T10:18:54Z",
-      "retrieved_at": "2026-11-16T02:23:03Z",
+      "retrieved_at": "2026-11-16T20:35:06Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "3cd8dec5e20cf3361d"
@@ -3021,7 +3181,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
       "first_seen": "2026-11-08T10:18:54Z",
-      "retrieved_at": "2026-11-16T02:23:03Z",
+      "retrieved_at": "2026-11-16T20:35:06Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "312e06b2d499409982"
@@ -3130,7 +3290,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "governance_and_rights",
       "first_seen": "2026-11-09T07:04:36Z",
-      "retrieved_at": "2026-11-16T02:23:03Z",
+      "retrieved_at": "2026-11-16T20:35:06Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "3a80e3c27e910ba20a"
@@ -3157,7 +3317,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-08T10:18:54Z",
-      "retrieved_at": "2026-11-16T02:15:22Z",
+      "retrieved_at": "2026-11-16T20:35:06Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "09fd992726d66a42bd"
@@ -3211,7 +3371,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-16T02:23:03Z",
+      "retrieved_at": "2026-11-16T20:35:06Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "6cd13db2c6fc166f4f"
@@ -3265,7 +3425,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-16T02:23:03Z",
+      "retrieved_at": "2026-11-16T20:35:06Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "52bc52ffaae24199e2"
@@ -3292,7 +3452,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-08T10:18:54Z",
-      "retrieved_at": "2026-11-16T02:23:03Z",
+      "retrieved_at": "2026-11-16T20:35:06Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "223105c10471587638"
@@ -3599,7 +3759,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-08T10:18:54Z",
-      "retrieved_at": "2026-11-16T02:23:03Z",
+      "retrieved_at": "2026-11-16T20:35:06Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "9b6d64411b7ea2b829"
@@ -3719,23 +3879,28 @@
       "id": "38dc9f486c1530f354"
     }
   ],
-  "warnings": [],
+  "warnings": [
+    "accountability: HTTPError (see source connectivity and format)",
+    "academic-labour: HTTPError (see source connectivity and format)",
+    "openalex-human-rights: HTTPError (see source connectivity and format)",
+    "openalex-supplier-governance: HTTPError (see source connectivity and format)"
+  ],
   "retrieval_quality": {
     "screening_version": "keywords-2.1.1",
-    "candidate_count": 233,
-    "accepted_observations": 76,
-    "excluded_observations": 157,
-    "received_items": 590,
-    "unique_accepted_observations": 70,
-    "duplicate_observations": 6,
-    "new_archived_records": 1,
-    "retained_records": 132,
-    "academic_records_accepted": 46,
+    "candidate_count": 132,
+    "accepted_observations": 26,
+    "excluded_observations": 106,
+    "received_items": 351,
+    "unique_accepted_observations": 22,
+    "duplicate_observations": 4,
+    "new_archived_records": 6,
+    "retained_records": 138,
+    "academic_records_accepted": 0,
     "source_counts": [
       {
         "id": "eu-policy",
         "status": "ok",
-        "items": 2
+        "items": 4
       },
       {
         "id": "forced-labour",
@@ -3754,13 +3919,13 @@
       },
       {
         "id": "accountability",
-        "status": "ok",
-        "items": 9
+        "status": "failed",
+        "items": 0
       },
       {
         "id": "oecd-ilo",
         "status": "ok",
-        "items": 2
+        "items": 3
       },
       {
         "id": "ec-press-corner",
@@ -3770,7 +3935,7 @@
       {
         "id": "eur-lex-oj-l",
         "status": "ok",
-        "items": 0
+        "items": 2
       },
       {
         "id": "eurostat-social-news",
@@ -3784,21 +3949,21 @@
       },
       {
         "id": "academic-labour",
-        "status": "ok",
+        "status": "failed",
         "items": 0
       },
       {
         "id": "openalex-human-rights",
-        "status": "ok",
-        "items": 22
+        "status": "failed",
+        "items": 0
       },
       {
         "id": "openalex-supplier-governance",
-        "status": "ok",
-        "items": 24
+        "status": "failed",
+        "items": 0
       }
     ],
-    "candidate_archive_total": 446,
+    "candidate_archive_total": 485,
     "scope": "bounded news, official feed and bibliographic result windows"
   }
 }
