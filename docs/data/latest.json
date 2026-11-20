@@ -1,83 +1,83 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-19T19:04:05Z",
-  "last_attempted_collection": "2026-11-19T19:04:05Z",
-  "last_successful_collection": "2026-11-19T19:04:05Z",
-  "last_new_archived_at": "2026-11-19T19:04:05Z",
-  "status": "partial",
+  "generated_at": "2026-11-20T03:34:50Z",
+  "last_attempted_collection": "2026-11-20T03:34:50Z",
+  "last_successful_collection": "2026-11-20T03:34:50Z",
+  "last_new_archived_at": "2026-11-20T03:34:50Z",
+  "status": "ok",
   "sources": [
     {
       "id": "eu-policy",
       "name": "EU due diligence & supply chain law",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-19T19:04:05Z",
-      "items": 2,
-      "received_items": 32,
+      "last_attempt": "2026-11-20T03:34:50Z",
+      "items": 25,
+      "received_items": 100,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-19T19:04:05Z"
+      "last_successful_attempt": "2026-11-20T03:34:50Z"
     },
     {
       "id": "forced-labour",
       "name": "European forced labour & product rules",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-19T19:04:05Z",
-      "items": 7,
+      "last_attempt": "2026-11-20T03:34:50Z",
+      "items": 6,
       "received_items": 33,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-19T19:04:05Z"
+      "last_successful_attempt": "2026-11-20T03:34:50Z"
     },
     {
       "id": "worker-rights",
       "name": "Supply chain worker rights & conditions",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-19T19:04:05Z",
+      "last_attempt": "2026-11-20T03:34:50Z",
       "items": 5,
-      "received_items": 30,
+      "received_items": 28,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-19T19:04:05Z"
+      "last_successful_attempt": "2026-11-20T03:34:50Z"
     },
     {
       "id": "remedy",
       "name": "Grievances, unions & remedy",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-19T19:04:05Z",
+      "last_attempt": "2026-11-20T03:34:50Z",
       "items": 4,
-      "received_items": 17,
+      "received_items": 18,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-19T19:04:05Z"
+      "last_successful_attempt": "2026-11-20T03:34:50Z"
     },
     {
       "id": "accountability",
       "name": "Business & human rights monitors",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-19T19:04:05Z",
-      "items": 7,
-      "received_items": 64,
+      "last_attempt": "2026-11-20T03:34:50Z",
+      "items": 8,
+      "received_items": 65,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-19T19:04:05Z"
+      "last_successful_attempt": "2026-11-20T03:34:50Z"
     },
     {
       "id": "oecd-ilo",
       "name": "ILO & OECD responsible business conduct",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-19T19:04:05Z",
+      "last_attempt": "2026-11-20T03:34:50Z",
       "items": 2,
-      "received_items": 62,
+      "received_items": 65,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-19T19:04:05Z"
+      "last_successful_attempt": "2026-11-20T03:34:50Z"
     },
     {
       "id": "ec-press-corner",
       "name": "European Commission · Press Corner",
       "type": "official",
       "status": "ok",
-      "last_attempt": "2026-11-19T19:04:05Z",
+      "last_attempt": "2026-11-20T03:34:50Z",
       "items": 0,
       "feed_url": "https://ec.europa.eu/commission/presscorner/api/rss?language=en",
       "reuse_url": "https://commission.europa.eu/legal-notice_en",
@@ -85,14 +85,14 @@
       "received_items": 10,
       "usable_items": 10,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-19T19:04:05Z"
+      "last_successful_attempt": "2026-11-20T03:34:50Z"
     },
     {
       "id": "eur-lex-oj-l",
       "name": "EUR-Lex · Official Journal L",
       "type": "official",
       "status": "ok",
-      "last_attempt": "2026-11-19T19:04:05Z",
+      "last_attempt": "2026-11-20T03:34:50Z",
       "items": 0,
       "feed_url": "https://eur-lex.europa.eu/EN/display-feed.rss?rssId=222",
       "reuse_url": "https://eur-lex.europa.eu/content/legal-notice/legal-notice.html?locale=en",
@@ -100,14 +100,14 @@
       "received_items": 80,
       "usable_items": 80,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-19T19:04:05Z"
+      "last_successful_attempt": "2026-11-20T03:34:50Z"
     },
     {
       "id": "eurostat-social-news",
       "name": "Eurostat · Population and social conditions releases",
       "type": "official",
       "status": "ok",
-      "last_attempt": "2026-11-19T19:04:05Z",
+      "last_attempt": "2026-11-20T03:34:50Z",
       "items": 1,
       "feed_url": "https://ec.europa.eu/eurostat/en/search?_estatsearchportlet_WAR_estatsearchportlet_collection=CAT_PREREL&_estatsearchportlet_WAR_estatsearchportlet_theme=PER_POPSOC&p_p_id=estatsearchportlet_WAR_estatsearchportlet&p_p_lifecycle=2&p_p_mode=view&p_p_resource_id=atom&p_p_state=maximized",
       "reuse_url": "https://ec.europa.eu/eurostat/help/copyright-notice",
@@ -115,52 +115,51 @@
       "received_items": 11,
       "usable_items": 11,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-19T19:04:05Z"
+      "last_successful_attempt": "2026-11-20T03:34:50Z"
     },
     {
       "id": "academic-hrdd",
       "name": "Research: HRDD & supplier governance",
       "type": "academic",
       "status": "ok",
-      "last_attempt": "2026-11-19T19:04:05Z",
+      "last_attempt": "2026-11-20T03:34:50Z",
       "items": 0,
       "received_items": 75,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-19T19:04:05Z"
+      "last_successful_attempt": "2026-11-20T03:34:50Z"
     },
     {
       "id": "academic-labour",
       "name": "Research: social sustainability & labour",
       "type": "academic",
-      "status": "failed",
-      "last_attempt": "2026-11-19T19:04:05Z",
+      "status": "ok",
+      "last_attempt": "2026-11-20T03:34:50Z",
       "items": 0,
-      "http_status": 429,
-      "failure_kind": "rate_limited",
-      "consecutive_failures": 2,
-      "last_successful_attempt": "2026-11-18T18:55:06Z"
+      "received_items": 75,
+      "consecutive_failures": 0,
+      "last_successful_attempt": "2026-11-20T03:34:50Z"
     },
     {
       "id": "openalex-human-rights",
       "name": "Research: human rights and global value chains",
       "type": "academic",
       "status": "ok",
-      "last_attempt": "2026-11-19T19:04:05Z",
+      "last_attempt": "2026-11-20T03:34:50Z",
       "items": 22,
       "received_items": 50,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-19T19:04:05Z"
+      "last_successful_attempt": "2026-11-20T03:34:50Z"
     },
     {
       "id": "openalex-supplier-governance",
       "name": "Research: supplier governance and labour standards",
       "type": "academic",
       "status": "ok",
-      "last_attempt": "2026-11-19T19:04:05Z",
-      "items": 24,
+      "last_attempt": "2026-11-20T03:34:50Z",
+      "items": 23,
       "received_items": 50,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-19T19:04:05Z"
+      "last_successful_attempt": "2026-11-20T03:34:50Z"
     }
   ],
   "items": [
@@ -185,7 +184,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-18T18:55:06Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "f86142595c1e54ed85"
@@ -212,7 +211,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-19T19:04:05Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "28148c671abfb6f6ba"
@@ -240,7 +239,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "supply_and_labour_context",
       "first_seen": "2026-11-18T18:55:06Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "8ff7c23813d3114ef0"
@@ -320,10 +319,36 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
       "first_seen": "2026-11-16T20:35:06Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "a2e755d57aa4dd175d"
+    },
+    {
+      "title": "Senior Program Director-Desk Research and Data Analysis | Verité - Business and Human Rights Centre",
+      "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxObHFnQU44cUtyQnMxLVB0TXVpbEYtWnB0TXYxWFFxaGluZ1Q0UzZiVldoX2RVdGx2UnYwdmNsdzF0bGNuOU5ILURLa29IekYyd0w4U2FoVUJHcWhGQmYycjdaSUEydFZVbTF3YUdLbUt2YVhXNldWWWJ6ekRVbmxnOG50RjZiZldfanhmYlRuUkVIaHBrcG5Gby1OQXQ1aUJDYUFubUJVaFFGeDd4dXl5UVNIbw?oc=5",
+      "published_at": "2026-11-16T15:34:45Z",
+      "source": "Business & human rights monitors",
+      "source_id": "accountability",
+      "discovery_query_id": "accountability",
+      "publisher_hint": "Business and Human Rights Centre",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "worker-voice"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-20T03:34:50Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "bd5464dee625f0f51e"
     },
     {
       "title": "Forced Labor Import Bans Are Reaching the Coffee Sector. Are Companies Ready? - Daily Coffee News by Roast Magazine",
@@ -350,6 +375,32 @@
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "522073f1dbc12c1b6b"
+    },
+    {
+      "title": "UK due diligence plans add to EU forced-labour compliance pressures - Osborne Clarke",
+      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPMHNfTU0tQkFndzVFQVozUDZFSllsQXMtZzRpQllicElEZW5vMkRJZzVBOUx3NjlMSkZZVFp3LUNNbFZSNGgySlY5WmhVbEw1eFo2UlowaHRRVUxoR2tXWVdxdGc4Rllkdy14QmlWLU1nRTN3YXlVOGpYS1R2RDVTaTk5ZEFvMUwxQjQ0R3A2OVE3RG5zdllpaGxpVDNSUC1QczljbzVR?oc=5",
+      "published_at": "2026-11-16T12:01:01Z",
+      "source": "EU due diligence & supply chain law",
+      "source_id": "eu-policy",
+      "discovery_query_id": "eu-policy",
+      "publisher_hint": "Osborne Clarke",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "policy"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "governance_and_rights",
+      "first_seen": "2026-11-20T03:34:50Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "58f09ec5fd12a5cb07"
     },
     {
       "title": "ILO strengthens workers’ role in human rights due diligence in Thailand’s auto and electronics sectors - International Labour Organization",
@@ -399,7 +450,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-19T19:04:05Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "609457a6080c0dbf3b"
@@ -475,7 +526,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-15T17:16:57Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "29e7aa7b954b15c1c5"
@@ -560,6 +611,33 @@
       "id": "20a59003a0daef007c"
     },
     {
+      "title": "How Risk Prioritization Can Streamline Your Supply Chain Due Diligence - Z2Data",
+      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNYXJBcWRLdFF6Y0hxM1lmQ0l4akpiLU1aaG9BWVpOZkt1RjdBdnJqZTNFVXlGaVY0ZmdxOWxfWDZadW5ubzEyQ25LNE9icUxCRGREdzUyZUJfY1QyVDY2WmtGU2FSR1VqX1p1ckNwdG1fZThlYXpicFNrY3BOMXRUcWN0NkZVdTZaNmdpTnowWVB3WVIwM1FfY1h4Wm42R2JfVlYwdmZB?oc=5",
+      "published_at": "2026-11-13T19:30:42Z",
+      "source": "EU due diligence & supply chain law",
+      "source_id": "eu-policy",
+      "discovery_query_id": "eu-policy",
+      "publisher_hint": "Z2Data",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "network",
+        "policy"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-20T03:34:50Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "dd6e26a6232c9998d8"
+    },
+    {
       "title": "Supply chain resilience: Why visibility and due diligence effectiveness now matter more than compliance - Mishcon de Reya LLP",
       "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxNN0oyM3JqeVloUjh1elpfM1h5cy1zaDh1c1VBX05idm9EOWNQOUxJejV0X0poMzhyaFgtN3ZqRURYS2NpQXZZcVRMdUFxM2NTMEswZy1GSXZZQnhFRjV0b21fdG03eXhZRHd2MVhIZTBKZm5mVW5RaGEzSGZtMlNYejRwOExGTm5MX2FsTUNtd0JoSml3QUctWkVoc0UxUV9SenV2Ukg1bVpiaVhicUpsbTdfdlRaVklKM1RjUWlmS21VdzNkNjBYRVAyUQ?oc=5",
       "published_at": "2026-11-13T17:38:03Z",
@@ -581,7 +659,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-13T17:54:32Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "c13cb3dcb80f838374"
@@ -609,7 +687,7 @@
       "screening_reason": "specific_hrdd_policy",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-15T17:16:57Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "f6a3a79dfd74da72f7"
@@ -690,7 +768,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-13T02:43:21Z",
-      "retrieved_at": "2026-11-19T03:41:59Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "9d5e575ea8275b7a1f"
@@ -928,7 +1006,7 @@
       "screening_reason": "specific_hrdd_policy",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-15T17:16:57Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "ac503c9ee84b97b146"
@@ -1117,7 +1195,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
       "first_seen": "2026-11-13T17:54:32Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "67aa58f5b9fb3014c1"
@@ -1223,7 +1301,7 @@
       "screening_reason": "supply_and_labour_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-17T04:38:43Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "7b06f31a9b73c685bb"
@@ -1415,6 +1493,32 @@
       "id": "91a2e4623fdf8450ee"
     },
     {
+      "title": "UK Government Announces Mandatory Human Rights Due Diligence Law - Latham & Watkins LLP",
+      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQRlhHcXZGZVFiS0lVUXo1WUUxRU1ZOU5Ha3dadWVMMUZIZkdVT1FGZ0xOdTRYNzFldEp5Y2wxblc1Y2JJbndMZ3BCRmFWSWUySmJqZzMxWW9kZFN6dGZiaXdOV1JQUXVCMUlSVllfeUxKTlBvSTFrWWZKZ2VaMndiQW5pVlNNbnRRekphemlMbnZzbE5TR2hBZlVPcw?oc=5",
+      "published_at": "2026-11-10T08:00:00Z",
+      "source": "EU due diligence & supply chain law",
+      "source_id": "eu-policy",
+      "discovery_query_id": "eu-policy",
+      "publisher_hint": "Latham & Watkins LLP",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "policy"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "specific_hrdd_policy",
+      "first_seen": "2026-11-20T03:34:50Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "7dd57c936508fea345"
+    },
+    {
       "title": "Australia: Bathla workers demand unpaid wages and entitlements after company collapse - Business and Human Rights Centre",
       "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxQMHFoZGRjQ2RGVnVhU1VzaUpGVl9zR2FqOHVIbzYxVkNkNm9sdVExWExzY1dNRHl1VW5IWG1kbEZxM0NyaEFlLUhoZFRFbGlIa2JQcHdydU1KdWRmdHdobXRiRlJsa1ZYQVlObGpqdXhxemU5UzZkaFNGOS10cHc5THBkTzd1c2hQMEloSVVvVVh5cFNPTDlyVGpzZlJuUkNFcTJWRDdvU25SZngtU3B1QkY1OEpVNk02a2lnQlJoSXd2dzBvT001bm80TTNUSEM3SGZV?oc=5",
       "published_at": "2026-11-10T04:23:50Z",
@@ -1515,7 +1619,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-17T04:38:43Z",
-      "retrieved_at": "2026-11-18T18:55:06Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "91bc3fc6e94bfb8f29"
@@ -1543,7 +1647,7 @@
       "screening_reason": "specific_hrdd_policy",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-13T02:43:21Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "8b56a5084d393c805b"
@@ -1572,7 +1676,7 @@
       "screening_reason": "specific_hrdd_policy",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-13T02:43:21Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "83050e8339c0c761ea"
@@ -1881,32 +1985,6 @@
       "id": "f9840c0488b3544fb1"
     },
     {
-      "title": "UK Government to Introduce Mandatory Human Rights Due Diligence Legislation – What it Means for US-based Multinationals - Ropes & Gray",
-      "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxNOFRUMlVoMmJDTF8wMm95NlZBQVBVWnZqTlh0cWN6R3ZQVk9GeTJfaUJWdnNiaHEwM3ZoZTZEQnQzczkxazZQNmN6dDJQb1Bnb056eWw4Zjd4NVNYbjdCRDVLUlAzYjN4UmZna2JVdUszMkZnYmVNQjMyaHMxbV9pY0hLVUNvcERUMVRtU3g4WWRELUZxWnR1Qm5QenBrcWUweFZERkVLc1YwWGwya0tBZ2hSTm5XOENVZEpURU9ySTUtY0N5WjJBWHlnUUJlX2hNdTYxVXYtcy1XTi1H?oc=5",
-      "published_at": "2026-11-05T17:36:27Z",
-      "source": "EU due diligence & supply chain law",
-      "source_id": "eu-policy",
-      "discovery_query_id": "eu-policy",
-      "publisher_hint": "Ropes & Gray",
-      "publisher_provenance": "google_news_rss_unverified",
-      "publisher_verified": false,
-      "canonical_url": null,
-      "kind": "discovery",
-      "evidence_status": "Unverified discovery",
-      "topics": [
-        "policy"
-      ],
-      "description": "News lead collected from a public feed.",
-      "screening_version": "keywords-2.1.0",
-      "screening_status": "candidate_relevant",
-      "screening_reason": "specific_hrdd_policy",
-      "first_seen": "2026-11-09T07:04:36Z",
-      "retrieved_at": "2026-11-11T17:57:00Z",
-      "pipeline_version": "collector-2026.11",
-      "original_language": null,
-      "id": "dcb5b5b34ccab56262"
-    },
-    {
       "title": "UK to Introduce Mandatory Supply Chain Human Rights Due Diligence Law - ESG Today",
       "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPbDhHQU1ma1BxZTBEMnB3bGFPM2lYTzBaLVM5bzd3N0ZWb3VSc1BjMko2eFZpUzJfQ1I0NlZpTFRQSTlyNDhnbEo4RjU2ZmhLa2FLSk5mcllkU090ZVhTSjE0V2ZkZ0lId21NaExTbEtVVFR3Sy1aSHBWQUFzSHFhRzJtT3NKd09JV2RuRjBXWV9iMjgwOHdJc0ZrSQ?oc=5",
       "published_at": "2026-11-05T11:55:35Z",
@@ -1987,6 +2065,32 @@
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "31240a78227891e26c"
+    },
+    {
+      "title": "UK Government to Introduce Mandatory Human Rights Due Diligence Legislation – What it Means for US-based Multinationals - Ropes & Gray",
+      "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxNOFRUMlVoMmJDTF8wMm95NlZBQVBVWnZqTlh0cWN6R3ZQVk9GeTJfaUJWdnNiaHEwM3ZoZTZEQnQzczkxazZQNmN6dDJQb1Bnb056eWw4Zjd4NVNYbjdCRDVLUlAzYjN4UmZna2JVdUszMkZnYmVNQjMyaHMxbV9pY0hLVUNvcERUMVRtU3g4WWRELUZxWnR1Qm5QenBrcWUweFZERkVLc1YwWGwya0tBZ2hSTm5XOENVZEpURU9ySTUtY0N5WjJBWHlnUUJlX2hNdTYxVXYtcy1XTi1H?oc=5",
+      "published_at": "2026-11-05T08:00:00Z",
+      "source": "EU due diligence & supply chain law",
+      "source_id": "eu-policy",
+      "discovery_query_id": "eu-policy",
+      "publisher_hint": "Ropes & Gray",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "policy"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "specific_hrdd_policy",
+      "first_seen": "2026-11-09T07:04:36Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "dcb5b5b34ccab56262"
     },
     {
       "title": "Media reaction: Workers must be at the centre of protections from heat - Business and Human Rights Centre",
@@ -2168,7 +2272,7 @@
       "screening_reason": "specific_hrdd_policy",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "fb29fe1decad1107d1"
@@ -2195,7 +2299,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-18T18:55:06Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "e50ae56b2f3ff749a6"
@@ -2249,7 +2353,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-14T16:39:48Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "96cdb9bd0bc664b7ba"
@@ -2276,7 +2380,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "21b902a9f4b464699b"
@@ -2302,7 +2406,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-14T02:31:13Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "fb18efa2b3303d3f09"
@@ -2382,7 +2486,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "supply_and_labour_context",
       "first_seen": "2026-11-08T10:18:54Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "40c1eed0239f71d7ec"
@@ -2409,7 +2513,7 @@
       "screening_reason": "supply_and_labour_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "efb8512b4fb494c001"
@@ -2464,7 +2568,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "supply_and_labour_context",
       "first_seen": "2026-11-12T07:08:32Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "d9185cfe106df47885"
@@ -2492,10 +2596,36 @@
       "screening_reason": "specific_hrdd_policy",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "9da7ad65226cd45d0a"
+    },
+    {
+      "title": "NGOs, labour organisations and businesses raise concern over… - transportenvironment.org",
+      "url": "https://news.google.com/rss/articles/CBMiqwJBVV95cUxQOUxHR1ZLeEs5M2doSmszaGl3UTRwX2hZdl9ESmFGVWJQOFRXVkJkU0xTc1VMSE1vaGJ3ZGRBdEpHdWtVelJOTHZDMGUzaTdlQXlmajB1YjJxU0tVR1ZTZEpsRUpSMURseEFTUWpVVFlDNWRaRDdkeThHN2doMXB2Z3F3SmpwOUlZbmJYWnotZzV4T1dScWhxS1AxYlo2WlZRMFpqSldhNUMybTVhTVktQ1c3YTR3NmlhaWFMRXB5RHktYVJITnRoZklIeVNoMVR2UHhwaFhLeFRYRGE2QUxKb0RFQVNCbTFodkJwbmI2RkV6dzF4WjF6S2lqelJFWDNabUxnMU90a2tQSXlPTXNQVzFSYmpYQ2FyOGpfelVtQnlldGZYVGJrUERVcw?oc=5",
+      "published_at": "2026-10-16T07:00:00Z",
+      "source": "EU due diligence & supply chain law",
+      "source_id": "eu-policy",
+      "discovery_query_id": "eu-policy",
+      "publisher_hint": "transportenvironment.org",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "policy"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-20T03:34:50Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "a44475c507ca7142e7"
     },
     {
       "title": "Sustainable finance taxonomies from a human rights perspective",
@@ -2546,7 +2676,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-15T17:16:57Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "058519c59a17cb916d"
@@ -2601,7 +2731,7 @@
       "screening_reason": "governance_and_rights",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-15T17:16:57Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "cbd4981a04e2357d9b"
@@ -2628,7 +2758,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-15T17:16:57Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "964767eb819fc29f2b"
@@ -2655,10 +2785,37 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "1fd07bab8a21a48d17"
+    },
+    {
+      "title": "Diginex Launches New Supply Chain Due Diligence Platform - ESG Today",
+      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQVC1zZ2V4cGhVVWxtYjlUUWpGMWZ6enkxQXVPS3BHemRFY3ltYS15OUQ0LUdQYWpkQWxEXzM5cXl4eGRrd0ZpVzlyVi10eFFTcmlPaHAtOUQtNWxnX1dscFBOdXRkSjNydUxCRVhoa1ZiY2prVVE3b2NYd3NRSEEtV3ZPWG4xNGs2TFE?oc=5",
+      "published_at": "2026-10-02T07:00:00Z",
+      "source": "EU due diligence & supply chain law",
+      "source_id": "eu-policy",
+      "discovery_query_id": "eu-policy",
+      "publisher_hint": "ESG Today",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "network",
+        "policy"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-20T03:34:50Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "fe384b4e9567cb7cee"
     },
     {
       "title": "Moving Beyond Worker Rights to Worker Justice",
@@ -2682,7 +2839,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "d990fcdd58ae6910e9"
@@ -2711,7 +2868,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "cb1ce28991bf744ec1"
@@ -2740,7 +2897,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "5edec64313a47a63c2"
@@ -2795,10 +2952,37 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "d97c1549bbb5fdeea5"
+    },
+    {
+      "title": "Sedex: Driving Sustainable Supply Chains With Due Diligence - Sustainability Magazine",
+      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPVlpmb1RnR1dBa0hCZXZ3RnMtX2hpZVhwT3d4d0FmTnlzV0ZidnhKX21DbmFfSDdpdUZncVdrVzJIZ2Itc3BVeEJHbHJnU2IyYUFOekQ2X2J5WmgyT0JJNVVhYVdrWTFTdnlIRGhuNGxzQTJvOUVjYWdmYWVxaHN0UVgyS2d3YzJGRHZVem9veFpyQ0xwZ0Ztcg?oc=5",
+      "published_at": "2026-09-23T07:00:00Z",
+      "source": "EU due diligence & supply chain law",
+      "source_id": "eu-policy",
+      "discovery_query_id": "eu-policy",
+      "publisher_hint": "Sustainability Magazine",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "network",
+        "policy"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-20T03:34:50Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "35fea2e19a35336463"
     },
     {
       "title": "Modern Slavery in Supply Chains: A Framing Perspective on Managerial Responses to Transparency Legislation",
@@ -2825,7 +3009,7 @@
       "screening_reason": "supply_and_labour_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "ee56e93f2de9aae441"
@@ -2852,7 +3036,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-13T02:43:21Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "941a9d30061bfc2567"
@@ -2906,7 +3090,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "supply_and_labour_context",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "93635cdb170cdefb02"
@@ -2932,7 +3116,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "3157f31eb4129d0283"
@@ -2987,7 +3171,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-15T17:16:57Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "2e51ed57f5d103ac1b"
@@ -3012,7 +3196,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-11T17:12:12Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": "en",
       "id": "0faa2d922ec796cbcc"
@@ -3045,6 +3229,33 @@
       "id": "fd7edba54aae2e17ec"
     },
     {
+      "title": "Is your supply chain ready for CS3D? What the Corporate Sustainability Due Diligence Directive means - Marsh",
+      "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxOemJpalZhU2hzV1RJcXhFaGVvVHJkMzI0d19jcks0a1ZrclJ2MEVBQ05YQjY0OWVSbDI4dlJRanc2RHZCT3VLZDVLY0tMeDVCUzRSTGk1RUpmSmtvS1BZX3NBZzhibU90M0p4OHNfNWZJbWFkdzBuSmVVM01faGQ1V1o0dk1jQWZsUXVXa3pxbVFmZXlpR1E?oc=5",
+      "published_at": "2026-09-16T07:00:00Z",
+      "source": "EU due diligence & supply chain law",
+      "source_id": "eu-policy",
+      "discovery_query_id": "eu-policy",
+      "publisher_hint": "Marsh",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "network",
+        "policy"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-20T03:34:50Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "5ee1e4028a13346d2c"
+    },
+    {
       "title": "Hosting the FIFA World Cup as a Megaevent: Business Opportunities and Human Rights",
       "url": "https://doi.org/10.69971/lra.4.3.2026.201",
       "published_at": "2026-09-12T00:00:00Z",
@@ -3072,6 +3283,34 @@
       "id": "492776ebe06305d4a5"
     },
     {
+      "title": "EU Forced Labour Regulation: implications for clean energy, batteries and BESS supply chains - Fieldfisher",
+      "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQUGYwM1RiTlZUMkJpRjF4dmpGclNYNWxGSzIyc2o5YldnT3J4ZW5vWjRzUGJpdTJYb2t4QThVXzUzOHRsUm1KLUZyWk56M0g2Sk4xZk40Qml4dlIybjMxUEpxVzVWYU92Nm5qTGt1eXpSOEdXTFZiQk5FcV9tSl9yMTA1MjdRaUtpdXlzNl9iNE16UFdVcGMwZ0xScTFHejhOYWtFZEp1RnNCVDBCbWhtNVFhXzByaWhFQ05FVVM1YUE4eTA5dG9hT0xB?oc=5",
+      "published_at": "2026-09-10T07:00:00Z",
+      "source": "EU due diligence & supply chain law",
+      "source_id": "eu-policy",
+      "discovery_query_id": "eu-policy",
+      "publisher_hint": "Fieldfisher",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour",
+        "network",
+        "policy"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "specific_hrdd_policy",
+      "first_seen": "2026-11-20T03:34:50Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "0d051413f48f9610c0"
+    },
+    {
       "title": "Beyond Decarbonization: Human Rights, Vulnerable Workers, and an Operational Framework for Just Climate Transitions",
       "url": "https://doi.org/10.1002/sd.71653",
       "published_at": "2026-09-10T00:00:00Z",
@@ -3093,10 +3332,37 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "eb8f3172a68d1e8ed8"
+    },
+    {
+      "title": "New EU procurement rules need stronger safeguards for workers and communities - Mynewsdesk",
+      "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxNVjZCc3dmcFpIaUhUMmZmakp0azRLdnNvS3Bta1AwX2V6WmptdkdmMGN6dkVuNlVvRFBZQlhmcDl2YnhSeTJBeDc5ZXZCNXllbVMzSEtKbzZkNnlUX1Z1aTh2SGRRUXVFMDVRZC1IeTdZN2lOMkY2bEEwYmtfT1VITnhfbEpZdEk1YVZ0S1VVX0t0ZmJDNWZnUVNtZ0E0TTVoVDJBM184UzBjZWdNUW1oejJody1OWnBIQ1F2cnFxSDNVX04wTXlHY2k5aUZwSExNREE?oc=5",
+      "published_at": "2026-09-09T07:00:00Z",
+      "source": "EU due diligence & supply chain law",
+      "source_id": "eu-policy",
+      "discovery_query_id": "eu-policy",
+      "publisher_hint": "Mynewsdesk",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "network",
+        "policy"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "supply_and_labour_context",
+      "first_seen": "2026-11-20T03:34:50Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "512218868fd768a368"
     },
     {
       "title": "Update on the EU Forced Labour Regulation: What the European Commission’s New Guidelines Mean for Companies - Littler Mendelson P.C.",
@@ -3120,7 +3386,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
       "first_seen": "2026-11-18T18:55:06Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "13404fdc7dea5e6c51"
@@ -3148,7 +3414,7 @@
       "screening_reason": "specific_hrdd_policy",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "f7bcb01d51c5e09730"
@@ -3202,7 +3468,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
       "first_seen": "2026-11-08T10:18:54Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "7be161a2a49c7ce0de"
@@ -3228,7 +3494,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-08T10:18:54Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "3cd8dec5e20cf3361d"
@@ -3255,7 +3521,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "efb045fd2879d39f41"
@@ -3288,6 +3554,34 @@
       "id": "fb523b24c4faa55fe5"
     },
     {
+      "title": "Forced labour tariffs and supply chain due diligence: Practical steps for companies - Norton Rose Fulbright",
+      "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxOdTBndXpvWFVHOTZCWkMwUVpwVlVFVUdvel9XWW0yOHNFT1RFb1BRYl9DN0hKRlJxaWliVmZVUXdVSzJlRkdYaTFfSHRYa3lIT2Q3V2lJVzhJdkZod3lUWjdmYktYTmZNNnlIN011cVF0QXZnYXI1a0NuZzlPaURVcWxsZElMWTljOGh2NjZkOTktOUtIMTY5ajc5cHBuS2tBVjFVbkZKXzNGUUctQzZWVlJYVWMtSlZfanBQQzdUeWQ?oc=5",
+      "published_at": "2026-08-24T04:16:41Z",
+      "source": "EU due diligence & supply chain law",
+      "source_id": "eu-policy",
+      "discovery_query_id": "eu-policy",
+      "publisher_hint": "Norton Rose Fulbright",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour",
+        "network",
+        "policy"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "supply_and_labour_context",
+      "first_seen": "2026-11-20T03:34:50Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "6f7e13a6341eccd97c"
+    },
+    {
       "title": "What Jobs Do Workers Want? Worker Preferences in Global Value Chains",
       "url": "https://doi.org/10.1111/bjir.70074",
       "published_at": "2026-08-21T00:00:00Z",
@@ -3309,7 +3603,7 @@
       "screening_reason": "supply_and_labour_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "9e0bfa9585c4c51b16"
@@ -3337,10 +3631,63 @@
       "screening_reason": "governance_and_rights",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-14T16:39:48Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "5c63123b3c22b48f68"
+    },
+    {
+      "title": "Chinese measures highlight global supply chain due diligence complexity - Pinsent Masons",
+      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxPSk1DbUlBZ09VWlowbnA4NkI4aGNCX3pYNkItLVNIRFliSXN5d2Roc1BGblYweE9nT1duMjNPYVNaMVE2NDhON2Y3SEtBMTNBNjlWZFVTSWJDZmNQV2tZR2drUXQteTR4LXZ3eEJpRmJwSUtyemFhUnVIQThLX0NjQmxqWl95eUpnX3dXaUFPdWZ5QlpfSnBMb1JJdE03eHBQakdIak9pRQ?oc=5",
+      "published_at": "2026-08-20T07:00:00Z",
+      "source": "EU due diligence & supply chain law",
+      "source_id": "eu-policy",
+      "discovery_query_id": "eu-policy",
+      "publisher_hint": "Pinsent Masons",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "network",
+        "policy"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-20T03:34:50Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "39ddb1d0b3be5678de"
+    },
+    {
+      "title": "The US Calls for CSDDD and CSRD Concessions. “Now it's time for the EU to deliver.” - Ropes & Gray",
+      "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxOWWJTVi0wWk0taG5CTW03YmF4WEVQUlpRenl4cFZRaEVYbDZlamFKcGljdWdkSTZRbUZtSmJvZExJSWhTQzVZY2NBZHB1elV4OUtMNjdMdEw1RHBhcFVzOEsySVVjSmpHYmszaDV3WXhrVU9Rdy1CLVY0N2tVenVXc2xYclZFak5LcTktc3ZpeVFqWWNvTklGRFdpZTRuUTZMbWdGaEZscHR3Y3NxXzE1YUw0OFN1NlRZck9GS0EycjN6cHdabm95bzZjd0hCY2ZtMjkwMlNKM1N0WFk?oc=5",
+      "published_at": "2026-08-17T07:00:00Z",
+      "source": "EU due diligence & supply chain law",
+      "source_id": "eu-policy",
+      "discovery_query_id": "eu-policy",
+      "publisher_hint": "Ropes & Gray",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "policy"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "specific_hrdd_policy",
+      "first_seen": "2026-11-20T03:34:50Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "c4e5b25f1b320a2651"
     },
     {
       "title": "A governance and management framework for addressing modern slavery risk in multi-tier supply chains",
@@ -3366,7 +3713,7 @@
       "screening_reason": "supply_and_labour_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "7ea7a0fca7da36f7ba"
@@ -3393,10 +3740,91 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "1e383fd752b9cfe22c"
+    },
+    {
+      "title": "Ireland advances supply chain due diligence legislation - Arthur Cox LLP",
+      "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNZE5jNkl3LTBaRmV3b1dHVHZiQVlJRWxnbFozaVZlLWVnZ0xQTW4tN256Vm95NHl3Rmxkc1YyXy1ZOGdxbkp0WFdaT0lnbmFHdEExRkVwUDUzcjNuZTVTc21JcEVyQ0JwcTNWeWxocG51S2pURVFteGxYUUk1MGN3VmE2RHN6UnVoa0FMZUQtM1FHcFhCLUE?oc=5",
+      "published_at": "2026-08-12T07:00:00Z",
+      "source": "EU due diligence & supply chain law",
+      "source_id": "eu-policy",
+      "discovery_query_id": "eu-policy",
+      "publisher_hint": "Arthur Cox LLP",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "network",
+        "policy"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-20T03:34:50Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "e39796db8835bdeaa1"
+    },
+    {
+      "title": "EU Forced Labour Regulation – Key takeaways from the European Commission's June 2026 guidelines - Hogan Lovells Cadwalader",
+      "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxNaFpiSWJacHBnMVpYaE9LaWxtOFZmUjRtVEVKZVJOamdnQ1VGNE1rOF9VMHVJck1uU2NxaXFRSjV4N19zd0ZwSHNvTjcyZlJLczRxU1Zaei0zXzZ6dFRPQmd3VWd5eHBDOWZqaVpXYmdKalc1MjVTbnFaUDdJdWZjQ2pTN251WXowdjRUdmtOSlhHYnFBLWRtdW90MWh5Z1ppTWFuZVNGM1I4NWZ1Nl9wSkd0MFZIR29Bdy1qUmphY0s1RE1BaWhF?oc=5",
+      "published_at": "2026-08-12T07:00:00Z",
+      "source": "EU due diligence & supply chain law",
+      "source_id": "eu-policy",
+      "discovery_query_id": "eu-policy",
+      "publisher_hint": "Hogan Lovells Cadwalader",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour",
+        "policy"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "specific_hrdd_policy",
+      "first_seen": "2026-11-20T03:34:50Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "b71867e8b142fa3944"
+    },
+    {
+      "title": "More stringent due diligence requirements for UK and EU supply chains of commodities and products potentially derived from deforestation - The Lawyer",
+      "url": "https://news.google.com/rss/articles/CBMiggJBVV95cUxQUHFvOG9BLUVWMGNqQkdjSGRIWkU0ZGdnQVphekNzamZ2WEZ2Z3l6enIzN0FrczVEMzdPdFpaeUtfRDBWbHp5Mkt4enpHOVBjSlo3MjlwSVlNR2NQR3pFY09ta2MzeE9lYzZCWDZnZWZac01ROV9oeUM4YkhNRjcwdUZxRno0VVpJb2NkQlEtRXRETFkxcVBaN2M1eHNucExDMGhteFRqUllaYXRmbVlkcnIwR2RPUWU2eWt5Z3lNWTBDNkEyS0wtbzdXWjEtQWkwbTBRRjU3a3drMXZPcVlYcTVqWUlkQWtnZHV0WGp1S0ZDdUZWYjQ1SHJvN0J6dzkwc2c?oc=5",
+      "published_at": "2026-08-12T07:00:00Z",
+      "source": "EU due diligence & supply chain law",
+      "source_id": "eu-policy",
+      "discovery_query_id": "eu-policy",
+      "publisher_hint": "The Lawyer",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "network",
+        "policy"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-20T03:34:50Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "aed607be27ff723184"
     },
     {
       "title": "Mentorship supports human rights due diligence in Thailand’s automotive and electronics supply chains - International Labour Organization",
@@ -3420,7 +3848,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
       "first_seen": "2026-11-08T10:18:54Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "312e06b2d499409982"
@@ -3502,7 +3930,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-15T17:16:57Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "8f159bcd974e6d7a38"
@@ -3556,7 +3984,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "governance_and_rights",
       "first_seen": "2026-11-09T07:04:36Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "3a80e3c27e910ba20a"
@@ -3583,7 +4011,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-08T10:18:54Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "09fd992726d66a42bd"
@@ -3637,7 +4065,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "6cd13db2c6fc166f4f"
@@ -3664,7 +4092,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "6040bd2cf6a4915f65"
@@ -3691,7 +4119,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "52bc52ffaae24199e2"
@@ -3718,7 +4146,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-08T10:18:54Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "223105c10471587638"
@@ -3745,7 +4173,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "63016d5fb7c6d73c86"
@@ -3773,7 +4201,7 @@
       "screening_reason": "specific_hrdd_policy",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "af62107743bbb3ede1"
@@ -3801,10 +4229,37 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "c0c67f3619c5421741"
+    },
+    {
+      "title": "Sedex: Preparing Businesses Supply Chains for The EU’s CSDDD - Sustainability Magazine",
+      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxObVJHZjN5d2QyLS1peFZFcE9DSUdVZTVCUWlnYTFWdms5N3V6V1dnOVRLdUNCT3VOdW9lRXlZdHRwSXFaVGZxdnY0M0t4UDg5RDNMRXBHQnZrc2RfUnMwSGpRcGUwOFh5bVhsS1RvdFBSUDZvemNJcHpFTnQzeEdmZnZoNTlmM056WmlYQUhUTkNGMW5HWWNqcg?oc=5",
+      "published_at": "2026-07-15T07:00:00Z",
+      "source": "EU due diligence & supply chain law",
+      "source_id": "eu-policy",
+      "discovery_query_id": "eu-policy",
+      "publisher_hint": "Sustainability Magazine",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "network",
+        "policy"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "specific_hrdd_policy",
+      "first_seen": "2026-11-20T03:34:50Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "9fc3f19e11df5e38b1"
     },
     {
       "title": "Due diligence essentials for gender in global supply chains - OECD",
@@ -3856,7 +4311,7 @@
       "screening_reason": "supply_and_labour_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "3198a0b7fa7e132854"
@@ -3885,7 +4340,7 @@
       "screening_reason": "supply_and_labour_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "67c7165bc15056a89c"
@@ -3914,10 +4369,37 @@
       "screening_reason": "supply_and_labour_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "260c07e298a1bd6d97"
+    },
+    {
+      "title": "Supply Chain Law: the CSDDD Deadline, What German Corporates Must Do - Global Advisory Experts",
+      "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOYmphcjN0Um9uR0R6bzJRbFlWbTVMZU1aM1JCbmtGenB0SzdjR2RWRVU2aVZ2dElraWgwQXl0aGxWNkRtVndqWlVJZGdseGdWRi1NdEFMNWZZRkN4YVlnelppelM4UFVBWG1JRlB6RGZ6RGZ3T3N3YlA4UHRTNWlIUEd3N3NtdV96OXlvUmZpQ1RtMEh3MGFldk5BYVllaXJVTXlr?oc=5",
+      "published_at": "2026-07-04T09:21:24Z",
+      "source": "EU due diligence & supply chain law",
+      "source_id": "eu-policy",
+      "discovery_query_id": "eu-policy",
+      "publisher_hint": "Global Advisory Experts",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "network",
+        "policy"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "specific_hrdd_policy",
+      "first_seen": "2026-11-20T03:34:50Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "8a22ba60ddf3a21796"
     },
     {
       "title": "Labour rights: The EU's evolving internal and global role",
@@ -3942,7 +4424,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-13T02:43:21Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "9bd5c33ee8b73ade71"
@@ -3998,7 +4480,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "f1ee9e226c3b81b9df"
@@ -4053,7 +4535,7 @@
       "screening_reason": "specific_hrdd_policy",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "daa581b90b4f6141eb"
@@ -4082,10 +4564,37 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "3fd8d5565b7b9bb548"
+    },
+    {
+      "title": "UK to Introduce Mandatory Supply Chain Deforestation Due Diligence Rules - ESG Today",
+      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOOHlQZkdhdTNiYlFFMVpSRmdMbTUtRG4wSVVxMV95cEdoZlg0RnFHazBseW9leEdaaW82cG53aUNUVEk0SXJUaFlhTklaOVV2ek9yZzg1Ty15eFBYSEVDTTZkeDl3bjNoQlV3V3pWLV9KYjlaa2gxYXh5cm9DQVNXRUJOeXR3TXdqWHJneTRlY05CU0Znckh1WnlEMzJyRG82?oc=5",
+      "published_at": "2026-06-25T07:00:00Z",
+      "source": "EU due diligence & supply chain law",
+      "source_id": "eu-policy",
+      "discovery_query_id": "eu-policy",
+      "publisher_hint": "ESG Today",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "network",
+        "policy"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-20T03:34:50Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "8636cc20478f635339"
     },
     {
       "title": "Modern slavery in global supply chain management: literature synthesis, theoretical framework and future research opportunities",
@@ -4111,64 +4620,34 @@
       "screening_reason": "supply_and_labour_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
+      "retrieved_at": "2026-11-20T03:34:50Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "c809817d47cca82b52"
-    },
-    {
-      "title": "COST-SHARING CONTRACT FOR SUSTAINABLE APPAREL INDUSTRY IN BANGLADESH IN THE ERA OF HUMAN RIGHTS AND ENVIRONMENTAL DUE DILIGENCE LEGISLATIO",
-      "url": "https://doi.org/10.47126/nsulr.v1i1.04",
-      "published_at": "2026-06-23T00:00:00Z",
-      "source": "OpenAlex · Research: supplier governance and labour standards",
-      "source_id": "openalex-supplier-governance",
-      "discovery_query_id": "openalex-supplier-governance",
-      "publisher_hint": null,
-      "publisher_verified": false,
-      "canonical_url": null,
-      "publisher_provenance": "openalex_source_venue_metadata",
-      "kind": "academic",
-      "evidence_status": "Bibliographic record",
-      "topics": [
-        "policy",
-        "research"
-      ],
-      "doi": "10.47126/nsulr.v1i1.04",
-      "screening_version": "keywords-2.1.1",
-      "screening_status": "candidate_relevant",
-      "screening_reason": "supply_and_labour_context",
-      "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
-      "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-19T19:04:05Z",
-      "pipeline_version": "collector-2026.11",
-      "original_language": null,
-      "id": "38dc9f486c1530f354"
     }
   ],
-  "warnings": [
-    "academic-labour: HTTPError (see source connectivity and format)"
-  ],
+  "warnings": [],
   "retrieval_quality": {
     "screening_version": "keywords-2.1.1",
-    "candidate_count": 230,
-    "accepted_observations": 74,
-    "excluded_observations": 156,
-    "received_items": 514,
-    "unique_accepted_observations": 68,
-    "duplicate_observations": 6,
-    "new_archived_records": 2,
-    "retained_records": 148,
-    "academic_records_accepted": 46,
+    "candidate_count": 269,
+    "accepted_observations": 96,
+    "excluded_observations": 173,
+    "received_items": 660,
+    "unique_accepted_observations": 87,
+    "duplicate_observations": 9,
+    "new_archived_records": 19,
+    "retained_records": 166,
+    "academic_records_accepted": 45,
     "source_counts": [
       {
         "id": "eu-policy",
         "status": "ok",
-        "items": 2
+        "items": 25
       },
       {
         "id": "forced-labour",
         "status": "ok",
-        "items": 7
+        "items": 6
       },
       {
         "id": "worker-rights",
@@ -4183,7 +4662,7 @@
       {
         "id": "accountability",
         "status": "ok",
-        "items": 7
+        "items": 8
       },
       {
         "id": "oecd-ilo",
@@ -4212,7 +4691,7 @@
       },
       {
         "id": "academic-labour",
-        "status": "failed",
+        "status": "ok",
         "items": 0
       },
       {
@@ -4223,10 +4702,10 @@
       {
         "id": "openalex-supplier-governance",
         "status": "ok",
-        "items": 24
+        "items": 23
       }
     ],
-    "candidate_archive_total": 673,
+    "candidate_archive_total": 731,
     "scope": "bounded news, official feed and bibliographic result windows"
   }
 }
