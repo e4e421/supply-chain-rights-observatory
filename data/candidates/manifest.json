@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "total_candidates": 771,
+  "total_candidates": 775,
   "partitions": [
     {
       "file": "2026-11.jsonl",
-      "records": 771,
-      "sha256": "339b00dc925fecb350bc667ff8520d3c7a1ad76aa8040563afb4a3259a386e4b"
+      "records": 775,
+      "sha256": "709be6062f789a46f988fccdc715b88547f3b56cab14427c7373070cba869c9b"
     }
   ]
 }
