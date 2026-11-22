@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-22T02:23:18Z",
-  "last_attempted_collection": "2026-11-22T02:23:18Z",
-  "last_successful_collection": "2026-11-22T02:23:18Z",
-  "last_new_archived_at": "2026-11-21T17:40:32Z",
+  "generated_at": "2026-11-22T17:55:44Z",
+  "last_attempted_collection": "2026-11-22T17:55:44Z",
+  "last_successful_collection": "2026-11-22T17:55:44Z",
+  "last_new_archived_at": "2026-11-22T17:55:44Z",
   "status": "ok",
   "sources": [
     {
@@ -11,73 +11,73 @@
       "name": "EU due diligence & supply chain law",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-22T02:23:18Z",
+      "last_attempt": "2026-11-22T17:55:44Z",
       "items": 1,
       "received_items": 32,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-22T02:23:18Z"
+      "last_successful_attempt": "2026-11-22T17:55:44Z"
     },
     {
       "id": "forced-labour",
       "name": "European forced labour & product rules",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-22T02:23:18Z",
-      "items": 7,
-      "received_items": 33,
+      "last_attempt": "2026-11-22T17:55:44Z",
+      "items": 43,
+      "received_items": 100,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-22T02:23:18Z"
+      "last_successful_attempt": "2026-11-22T17:55:44Z"
     },
     {
       "id": "worker-rights",
       "name": "Supply chain worker rights & conditions",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-22T02:23:18Z",
-      "items": 4,
-      "received_items": 29,
+      "last_attempt": "2026-11-22T17:55:44Z",
+      "items": 3,
+      "received_items": 28,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-22T02:23:18Z"
+      "last_successful_attempt": "2026-11-22T17:55:44Z"
     },
     {
       "id": "remedy",
       "name": "Grievances, unions & remedy",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-22T02:23:18Z",
+      "last_attempt": "2026-11-22T17:55:44Z",
       "items": 3,
-      "received_items": 19,
+      "received_items": 18,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-22T02:23:18Z"
+      "last_successful_attempt": "2026-11-22T17:55:44Z"
     },
     {
       "id": "accountability",
       "name": "Business & human rights monitors",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-22T02:23:18Z",
-      "items": 5,
-      "received_items": 64,
+      "last_attempt": "2026-11-22T17:55:44Z",
+      "items": 3,
+      "received_items": 60,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-22T02:23:18Z"
+      "last_successful_attempt": "2026-11-22T17:55:44Z"
     },
     {
       "id": "oecd-ilo",
       "name": "ILO & OECD responsible business conduct",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-22T02:23:18Z",
+      "last_attempt": "2026-11-22T17:55:44Z",
       "items": 2,
       "received_items": 63,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-22T02:23:18Z"
+      "last_successful_attempt": "2026-11-22T17:55:44Z"
     },
     {
       "id": "ec-press-corner",
       "name": "European Commission · Press Corner",
       "type": "official",
       "status": "ok",
-      "last_attempt": "2026-11-22T02:23:18Z",
+      "last_attempt": "2026-11-22T17:55:44Z",
       "items": 0,
       "feed_url": "https://ec.europa.eu/commission/presscorner/api/rss?language=en",
       "reuse_url": "https://commission.europa.eu/legal-notice_en",
@@ -85,14 +85,14 @@
       "received_items": 10,
       "usable_items": 10,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-22T02:23:18Z"
+      "last_successful_attempt": "2026-11-22T17:55:44Z"
     },
     {
       "id": "eur-lex-oj-l",
       "name": "EUR-Lex · Official Journal L",
       "type": "official",
       "status": "ok",
-      "last_attempt": "2026-11-22T02:23:18Z",
+      "last_attempt": "2026-11-22T17:55:44Z",
       "items": 0,
       "feed_url": "https://eur-lex.europa.eu/EN/display-feed.rss?rssId=222",
       "reuse_url": "https://eur-lex.europa.eu/content/legal-notice/legal-notice.html?locale=en",
@@ -100,14 +100,14 @@
       "received_items": 80,
       "usable_items": 80,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-22T02:23:18Z"
+      "last_successful_attempt": "2026-11-22T17:55:44Z"
     },
     {
       "id": "eurostat-social-news",
       "name": "Eurostat · Population and social conditions releases",
       "type": "official",
       "status": "ok",
-      "last_attempt": "2026-11-22T02:23:18Z",
+      "last_attempt": "2026-11-22T17:55:44Z",
       "items": 1,
       "feed_url": "https://ec.europa.eu/eurostat/en/search?_estatsearchportlet_WAR_estatsearchportlet_collection=CAT_PREREL&_estatsearchportlet_WAR_estatsearchportlet_theme=PER_POPSOC&p_p_id=estatsearchportlet_WAR_estatsearchportlet&p_p_lifecycle=2&p_p_mode=view&p_p_resource_id=atom&p_p_state=maximized",
       "reuse_url": "https://ec.europa.eu/eurostat/help/copyright-notice",
@@ -115,51 +115,51 @@
       "received_items": 11,
       "usable_items": 11,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-22T02:23:18Z"
+      "last_successful_attempt": "2026-11-22T17:55:44Z"
     },
     {
       "id": "academic-hrdd",
       "name": "Research: HRDD & supplier governance",
       "type": "academic",
       "status": "ok",
-      "last_attempt": "2026-11-22T02:23:18Z",
+      "last_attempt": "2026-11-22T17:55:44Z",
       "items": 0,
       "received_items": 75,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-22T02:23:18Z"
+      "last_successful_attempt": "2026-11-22T17:55:44Z"
     },
     {
       "id": "academic-labour",
       "name": "Research: social sustainability & labour",
       "type": "academic",
       "status": "ok",
-      "last_attempt": "2026-11-22T02:23:18Z",
+      "last_attempt": "2026-11-22T17:55:44Z",
       "items": 0,
       "received_items": 75,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-22T02:23:18Z"
+      "last_successful_attempt": "2026-11-22T17:55:44Z"
     },
     {
       "id": "openalex-human-rights",
       "name": "Research: human rights and global value chains",
       "type": "academic",
       "status": "ok",
-      "last_attempt": "2026-11-22T02:23:18Z",
+      "last_attempt": "2026-11-22T17:55:44Z",
       "items": 22,
       "received_items": 50,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-22T02:23:18Z"
+      "last_successful_attempt": "2026-11-22T17:55:44Z"
     },
     {
       "id": "openalex-supplier-governance",
       "name": "Research: supplier governance and labour standards",
       "type": "academic",
       "status": "ok",
-      "last_attempt": "2026-11-22T02:23:18Z",
+      "last_attempt": "2026-11-22T17:55:44Z",
       "items": 24,
       "received_items": 50,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-22T02:23:18Z"
+      "last_successful_attempt": "2026-11-22T17:55:44Z"
     }
   ],
   "items": [
@@ -210,7 +210,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-21T03:18:03Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "e4564546ca8af60ea3"
@@ -316,7 +316,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-20T18:39:50Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "d134bf12df12a16361"
@@ -423,7 +423,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
       "first_seen": "2026-11-20T18:39:50Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "d3a6b16cbc27e35442"
@@ -581,7 +581,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-19T19:04:05Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "609457a6080c0dbf3b"
@@ -818,7 +818,7 @@
       "screening_reason": "specific_hrdd_policy",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-15T17:16:57Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "f6a3a79dfd74da72f7"
@@ -1137,7 +1137,7 @@
       "screening_reason": "specific_hrdd_policy",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-15T17:16:57Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "ac503c9ee84b97b146"
@@ -1432,7 +1432,7 @@
       "screening_reason": "supply_and_labour_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-17T04:38:43Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "7b06f31a9b73c685bb"
@@ -1778,7 +1778,7 @@
       "screening_reason": "specific_hrdd_policy",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-13T02:43:21Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "8b56a5084d393c805b"
@@ -1807,7 +1807,7 @@
       "screening_reason": "specific_hrdd_policy",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-13T02:43:21Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "83050e8339c0c761ea"
@@ -2403,7 +2403,7 @@
       "screening_reason": "specific_hrdd_policy",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "fb29fe1decad1107d1"
@@ -2430,7 +2430,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-18T18:55:06Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "e50ae56b2f3ff749a6"
@@ -2485,7 +2485,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "21b902a9f4b464699b"
@@ -2511,7 +2511,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-14T16:39:48Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "96cdb9bd0bc664b7ba"
@@ -2537,7 +2537,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-14T02:31:13Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "fb18efa2b3303d3f09"
@@ -2590,7 +2590,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-18T18:55:06Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "c247c7ed63c71b11cf"
@@ -2644,7 +2644,7 @@
       "screening_reason": "supply_and_labour_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "efb8512b4fb494c001"
@@ -2699,7 +2699,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "supply_and_labour_context",
       "first_seen": "2026-11-12T07:08:32Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "d9185cfe106df47885"
@@ -2727,7 +2727,7 @@
       "screening_reason": "specific_hrdd_policy",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "9da7ad65226cd45d0a"
@@ -2757,6 +2757,33 @@
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "a44475c507ca7142e7"
+    },
+    {
+      "title": "ILO urges wider ratification of Work in Fishing Convention as EU prepares forced-labour rules affecting seafood supply chains - fundsforNGOs News",
+      "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxNN0h6MVM2Nll0aXhBR0Y2OHM3MkZibDZVU2tjQW1PdjJCMjBrWlM1Y29JSEtPeXpOT1VWdXdpUlpUUjB0MkR4V2txREEwaWE0VGNNZjZnZ2I5dk1icUJGZ2g1NGwzYkdmQlpWMUZjTVlxbWNSQWVoUUtybXN1WldVLUNLaFdRaE03M2VDdlVBS2N6V2lMMXVYc2p6TmVtS2kzTTFlcGkwNEdPWDJ2VzZIZHk4OFRheTB2eHNhU1NPN1J4NkxydXBF?oc=5",
+      "published_at": "2026-10-16T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "fundsforNGOs News",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "network",
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "supply_and_labour_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "924f10921e5db10890"
     },
     {
       "title": "Sustainable finance taxonomies from a human rights perspective",
@@ -2807,7 +2834,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-21T03:18:03Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "e8c1424ab4af7de427"
@@ -2889,7 +2916,7 @@
       "screening_reason": "governance_and_rights",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-15T17:16:57Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "cbd4981a04e2357d9b"
@@ -2916,7 +2943,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-15T17:16:57Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "964767eb819fc29f2b"
@@ -2997,7 +3024,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "d990fcdd58ae6910e9"
@@ -3025,7 +3052,7 @@
       "screening_reason": "supply_and_labour_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-20T18:39:50Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "095ab2544c7e0c4125"
@@ -3054,7 +3081,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "cb1ce28991bf744ec1"
@@ -3083,7 +3110,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "5edec64313a47a63c2"
@@ -3117,6 +3144,33 @@
       "id": "1214e5e00259dc0be9"
     },
     {
+      "title": "A Practical Roadmap For Compliance With The EU Forced Labour Regulation - Legal 500",
+      "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxQYURQQjRnUzVhdXJIeWVjRENiTWFzVThlamt5V3hYM1U1S1dMTDgtZDFUMTdvUWE0d0tIbF80T1VhZW8tdG9RLXJ1YjNmY0t5VWRvYzJJcE52VUlfalZISVphVXhGN3oxVk8wdC0xMVkweTZTX1pTNUNNTWxHR1NjUllfSUJSLUpxUDFjUGVJOGlDM2JrR0tSRElVN0ZsY3pYbVJqbXpsdE1XTWc4S21qdVZfU1dQbXlYVFRiM2JFdjFkekMzXy1obEtKNl9OVnRzTjRtam1MSmJHOWktbzVnQjgwZw?oc=5",
+      "published_at": "2026-09-28T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "Legal 500",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour",
+        "policy"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "specific_hrdd_policy",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "6fcf787cac3e8704f1"
+    },
+    {
       "title": "Aligning Corporate Governance with ILO Labor Standards: Challenges and Opportunities for Multinational Enterprises",
       "url": "https://doi.org/10.56830/ijhmps06202604",
       "published_at": "2026-09-27T00:00:00Z",
@@ -3138,7 +3192,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "d97c1549bbb5fdeea5"
@@ -3222,7 +3276,7 @@
       "screening_reason": "supply_and_labour_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "ee56e93f2de9aae441"
@@ -3275,7 +3329,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-13T02:43:21Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "941a9d30061bfc2567"
@@ -3329,7 +3383,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "supply_and_labour_context",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "93635cdb170cdefb02"
@@ -3355,10 +3409,36 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "3157f31eb4129d0283"
+    },
+    {
+      "title": "Trump’s Fraudulent Forced Labor Tariffs - Dollars & Sense",
+      "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTFAxdlZGUVhDUVRVM2VMNjQ1U2lRRWIxTGZUOUgtQkd6U3lfWmp5YS1xRzVXcXVFRDNmWEw1Zno0NExZT1d3YWVRemRBWTJkZk54WWVaekV2VW83U2NUZ0w4ZGlxNFZva3E1RnZLMTNnZE9vQ0NyNy1ZbldoRQ?oc=5",
+      "published_at": "2026-09-18T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "Dollars & Sense",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "5b854c9eea170ed193"
     },
     {
       "title": "Decent Work for Sustainable and Inclusive Economic Transformation in Mozambique (MozTrabalha) Phase 2 – Independent Final Eval - International Labour Organization",
@@ -3410,7 +3490,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-15T17:16:57Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "2e51ed57f5d103ac1b"
@@ -3435,7 +3515,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-11T17:12:12Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": "en",
       "id": "0faa2d922ec796cbcc"
@@ -3493,6 +3573,32 @@
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "5ee1e4028a13346d2c"
+    },
+    {
+      "title": "EU Forced Labor Guidance a Positive Step, But More Needed - Human Rights Watch",
+      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOc2NrS0sxYlFhenRxWVhTZE5pLUExbVFIbFpBMlhJVFQwQS16b01ScGZxcEFIVU5QcnZwT2RoTDlOTm4xdXdpZ3BOQUQ5bXJvTFBDN1hFT01fVzFqZGpwZFBsMVBHb1Q0aUhfdlNjdklUYXlfOGNBaHVxdTdUQkpQXzItM2M3WHN4UjRsRlRQQjdGR05OZmQw?oc=5",
+      "published_at": "2026-09-14T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "Human Rights Watch",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "32c5163319d364241b"
     },
     {
       "title": "Hosting the FIFA World Cup as a Megaevent: Business Opportunities and Human Rights",
@@ -3571,7 +3677,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "eb8f3172a68d1e8ed8"
@@ -3602,6 +3708,33 @@
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "512218868fd768a368"
+    },
+    {
+      "title": "From Factory Floors to Silicon Chips: The Hidden Human Trafficking Behind China’s Supply Chains - Shockya",
+      "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPMFhLQTJPNTF0azcyWWUxVkFMa3AwRDVqU0Q2YzdpaG1DOWp0MEgxVXFzaTlpNU5qeFRWOEZJbkRlZktkcnNVN0dyci1Va2VaWnZTU3E3cFRJREpMNk9OalZPSURHMXFEdVd2UjRITGJnRy1ocTliWXZtS0NNbE9jYlNfV0dsaXJtM3NiWjIxdnpWZThsTUhBcktvakw2eTVua3FFd2xlQ0lwMl9XbFBrY3lsZEN4NzVBbDlBU2ZxNGx0WHowZ1c1b3cyMnNiSVU?oc=5",
+      "published_at": "2026-09-08T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "Shockya",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour",
+        "network"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "supply_and_labour_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "df0659f61fad1b162a"
     },
     {
       "title": "Update on the EU Forced Labour Regulation: What the European Commission’s New Guidelines Mean for Companies - Littler Mendelson P.C.",
@@ -3653,7 +3786,7 @@
       "screening_reason": "specific_hrdd_policy",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "f7bcb01d51c5e09730"
@@ -3733,7 +3866,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-08T10:18:54Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "3cd8dec5e20cf3361d"
@@ -3796,9 +3929,9 @@
       "title": "Chinese workers test EU forced-labour rules as trade dispute deepens - EU Today",
       "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE1scFBPNkk0ZVFmNHYxRE82ZGk2QUZ3clc3WXVvRnQ3Vi14Y3ZndDd1dkxlTXA3VE51TXI5MXh0aE1ZY3l4UjNjeDNPdlBLWlFJTUlWYnRUeHdISW9uZmNsLTBYam9scnRiaERZVkJiV0lZUXZ6anQ0?oc=5",
       "published_at": "2026-08-27T07:00:00Z",
-      "source": "Grievances, unions & remedy",
-      "source_id": "remedy",
-      "discovery_query_id": "remedy",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
       "publisher_hint": "EU Today",
       "publisher_provenance": "google_news_rss_unverified",
       "publisher_verified": false,
@@ -3806,14 +3939,14 @@
       "kind": "discovery",
       "evidence_status": "Unverified discovery",
       "topics": [
-        "worker-voice"
+        "forced-labour"
       ],
       "description": "News lead collected from a public feed.",
       "screening_version": "keywords-2.1.1",
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-21T17:40:32Z",
-      "retrieved_at": "2026-11-21T17:40:32Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "ec82f4184ddd7810b3"
@@ -3868,7 +4001,7 @@
       "screening_reason": "supply_and_labour_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "9e0bfa9585c4c51b16"
@@ -3896,7 +4029,7 @@
       "screening_reason": "governance_and_rights",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-14T16:39:48Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "5c63123b3c22b48f68"
@@ -3978,7 +4111,7 @@
       "screening_reason": "supply_and_labour_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "7ea7a0fca7da36f7ba"
@@ -4011,6 +4144,33 @@
       "id": "5a42406591a1f5d90e"
     },
     {
+      "title": "The Commission publishes new guidelines on the application of the EU Forced Labour Regulation (2024/3015) - Dentons",
+      "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxPeVlRcEJGTlpBd0Mxc3VoTVhlOXdTUnlVRERRcFdFSE8yQnE0ZTcwdUpIRXZhWC1SUEdIVi1ucUdub2JWZWJnMVhldWNobm1GNUtGODVCQlluZ0wzOG5VNHZaTzRGX3E0QzJMank3X294dEhyVnU1Wi1oZENxeUt4bXdwanNCdW1BNjA4TzdNWk5XSXRCRmNOaXVQZDhOaEIxa3lCckpYOVYwcjJObFBPVGtTc3JxZWgtRWJLS19RUld2R2RudUpEQjc1Z3NIR2lfa1VoTXZPVlhicFdOV1V0VHBuVktSTU02?oc=5",
+      "published_at": "2026-08-13T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "Dentons",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour",
+        "policy"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "specific_hrdd_policy",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "2846680c87e8070d77"
+    },
+    {
       "title": "Sustainable management: business and human rights issues in Thailand",
       "url": "https://doi.org/10.3389/frsus.2026.1909590",
       "published_at": "2026-08-13T00:00:00Z",
@@ -4032,7 +4192,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "1e383fd752b9cfe22c"
@@ -4119,6 +4279,32 @@
       "id": "aed607be27ff723184"
     },
     {
+      "title": "Migrant Workers Forced Labour Electronics Uncovered - industriall-union",
+      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPelY3RWUzS3NudUdfNUVEb2I2a0RhdlVfOGg2NjZsX1NQWXZxeGtCNnlIS1lFQnlDTkdQd3hpRzBxVWYxWHlfdERQM0ljWWtyVTI1RUtCcHUzVnVhcmVnaUsyZ25JamV3d1JGMjBsT1JHOXFaM0xQUmd2ZXVpVnR5X0JOVFFvMFloZXg0?oc=5",
+      "published_at": "2026-08-11T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "industriall-union",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "ba3bea92078c13e50e"
+    },
+    {
       "title": "Mentorship supports human rights due diligence in Thailand’s automotive and electronics supply chains - International Labour Organization",
       "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOUzdTOFpxenZpZldTbUtzUnBVb2lpMkZTbWdtRlNQcXZwaHJ6SG5CQUhlSVhPTWlQNjNrQ2ZvMENNak5MTVFvMGdqN2JHY2JVN3djbXA3WHc4bFgyREdtX1p4QUlKa2t1YUw1TXJzVjh4TjgycnRoSnQyQjlUVElnWmUza01fNEc3NVpaaF9SOU11T3JXNzZTYVpLVXhuWThSYkJCS0RUUEFEUkVWVl94WHR2VVA?oc=5",
       "published_at": "2026-08-11T07:00:00Z",
@@ -4140,7 +4326,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
       "first_seen": "2026-11-08T10:18:54Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "312e06b2d499409982"
@@ -4222,10 +4408,143 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-15T17:16:57Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "8f159bcd974e6d7a38"
+    },
+    {
+      "title": "Forced labour: traceability is becoming a strategic issue - Paperjam.lu",
+      "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQcnJLdHh4Sk05ajlQQTBxVjY3YW5RQ1llcW05SU9jcjFrU0JGb29uRW5vZXBiQ1c4RGJ1OGhVeDNBRUE4ZkFqWmV6R2ViQlBJMTdyUkFHWXJKT0VLX002dnU1aFZjd3ZQR3V2bEZ2Nld0dFliUmxaUXJyMmVRNFZOWDZEYkQ3S2taaVhXUlZwYmQ?oc=5",
+      "published_at": "2026-08-04T09:42:21Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "Paperjam.lu",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour",
+        "network"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "d1c3d15cf312eaf2ef"
+    },
+    {
+      "title": "25 states sue Trump over Section 301 forced-labor tariffs - Supply Chain Dive",
+      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxONFFTbTllQUlvREZlN253ZUlwM3lSQlhhLWVKc0F1VGo4Z1Q1R0o0NlZOWWRkejc5Q0lZeFc0aUFnTVg0SnlTTTFrbVZ3NzBzekpZS3lBd3plWUdLTG1Ydk1EUER5V3RSOHJ3WjRHaGR5Y1VwNnBTRnpMWUlFVTFxU2RCQWVQZXBudlktQU9PdERWN19pRUpSSFVwLThTbnN2RUtkOA?oc=5",
+      "published_at": "2026-08-04T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "Supply Chain Dive",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "network",
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "supply_and_labour_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "6915b913e203faf8a2"
+    },
+    {
+      "title": "25 states sue Trump administration over forced labour tariffs - CBC",
+      "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTFBCREdEcEV5eUtiZGtJZF9vQ1h5SmVlcklvVldvSXRFWXdNcGZ4NHBuZTg0NGFMMGE4NjdvZ2V5TFdwOTVudlFjWHdTY1lNV1I2a0FhWV9CcFVfNm5ZS1Vibkc2bko5UlkxWHgyOG01SEs2VDEtZTdveA?oc=5",
+      "published_at": "2026-08-04T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "CBC",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "325f0c56f79168b55a"
+    },
+    {
+      "title": "A Global Forced Labor Import Regime Is Emerging—Can It Work? - CSIS | Center for Strategic and International Studies",
+      "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNa2tXcU8yZmtDZHRtUkFIOXJ6VHBTZTZ1bVZmZkhqMWZkbjNuZVNBekF1eU5zcEdYNWJObEMxSklLc3dGYjNCT01sYnBpOVMtejQ2d05IUUlyR1FEY3ZCa3dsSi12Q3lCZGtSUWxoMUxXUnIwLVRkMmdjVG45VEgtZmNCS0Q2S1g0UWNDaw?oc=5",
+      "published_at": "2026-07-31T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "CSIS | Center for Strategic and International Studies",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "cf45f156f971be8150"
+    },
+    {
+      "title": "Forced Labor Enforcement Is Tightening. Can AI Help? - WWD",
+      "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQR1V6bGNzdGRvXzFqUkoxZE9oQWZxOVMtZkIxamZBTXIyVUVuWkZTZi1GV05sdzhpZWVpUDFvd09tWl85SDZVQTRVRmJzMUxIMHpBdGR4dENKT21ZcVQtMkw1MmhhUlF3S1VkLUxTakZhbjdXUS1PZDBzcWpYREVxOTlzdEtpalFOSWJMdWJuaw?oc=5",
+      "published_at": "2026-07-30T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "WWD",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour",
+        "policy"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "7bf0bab2d6d63de6e6"
     },
     {
       "title": "Forced labour in UK supply chains: Joint Committee on Human Rights report - House of Lords Library",
@@ -4255,6 +4574,32 @@
       "id": "93d178b05f55eefa91"
     },
     {
+      "title": "Forced labor import bans - FreedomUnited",
+      "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE9QaUZWZGh6MUY3R2d6RmZmSzVZbkVkMmRQQTFaMmhsRXBHaC1yRTN4aFJEcUZRT29hNjgyS0pRZDFNZzJ3VjJ0V0dRTkVCdXV6MWpiYkNoODZCajgyOTZHY3kyRWY4dw?oc=5",
+      "published_at": "2026-07-28T23:33:42Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "FreedomUnited",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "f2b02c6d155c10d084"
+    },
+    {
       "title": "EU Forced Labor Guidelines: Mandatory Due Diligence in Disguise? - Jones Day",
       "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxOTG0tM1RKTlRJcExiSlFuZU90eHdTaUNNTTRGYkxzcm1hLVo3ZGpwRllmYU4yZ0NORFdMTHpBTVNmQm53NGFVZ2hYRzEycUdTRUpSTVRKOHJWVUlhczQyNFloUGdsczVRdzFDWHNwRGFlWTB2NC00SDAtRUd4TnpncndHUXpabWhCeW44dEtvMmZIVlVzbll4VU1hbUJnQ2hpUC1vaG41VEd5Q3c?oc=5",
       "published_at": "2026-07-28T14:46:10Z",
@@ -4276,7 +4621,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "governance_and_rights",
       "first_seen": "2026-11-09T07:04:36Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "3a80e3c27e910ba20a"
@@ -4303,10 +4648,456 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-08T10:18:54Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "09fd992726d66a42bd"
+    },
+    {
+      "title": "Forced Labor Tariffs Imposed on 86 Countries - Sandler, Travis & Rosenberg, P.A.",
+      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQc2dQTWtBOTNYLTUxRWtGMHozSzh0S3dhVHhOaFloTlRoT3YwUGdzSkVzcldrSUx4b25JMHBaaWI4S3pDREIxaVMzd3ZWSDF5eDdqa24yNFdIZ2w4UXBKei15d3J3MEhRWnVIamIwWHNRV0FNV0JwQkk4V3A5VlNSNVZQUV8xckdDc0M4bU96S1N3enVVM0tGMnRFUnRMVDBaWEdnRU5aVy1uUjk2YlNVaThn?oc=5",
+      "published_at": "2026-07-27T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "Sandler, Travis & Rosenberg, P.A.",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "85dc2459377bfc4100"
+    },
+    {
+      "title": "Thai exporters advised to prepare for EU Forced Labour Regulation - Nation Thailand",
+      "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE5jN29OXzRkVXFxdjEtVEtDa1diS0U1UHNPTkZtLUVDSVBOc0RUeWI5LURya1EydXZac2t3SllwVXpSMXFKOTE5VDJuSkFVaTY2ZVF3OWtnV052ZnV5WWpyNGNqQWdNYVk?oc=5",
+      "published_at": "2026-07-26T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "Nation Thailand",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour",
+        "policy"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "specific_hrdd_policy",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "bd2bde9ec6f0649d34"
+    },
+    {
+      "title": "Trump Administration Targets Global Supply Chain Labor Abuses - PlasticsToday",
+      "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPZWNUTDFrT0ZFZnBhRDluYzNxSEFNeFp4YjNVRm05ZHNXWmlaa3BQOF9VQW5URVRXSlZQaUViVU5fU0lmTWZlT21tNzBmMVdIZFpUVEk2NDh1LW5PaVItMllJOGN4RzhYYmswWU9waldSV3hCTWVRTjRxUjN4RWx0NGdIVjhrQV9XRWZCQ1R4T253d0VBTTlDdnltRWhnWWxnYkgw?oc=5",
+      "published_at": "2026-07-24T22:21:24Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "PlasticsToday",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "network",
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "supply_and_labour_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "fdf1dea314d5290016"
+    },
+    {
+      "title": "U.S. allies hit with new tariffs object to Trump's forced labor allegations - NPR",
+      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNQmJLczZYZkZFZFBvdlp4TGJRcTRzQ2xRV21hbHd2T3J6bURsbHB6NDVtLUpfaml2RHM5VHF4NVdFTEw0YVU1RDVpcWNvQUpFdURkQ0xhRWhZQmpYV1pSa000cU83YTUzZjU2bzdLcFRBUktoU3pDM2dsSUxELU5HYUp0SQ?oc=5",
+      "published_at": "2026-07-24T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "NPR",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "f4afcfced3967bd680"
+    },
+    {
+      "title": "If Trump really cares about forced labor, he should look at the US – rather than slap more tariffs on the world - The Guardian",
+      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNTlA4STFnQ3RONEpLanFYMVhDLUpETTctMFA2WHA0T2pHWlh3c3FKZ1JnRDFJbDZGRllkV2FJZHpsd3Z6aUtHbFkwS3VtZ09Jc3RQenpkUFJfbE5LYVgxZjh1TzFzQUpGZ0lPbWlTM3dFMk8wZ05zb19ubGhNLUhOX2pLVDM2dGVYR0lwRkdn?oc=5",
+      "published_at": "2026-07-24T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "The Guardian",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "db25968edf8351f6c8"
+    },
+    {
+      "title": "Trump reimposes tariffs on 60 countries using forced-labor law - Fortune",
+      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNa2VHYzBhZjVJSG02V25Yc0RUX013LU1JZWpXOVI5dkFsVmNWNnd1MDJGSnU1ak1vUVRESHRGLW82MEc3UVZQT2FUTmtndDhTWFdJZ3VKZ2NNR0dsSXVNUjVVYl9ZOTE3S1dBWmE0cXVjV0R6VXBhWHJ6RDVYTW9wa3d4anBGSUJ6djNv?oc=5",
+      "published_at": "2026-07-24T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "Fortune",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "d529300e4a565bdb2b"
+    },
+    {
+      "title": "Trump accused of using forced labor as ‘convenient’ justification for tariffs - The Guardian",
+      "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9zamtici02MmdBNnd4TURoNzZqOTVFMjliTlgtcHUtTV9nYTloenRobGkwaDRHeW9pUG8yam8xQmtQbGhiSWEtLUYxMmVQNGlNaFlJaEtZUmtyclVxZUVyZldaLWtuUW1nLWdzSlUyZEh1TUMySFR2VGlySllyTzA?oc=5",
+      "published_at": "2026-07-24T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "The Guardian",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "a630549abc91c842e3"
+    },
+    {
+      "title": "Full list: 60 countries hit by new US tariffs over 'forced labour' rules - Gulf News",
+      "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQQzB4R2dyQ1pHSVg4OEdfbG00cDlqSGpFMWdQUU5TTDA4a2M5RmU2Q3ZRME04UFpPYndCQmJuMWpzOGp4b25vUVc1cUVRLS1wX1MyUVJURXloWDlmOXdlV3RvamlIaEJkb0VtaW4tc2JtS1F1NnNoS294R3NFb05NcWwtMHJybG1Vd2hJVmRDQlFwYjhnYzlpckgycGVFM09kRi1wdkNvcm51TkRSUk1QalZ4M2xSb2Ew?oc=5",
+      "published_at": "2026-07-24T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "Gulf News",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "9b2df6d346fd08aa6a"
+    },
+    {
+      "title": "Truth or tale: Is it true that forced labour exists in Swiss supply chains? - SWI swissinfo.ch",
+      "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxPTFJhenVjdWU3UEZoWWxVZVc5MHo2REF6RjZkZVFCZFE0Q295TDBPM3FxeXBIdWluTkJTb1l4Mk5ER2lCV3dMMGRDZkFKQkg4b0VXQmJkVW1KZE5INWtIbmZNaTdqOWFYMmtkc2NwbjRSRkZwdVlfT1N5MmF0MUdGZGhvQnEtbG9zbW9kS2I5dUo2cklyc2dLaW5KYUpaSTByUVJDcmJDYlhMMVRTdHVTSDZvYnZvRXBJelFPSzdMTUphMzczZk01TGRB?oc=5",
+      "published_at": "2026-07-24T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "SWI swissinfo.ch",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour",
+        "network"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "supply_and_labour_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "86f21c2014f2b9c550"
+    },
+    {
+      "title": "‘Forced labour’ rationale for Trump tariffs met with bewilderment - The Guardian",
+      "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPbkV1aHp2ZU5hQzFLeGVmYTdMb1cxVWoxeUx5YUxmLWhGZnczdVEzVDk4aDEzVy1UWmZBRlBaMUk3akptX1dCZ2xtTnlKVEVERFdUMFJISzhGU0Q0QlM2UlZQUlNSVFR6TzlyNF9rT05vLUctVkpPV1VWbHVJZUZNR242M0x4ZDVwcWRYMy1rc1NycXlQSkRjQXNJZWgzQkNvUWc?oc=5",
+      "published_at": "2026-07-24T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "The Guardian",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "81461de91a36d30d2b"
+    },
+    {
+      "title": "Trump administration imposes new tariffs on dozens of countries, citing forced labor concerns - CBS News",
+      "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTFBqRHhXcTl4Tk5RdlFWWWdJeHpaNEcwN0R5MHk3ZlJTMWFQM1N3cC1Zb21pUnJPaGt2VG1RU0dlZUZrOFl3WXE5V1R5VlZmbktGdEEwMnBlOTZBSDhlVXJUQnB2UnM3TjBNdjNoeGVBZFBZVlp1YzlQdm9qdHYtZw?oc=5",
+      "published_at": "2026-07-24T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "CBS News",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "4a95713e3707e883a1"
+    },
+    {
+      "title": "Trump rebuilds tariffs with forced-labor duties on 60 economies - The Japan Times",
+      "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxOVTVyMWxIdFd4Ykx2SDBQbU44Q3hFRzBoUFgwWEc5bnktQnZxUlJPTVc5T1AtQzRPVlV5em92a1B6V09hY285MEtLRDVlQnFpaWs2YU9mSFlYcVNIN2dPa21VYVdtYXN6UmFiRm9NS3BYeHA1cmtqdS1YbFEtaFpPN3hWaHRJUQ?oc=5",
+      "published_at": "2026-07-24T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "The Japan Times",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "3106226f7c727cae47"
+    },
+    {
+      "title": "Trump imposes forced labor duties on 60 trading partners as 10% US tariffs expire - Mining Weekly",
+      "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxNOWlRMFM3Xy1aNDVhTk14aEJXM295N0pMZ3NNX3d6UTFGcGZ3TUJKcFFnSDNycGtnS0dLdHNSd0lzZkhUTndGZXVzRnVZTTBhUF9HTHhxZHFLaGpzRjhSZV9CYmtqbjJWTVJrbDN4aUJrYko1UU9mVVFZaU9PYWM5cVlxcEppV04tYVM0c1dxLTFEc3c2bHVOVXkxVDFFUWZWZ2dDRFhmdmJoVVY0RjcxU0xnRVE1QnkwXzkxODg5TTg4VFhWR3ZB?oc=5",
+      "published_at": "2026-07-24T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "Mining Weekly",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "2eca4fe16f99595093"
+    },
+    {
+      "title": "US imposes new tariff of 12.5% on Switzerland over forced labour - SWI swissinfo.ch",
+      "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOY3lzR294Zks5WUlGLVFidDhEaVZsWENNLW5FSmdsSDkwNzl5RDktUnFFalpwSjNPWTZZOFNPbG5nUndQc25YWUpfdmlJX2dmTm1yY1JOMUNKWVJQSFZxUVNaU3UzQzFJOUxoYWFxWVVLeHVhOWdhdkpBQXAzQnJzaElCVHJ2Y2xrT3I3VXRhRVlUMUVaa2x6dGJRcHphV3RVZlMteGFGZHVnc1hoSzZZWGY2Z25RZFhi?oc=5",
+      "published_at": "2026-07-24T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "SWI swissinfo.ch",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "1fa993e348dbf402e6"
+    },
+    {
+      "title": "India moves to protect $1tn export target from forced labor concerns - Nikkei Asia",
+      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNcVFRZmtHcHZ2ZmxXVlVSazRjR2JjeVVOcGNlbVpwdzRlRGJkdjZBdlpjVmlKSy03MU13dVdLWWVuaHVvU1l3VktPRENmYzRaQ0FXakFDVzk2YVZyTHJvOTFuU1VCV3BiSk5aekpDSkdNeEVZNHdlMFFmYVZIRi04dkJxM1RqOExLWHZEM0xkdHdzRGl3Mzg3Rkc2VmpEdDBEZmFab2dGakNYZw?oc=5",
+      "published_at": "2026-07-23T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "Nikkei Asia",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "f03b2bebef222a14a3"
+    },
+    {
+      "title": "US imposes tariffs over forced labor before global duty ends - Supply Chain Dive",
+      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPSE5BdE5zYlpyRDV3RHRSb2dEMlpSZGZzam5pN05tUFJwSVRxVnp3WDhubk1hVlUwcXFrakN5TW9GdDlsUnVERDcza2oxNEEzQjVlOUdSY0ZTUUVZVTBDa3FieGU2V1Nhekk3cEtkenlYNm40b2ZGNC1QUkVxMUdsMS1lUzJybG5Cem5semFvOVR0a2VLRjJNRXJnZ0JIb05mdmJYQ2owRGU?oc=5",
+      "published_at": "2026-07-23T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "Supply Chain Dive",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour",
+        "network"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "supply_and_labour_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "dc7bcaf4e57d170285"
+    },
+    {
+      "title": "Trump to impose 'forced labor' duties on Friday as temporary 10% US tariffs expire - Reuters",
+      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOZjlYNnVfaDJNN2FOQldfTTRPclB4cmxtTWxaSDkyUGJJZHhtYjJEVUZnRmxhNjZEV0daUkZJS1ZHWHFJM1hSNDlBcVlwUlRIdVN4ZmVzVmgtbUpxM1NyVlotQVA3NmhUb090NVFzamlaUkhCTjFuRzZWTjVTUTYxMzhBLXNld09NWGdadEx1bXdnemUwbWdtbzg1X0I2Y3VJZFpiOFk0blpFSS1ieklCeFItZzQ4UQ?oc=5",
+      "published_at": "2026-07-23T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "Reuters",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "42b27cb3d14dcdbb51"
     },
     {
       "title": "Decolonial Human Rights Practice: Tactics, Obstacles, and Futures",
@@ -4357,7 +5148,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "6cd13db2c6fc166f4f"
@@ -4384,7 +5175,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "6040bd2cf6a4915f65"
@@ -4411,7 +5202,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "52bc52ffaae24199e2"
@@ -4438,7 +5229,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-08T10:18:54Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "223105c10471587638"
@@ -4465,7 +5256,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "63016d5fb7c6d73c86"
@@ -4493,7 +5284,7 @@
       "screening_reason": "specific_hrdd_policy",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "af62107743bbb3ede1"
@@ -4547,10 +5338,36 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "c0c67f3619c5421741"
+    },
+    {
+      "title": "How Pakistan’s slave‑like cotton labour still feeds EU fashion despite new rules - EUobserver",
+      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQMldPaXFHdlZKT1hkNXhmMnNTZmRQc3kxNWNtelIyaWwxd09SRHZXXzhHSWVyNnhqNlFRR0d4TFlVakMyRmRIem1PVlFNcXVVemo5Z1Job28xQVRqNlQ3UmZLUWZUeDNCNUF3eXgyVVlQWEVXX1RPWld3WEh0MnhPVW5PUl9LeGYycy1lN3Uyc2tJNVNMX1ZhV3Z6Tmw0Q0xaNk84bUZmRHZ1aDJmWlE?oc=5",
+      "published_at": "2026-07-16T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "EUobserver",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "fffaec85318847d23e"
     },
     {
       "title": "Sedex: Preparing Businesses Supply Chains for The EU’s CSDDD - Sustainability Magazine",
@@ -4580,6 +5397,84 @@
       "id": "9fc3f19e11df5e38b1"
     },
     {
+      "title": "Uyghur Forced Labor Has Infiltrated The Global Market: What Are The Solutions? - The Organization for World Peace",
+      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOR3lMNVZrNUxacjFpSWhUUlhtQzVvNlhibFdfNUpOdFZNaHJhSllINVVuWVdZc0V5ekJRY2otb2V6QVlKQVNNd1BsaTZtNHYzcnhTTmFBLTZ2dkNsQngyWjUwZFliR2YwM0puTEJqcDF5RlhiLXBDYjJqaXBZaU5sMVltckRqeXZzc2hReHRNc3ZtTXhSVTVUZ0ZTTGh3OFFGSktaX044WQ?oc=5",
+      "published_at": "2026-07-12T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "The Organization for World Peace",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "533cd6f3d76a7fe53b"
+    },
+    {
+      "title": "Singapore rejects forced labour allegations from US - hcamag.com",
+      "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPbHdSSHNGSzRrb0xXYWpvNmhCaUZuR3FTUVh6YnJCYmRHRy13Z1JEZ3BjdEtHY0lYMXhMUjUxREd6ZGtWMFYwWXBsaDVlOTRSSUcyMjF4a1V5b2hFN0E5MVNsTGs2dXNoenZPOXBGSDNKdkdTaWJYUl9sQ3Y5X1JKQUpKRzNfUnBFZVFSMVd0ZnNkQWs0WnpvUzRQcW9tcWJackVhdTIyUk1qSXJwQTlJdGNnb2tBakU?oc=5",
+      "published_at": "2026-07-09T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "hcamag.com",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "5106eff9668b5364ff"
+    },
+    {
+      "title": "EU Publishes Guidelines Ahead of Forced Labour Ban - International Tin Association",
+      "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPcjVtcGszdGs2RVM3VHU3eEl1dTYyUGczTTNTOHdEQmpsY254c2FHal9Gcm5QUUJGWGVHd21rQUdwcmVpUm5SMGJ6bE9tdGh2X0QzY2pUYTBVRi1nb1BTWlNKSWJhUXB3cmlnLUpkaWdjUDlDWmRtWTFYcTRTZHhIV3RNWkJ6MC1yWXp6ag?oc=5",
+      "published_at": "2026-07-09T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "International Tin Association",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "3cc05c23c0ee9c1753"
+    },
+    {
       "title": "Bridging decoupling gaps: the role of NGOS in combating forced labor in global supply chains",
       "url": "https://doi.org/10.1108/ijopm-09-2025-0952",
       "published_at": "2026-07-09T00:00:00Z",
@@ -4603,7 +5498,7 @@
       "screening_reason": "supply_and_labour_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "260c07e298a1bd6d97"
@@ -4636,6 +5531,32 @@
       "id": "d30c33609be4b47a3f"
     },
     {
+      "title": "Australia’s door is still open to goods made with Uyghur forced labour - The Strategist | ASPI's analysis and commentary site",
+      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQWVZRWkhHSU5VV05JNkExRmtXWlpLYnM3ZHR3Z09WU0VuenNtT192NEhSalV4VmFOYXo4WklvdGlKYWd1emd1VUtHWTU0RWY0LW8tWDdFaUhzR1Z3NEZJRGlZYkNtYmRPQV85Y1BoTlppZ2NhM3RjQ2gzU2JGQk55c1dFcjlibFkyX0JJV2RZWmQzWjRoMThILUl4QklqQVFKSHpPSXdtaw?oc=5",
+      "published_at": "2026-07-08T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "The Strategist | ASPI's analysis and commentary site",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "542ae4e6e49f9b5942"
+    },
+    {
       "title": "A Method to Assess Social Sustainability of Multi‐Tier Supply Chains in the Textile Industry",
       "url": "https://doi.org/10.1002/csr.70828",
       "published_at": "2026-07-08T00:00:00Z",
@@ -4658,7 +5579,7 @@
       "screening_reason": "supply_and_labour_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "3198a0b7fa7e132854"
@@ -4687,7 +5608,7 @@
       "screening_reason": "supply_and_labour_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "67c7165bc15056a89c"
@@ -4721,6 +5642,33 @@
       "id": "8a22ba60ddf3a21796"
     },
     {
+      "title": "Forced Labor Is Becoming a Geopolitical Risk for Global Supply Chains - WWD",
+      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNQmFuZWc2OFZQQnFaRjN1a1labDlHWGdIcGtYNWJ4Vk5TejhlZV9tMTBYdElQbjVUOWtqRkY3NS1SSHZWSnY4STkxRmhnYUxSMkE2QWZydHd3TEkyTS1lM2ZfM2ZQUkxOZzAySzloQ1lrRGtlYlN0Y1JlSzZic0E0TGw0VGxCcDdqalRiRlJ6ZlRRNGlIOVcxQlFXeG5Ja1V5UEVBaUt3QQ?oc=5",
+      "published_at": "2026-07-02T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "WWD",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour",
+        "network"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "supply_and_labour_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "3b2fb5b6598686d876"
+    },
+    {
       "title": "Labour rights: The EU's evolving internal and global role",
       "url": "https://doi.org/10.4337/9781035336517.00031",
       "published_at": "2026-07-02T00:00:00Z",
@@ -4743,7 +5691,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-13T02:43:21Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "9bd5c33ee8b73ade71"
@@ -4799,7 +5747,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "f1ee9e226c3b81b9df"
@@ -4826,7 +5774,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-08T10:18:54Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "9b6d64411b7ea2b829"
@@ -4854,7 +5802,7 @@
       "screening_reason": "specific_hrdd_policy",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "daa581b90b4f6141eb"
@@ -4883,7 +5831,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "3fd8d5565b7b9bb548"
@@ -4916,6 +5864,34 @@
       "id": "a13aac98ed57aecef3"
     },
     {
+      "title": "Bill C-35 forced labour ban reshapes supply chain safety duties - Canadian Occupational Safety",
+      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNeWgxd0NDaGt2RTBlOVlpd2NWb2RFczBpQkNhNlBUYXNfNS1MY1EwZ0VXM1FQX1kxSS1kYnd6S0FtZWxOSlhvSGRwd1pTVmtGTFFHbUJ0MjV6T2dWanlldHVyZDV0dFZYcFhPR0JNeG55YjRVdWdKZzdUWWE1TUNrcHhvQnBaMjM5MkRONlhNVndTYzE5SXhKYU5zMzk2dHRVQXA0Zi1mXzJMbGw1eUdVcklDelYwdw?oc=5",
+      "published_at": "2026-06-27T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "Canadian Occupational Safety",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour",
+        "working-conditions",
+        "network"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "supply_and_labour_context",
+      "first_seen": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "63b4a15c8e176e8f30"
+    },
+    {
       "title": "Modern slavery in global supply chain management: literature synthesis, theoretical framework and future research opportunities",
       "url": "https://doi.org/10.1108/lbsjmr-01-2026-0001",
       "published_at": "2026-06-26T00:00:00Z",
@@ -4939,50 +5915,23 @@
       "screening_reason": "supply_and_labour_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-22T02:23:18Z",
+      "retrieved_at": "2026-11-22T17:55:44Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "c809817d47cca82b52"
-    },
-    {
-      "title": "UK to Introduce Mandatory Supply Chain Deforestation Due Diligence Rules - ESG Today",
-      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOOHlQZkdhdTNiYlFFMVpSRmdMbTUtRG4wSVVxMV95cEdoZlg0RnFHazBseW9leEdaaW82cG53aUNUVEk0SXJUaFlhTklaOVV2ek9yZzg1Ty15eFBYSEVDTTZkeDl3bjNoQlV3V3pWLV9KYjlaa2gxYXh5cm9DQVNXRUJOeXR3TXdqWHJneTRlY05CU0Znckh1WnlEMzJyRG82?oc=5",
-      "published_at": "2026-06-25T07:00:00Z",
-      "source": "EU due diligence & supply chain law",
-      "source_id": "eu-policy",
-      "discovery_query_id": "eu-policy",
-      "publisher_hint": "ESG Today",
-      "publisher_provenance": "google_news_rss_unverified",
-      "publisher_verified": false,
-      "canonical_url": null,
-      "kind": "discovery",
-      "evidence_status": "Unverified discovery",
-      "topics": [
-        "network",
-        "policy"
-      ],
-      "description": "News lead collected from a public feed.",
-      "screening_version": "keywords-2.1.1",
-      "screening_status": "candidate_relevant",
-      "screening_reason": "incomplete_context",
-      "first_seen": "2026-11-20T03:34:50Z",
-      "retrieved_at": "2026-11-21T17:40:32Z",
-      "pipeline_version": "collector-2026.11",
-      "original_language": null,
-      "id": "8636cc20478f635339"
     }
   ],
   "warnings": [],
   "retrieval_quality": {
     "screening_version": "keywords-2.1.1",
-    "candidate_count": 230,
-    "accepted_observations": 69,
-    "excluded_observations": 161,
-    "received_items": 591,
-    "unique_accepted_observations": 64,
+    "candidate_count": 269,
+    "accepted_observations": 102,
+    "excluded_observations": 167,
+    "received_items": 652,
+    "unique_accepted_observations": 97,
     "duplicate_observations": 5,
-    "new_archived_records": 0,
-    "retained_records": 179,
+    "new_archived_records": 37,
+    "retained_records": 215,
     "academic_records_accepted": 46,
     "source_counts": [
       {
@@ -4993,12 +5942,12 @@
       {
         "id": "forced-labour",
         "status": "ok",
-        "items": 7
+        "items": 43
       },
       {
         "id": "worker-rights",
         "status": "ok",
-        "items": 4
+        "items": 3
       },
       {
         "id": "remedy",
@@ -5008,7 +5957,7 @@
       {
         "id": "accountability",
         "status": "ok",
-        "items": 5
+        "items": 3
       },
       {
         "id": "oecd-ilo",
@@ -5051,7 +6000,7 @@
         "items": 24
       }
     ],
-    "candidate_archive_total": 802,
+    "candidate_archive_total": 848,
     "scope": "bounded news, official feed and bibliographic result windows"
   }
 }

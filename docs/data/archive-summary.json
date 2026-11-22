@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "total_records": 209,
+  "total_records": 246,
   "partition_count": 1,
-  "updated_at": "2026-11-21T17:40:32Z",
+  "updated_at": "2026-11-22T17:55:44Z",
   "event_linkage": "manual_review_only",
   "archive_url": "https://github.com/e4e421/supply-chain-rights-observatory/tree/main/data/archive"
 }
