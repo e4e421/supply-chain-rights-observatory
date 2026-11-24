@@ -27,6 +27,7 @@ on:
     paths:
       - 'docs/**'
       - 'portal/**'
+      - 'cases/**'
       - 'scripts/**'
       - 'sources/**'
       - 'data/**'
@@ -113,13 +114,14 @@ jobs:
     timeout-minutes: 12
     permissions:
       contents: read
+      actions: read
       pages: write
       id-token: write
     outputs:
       release_sha: ${{ steps.release.outputs.sha }}
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url || steps.retry.outputs.page_url }}
     steps:
       - name: Resolve immutable deployment revision
         id: release
@@ -208,9 +210,27 @@ jobs:
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0 (Node.js 24 dependencies)
         with:
           path: ./_site
+      - name: Wait for the Pages artifact to become discoverable
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          for attempt in {1..10}; do
+            count=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts?name=github-pages" --jq '.total_count') || count=0
+            if [[ "$count" == 1 ]]; then exit 0; fi
+            sleep 6
+          done
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1 (Node.js 24)
+        continue-on-error: true
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+      - name: Allow artifact metadata to propagate before retry
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 30
+      - name: Retry the same Pages artifact
+        id: retry
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
       - name: Confirm the public release and indexes
         run: python3 scripts/confirm_release.py
       - name: Flag collection failure after displaying state on site

@@ -1,0 +1,375 @@
+[
+  {
+    "id": "sulawesi-nickel",
+    "title": {
+      "en": "Nickel sourcing and Indigenous land in Sulawesi",
+      "zh": "蘇拉威西鎳礦供應鏈與原住民族土地"
+    },
+    "place": "ID",
+    "rights_holders": {
+      "en": "Indigenous communities in Sulawesi",
+      "zh": "蘇拉威西原住民族社群"
+    },
+    "focus": {
+      "en": "An investigation traced nickel through processing facilities to vehicle manufacturers. The case follows the reported land impacts and each actor’s response.",
+      "zh": "調查報導追溯鎳礦從加工廠到車廠的流向。本案追蹤報導提出的土地影響及各方回應。"
+    },
+    "follow_up_on": "2026-12-01",
+    "follow_up": {
+      "en": "Revisit the case page after Huayou’s stated November 30 response deadline. Look for the response and the affected communities’ assessment.",
+      "zh": "華友表示 11 月 30 日前回覆。屆期回查原始案件頁，並尋找受影響社群對處理措施的評價。"
+    },
+    "gap": "response",
+    "source_checked_on": "2026-11-24",
+    "sources": [
+      {
+        "id": "story",
+        "publisher": "Business and Human Rights Centre",
+        "url": "https://www.business-humanrights.org/en/latest-news/indonesia-chinese-battery-supply-chains-link-global-automakers-linked-to-indigenous-land-loss-incl-cos-responses-non-responses/",
+        "published_on": "2026-10-16",
+        "record_id": null,
+        "feed_published_at": null,
+        "first_seen_at": null
+      },
+      {
+        "id": "bmw",
+        "publisher": "BMW via Business and Human Rights Centre",
+        "url": "https://www.business-humanrights.org/en/latest-news/bmws-non-response-to-alleged-deforestation-on-indigenous-lands/",
+        "published_on": "2026-11-09",
+        "record_id": "3c977f8fb63d9db9d0",
+        "feed_published_at": "2026-11-10T03:34:10Z",
+        "first_seen_at": "2026-11-10T04:12:25Z"
+      },
+      {
+        "id": "merdeka",
+        "publisher": "Business and Human Rights Centre",
+        "url": "https://www.business-humanrights.org/en/latest-news/merdeka-battery-materials-non-response-to-alleged-deforestation-on-indigenous-lands/",
+        "published_on": "2026-11-09",
+        "record_id": "82b3d24d7d73834535",
+        "feed_published_at": "2026-11-10T03:29:15Z",
+        "first_seen_at": "2026-11-10T04:12:25Z"
+      }
+    ],
+    "timeline": [
+      {
+        "on": "2026-10-16",
+        "actor": "Business and Human Rights Centre",
+        "kind": "report",
+        "source": "story",
+        "text": {
+          "en": "The Centre published a case page about alleged land loss linked to nickel sourcing.",
+          "zh": "中心刊出鎳礦採購與原住民族土地流失指控的案件頁。"
+        }
+      },
+      {
+        "on": "2026-11-09",
+        "actor": "BMW",
+        "kind": "response",
+        "source": "bmw",
+        "text": {
+          "en": "The Centre published BMW’s response.",
+          "zh": "中心刊出 BMW 回應。"
+        }
+      },
+      {
+        "on": "2026-11-09",
+        "actor": "Merdeka Battery Materials",
+        "kind": "no_response",
+        "source": "merdeka",
+        "text": {
+          "en": "The Centre recorded no response to its invitation as of this entry.",
+          "zh": "中心記錄該次詢問截至登錄時尚未獲回應。"
+        }
+      },
+      {
+        "on": null,
+        "actor": "Zhejiang Huayou Cobalt",
+        "kind": "commitment",
+        "source": "story",
+        "text": {
+          "en": "The Centre says Huayou committed to reply by November 30. The date of the commitment is unspecified.",
+          "zh": "中心記載華友表示將於 11 月 30 日前回覆。承諾作成日期未載明。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "mejurua-consultation",
+    "title": {
+      "en": "Consultation and the Mejuruá carbon project",
+      "zh": "Mejuruá 碳權專案與原住民族諮商"
+    },
+    "place": "BR",
+    "rights_holders": {
+      "en": "Indigenous peoples and traditional communities in Carauari",
+      "zh": "Carauari 的原住民族與傳統社群"
+    },
+    "focus": {
+      "en": "Brazil’s federal prosecutors describe a dispute over land and consultation in a carbon credit project in Amazonas.",
+      "zh": "巴西聯邦檢察機關公布碳權專案涉及土地與諮商權的訴訟。"
+    },
+    "follow_up_on": "2026-12-01",
+    "follow_up": {
+      "en": "Check the court docket and community statements for orders, implementation and evidence of land access.",
+      "zh": "回查法院卷宗與社群聲明，追蹤裁定、執行情形及社群使用土地的證據。"
+    },
+    "gap": "procedure",
+    "source_checked_on": "2026-11-24",
+    "sources": [
+      {
+        "id": "mpf",
+        "publisher": "Ministério Público Federal",
+        "url": "https://www.mpf.mp.br/o-mpf/unidades/pr-am/noticias/mpf-ajuiza-acao-contra-empresa-de-gestao-florestal-br-arbo-e-certificadora-verra-por-violacoes-a-indigenas-e-comunidades-tradicionais-no-am",
+        "published_on": "2026-10-29",
+        "record_id": null,
+        "feed_published_at": null,
+        "first_seen_at": null
+      },
+      {
+        "id": "verra",
+        "publisher": "Verra via Business and Human Rights Centre",
+        "url": "https://www.business-humanrights.org/en/latest-news/verra-response-about-allegations-of-attacks-against-communities-affected-by-the-mejuru%C3%A1-project/",
+        "published_on": "2026-11-11",
+        "record_id": "1c299cccdf9bdedee3",
+        "feed_published_at": "2026-11-12T10:58:34Z",
+        "first_seen_at": "2026-11-13T02:43:21Z"
+      }
+    ],
+    "timeline": [
+      {
+        "on": "2026-10-29",
+        "actor": "Ministério Público Federal",
+        "kind": "procedure",
+        "source": "mpf",
+        "text": {
+          "en": "Prosecutors announced a civil action against BR Arbo and Verra and requested suspension of the project.",
+          "zh": "檢察機關公布對 BR Arbo 與 Verra 提起民事訴訟，並請求暫停專案。"
+        }
+      },
+      {
+        "on": "2026-11-11",
+        "actor": "Verra",
+        "kind": "response",
+        "source": "verra",
+        "text": {
+          "en": "Verra stated that it had received no notice of proceedings and had no comment at that time.",
+          "zh": "Verra 表示當時尚未收到訴訟通知，暫無評論。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "giant-taiwan-bicycles",
+    "title": {
+      "en": "Giant Taiwan bicycles and the US customs order",
+      "zh": "巨大在臺製造自行車與美國海關暫扣令"
+    },
+    "place": "TW",
+    "rights_holders": {
+      "en": "Workers in Giant’s Taiwan manufacturing operations",
+      "zh": "巨大在臺製造據點的勞工"
+    },
+    "focus": {
+      "en": "Follow the goods covered by the US customs order, the company’s responses and the evidence on worker outcomes.",
+      "zh": "追蹤美國海關命令涵蓋的產品、公司回應及勞工實際處境。"
+    },
+    "follow_up_on": "2026-12-03",
+    "follow_up": {
+      "en": "Review the latest CBP disposition and seek worker-side evidence of fee reimbursement and its coverage.",
+      "zh": "回查美國海關後續處置，並尋找勞工端可佐證招募費返還及涵蓋範圍的資料。"
+    },
+    "gap": "remedy",
+    "source_checked_on": "2026-11-24",
+    "sources": [
+      {
+        "id": "cbp",
+        "publisher": "US Customs and Border Protection",
+        "url": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3f3f8a1",
+        "published_on": "2025-09-24",
+        "record_id": null,
+        "feed_published_at": null,
+        "first_seen_at": null
+      },
+      {
+        "id": "giant",
+        "publisher": "Giant Group",
+        "url": "https://www.giantgroup-cycling.com/en-US/news/57c22036-e892-462b-beb6-521efbf2f8f8",
+        "published_on": "2026-03-09",
+        "record_id": null,
+        "feed_published_at": null,
+        "first_seen_at": null
+      }
+    ],
+    "timeline": [
+      {
+        "on": "2025-09-24",
+        "actor": "US Customs and Border Protection",
+        "kind": "procedure",
+        "source": "cbp",
+        "text": {
+          "en": "CBP ordered detention at US ports of specified bicycles, parts and accessories manufactured by Giant in Taiwan, citing indications of forced labour.",
+          "zh": "CBP 以有強迫勞動跡象為由，要求美國入境港口暫扣巨大在臺製造的指定自行車、零件及配件。"
+        }
+      },
+      {
+        "on": "2026-03-05",
+        "actor": "Giant Group",
+        "kind": "response",
+        "source": "giant",
+        "text": {
+          "en": "Giant reported meeting CBP and supplying documentation for review. The company published its account on March 9.",
+          "zh": "巨大表示已與 CBP 會面並提供審查文件，公司於 3 月 9 日發布說明。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "bathla-wages",
+    "title": {
+      "en": "Wage claims following the Bathla Group collapse",
+      "zh": "Bathla 集團進入管理程序後的工資請求"
+    },
+    "place": "AU",
+    "rights_holders": {
+      "en": "Former construction group employees, including temporary visa holders",
+      "zh": "建築集團離職員工，包含臨時簽證持有人"
+    },
+    "focus": {
+      "en": "Former employees and administrators described outstanding entitlements during voluntary administration in Australia.",
+      "zh": "澳洲建築集團進入自願管理程序後，離職員工與管理人說明待釐清的工資及給付。"
+    },
+    "follow_up_on": "2026-12-07",
+    "follow_up": {
+      "en": "Check administrator and creditor updates for actual distributions and whether temporary visa holders are included.",
+      "zh": "查核管理人與債權人公告的實際給付，另查臨時簽證勞工是否納入。"
+    },
+    "gap": "remedy",
+    "source_checked_on": "2026-11-24",
+    "sources": [
+      {
+        "id": "payroll",
+        "publisher": "Australian Broadcasting Corporation",
+        "url": "https://www.abc.net.au/news/2026-09-03/bathla-group-will-meet-its-payroll-obligations/107103616",
+        "published_on": "2026-09-03",
+        "record_id": null,
+        "feed_published_at": null,
+        "first_seen_at": null
+      },
+      {
+        "id": "workers",
+        "publisher": "Australian Broadcasting Corporation",
+        "url": "https://www.abc.net.au/news/2026-11-09/workers-break-silence-after-bathla-collapse/107339658",
+        "published_on": "2026-11-09",
+        "record_id": null,
+        "feed_published_at": null,
+        "first_seen_at": null
+      }
+    ],
+    "timeline": [
+      {
+        "on": "2026-09-03",
+        "actor": "Teneo via ABC",
+        "kind": "commitment",
+        "source": "payroll",
+        "text": {
+          "en": "Administrators told ABC they had secured funds for a partial wage payment covering work after their appointment.",
+          "zh": "管理人向 ABC 表示，已取得支付接管後部分工資的資金。"
+        }
+      },
+      {
+        "on": "2026-11-09",
+        "actor": "Former employees via ABC",
+        "kind": "worker_voice",
+        "source": "workers",
+        "text": {
+          "en": "Former employees described outstanding pay and uncertainty over recovery. ABC also reported the administrators’ explanation for delays.",
+          "zh": "離職員工向 ABC 說明仍有薪資待領及求償的不確定性，報導亦引述管理人對延誤的說明。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "silao-collective-bargaining",
+    "title": {
+      "en": "Collective bargaining at the GM Silao facility",
+      "zh": "GM 墨西哥 Silao 廠集體協商"
+    },
+    "place": "MX",
+    "rights_holders": {
+      "en": "Workers at General Motors’ Silao facility",
+      "zh": "通用汽車 Silao 工廠勞工"
+    },
+    "focus": {
+      "en": "A historical comparison case with a documented remediation plan and subsequent votes at a single facility.",
+      "zh": "歷史比較案例。美墨雙方針對單一工廠訂定補救程序，後續有勞工投票紀錄。"
+    },
+    "follow_up_on": null,
+    "follow_up": {
+      "en": "For a longitudinal study, seek worker or union evidence about implementation of the new agreement.",
+      "zh": "如延伸追蹤履約，另蒐集工會或勞工對新協約執行情形的紀錄。"
+    },
+    "gap": "voice",
+    "source_checked_on": "2026-11-24",
+    "sources": [
+      {
+        "id": "plan",
+        "publisher": "USTR",
+        "url": "https://ustr.gov/about-us/policy-offices/press-office/press-releases/2021/july/united-states-and-mexico-announce-course-remediation-workers-rights-denial-auto-manufacturing",
+        "published_on": "2021-07-08",
+        "record_id": null,
+        "feed_published_at": null,
+        "first_seen_at": null
+      },
+      {
+        "id": "vote",
+        "publisher": "USTR",
+        "url": "https://ustr.gov/about-us/policy-offices/press-office/press-releases/2022/february/statement-ambassador-katherine-tai-february-1-2-vote-workers-silao-mexico",
+        "published_on": "2022-02-03",
+        "record_id": null,
+        "feed_published_at": null,
+        "first_seen_at": null
+      },
+      {
+        "id": "agreement",
+        "publisher": "USTR",
+        "url": "https://ustr.gov/about-us/policy-offices/press-office/press-releases/2022/may/statement-ambassador-katherine-tai-recent-vote-workers-general-motors-facility-silao-mexico",
+        "published_on": "2022-05-27",
+        "record_id": null,
+        "feed_published_at": null,
+        "first_seen_at": null
+      }
+    ],
+    "timeline": [
+      {
+        "on": "2021-07-08",
+        "actor": "United States and Mexico",
+        "kind": "procedure",
+        "source": "plan",
+        "text": {
+          "en": "The governments announced a remediation plan for the bargaining agreement vote at the facility.",
+          "zh": "美墨兩國公布有關該廠集體協約投票的補救計畫。"
+        }
+      },
+      {
+        "on": null,
+        "actor": "GM Silao workers",
+        "kind": "worker_voice",
+        "source": "vote",
+        "text": {
+          "en": "USTR reported that workers selected a new union in the February 1–2 vote.",
+          "zh": "USTR 記錄勞工在 2 月 1 至 2 日投票選出新的工會。"
+        }
+      },
+      {
+        "on": null,
+        "actor": "GM Silao workers",
+        "kind": "remedy",
+        "source": "agreement",
+        "text": {
+          "en": "USTR’s May 27 statement reported worker approval of a newly negotiated collective agreement.",
+          "zh": "USTR 在 5 月 27 日聲明中記錄勞工投票通過新集體協約。"
+        }
+      }
+    ]
+  }
+]

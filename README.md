@@ -4,6 +4,10 @@ Public, source-traceable research intelligence for **European supply chain susta
 
 **Website:** https://e4e421.github.io/supply-chain-rights-observatory/
 
+## Case tracking pilot
+
+[Open the public case tracker](https://e4e421.github.io/supply-chain-rights-observatory/cases/). Each case distinguishes a dated development, an attributed response, the evidence gap and the next editorial check. The pilot adds five bilingual dossiers to the current public Workbench. The private Firebase desk is staged separately. Until the private migration is verified, use the existing portal only for public metadata. See the [backend rollout and optional LLM evaluation](deployment/firebase/README.md).
+
 ## Contents
 
 - `/docs`: static, mobile-friendly research site.

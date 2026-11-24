@@ -64,26 +64,7 @@ def option(value: str, label: str) -> str:
 def field(id: str, label: str, inner: str) -> str:
     return f'<label for="{id}" class="portal-field">{tx(label)}{inner}</label>'
 
-def build() -> None:
-    if OUT.exists(): shutil.rmtree(OUT)
-    shutil.copytree(ROOT/'docs',OUT,symlinks=False)
-    for name in ('portal.js','portal.css','portal-translations.json'):
-        shutil.copy2(ROOT/'portal'/name,OUT/name)
-    cards=''.join(f'<a href="./{route}/" class="portal-card"><small>{num:02d}</small>{tx(title,"h2")}{tx(desc,"p")}{tx("Explore","span", "class=card-arrow")}</a>' for num,(route,title,desc) in enumerate([
-        ('workbench','Research Workbench','Filter research records by theme, record type or date.'),
-        ('sources','Source Directory','Inspect institutional sources, editorial review and link availability.'),
-        ('policy','Policy Monitor','Separate policy dates from publication dates and find official texts.'),
-        ('research','Research Framework','Turn supply-network, governance and labour questions into searches.'),
-        ('methodology','Data & Methodology','Understand field definitions, coverage, exports and research limitations.')],1))
-    home=f'''<section class="portal-hero"><div><p class="portal-kicker">SUPPLY CHAIN · HUMAN RIGHTS · LABOUR</p>
-<h1>Where supply chains<br>meet <em>human rights.</em></h1>{tx('A public research index. Start with a search, then inspect the source.','p')}</div>
-<aside>{tx('Research Workbench','h2')}{tx('Search by title, publisher, DOI or record ID.','p')}{link('./workbench/','Research Workbench','portal-workbench')}</aside></section>
-<section class="portal-stats" aria-label="Dataset overview"><div>{tx('Historical records')}<strong id="home-total">—</strong></div><div>{tx('Curated reference sources')}<strong id="home-sources">—</strong></div><div>{tx('Last successful collection')}<strong id="home-updated" data-collection-age>—</strong><time id="home-updated-utc" data-collection-utc lang="en" hidden></time></div><div>{tx('Technical collection status')}<strong id="home-health">—</strong></div></section>
-<section class="portal-sections">{tx('Explore the research index','h2')}<div class="portal-card-grid">{cards}</div></section>
-<section id="signals"><div class="portal-section-heading">{tx('Latest research intelligence','h2')}{link('./workbench/?sort=observed-desc','Browse research records')}</div><p id="home-status" role="status" aria-live="polite">Loading public data…</p><div id="home-latest" class="portal-record-list"></div></section>'''
-    write('',shell('','Research Portal','Public research index for supply chains, human rights and labour.',home,True))
-    archive=f'<section class="portal-document">{link("../workbench/","Research Workbench","portal-workbench")}</section>'
-    write('archive',shell('archive','Research Archive','Search research records in the Workbench.',archive))
+def build_reference_pages() -> None:
     automatic_academic = [
         ('https://www.crossref.org/documentation/retrieve-metadata/rest-api/', 'Crossref',
          'Publisher-deposited bibliographic metadata and DOI lookup.'),
@@ -152,6 +133,28 @@ def build() -> None:
 <div class="portal-card-grid">{''.join(articles)}</div>
 <section class="portal-document">{tx('Literature discovery','h2')}{tx('Check the DOI, publication version and peer-review status at the publisher.','p')}{link('../workbench/?kind=academic','Search academic records')} · {link('../sources/#academic-monitoring','Academic literature monitoring')}</section>'''
     write('research',shell('research','Research Framework','Turn supply-network, governance and labour questions into searches.',research))
+
+def build() -> None:
+    if OUT.exists(): shutil.rmtree(OUT)
+    shutil.copytree(ROOT/'docs',OUT,symlinks=False)
+    for name in ('portal.js','portal.css','portal-translations.json'):
+        shutil.copy2(ROOT/'portal'/name,OUT/name)
+    cards=''.join(f'<a href="./{route}/" class="portal-card"><small>{num:02d}</small>{tx(title,"h2")}{tx(desc,"p")}{tx("Explore","span", "class=card-arrow")}</a>' for num,(route,title,desc) in enumerate([
+        ('workbench','Research Workbench','Filter research records by theme, record type or date.'),
+        ('sources','Source Directory','Inspect institutional sources, editorial review and link availability.'),
+        ('policy','Policy Monitor','Separate policy dates from publication dates and find official texts.'),
+        ('research','Research Framework','Turn supply-network, governance and labour questions into searches.'),
+        ('methodology','Data & Methodology','Understand field definitions, coverage, exports and research limitations.')],1))
+    home=f'''<section class="portal-hero"><div><p class="portal-kicker">SUPPLY CHAIN · HUMAN RIGHTS · LABOUR</p>
+<h1>Where supply chains<br>meet <em>human rights.</em></h1>{tx('A public research index. Start with a search, then inspect the source.','p')}</div>
+<aside>{tx('Research Workbench','h2')}{tx('Search by title, publisher, DOI or record ID.','p')}{link('./workbench/','Research Workbench','portal-workbench')}</aside></section>
+<section class="portal-stats" aria-label="Dataset overview"><div>{tx('Historical records')}<strong id="home-total">—</strong></div><div>{tx('Curated reference sources')}<strong id="home-sources">—</strong></div><div>{tx('Last successful collection')}<strong id="home-updated" data-collection-age>—</strong><time id="home-updated-utc" data-collection-utc lang="en" hidden></time></div><div>{tx('Technical collection status')}<strong id="home-health">—</strong></div></section>
+<section class="portal-sections">{tx('Explore the research index','h2')}<div class="portal-card-grid">{cards}</div></section>
+<section id="signals"><div class="portal-section-heading">{tx('Latest research intelligence','h2')}{link('./workbench/?sort=observed-desc','Browse research records')}</div><p id="home-status" role="status" aria-live="polite">Loading public data…</p><div id="home-latest" class="portal-record-list"></div></section>'''
+    write('',shell('','Research Portal','Public research index for supply chains, human rights and labour.',home,True))
+    archive=f'<section class="portal-document">{link("../workbench/","Research Workbench","portal-workbench")}</section>'
+    write('archive',shell('archive','Research Archive','Search research records in the Workbench.',archive))
+    build_reference_pages()
     dictionary=[('record_id','Stable publication identifier.'),('event_id','Unassigned until a separately reviewed event-linking decision.'),('published_at','Publication timestamp supplied by the source.'),('first_seen','First observation by this collection pipeline.'),('publisher_hint','Publisher attribution supplied by the source.'),('evidence_status','Discovery or bibliographic class; not a verdict.'),('topics','Preliminary machine tags, not human-reviewed entity coding.')]
     methodology=f'''<section class="portal-document">{tx('Storage and retention','h2')}{tx('The collection snapshot retains up to 240 records published within the past 150 days. The permanent archive groups records by the month they were first observed.','p')}{tx('Corrections need an auditable review. A normal Git deletion does not erase public history.','p')}</section>
 <section class="portal-document">{tx('Core field dictionary','h2')}<dl class="portal-dictionary">{''.join('<dt><code>'+field+'</code></dt><dd>'+tx(definition)+'</dd>' for field,definition in dictionary)}</dl></section>
@@ -248,4 +251,7 @@ def write(page: str, content: str) -> None:
     path=OUT/('record.html' if page=='record' else page+'/index.html' if page else 'index.html')
     path.parent.mkdir(parents=True,exist_ok=True);path.write_text(content,encoding='utf-8')
 
-if __name__=='__main__':build()
+if __name__=='__main__':
+    build()
+    from build_case_release import attach_pilot
+    attach_pilot(OUT)
