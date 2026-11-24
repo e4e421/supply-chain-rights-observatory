@@ -41,7 +41,22 @@ def main():
                         navigate("/"+folder+"/cases/sulawesi-nickel/?lang=zh","document.querySelectorAll('.timeline li').length===4")
                         assert browser.evaluate("document.body.innerText.includes('2026-12-01')")
                         assert browser.evaluate("document.documentElement.scrollWidth<=innerWidth+2")
-                    navigate("/"+folder+"/team/","document.querySelector('#status').textContent.includes('尚未連接')")
+                    for route in ("cases/", "cases/sulawesi-nickel/", "team/"):
+                        navigate("/"+folder+"/"+route+"?lang=en","document.documentElement.lang==='en'")
+                        assert browser.evaluate(r"""(() => {
+                          const controls = document.querySelectorAll('nav a, button, summary, label, select option, [aria-label]');
+                          return [...controls].every(el => {
+                            const text = el.matches('option') ? el.textContent : el.innerText;
+                            return !/[\u3400-\u9fff]/u.test(text + (el.getAttribute('aria-label') || ''));
+                          });
+                        })()""") if route != "team/" else browser.evaluate(
+                            "document.querySelector('#login button .en').innerText==='Sign in' && document.querySelector('#approve .en').innerText==='Approve this version'")
+                    navigate("/"+folder+"/team/?lang=en","document.querySelector('#status').textContent.includes('not connected')")
+                    assert browser.evaluate("""(()=>{const picker=document.querySelector('#lang');picker.value='zh';picker.dispatchEvent(new Event('change'));return document.querySelector('#status').textContent.includes('尚未連接')})()""")
+                    for route in ("workbench/", "policy/", "research/", "sources/"):
+                        for lang,label in (("en","Case tracking"),("zh","案件追蹤"),("de","Fallverfolgung"),("es","Seguimiento de casos")):
+                            navigate("/"+folder+"/"+route+"?lang="+lang, "document.querySelector('[data-case-nav]').textContent==="+json.dumps(label))
+                    navigate("/"+folder+"/team/?lang=zh","document.querySelector('#status').textContent.includes('尚未連接')")
                     assert browser.evaluate("document.querySelector('#desk').hidden")
                 print("PASS desktop/mobile pilot and private-release layouts, search, source timeline and unconfigured desk")
             finally:browser.close()

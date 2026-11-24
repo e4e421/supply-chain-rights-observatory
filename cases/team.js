@@ -3,7 +3,144 @@
   const $ = id => document.getElementById(id);
   let config, token='', uid='', role='', version=null, publication=null, active='', paged=[], next='', finished=false, checked='';
   let templates=new Map(), generation=0, selection=0, pageGeneration=0;
-  const note = txt => { $('status').textContent=txt; };
+  let statusMessage = '';
+  const chinese = () => document.documentElement.lang === 'zh-Hant';
+  const translations = [
+  [
+    "登入已過期，請重新登入。",
+    "Your session expired. Please sign in again."
+  ],
+  [
+    "此帳號沒有這項權限。",
+    "Your account does not have permission for this action."
+  ],
+  [
+    "版本已變更，請重新選取案件後比對。",
+    "This version has changed. Reopen the case to compare it."
+  ],
+  [
+    "讀寫失敗（HTTP ",
+    "Request failed (HTTP "
+  ],
+  [
+    "），請保留草稿並重新載入版本。",
+    "). Keep your draft and reload the version."
+  ],
+  [
+    "請填寫有效 ID，並加入至少一項來源及進展。",
+    "Enter a valid ID and add at least one source and development."
+  ],
+  [
+    "請在完整公開草稿填妥中英欄位 ",
+    "Complete both language versions of this field in the public draft: "
+  ],
+  [
+    "正式 Firebase 專案尚未連接。公開案件與來源可正常瀏覽。",
+    "Firebase is not connected yet. Public cases and sources are available."
+  ],
+  [
+    "請使用已獲授權的研究帳號登入。",
+    "Sign in with an authorized research account."
+  ],
+  [
+    "帳號或密碼未獲接受。",
+    "Email or password was not accepted."
+  ],
+  [
+    "此帳號尚未獲研究權限。",
+    "This account has not been granted research access."
+  ],
+  [
+    "已登入 · ",
+    "Signed in · "
+  ],
+  [
+    "來源需要公開 HTTPS 網址。",
+    "Enter a public HTTPS source URL."
+  ],
+  [
+    "請填妥來源、行動者及中英進展。",
+    "Enter the publisher, actor and development in both languages."
+  ],
+  [
+    "進展已加入，請儲存草稿。",
+    "Development added. Save the draft to keep it."
+  ],
+  [
+    "私有草稿已儲存。",
+    "Private draft saved."
+  ],
+  [
+    "請先儲存並重讀目前草稿。",
+    "Save and reload the current draft first."
+  ],
+  [
+    "請先選取案件。",
+    "Select a case first."
+  ],
+  [
+    "請重新核對公開草稿。",
+    "Review the public draft again."
+  ],
+  [
+    "撤回 ",
+    "Withdraw the public version of "
+  ],
+  [
+    " 的公開版本？下次發布時生效。",
+    "? This takes effect at the next publication."
+  ],
+  [
+    "審核決定已記錄，等待下一次成功發布。",
+    "Review decision recorded for the next successful publication."
+  ],
+  [
+    "帶入待核草稿 · ",
+    "Add to draft for review · "
+  ],
+  [
+    "請先選取對應案件 ",
+    "First select the matching case "
+  ],
+  [
+    "，再帶入建議。",
+    " before adding the suggestion."
+  ],
+  [
+    "請核對引文、填入發布者，再加入草稿。",
+    "Check the quotation and enter the publisher before adding it to the draft."
+  ],
+  [
+    "已載入 ",
+    "Loaded "
+  ],
+  [
+    " 筆，符合 ",
+    " records, matching "
+  ],
+  [
+    " 筆。",
+    "."
+  ],
+  [
+    "無法讀取後台設定，請稍後重試。",
+    "Could not load the desk settings. Please try again later."
+  ]
+];
+  function display(message) {
+    if (chinese()) return message;
+    for (const [zh, en] of translations) message = message.replace(zh, en);
+    return message;
+  }
+  function note(message) {
+    statusMessage = message;
+    $('status').textContent = display(message);
+  }
+  document.addEventListener('case-language', () => {
+    if (statusMessage) note(statusMessage);
+    for (const option of $('case-select').options) option.textContent = option.dataset[chinese() ? 'zh' : 'en'];
+    if (!$('desk').hidden) showRows();
+  });
   const bind = (id,evt,fn) => $(id).addEventListener(evt, e => {
     if(evt==='submit')e.preventDefault();
     Promise.resolve().then(()=>fn(e)).catch(err=>note(err.message));
@@ -52,7 +189,11 @@
     } finally {if(n===selection)$('draft').inert=false;}
   }
   function addOption(id,label) {
-    if(![...$('case-select').options].some(o=>o.value===id))$('case-select').add(new Option(label,id));
+    let option = [...$('case-select').options].find(o => o.value === id);
+    if (!option) { option = new Option('', id); $('case-select').add(option); }
+    option.dataset.en = label.en || id;
+    option.dataset.zh = label.zh || id;
+    option.textContent = option.dataset[chinese() ? 'zh' : 'en'];
   }
   async function start(){
     const result=await fetch('config.json',{cache:'no-store'});config=await result.json();
@@ -70,10 +211,10 @@
       if(!['researcher','editor'].includes(role))throw Error('此帳號尚未獲研究權限。');
       const publicData=await (await fetch('../data/cases.json',{cache:'no-store'})).json();
       templates=new Map(publicData.cases.map(c=>[c.id,c]));$('case-select').replaceChildren();
-      for(const c of templates.values())addOption(c.id,c.title.zh);
+      for(const c of templates.values())addOption(c.id,c.title);
       let cursor='';
       do{const page=await api('/caseDrafts?pageSize=100'+(cursor?'&pageToken='+encodeURIComponent(cursor):''));
-        for(const d of page.documents||[]){const row=JSON.parse(data(d).payload);addOption(row.id,row.title.zh||row.id);}cursor=page.nextPageToken||'';}while(cursor);
+        for(const d of page.documents||[]){const row=JSON.parse(data(d).payload);addOption(row.id,row.title);}cursor=page.nextPageToken||'';}while(cursor);
       $('login').hidden=true;$('desk').hidden=false;$('editor').hidden=role!=='editor';
       await openCase($('case-select').value);await resetPool();note('已登入 · '+role);
     } catch(err){token='';uid='';role='';$('desk').hidden=true;$('login').hidden=false;throw err;}
@@ -97,7 +238,7 @@
     const row=getPublic();required(row);const id=row.id,n=selection;
     const update={name:root()+'/caseDrafts/'+id,fields:fields({payload:JSON.stringify(row),note:$('note').value,owner:$('owner').value,updatedBy:uid})};
     await api(':commit','POST',{writes:[{update,currentDocument:precondition(version)}]});
-    if(n!==selection)return;addOption(id,row.title.zh);$('case-select').value=id;await openCase(id);note('私有草稿已儲存。');
+    if(n!==selection)return;addOption(id,row.title);$('case-select').value=id;await openCase(id);note('私有草稿已儲存。');
   });
   bind('preview','click',()=>{
     const candidate=JSON.stringify(getPublic());if(candidate!==data(version).payload)throw Error('請先儲存並重讀目前草稿。');
@@ -107,7 +248,7 @@
     if(!active)throw Error('請先選取案件。');
     const id=active, initial=selection, payload=state==='approved'?JSON.stringify(getPublic()):'';
     if(state==='approved'&&(!checked||checked!==payload||payload!==data(version).payload))throw Error('請重新核對公開草稿。');
-    if(state==='withdrawn'&&!confirm('撤回 '+id+' 的公開版本？下次發布時生效。'))return;
+    if(state==='withdrawn'&&!confirm(display('撤回 '+id+' 的公開版本？下次發布時生效。')))return;
     const v=crypto.randomUUID(), path=root()+'/casePublications/'+id;
     const values=fields({state,payload,reviewer:uid,version:v});
     await api(':commit','POST',{writes:[
@@ -126,7 +267,7 @@
         for(const point of row.proposal.points){
           const source=(row.sources||[]).find(x=>x.id===point.source_id);
           if(!source)continue;
-          const button=document.createElement('button');button.type='button';button.textContent='帶入待核草稿 · '+point.actor;
+          const button=document.createElement('button');button.type='button';button.textContent=display('帶入待核草稿 · ')+point.actor;
           button.addEventListener('click',async()=>{
             try{
               if(active!==row.proposal.case_id)throw Error('請先選取對應案件 '+row.proposal.case_id+'，再帶入建議。');
@@ -139,7 +280,7 @@
         }
       }
       li.append(d);$('rows').append(li);}
-    $('loaded').textContent='已載入 '+paged.length+' 筆，符合 '+filtered.length+' 筆。';
+    $('loaded').textContent=display('已載入 '+paged.length+' 筆，符合 '+filtered.length+' 筆。');
     $('more').disabled=finished;
   }
   async function loadPage(){
