@@ -1,10 +1,15 @@
 'use strict';
 const choice = document.querySelector('#lang');
 const current = new URL(location.href);
-const language = current.searchParams.get('lang') || localStorage.getItem('scro.case.lang') || (navigator.language.startsWith('zh') ? 'zh' : 'en');
+const language = current.searchParams.get('lang') || localStorage.getItem('scro.language') || localStorage.getItem('scro.case.lang') || (navigator.language.startsWith('zh') ? 'zh' : 'en');
 function translate(lang) {
   document.documentElement.lang = lang === 'zh' ? 'zh-Hant' : 'en';
   choice.value = lang === 'zh' ? 'zh' : 'en';
+  choice.setAttribute('aria-label', choice.value === 'en' ? 'Language' : '語言');
+  for (const option of document.querySelectorAll('option[data-en]')) {
+    option.textContent = option.dataset[choice.value];
+  }
+  document.dispatchEvent(new Event('case-language'));
   document.querySelectorAll('a[data-local]').forEach(a => {
     const target = new URL(a.href);
     target.searchParams.set('lang', choice.value);
@@ -14,7 +19,7 @@ function translate(lang) {
 translate(language);
 choice.addEventListener('change', () => {
   translate(choice.value);
-  localStorage.setItem('scro.case.lang',choice.value);
+  localStorage.setItem('scro.language',choice.value);
   current.searchParams.set('lang',choice.value);
   history.replaceState(null,'',current);
 });

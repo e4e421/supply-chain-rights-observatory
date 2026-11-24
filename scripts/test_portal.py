@@ -30,7 +30,7 @@ def run():
   assert s.lang=='en' and s.headings and s.headings[0]=='h1',(rel,s.headings)
   assert not s.errors,(rel,s.errors)
   assert 'Content-Security-Policy' in raw and 'language-select' in s.ids,rel
-  assert '<option value="es" lang="es">Español</option>' in raw,rel
+  assert '<option value="es">Spanish</option>' in raw,rel
   assert all(k in keys for k in s.keys),(rel,sorted(set(s.keys)-keys))
   for u in s.urls:
    uri=urlparse(u)

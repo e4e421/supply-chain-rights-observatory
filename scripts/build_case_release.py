@@ -40,13 +40,13 @@ def tags_for_root(body,base,head,extra="",team=False):
 <meta name="referrer" content="no-referrer"><meta http-equiv="Content-Security-Policy" content="{csp}">
 <title>{escape(head)} | Supply Chain Rights Observatory</title><link rel="stylesheet" href="{base}case.css">
 <script defer src="{base}case.js"></script>{extra}</head><body><a href="#main" class="skip">{words("Skip to content","跳至內容")}</a>
-<header><a data-local class="brand" href="{base}index.html">Supply Chain Rights Observatory</a><nav>{nav}<select id="lang" aria-label="Language / 語言"><option value="en">EN</option><option value="zh">繁中</option></select></nav></header>
+<header><a data-local class="brand" href="{base}index.html">{words("Supply Chain Rights Observatory","供應鏈與人權觀測站")}</a><nav>{nav}<select id="lang" aria-label="Language"><option value="en" data-en="English" data-zh="英文">English</option><option value="zh" data-en="Traditional Chinese" data-zh="繁體中文">Traditional Chinese</option></select></nav></header>
 <main id="main">{body}</main><footer><a data-local href="{base}methodology/">{words("Methods and publication scope","研究方法與公開範圍")}</a></footer></body></html>'''
 
 def index(cases,base,collection,run):
     options=[("all","All cases","所有案件"),("recent","New developments in 7 days","近七日有進展"),("due","Due within 7 days or overdue","七日內到期或逾期")]
     options.extend((k,*v) for k,v in GAPS.items())
-    filters=''.join(f'<option value="{k}">{zh} · {en}</option>' for k,en,zh in options)
+    filters=''.join(f'<option value="{k}" data-en="{escape(en,quote=True)}" data-zh="{escape(zh,quote=True)}">{escape(en)}</option>' for k,en,zh in options)
     cards=[]
     for case in sorted(cases,key=lambda c:(c["follow_up_on"] is None,c["follow_up_on"] or "",c["id"])):
         source_dates={s["id"]:s["published_on"] or "" for s in case["sources"]}
@@ -134,7 +134,7 @@ def produce(out, cases, meta, revision, run="", config=None):
         legacy.build_reference_pages()
         for page in ("sources","policy","research"):
             fp=out/page/"index.html"
-            page_text=fp.read_text().replace('<nav class="portal-nav" aria-label="Main navigation">','<nav class="portal-nav" aria-label="Main navigation"><a href="../cases/">Cases · 案件</a>')
+            page_text=fp.read_text().replace('<nav class="portal-nav" aria-label="Main navigation">','<nav class="portal-nav" aria-label="Main navigation"><a data-case-nav href="../cases/">Case tracking</a>')
             page_text=re.sub(r'<noscript>.*?</noscript>','',page_text,flags=re.S)
             fp.write_text(page_text)
     finally: legacy.OUT=old
@@ -152,10 +152,10 @@ def produce(out, cases, meta, revision, run="", config=None):
     for item in cases:
         write(out,"cases/"+item["id"]+"/index.html",tags_for_root(detail(item),"../../",item["title"]["en"]))
     wb=out/"workbench/index.html"
-    wb.write_text(wb.read_text().replace('<header class="wb-header">','<header class="wb-header"><a href="../cases/">Cases · 案件</a><a href="../team/">Team · 研究後台</a>').replace("../index.html#sources","../sources/").replace("../index.html#method","../methodology/"))
+    wb.write_text(wb.read_text().replace('<header class="wb-header">','<header class="wb-header"><a data-case-nav href="../cases/">Case tracking</a><a data-case-nav href="../team/">Research desk</a>').replace("../index.html#sources","../sources/").replace("../index.html#method","../methodology/"))
     # Preserve old routes without exposing an archive beyond the approved source index.
     for path,target in [("workbench/edit/index.html","../../team/"),("archive/index.html","../workbench/")]:
-        write(out,path,f'<!doctype html><meta charset="utf-8"><title>Observatory</title><a id="route" href="{target}">Continue / 繼續</a><script src="{target}../route.js"></script>')
+        write(out,path,f'<!doctype html><meta charset="utf-8"><title>Observatory</title><a id="route" href="{target}">Continue</a><script src="{target}../i18n.js"></script><script src="{target}../route.js"></script>')
     write(out,"record.html",tags_for_root('<h1>'+words("Publication record","出版紀錄")+'</h1><a id="record-link" href="workbench/">'+words("Open source search","開啟來源搜尋")+'</a>','./',"Record",'<script defer src="./route.js"></script>'))
     write(out,"route.js","const r=document.querySelector('#route'); if(r)location.replace(r.href+location.search+location.hash);const a=document.querySelector('#record-link');if(a){const id=new URLSearchParams(location.search).get('id');if(/^[0-9a-f]{18}$/.test(id)){a.href+='?record='+id;location.replace(a.href);}}")
     method=words("Only sources cited in released cases appear in public search and CSV. Case milestones identify who said or did what. A published allegation, an actor’s response and verified remedy are recorded separately.", "公開搜尋與 CSV 收錄已發布案件引用的來源。每一筆進展標明行動者，分別記錄指控、當事方回應及可佐證的補救。")
@@ -186,7 +186,7 @@ def attach_pilot(site):
         content=f.read_text()
         anchor='<header class="wb-header">' if page.startswith("workbench") else '<nav class="portal-nav" aria-label="Main navigation">'
         if anchor not in content: raise ValueError("Case navigation anchor missing: "+page)
-        f.write_text(content.replace(anchor,anchor+'<a href="'+base+'cases/">Cases · 案件追蹤</a>',1))
+        f.write_text(content.replace(anchor,anchor+'<a data-case-nav href="'+base+'cases/">Case tracking</a>',1))
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)

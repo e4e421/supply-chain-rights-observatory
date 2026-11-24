@@ -41,7 +41,30 @@ def main():
                         navigate("/"+folder+"/cases/sulawesi-nickel/?lang=zh","document.querySelectorAll('.timeline li').length===4")
                         assert browser.evaluate("document.body.innerText.includes('2026-12-01')")
                         assert browser.evaluate("document.documentElement.scrollWidth<=innerWidth+2")
-                    navigate("/"+folder+"/team/","document.querySelector('#status').textContent.includes('尚未連接')")
+                    routes = ["cases/", "cases/sulawesi-nickel/", "team/", "", "sources/", "workbench/", "methodology/", "policy/", "research/"]
+                    if folder == "_site":
+                        routes.extend(["workbench/edit/", "record.html"])
+                    for route in routes:
+                        navigate("/"+folder+"/"+route+"?lang=en","document.documentElement.lang==='en'")
+                        if route == "team/":
+                            # Expose the local form to inspect its controls without an account.
+                            browser.evaluate("document.querySelectorAll('[hidden]').forEach(el=>el.hidden=false);document.querySelectorAll('details').forEach(el=>el.open=true);true")
+                        mixed = browser.evaluate(r"""(() => {
+                          const controls = document.querySelectorAll('nav a, button, summary, label, select option, [aria-label], [placeholder]');
+                          const names = [...controls].filter(el => el.matches('option') || el.getClientRects().length).map(el => {
+                            const text = el.matches('option') ? el.textContent :
+                              el.matches('nav a, button, summary, label') ? el.innerText : '';
+                            return [text, el.getAttribute('aria-label'), el.getAttribute('placeholder')].filter(Boolean).join(' ');
+                          });
+                          return names.filter(name => /[\u3400-\u9fff]/u.test(name));
+                        })()""")
+                        assert not mixed, (folder,route,mixed)
+                    navigate("/"+folder+"/team/?lang=en","document.querySelector('#status').textContent.includes('not connected')")
+                    assert browser.evaluate("""(()=>{const picker=document.querySelector('#lang');picker.value='zh';picker.dispatchEvent(new Event('change'));return document.querySelector('#status').textContent.includes('尚未連接')})()""")
+                    for route in ("workbench/", "policy/", "research/", "sources/"):
+                        for lang,label in (("en","Case tracking"),("zh","案件追蹤"),("de","Fallverfolgung"),("es","Seguimiento de casos")):
+                            navigate("/"+folder+"/"+route+"?lang="+lang, "document.querySelector('[data-case-nav]').textContent==="+json.dumps(label))
+                    navigate("/"+folder+"/team/?lang=zh","document.querySelector('#status').textContent.includes('尚未連接')")
                     assert browser.evaluate("document.querySelector('#desk').hidden")
                 print("PASS desktop/mobile pilot and private-release layouts, search, source timeline and unconfigured desk")
             finally:browser.close()
