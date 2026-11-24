@@ -36,7 +36,7 @@ def main():
                     for width in (390,1200):
                         browser.call("Emulation.setDeviceMetricsOverride",{"width":width,"height":850,"deviceScaleFactor":1,"mobile":width<500})
                         navigate("/"+folder+"/cases/?lang=zh","document.documentElement.lang==='zh-Hant' && document.querySelectorAll('article.card').length===5")
-                        count=browser.evaluate("(()=>{const el=document.querySelector('#case-search');el.value='蘇拉威西';el.dispatchEvent(new Event('input'));return document.querySelectorAll('article.card:not([hidden])').length})()")
+                        count=browser.evaluate("(()=>{const el=document.querySelector('#case-search');el.value='BMW';el.dispatchEvent(new Event('input'));return document.querySelectorAll('article.card:not([hidden])').length})()")
                         assert count==1,count
                         navigate("/"+folder+"/cases/sulawesi-nickel/?lang=zh","document.querySelectorAll('.timeline li').length===4")
                         assert browser.evaluate("document.body.innerText.includes('2026-12-01')")

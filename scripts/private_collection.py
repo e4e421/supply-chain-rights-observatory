@@ -28,7 +28,8 @@ def load_history():
         raise ValueError("Historical manifest mismatch")
     reviews=read("data/reviews/decisions.json")
     return {"researchRecords":records,"researchCandidates":candidates,"researchReviews":{
-        **reviews["records"],"catalogue-metadata":{k:v for k,v in reviews.items() if k!="records"}}}
+        **{rid+"-"+digest(row):dict(row,record_id=rid) for rid,row in reviews["records"].items()},
+        "catalogue-"+digest({k:v for k,v in reviews.items() if k!="records"}):{k:v for k,v in reviews.items() if k!="records"}}}
 
 def identity(row):
     return (row["kind"],row["url"],row["title"].casefold(),row.get("doi"))

@@ -49,10 +49,15 @@ def index(cases,base,collection,run):
     filters=''.join(f'<option value="{k}">{zh} · {en}</option>' for k,en,zh in options)
     cards=[]
     for case in sorted(cases,key=lambda c:(c["follow_up_on"] is None,c["follow_up_on"] or "",c["id"])):
-        dated=[m["on"] for m in case["timeline"] if m["on"]]
-        cards.append(f'''<article class="card" data-gap="{case["gap"]}" data-due="{case["follow_up_on"] or ""}" data-latest="{max(dated,default="")}">
+        source_dates={s["id"]:s["published_on"] or "" for s in case["sources"]}
+        latest=max(case["timeline"],key=lambda m:m["on"] or source_dates[m["source"]])
+        dated=[m["on"] or source_dates[m["source"]] for m in case["timeline"]]
+        search=escape(" ".join([case["id"],case["rights_holders"]["zh"],case["rights_holders"]["en"],
+                                *(m["actor"] for m in case["timeline"]),*(s["publisher"] for s in case["sources"])]),quote=True)
+        cards.append(f'''<article class="card" data-search="{search}" data-gap="{case["gap"]}" data-due="{case["follow_up_on"] or ""}" data-latest="{max(dated,default="")}">
 <p class="meta">{case["place"]} · {words(*GAPS[case["gap"]])}</p>
 <h2><a data-local href="{base}cases/{case["id"]}/">{loc(case["title"])}</a></h2><p>{loc(case["focus"])}</p>
+<p><strong>{words("Latest documented change","最近有據進展")}</strong> · {loc(latest["text"])}</p>
 <p class="gap">{words("Next check","下次查核")} · {case["follow_up_on"] or words("Historical case","歷史案例")}</p></article>''')
     return f'''<div class="hero"><h1>{words("Case tracking","供應鏈人權案件追蹤")}</h1><p>{words("Trace changes, responses and remedy to their sources.","從原始來源追蹤案件進展、企業回應與補救成效。")}</p></div>
 <div class="meta">{words("Last successful collection (UTC)","最近成功蒐集（UTC）")} · {escape(collection or "—")}<br>

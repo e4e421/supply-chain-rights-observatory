@@ -30,7 +30,7 @@ function filterCases() {
     const match = type === 'all' || type === card.dataset.gap ||
       (type === 'due' && card.dataset.due && card.dataset.due <= horizon) ||
       (type === 'recent' && card.dataset.latest >= weekAgo && card.dataset.latest <= today);
-    card.hidden = !match || !card.textContent.toLocaleLowerCase().includes(query);
+    card.hidden = !match || !(card.textContent+' '+card.dataset.search).toLocaleLowerCase().includes(query);
     if (!card.hidden) count++;
   }
   document.querySelector('#count').textContent=String(count);
