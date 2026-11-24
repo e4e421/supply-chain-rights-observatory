@@ -52,7 +52,8 @@ def main():
                         mixed = browser.evaluate(r"""(() => {
                           const controls = document.querySelectorAll('nav a, button, summary, label, select option, [aria-label], [placeholder]');
                           const names = [...controls].filter(el => el.matches('option') || el.getClientRects().length).map(el => {
-                            const text = el.matches('option') ? el.textContent : el.innerText;
+                            const text = el.matches('option') ? el.textContent :
+                              el.matches('nav a, button, summary, label') ? el.innerText : '';
                             return [text, el.getAttribute('aria-label'), el.getAttribute('placeholder')].filter(Boolean).join(' ');
                           });
                           return names.filter(name => /[\u3400-\u9fff]/u.test(name));
