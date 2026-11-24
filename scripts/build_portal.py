@@ -39,7 +39,7 @@ def header(page: str, base: str) -> str:
     return f'''<a class="skip-link" href="#main">{tx('Skip to content')}</a>
 <header class="portal-header"><div class="portal-top">
 <a class="portal-brand" href="{base}index.html"><b>SCRO</b><span>SUPPLY CHAIN<br>RIGHTS OBSERVATORY</span></a>
-<div class="portal-actions"><label for="language-select" class="language-picker"><span class="sr-only">Language</span><select id="language-select" aria-label="Select website language"><option value="en">English</option><option value="zh">繁體中文</option><option value="de">Deutsch</option><option value="es" lang="es">Español</option></select></label></div></div>
+<div class="portal-actions"><label for="language-select" class="language-picker"><span class="sr-only">Language</span><select id="language-select" aria-label="Select website language"><option value="en">English</option><option value="zh">Traditional Chinese</option><option value="de">German</option><option value="es">Spanish</option></select></label></div></div>
 <nav class="portal-nav" aria-label="Main navigation">{nav}</nav></header>'''
 
 def shell(page: str, title: str, subtitle: str, body: str, home=False) -> str:

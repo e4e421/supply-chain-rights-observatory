@@ -41,16 +41,23 @@ def main():
                         navigate("/"+folder+"/cases/sulawesi-nickel/?lang=zh","document.querySelectorAll('.timeline li').length===4")
                         assert browser.evaluate("document.body.innerText.includes('2026-12-01')")
                         assert browser.evaluate("document.documentElement.scrollWidth<=innerWidth+2")
-                    for route in ("cases/", "cases/sulawesi-nickel/", "team/"):
+                    routes = ["cases/", "cases/sulawesi-nickel/", "team/", "", "sources/", "workbench/", "methodology/", "policy/", "research/"]
+                    if folder == "_site":
+                        routes.extend(["workbench/edit/", "record.html"])
+                    for route in routes:
                         navigate("/"+folder+"/"+route+"?lang=en","document.documentElement.lang==='en'")
-                        assert browser.evaluate(r"""(() => {
-                          const controls = document.querySelectorAll('nav a, button, summary, label, select option, [aria-label]');
-                          return [...controls].every(el => {
+                        if route == "team/":
+                            # Expose the local form to inspect its controls without an account.
+                            browser.evaluate("document.querySelectorAll('[hidden]').forEach(el=>el.hidden=false);document.querySelectorAll('details').forEach(el=>el.open=true);true")
+                        mixed = browser.evaluate(r"""(() => {
+                          const controls = document.querySelectorAll('nav a, button, summary, label, select option, [aria-label], [placeholder]');
+                          const names = [...controls].filter(el => el.matches('option') || el.getClientRects().length).map(el => {
                             const text = el.matches('option') ? el.textContent : el.innerText;
-                            return !/[\u3400-\u9fff]/u.test(text + (el.getAttribute('aria-label') || ''));
+                            return [text, el.getAttribute('aria-label'), el.getAttribute('placeholder')].filter(Boolean).join(' ');
                           });
-                        })()""") if route != "team/" else browser.evaluate(
-                            "document.querySelector('#login button .en').innerText==='Sign in' && document.querySelector('#approve .en').innerText==='Approve this version'")
+                          return names.filter(name => /[\u3400-\u9fff]/u.test(name));
+                        })()""")
+                        assert not mixed, (folder,route,mixed)
                     navigate("/"+folder+"/team/?lang=en","document.querySelector('#status').textContent.includes('not connected')")
                     assert browser.evaluate("""(()=>{const picker=document.querySelector('#lang');picker.value='zh';picker.dispatchEvent(new Event('change'));return document.querySelector('#status').textContent.includes('尚未連接')})()""")
                     for route in ("workbench/", "policy/", "research/", "sources/"):
