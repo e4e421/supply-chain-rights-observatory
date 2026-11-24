@@ -1,0 +1,24 @@
+name: Verify case tracking and private permissions
+on:
+  pull_request:
+    branches: [main]
+    paths: ['cases/**', 'scripts/**', 'tests/test_case_*.py', 'firestore.rules', 'firebase.json', '.github/workflows/case-tracking-checks.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify private rules with official emulators and synthetic accounts
+        shell: bash
+        run: |
+          export JAVA_HOME="$JAVA_HOME_21_X64"
+          export PATH="$JAVA_HOME/bin:$PATH"
+          npx --yes --package firebase-tools@15.37.0 firebase emulators:exec --project demo-scro --only auth,firestore 'python3 scripts/test_case_rules.py'
+      - name: Exercise the desktop and mobile case desk
+        run: python3 scripts/test_case_browser.py
