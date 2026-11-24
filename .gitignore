@@ -16,3 +16,8 @@ coverage/
 .pytest_cache/
 _site/
 _qa/
+_release/
+.private/
+.firebase/
+firebase-debug.log*
+firestore-debug.log*

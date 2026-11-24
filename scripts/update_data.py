@@ -352,17 +352,16 @@ def merge_items(new, previous, now):
     return sorted(merged.values(), key=lambda x: (x.get('published_at') or '', x['id']), reverse=True)[:MAX_ITEMS]
 
 
-def run():
-    now = utc_now()
-    config = json.loads(CONFIG_FILE.read_text(encoding='utf-8'))
-    try:
-        previous = json.loads(OUTPUT_FILE.read_text(encoding='utf-8'))
-    except (OSError, ValueError):
-        previous = {}
+def collect_sources(config, now):
     new_items, sources, warnings, candidates = [], [], [], []
     for config_item in config['news_queries']:
         query = config_item['query']
-        url = 'https://news.google.com/rss/search?' + urlencode({'q':query, 'hl':'en-GB', 'gl':'GB', 'ceid':'GB:en'})
+        locale = config_item.get('locale', 'en-GB')
+        settings = {'en-GB':('en-GB','GB','GB:en'),'zh':('zh-TW','TW','TW:zh-Hant'),
+                    'pt':('pt-BR','BR','BR:pt-419'),'id':('id','ID','ID:id'),
+                    'es':('es-419','MX','MX:es-419'),'en-AU':('en-AU','AU','AU:en')}
+        hl,gl,edition = settings[locale]
+        url = 'https://news.google.com/rss/search?' + urlencode({'q':query, 'hl':hl, 'gl':gl, 'ceid':edition})
         counts = {}
         source = process_source(config_item, 'news', lambda: parse_rss(fetch_bytes(url), config_item, now, candidates, counts), new_items, warnings, now)
         sources.append({**source, **counts})
@@ -394,6 +393,17 @@ def run():
             return parse_openalex(json.loads(fetch_bytes(url).decode('utf-8')),cfg,now,candidates,counts)
         source = process_source(config_item,'academic',openalex_fetch,new_items,warnings,now)
         sources.append({**source, **counts})
+    return new_items, sources, warnings, candidates
+
+
+def run():
+    now = utc_now()
+    config = json.loads(CONFIG_FILE.read_text(encoding='utf-8'))
+    try:
+        previous = json.loads(OUTPUT_FILE.read_text(encoding='utf-8'))
+    except (OSError, ValueError):
+        previous = {}
+    new_items, sources, warnings, candidates = collect_sources(config, now)
     previous_sources = {row['id']:row for row in previous.get('sources', [])}
     for source in sources:
         prior = previous_sources.get(source['id'], {})

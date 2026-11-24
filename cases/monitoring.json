@@ -1,0 +1,91 @@
+[
+  {
+    "id": "sulawesi-nickel",
+    "locale": "id",
+    "anchors": [
+      "sulawesi",
+      "莫羅瓦利",
+      "蘇拉威西"
+    ],
+    "context": [
+      "nickel",
+      "nikel",
+      "鎳礦",
+      "huayou",
+      "merdeka",
+      "bmw"
+    ],
+    "query": "(Sulawesi OR Morowali) (nikel OR nickel) (masyarakat adat OR tanggapan OR pemulihan)"
+  },
+  {
+    "id": "mejurua-consultation",
+    "locale": "pt",
+    "anchors": [
+      "mejuruá",
+      "mejurua",
+      "carauari"
+    ],
+    "context": [
+      "verra",
+      "br arbo",
+      "carbono",
+      "carbon",
+      "碳權",
+      "consulta"
+    ],
+    "query": "(Mejuruá OR Carauari) (Verra OR \"BR Arbo\") (consulta OR decisão OR comunidades)"
+  },
+  {
+    "id": "giant-taiwan-bicycles",
+    "locale": "zh",
+    "anchors": [
+      "巨大",
+      "捷安特",
+      "giant"
+    ],
+    "context": [
+      "臺灣",
+      "台灣",
+      "taiwan",
+      "自行車",
+      "招募費",
+      "海關",
+      "withhold",
+      "bicycles"
+    ],
+    "query": "(巨大 OR 捷安特) (暫扣令 OR 招募費 OR 移工 OR 補救)"
+  },
+  {
+    "id": "bathla-wages",
+    "locale": "en-AU",
+    "anchors": [
+      "bathla"
+    ],
+    "context": [
+      "wages",
+      "employees",
+      "salary",
+      "worker",
+      "teneo",
+      "entitlements"
+    ],
+    "query": "Bathla (wages OR entitlements OR creditors OR payments)"
+  },
+  {
+    "id": "silao-collective-bargaining",
+    "locale": "es",
+    "anchors": [
+      "silao",
+      "西勞"
+    ],
+    "context": [
+      "gm",
+      "general motors",
+      "union",
+      "sindicato",
+      "協約",
+      "工會"
+    ],
+    "query": "Silao (SINTTIA OR \"General Motors\") (contrato OR salarios OR sindicato)"
+  }
+]

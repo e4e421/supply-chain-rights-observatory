@@ -1,0 +1,110 @@
+name: Refresh case tracking and publish
+on:
+  push:
+    branches: [main]
+    paths: ['cases/**', 'portal/**', 'docs/**', 'scripts/**', 'sources/**', 'firestore.rules', '.github/workflows/refresh-and-publish.yml']
+  schedule:
+    - cron: '23 10,22 * * *'
+  workflow_dispatch:
+    inputs:
+      deploy_only:
+        description: Publish reviewed cases without collecting sources
+        type: boolean
+        default: true
+      migrate:
+        description: Import and verify the historical private catalogue before collection
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: supply-chain-observatory-main-writes
+  cancel-in-progress: false
+  queue: max
+env:
+  CASE_BACKEND: ${{ vars.CASE_BACKEND || 'pilot' }}
+  FIREBASE_PROJECT_ID: ${{ vars.FIREBASE_PROJECT_ID }}
+jobs:
+  collect:
+    if: github.ref == 'refs/heads/main' && vars.CASE_BACKEND == 'firestore' && (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && (inputs.migrate || !inputs.deploy_only)))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - id: auth
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.CASE_COLLECTOR_ACCOUNT }}
+          token_format: access_token
+          create_credentials_file: false
+      - name: Verify and import historical records
+        if: inputs.migrate
+        env:
+          FIRESTORE_OAUTH_TOKEN: ${{ steps.auth.outputs.access_token }}
+        run: python3 scripts/private_collection.py migrate
+      - name: Collect privately and recheck approved case source hosts
+        if: github.event_name == 'schedule' || !inputs.deploy_only
+        env:
+          FIRESTORE_OAUTH_TOKEN: ${{ steps.auth.outputs.access_token }}
+          CASE_WATCH_HOSTS: ${{ vars.CASE_WATCH_HOSTS }}
+        run: |
+          python3 scripts/private_collection.py collect
+          python3 scripts/watch_case_sources.py
+  publish:
+    needs: [collect]
+    if: always() && !cancelled() && github.ref == 'refs/heads/main' && (github.event_name != 'schedule' || vars.CASE_BACKEND == 'firestore')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+      pages: write
+    environment:
+      name: github-pages
+      url: ${{ steps.retry.outputs.page_url || steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Authenticate read-only publication service
+        if: env.CASE_BACKEND == 'firestore'
+        id: auth
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.CASE_PUBLISHER_ACCOUNT }}
+          token_format: access_token
+          create_credentials_file: false
+      - name: Build from approved case fields only
+        env:
+          FIRESTORE_OAUTH_TOKEN: ${{ steps.auth.outputs.access_token }}
+          FIREBASE_WEB_API_KEY: ${{ vars.FIREBASE_WEB_API_KEY }}
+        run: |
+          case "$CASE_BACKEND" in
+            firestore) test -n "$FIREBASE_WEB_API_KEY" && python3 scripts/build_case_release.py --firebase ;;
+            pilot) python3 scripts/build_case_release.py ;;
+            *) exit 1 ;;
+          esac
+          node --check cases/team.js
+          node --check cases/case.js
+          python3 -m unittest discover -s tests -p 'test_case_*.py'
+      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9
+        with:
+          path: ./_release
+      - name: Deploy case release
+        id: deployment
+        continue-on-error: true
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346
+      - name: Retry deployment of the same artifact
+        id: retry
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346
+      - name: Confirm public case release
+        run: python3 scripts/verify_case_deploy.py

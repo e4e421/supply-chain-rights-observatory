@@ -1,0 +1,46 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function role() {
+      return get(/databases/$(database)/documents/members/$(request.auth.uid)).data.role;
+    }
+    function staff() { return request.auth != null && role() in ['researcher', 'editor']; }
+    function editor() { return request.auth != null && role() == 'editor'; }
+    match /members/{uid} {
+      allow get: if request.auth != null && request.auth.uid == uid;
+    }
+    match /{collection}/{id} {
+      allow read: if collection in ['researchRecords', 'researchCandidates', 'researchReviews',
+        'sourceChanges', 'caseLeads', 'caseSuggestions', 'caseChecks', 'caseOps'] && staff();
+    }
+    match /caseDrafts/{id} {
+      allow read: if staff();
+      allow create, update: if staff() && id.matches('[a-z][a-z0-9-]{1,70}')
+        && request.resource.data.keys().hasOnly(['payload','note','owner','updatedBy'])
+        && request.resource.data.payload is string && request.resource.data.payload.size() <= 150000
+        && request.resource.data.note is string && request.resource.data.note.size() <= 8000
+        && request.resource.data.owner is string && request.resource.data.owner.size() <= 120
+        && request.resource.data.updatedBy == request.auth.uid;
+    }
+    match /casePublications/{id} {
+      function decision() {
+        let d = request.resource.data;
+        return editor() && d.keys().hasOnly(['state','payload','reviewer','version'])
+          && d.reviewer == request.auth.uid && d.version.matches('[a-zA-Z0-9-]{12,60}')
+          && ((d.state == 'approved' && d.payload == get(/databases/$(database)/documents/caseDrafts/$(id)).data.payload)
+              || (d.state == 'withdrawn' && d.payload == ''))
+          && !exists(/databases/$(database)/documents/casePublications/$(id)/versions/$(d.version))
+          && getAfter(/databases/$(database)/documents/casePublications/$(id)/versions/$(d.version)).data == d;
+      }
+      allow read: if staff();
+      allow create: if decision();
+      allow update: if decision() && request.resource.data.version != resource.data.version;
+      match /versions/{version} {
+        allow read: if staff();
+        allow create: if editor() && request.resource.data.version == version
+          && request.resource.data.reviewer == request.auth.uid
+          && getAfter(/databases/$(database)/documents/casePublications/$(id)).data == request.resource.data;
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+name: Monitor private collection freshness
+on:
+  schedule:
+    - cron: '17 1,7,13,19 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  freshness:
+    if: vars.CASE_BACKEND == 'firestore' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - id: auth
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.CASE_PUBLISHER_ACCOUNT }}
+          token_format: access_token
+          create_credentials_file: false
+      - env:
+          FIRESTORE_OAUTH_TOKEN: ${{ steps.auth.outputs.access_token }}
+          FIREBASE_PROJECT_ID: ${{ vars.FIREBASE_PROJECT_ID }}
+        run: python3 scripts/private_collection.py freshness

@@ -38,7 +38,10 @@ def verify(expected, read):
     live = json.loads(read('data/build-info.json', 65536))
     if live != expected:
         raise ValueError('Public build metadata differs from the selected release')
-    for field, (path, maximum) in INDEXES.items():
+    indexes=dict(INDEXES)
+    if "cases_sha256" in expected:
+        indexes["cases_sha256"]=("data/cases.json",12_000_000)
+    for field, (path, maximum) in indexes.items():
         digest = hashlib.sha256(read(path, maximum)).hexdigest()
         if digest != expected.get(field):
             raise ValueError(f'Published file differs from the selected release: {path}')

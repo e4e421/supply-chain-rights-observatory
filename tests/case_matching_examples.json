@@ -1,0 +1,62 @@
+[
+  {
+    "id": "src-1",
+    "excerpt": "An editor is following the Sulawesi nickel mines and a BMW reply.",
+    "expected": "sulawesi-nickel"
+  },
+  {
+    "id": "src-2",
+    "excerpt": "Consulta a comunidades em Carauari sobre o projeto Mejuruá e a Verra.",
+    "expected": "mejurua-consultation"
+  },
+  {
+    "id": "src-3",
+    "excerpt": "巨大在臺灣的自行車工廠回覆招募費議題。",
+    "expected": "giant-taiwan-bicycles"
+  },
+  {
+    "id": "src-4",
+    "excerpt": "Former Bathla employees ask about outstanding wages.",
+    "expected": "bathla-wages"
+  },
+  {
+    "id": "src-5",
+    "excerpt": "El sindicato de Silao comenta el contrato de General Motors.",
+    "expected": "silao-collective-bargaining"
+  },
+  {
+    "id": "src-6",
+    "excerpt": "華友就蘇拉威西鎳礦的土地爭議說明後續程序。",
+    "expected": "sulawesi-nickel"
+  },
+  {
+    "id": "src-7",
+    "excerpt": "Giant Taiwan discusses a US customs review of bicycles.",
+    "expected": "giant-taiwan-bicycles"
+  },
+  {
+    "id": "src-8",
+    "excerpt": "The Bathla administrators outlined wage entitlements.",
+    "expected": "bathla-wages"
+  },
+  {
+    "id": "src-9",
+    "excerpt": "BMW announced a new dealership and logo in Munich.",
+    "expected": null
+  },
+  {
+    "id": "src-10",
+    "excerpt": "A construction company in Perth announces a new housing project.",
+    "expected": null
+  },
+  {
+    "id": "src-11",
+    "excerpt": "The Canadian auto union comments on a contract in Ontario.",
+    "expected": null
+  },
+  {
+    "id": "src-12",
+    "excerpt": "Workers asked the department to clarify the procedure.",
+    "expected": null
+  }
+]
