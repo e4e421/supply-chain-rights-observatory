@@ -27,6 +27,7 @@ on:
     paths:
       - 'docs/**'
       - 'portal/**'
+      - 'cases/**'
       - 'scripts/**'
       - 'sources/**'
       - 'data/**'
