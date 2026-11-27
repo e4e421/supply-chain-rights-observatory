@@ -1,83 +1,83 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-26T19:42:58Z",
-  "last_attempted_collection": "2026-11-26T19:42:58Z",
-  "last_successful_collection": "2026-11-26T19:42:58Z",
-  "last_new_archived_at": "2026-11-26T19:42:58Z",
-  "status": "ok",
+  "generated_at": "2026-11-27T04:21:11Z",
+  "last_attempted_collection": "2026-11-27T04:21:11Z",
+  "last_successful_collection": "2026-11-27T04:21:11Z",
+  "last_new_archived_at": "2026-11-27T04:21:11Z",
+  "status": "partial",
   "sources": [
     {
       "id": "eu-policy",
       "name": "EU due diligence & supply chain law",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-26T19:42:58Z",
-      "items": 0,
-      "received_items": 31,
+      "last_attempt": "2026-11-27T04:21:11Z",
+      "items": 29,
+      "received_items": 100,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-26T19:42:58Z"
+      "last_successful_attempt": "2026-11-27T04:21:11Z"
     },
     {
       "id": "forced-labour",
       "name": "European forced labour & product rules",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-26T19:42:58Z",
-      "items": 7,
-      "received_items": 32,
+      "last_attempt": "2026-11-27T04:21:11Z",
+      "items": 43,
+      "received_items": 100,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-26T19:42:58Z"
+      "last_successful_attempt": "2026-11-27T04:21:11Z"
     },
     {
       "id": "worker-rights",
       "name": "Supply chain worker rights & conditions",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-26T19:42:58Z",
-      "items": 4,
+      "last_attempt": "2026-11-27T04:21:11Z",
+      "items": 3,
       "received_items": 32,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-26T19:42:58Z"
+      "last_successful_attempt": "2026-11-27T04:21:11Z"
     },
     {
       "id": "remedy",
       "name": "Grievances, unions & remedy",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-26T19:42:58Z",
+      "last_attempt": "2026-11-27T04:21:11Z",
       "items": 7,
       "received_items": 80,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-26T19:42:58Z"
+      "last_successful_attempt": "2026-11-27T04:21:11Z"
     },
     {
       "id": "accountability",
       "name": "Business & human rights monitors",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-26T19:42:58Z",
-      "items": 5,
+      "last_attempt": "2026-11-27T04:21:11Z",
+      "items": 4,
       "received_items": 100,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-26T19:42:58Z"
+      "last_successful_attempt": "2026-11-27T04:21:11Z"
     },
     {
       "id": "oecd-ilo",
       "name": "ILO & OECD responsible business conduct",
       "type": "news",
       "status": "ok",
-      "last_attempt": "2026-11-26T19:42:58Z",
+      "last_attempt": "2026-11-27T04:21:11Z",
       "items": 3,
       "received_items": 63,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-26T19:42:58Z"
+      "last_successful_attempt": "2026-11-27T04:21:11Z"
     },
     {
       "id": "ec-press-corner",
       "name": "European Commission · Press Corner",
       "type": "official",
       "status": "ok",
-      "last_attempt": "2026-11-26T19:42:58Z",
+      "last_attempt": "2026-11-27T04:21:11Z",
       "items": 0,
       "feed_url": "https://ec.europa.eu/commission/presscorner/api/rss?language=en",
       "reuse_url": "https://commission.europa.eu/legal-notice_en",
@@ -85,14 +85,14 @@
       "received_items": 10,
       "usable_items": 10,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-26T19:42:58Z"
+      "last_successful_attempt": "2026-11-27T04:21:11Z"
     },
     {
       "id": "eur-lex-oj-l",
       "name": "EUR-Lex · Official Journal L",
       "type": "official",
       "status": "ok",
-      "last_attempt": "2026-11-26T19:42:58Z",
+      "last_attempt": "2026-11-27T04:21:11Z",
       "items": 0,
       "feed_url": "https://eur-lex.europa.eu/EN/display-feed.rss?rssId=222",
       "reuse_url": "https://eur-lex.europa.eu/content/legal-notice/legal-notice.html?locale=en",
@@ -100,14 +100,14 @@
       "received_items": 80,
       "usable_items": 80,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-26T19:42:58Z"
+      "last_successful_attempt": "2026-11-27T04:21:11Z"
     },
     {
       "id": "eurostat-social-news",
       "name": "Eurostat · Population and social conditions releases",
       "type": "official",
       "status": "ok",
-      "last_attempt": "2026-11-26T19:42:58Z",
+      "last_attempt": "2026-11-27T04:21:11Z",
       "items": 1,
       "feed_url": "https://ec.europa.eu/eurostat/en/search?_estatsearchportlet_WAR_estatsearchportlet_collection=CAT_PREREL&_estatsearchportlet_WAR_estatsearchportlet_theme=PER_POPSOC&p_p_id=estatsearchportlet_WAR_estatsearchportlet&p_p_lifecycle=2&p_p_mode=view&p_p_resource_id=atom&p_p_state=maximized",
       "reuse_url": "https://ec.europa.eu/eurostat/help/copyright-notice",
@@ -115,28 +115,29 @@
       "received_items": 11,
       "usable_items": 11,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-26T19:42:58Z"
+      "last_successful_attempt": "2026-11-27T04:21:11Z"
     },
     {
       "id": "academic-hrdd",
       "name": "Research: HRDD & supplier governance",
       "type": "academic",
       "status": "ok",
-      "last_attempt": "2026-11-26T19:42:58Z",
+      "last_attempt": "2026-11-27T04:21:11Z",
       "items": 0,
       "received_items": 75,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-26T19:42:58Z"
+      "last_successful_attempt": "2026-11-27T04:21:11Z"
     },
     {
       "id": "academic-labour",
       "name": "Research: social sustainability & labour",
       "type": "academic",
-      "status": "ok",
-      "last_attempt": "2026-11-26T19:42:58Z",
+      "status": "failed",
+      "last_attempt": "2026-11-27T04:21:11Z",
       "items": 0,
-      "received_items": 75,
-      "consecutive_failures": 0,
+      "http_status": 429,
+      "failure_kind": "rate_limited",
+      "consecutive_failures": 1,
       "last_successful_attempt": "2026-11-26T19:42:58Z"
     },
     {
@@ -144,22 +145,22 @@
       "name": "Research: human rights and global value chains",
       "type": "academic",
       "status": "ok",
-      "last_attempt": "2026-11-26T19:42:58Z",
+      "last_attempt": "2026-11-27T04:21:11Z",
       "items": 21,
       "received_items": 50,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-26T19:42:58Z"
+      "last_successful_attempt": "2026-11-27T04:21:11Z"
     },
     {
       "id": "openalex-supplier-governance",
       "name": "Research: supplier governance and labour standards",
       "type": "academic",
       "status": "ok",
-      "last_attempt": "2026-11-26T19:42:58Z",
-      "items": 25,
+      "last_attempt": "2026-11-27T04:21:11Z",
+      "items": 23,
       "received_items": 50,
       "consecutive_failures": 0,
-      "last_successful_attempt": "2026-11-26T19:42:58Z"
+      "last_successful_attempt": "2026-11-27T04:21:11Z"
     }
   ],
   "items": [
@@ -185,7 +186,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "supply_and_labour_context",
       "first_seen": "2026-11-26T19:42:58Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "0790234bb857381067"
@@ -213,7 +214,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-26T19:42:58Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "cadb4a5a315d1d9013"
@@ -241,7 +242,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "supply_and_labour_context",
       "first_seen": "2026-11-26T19:42:58Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "ed4cf9d1cd5e1177d7"
@@ -322,7 +323,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "supply_and_labour_context",
       "first_seen": "2026-11-26T04:13:40Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "d2ec31e27e72e26673"
@@ -349,7 +350,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-26T19:42:58Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "b9c84c3c6586182acb"
@@ -456,7 +457,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "supply_and_labour_context",
       "first_seen": "2026-11-24T20:43:16Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "c438d3ec939a604631"
@@ -534,7 +535,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-24T20:43:16Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "02877a7e7319a8278e"
@@ -589,7 +590,7 @@
       "screening_reason": "governance_and_rights",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-25T19:59:29Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "84c334b119f338586a"
@@ -615,7 +616,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "governance_and_rights",
       "first_seen": "2026-11-26T04:13:40Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "7a852901c0ce44e1b5"
@@ -642,7 +643,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "supply_and_labour_context",
       "first_seen": "2026-11-23T22:06:52Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "cc8ba0e70226bb7003"
@@ -698,7 +699,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "supply_and_labour_context",
       "first_seen": "2026-11-23T22:06:52Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "70e3d49afe0dc2206a"
@@ -962,7 +963,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-20T18:39:50Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "d134bf12df12a16361"
@@ -1075,32 +1076,6 @@
       "id": "d3a6b16cbc27e35442"
     },
     {
-      "title": "UK: Government to introduce human rights due diligence regime, Sara Feijao, James Marlow - Linklaters - Sustainable Futures",
-      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNYi1ZNmdUUTRDckpTVkhYM01vUjlvS0xNakRiYVRLSjBtckNIazFiTU01MXhCZ2VWTkphdVQyTDJiN2o2QXdWOEtkQ3owbjkyckREMDh6QXVHa1lEbUE2dVB3MlctODZLenNGMTRyRTNIcWo5US1KSFV0RERxQ29QWFlBQU1NNEFfNTZLQUdRSVJVUkN3OWlOZjJIemNIQTd2SGl6bEhVOW1FYTNoUHpoMnZ2T0JKdw?oc=5",
-      "published_at": "2026-11-16T15:37:51Z",
-      "source": "EU due diligence & supply chain law",
-      "source_id": "eu-policy",
-      "discovery_query_id": "eu-policy",
-      "publisher_hint": "Linklaters - Sustainable Futures",
-      "publisher_provenance": "google_news_rss_unverified",
-      "publisher_verified": false,
-      "canonical_url": null,
-      "kind": "discovery",
-      "evidence_status": "Unverified discovery",
-      "topics": [
-        "policy"
-      ],
-      "description": "News lead collected from a public feed.",
-      "screening_version": "keywords-2.1.1",
-      "screening_status": "candidate_relevant",
-      "screening_reason": "specific_hrdd_policy",
-      "first_seen": "2026-11-16T20:35:06Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
-      "pipeline_version": "collector-2026.11",
-      "original_language": null,
-      "id": "a2e755d57aa4dd175d"
-    },
-    {
       "title": "Senior Program Director-Desk Research and Data Analysis | Verité - Business and Human Rights Centre",
       "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxObHFnQU44cUtyQnMxLVB0TXVpbEYtWnB0TXYxWFFxaGluZ1Q0UzZiVldoX2RVdGx2UnYwdmNsdzF0bGNuOU5ILURLa29IekYyd0w4U2FoVUJHcWhGQmYycjdaSUEydFZVbTF3YUdLbUt2YVhXNldWWWJ6ekRVbmxnOG50RjZiZldfanhmYlRuUkVIaHBrcG5Gby1OQXQ1aUJDYUFubUJVaFFGeDd4dXl5UVNIbw?oc=5",
       "published_at": "2026-11-16T15:34:45Z",
@@ -1173,7 +1148,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "governance_and_rights",
       "first_seen": "2026-11-20T03:34:50Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "58f09ec5fd12a5cb07"
@@ -1203,6 +1178,32 @@
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "4afc7311f2d6d73e81"
+    },
+    {
+      "title": "UK: Government to introduce human rights due diligence regime, Sara Feijao, James Marlow - Linklaters - Sustainable Futures",
+      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNYi1ZNmdUUTRDckpTVkhYM01vUjlvS0xNakRiYVRLSjBtckNIazFiTU01MXhCZ2VWTkphdVQyTDJiN2o2QXdWOEtkQ3owbjkyckREMDh6QXVHa1lEbUE2dVB3MlctODZLenNGMTRyRTNIcWo5US1KSFV0RERxQ29QWFlBQU1NNEFfNTZLQUdRSVJVUkN3OWlOZjJIemNIQTd2SGl6bEhVOW1FYTNoUHpoMnZ2T0JKdw?oc=5",
+      "published_at": "2026-11-16T08:00:00Z",
+      "source": "EU due diligence & supply chain law",
+      "source_id": "eu-policy",
+      "discovery_query_id": "eu-policy",
+      "publisher_hint": "Linklaters - Sustainable Futures",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "policy"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "specific_hrdd_policy",
+      "first_seen": "2026-11-16T20:35:06Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "a2e755d57aa4dd175d"
     },
     {
       "title": "A proposed international disputes settlements scheme for business-related human rights abuses",
@@ -1416,7 +1417,7 @@
     {
       "title": "Supply chain resilience: Why visibility and due diligence effectiveness now matter more than compliance - Mishcon de Reya LLP",
       "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxNN0oyM3JqeVloUjh1elpfM1h5cy1zaDh1c1VBX05idm9EOWNQOUxJejV0X0poMzhyaFgtN3ZqRURYS2NpQXZZcVRMdUFxM2NTMEswZy1GSXZZQnhFRjV0b21fdG03eXhZRHd2MVhIZTBKZm5mVW5RaGEzSGZtMlNYejRwOExGTm5MX2FsTUNtd0JoSml3QUctWkVoc0UxUV9SenV2Ukg1bVpiaVhicUpsbTdfdlRaVklKM1RjUWlmS21VdzNkNjBYRVAyUQ?oc=5",
-      "published_at": "2026-11-13T17:38:03Z",
+      "published_at": "2026-11-13T08:00:00Z",
       "source": "EU due diligence & supply chain law",
       "source_id": "eu-policy",
       "discovery_query_id": "eu-policy",
@@ -1435,7 +1436,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-13T17:54:32Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "c13cb3dcb80f838374"
@@ -1463,7 +1464,7 @@
       "screening_reason": "specific_hrdd_policy",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-15T17:16:57Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "f6a3a79dfd74da72f7"
@@ -1675,7 +1676,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-13T02:43:21Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "9d5e575ea8275b7a1f"
@@ -1782,7 +1783,7 @@
       "screening_reason": "specific_hrdd_policy",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-15T17:16:57Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "ac503c9ee84b97b146"
@@ -2077,7 +2078,7 @@
       "screening_reason": "supply_and_labour_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-17T04:38:43Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "7b06f31a9b73c685bb"
@@ -2289,7 +2290,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
       "first_seen": "2026-11-20T03:34:50Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "7dd57c936508fea345"
@@ -2423,7 +2424,7 @@
       "screening_reason": "specific_hrdd_policy",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-13T02:43:21Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "8b56a5084d393c805b"
@@ -2452,7 +2453,7 @@
       "screening_reason": "specific_hrdd_policy",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-13T02:43:21Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "83050e8339c0c761ea"
@@ -2531,7 +2532,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "supply_and_labour_context",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "af284f2a66f9895a64"
@@ -2863,7 +2864,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
       "first_seen": "2026-11-09T07:04:36Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "dcb5b5b34ccab56262"
@@ -3048,7 +3049,7 @@
       "screening_reason": "specific_hrdd_policy",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "fb29fe1decad1107d1"
@@ -3075,7 +3076,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-18T18:55:06Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "e50ae56b2f3ff749a6"
@@ -3130,7 +3131,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "21b902a9f4b464699b"
@@ -3182,7 +3183,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-14T16:39:48Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "96cdb9bd0bc664b7ba"
@@ -3260,7 +3261,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-26T04:13:40Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "5519c2de9efb51df0b"
@@ -3341,7 +3342,7 @@
       "screening_reason": "supply_and_labour_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "efb8512b4fb494c001"
@@ -3424,7 +3425,7 @@
       "screening_reason": "specific_hrdd_policy",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "9da7ad65226cd45d0a"
@@ -3640,7 +3641,7 @@
       "screening_reason": "governance_and_rights",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-15T17:16:57Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "cbd4981a04e2357d9b"
@@ -3667,7 +3668,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-15T17:16:57Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "964767eb819fc29f2b"
@@ -3694,7 +3695,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "1fd07bab8a21a48d17"
@@ -3721,7 +3722,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-20T03:34:50Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "fe384b4e9567cb7cee"
@@ -3748,7 +3749,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-26T04:13:40Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "6685cc82cca8501c4a"
@@ -3775,7 +3776,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "d990fcdd58ae6910e9"
@@ -3803,7 +3804,7 @@
       "screening_reason": "supply_and_labour_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-20T18:39:50Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "095ab2544c7e0c4125"
@@ -3832,7 +3833,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "cb1ce28991bf744ec1"
@@ -3861,7 +3862,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "5edec64313a47a63c2"
@@ -3916,7 +3917,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "6fcf787cac3e8704f1"
@@ -3943,7 +3944,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "d97c1549bbb5fdeea5"
@@ -3970,7 +3971,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "supply_and_labour_context",
       "first_seen": "2026-11-21T17:40:32Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "4d41bcb622d9d3d5c1"
@@ -3997,7 +3998,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-20T03:34:50Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "35fea2e19a35336463"
@@ -4027,7 +4028,7 @@
       "screening_reason": "supply_and_labour_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "ee56e93f2de9aae441"
@@ -4053,7 +4054,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-21T17:40:32Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "afc4414df034de6b20"
@@ -4080,7 +4081,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-13T02:43:21Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "941a9d30061bfc2567"
@@ -4134,7 +4135,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "governance_and_rights",
       "first_seen": "2026-11-26T04:13:40Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "4b67b25054f795870c"
@@ -4239,7 +4240,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "5b854c9eea170ed193"
@@ -4271,6 +4272,34 @@
       "id": "0add13dc83910bde4a"
     },
     {
+      "title": "UK criminal liability for supply chain forced labour - Fieldfisher",
+      "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxOcWFrV2VENUtsMEdGVy1rNHZzUTRPcGFSYVBsWnR3ZGliV01mdXB4SG9iNkdqYWhsSjJMdnNSamw5aEpxRTZheTJjcWkzLWxsVDNlTWxqekx1b1BCRVd2TlVHb25iR0d2U0lpSHVBVkRoRnQ3SGlEUnRkSkVrRlFEa3ZxbTF6YzRpWmFpdnpzemRLanBQMTEzeXV2NHN6blRHVHUwbkRnR2tMMUFoSlNqWTh6RmlGdzRPZ2ZvNEM5OVdaNGRDc3ZSSWx3?oc=5",
+      "published_at": "2026-09-17T07:00:00Z",
+      "source": "EU due diligence & supply chain law",
+      "source_id": "eu-policy",
+      "discovery_query_id": "eu-policy",
+      "publisher_hint": "Fieldfisher",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour",
+        "network",
+        "policy"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "supply_and_labour_context",
+      "first_seen": "2026-11-27T04:21:11Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "f90eda9836252dfdd1"
+    },
+    {
       "title": "From Compliance to Capability: Human Resource Management's Role in Operationalising Scope 3 Supply Chain due Diligence Standards",
       "url": "https://doi.org/10.47772/ijriss.2026.100800750",
       "published_at": "2026-09-17T00:00:00Z",
@@ -4294,7 +4323,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-15T17:16:57Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "2e51ed57f5d103ac1b"
@@ -4347,7 +4376,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-11T17:12:12Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": "en",
       "id": "0faa2d922ec796cbcc"
@@ -4401,7 +4430,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-20T03:34:50Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "5ee1e4028a13346d2c"
@@ -4427,7 +4456,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "32c5163319d364241b"
@@ -4482,7 +4511,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
       "first_seen": "2026-11-20T03:34:50Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "0d051413f48f9610c0"
@@ -4509,7 +4538,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "eb8f3172a68d1e8ed8"
@@ -4536,7 +4565,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "supply_and_labour_context",
       "first_seen": "2026-11-20T03:34:50Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "512218868fd768a368"
@@ -4563,7 +4592,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "supply_and_labour_context",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "df0659f61fad1b162a"
@@ -4618,7 +4647,7 @@
       "screening_reason": "specific_hrdd_policy",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "f7bcb01d51c5e09730"
@@ -4672,7 +4701,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
       "first_seen": "2026-11-08T10:18:54Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "7be161a2a49c7ce0de"
@@ -4724,7 +4753,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-08T10:18:54Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "3cd8dec5e20cf3361d"
@@ -4804,7 +4833,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-21T17:40:32Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "ec82f4184ddd7810b3"
@@ -4912,7 +4941,7 @@
       "screening_reason": "supply_and_labour_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "9e0bfa9585c4c51b16"
@@ -4940,7 +4969,7 @@
       "screening_reason": "governance_and_rights",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-14T16:39:48Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "5c63123b3c22b48f68"
@@ -4967,7 +4996,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-20T03:34:50Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "39ddb1d0b3be5678de"
@@ -4993,7 +5022,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
       "first_seen": "2026-11-20T03:34:50Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "c4e5b25f1b320a2651"
@@ -5022,7 +5051,7 @@
       "screening_reason": "supply_and_labour_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "7ea7a0fca7da36f7ba"
@@ -5049,7 +5078,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-21T17:40:32Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "5a42406591a1f5d90e"
@@ -5076,7 +5105,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "2846680c87e8070d77"
@@ -5103,7 +5132,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "1e383fd752b9cfe22c"
@@ -5130,7 +5159,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-20T03:34:50Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "e39796db8835bdeaa1"
@@ -5157,7 +5186,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
       "first_seen": "2026-11-20T03:34:50Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "b71867e8b142fa3944"
@@ -5184,7 +5213,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-20T03:34:50Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "aed607be27ff723184"
@@ -5210,7 +5239,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "ba3bea92078c13e50e"
@@ -5237,7 +5266,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
       "first_seen": "2026-11-08T10:18:54Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "312e06b2d499409982"
@@ -5319,7 +5348,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-15T17:16:57Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "8f159bcd974e6d7a38"
@@ -5346,7 +5375,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "d1c3d15cf312eaf2ef"
@@ -5373,7 +5402,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "supply_and_labour_context",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "6915b913e203faf8a2"
@@ -5399,7 +5428,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "325f0c56f79168b55a"
@@ -5425,7 +5454,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "cf45f156f971be8150"
@@ -5452,7 +5481,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "7bf0bab2d6d63de6e6"
@@ -5559,7 +5588,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-08T10:18:54Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "09fd992726d66a42bd"
@@ -5585,7 +5614,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "85dc2459377bfc4100"
@@ -5612,7 +5641,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-22T17:55:44Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "bd2bde9ec6f0649d34"
@@ -5665,7 +5694,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-26T04:13:40Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "3e10e341f5bad33a40"
@@ -5691,7 +5720,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "f4afcfced3967bd680"
@@ -5743,10 +5772,36 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "d529300e4a565bdb2b"
+    },
+    {
+      "title": "Why Trump's 'forced labor' tariffs leave the world puzzled - DW.com",
+      "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNVWNkRkVaY2hRdFlSVEQtOG5hR3VBQjVuTUtySVp1d3Z2VDhGdzVwNjFVRUxZQ0NNT0p6SlBaVlRWTGs1c1BBUWVYSW1lM1JLbk94aks4UVJfaW9FMnpmU3VQRDhqOFpuUmI4dlJCYk5ON3NRSmRDUWNDblQ0VHZCc1k4WHdwZUNNSTNPbmxSTEM2ajBOZEHSAZYBQVVfeXFMTm41Z0JSV2xBX2YweG9OU0g2RFRRang3QTV3UWRQYUt4dXRGX29ITUpxWFBfanBoTHpvLW9rY3g2VkxiRkJDT0FYLTRFS1c0RnpFSFZsSHlHeFRRS3pRc21kLW96QVVRaERPVHRVd0Jfb3hPYWRaRDM2cE5fcW1NSVh3bWd3a2xxbVQyTkVLQ211aGY1QzFn?oc=5",
+      "published_at": "2026-07-24T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "DW.com",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-27T04:21:11Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "ce9cf07e961b4afa76"
     },
     {
       "title": "Trump imposes forced labor duties on 60 trading partners, including Philippines US President Donald Trump will impose new tariffs of 10% and 12.5% on goods from 60 trading partners, with the Philippines receiving the 12.5% rate. Full story:",
@@ -5795,7 +5850,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "a630549abc91c842e3"
@@ -5848,7 +5903,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "supply_and_labour_context",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "86f21c2014f2b9c550"
@@ -5874,10 +5929,36 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "81461de91a36d30d2b"
+    },
+    {
+      "title": "Donald Trump slaps Australia with 12.5pc ‘forced labour’ tariff - AFR",
+      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQRU56SHNZdG9xd0F5Qmd5blNDcXN2UXo2c0U0ODh4cWp3bEg5cThsY1A4THhLbjRaMWMxQWU1Y1ZSa0t5MVdnWTlxbkYxSlBmQktVZ1I5N2ZZSldkeWUxTEJsVGNCZkdEenJxa3hlUHBaa0VBSjIyU2MySjFxLTRYUHdORXo5ZGFCb0JkZzJuWUVybVZkbkp6aQ?oc=5",
+      "published_at": "2026-07-24T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "AFR",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-27T04:21:11Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "61bbcee70d7545ce3a"
     },
     {
       "title": "Trump administration imposes new tariffs on dozens of countries, citing forced labor concerns - CBS News",
@@ -5900,7 +5981,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "4a95713e3707e883a1"
@@ -5926,7 +6007,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "3106226f7c727cae47"
@@ -5978,10 +6059,36 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "1fa993e348dbf402e6"
+    },
+    {
+      "title": "Full list: 60 countries hit by new US tariffs over 'forced labour' rules - Gulf News",
+      "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQQzB4R2dyQ1pHSVg4OEdfbG00cDlqSGpFMWdQUU5TTDA4a2M5RmU2Q3ZRME04UFpPYndCQmJuMWpzOGp4b25vUVc1cUVRLS1wX1MyUVJURXloWDlmOXdlV3RvamlIaEJkb0VtaW4tc2JtS1F1NnNoS294R3NFb05NcWwtMHJybG1Vd2hJVmRDQlFwYjhnYzlpckgycGVFM09kRi1wdkNvcm51TkRSUk1QalZ4M2xSb2Ew0gHLAUFVX3lxTE9EVHFNVjF2UWVsVW9KT0QzcHo0VkFmOHpJUWN4dEtNcHRxQVFuTExoX05aZVlWakFBQmNyaEp4VTVnb21jX204WC1CUFpwS1JQbktwWHNQaDV4MVhIUkpFUm9OZ2FKZTNpbUkzdUhiM2dLZlpIVjNaV0lyREhKbjQtcmVJSFQxLXdLNTFuWUswV2xzbWJfVEVfQjRBV0FjRktnVjgydHZlYXIyeDlKRV9jcUVlMXRSTjR4Rm5lbEVfRTdMdkFsRjh5MFJB?oc=5",
+      "published_at": "2026-07-24T07:00:00Z",
+      "source": "European forced labour & product rules",
+      "source_id": "forced-labour",
+      "discovery_query_id": "forced-labour",
+      "publisher_hint": "Gulf News",
+      "publisher_provenance": "google_news_rss_unverified",
+      "publisher_verified": false,
+      "canonical_url": null,
+      "kind": "discovery",
+      "evidence_status": "Unverified discovery",
+      "topics": [
+        "forced-labour"
+      ],
+      "description": "News lead collected from a public feed.",
+      "screening_version": "keywords-2.1.1",
+      "screening_status": "candidate_relevant",
+      "screening_reason": "incomplete_context",
+      "first_seen": "2026-11-27T04:21:11Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
+      "pipeline_version": "collector-2026.11",
+      "original_language": null,
+      "id": "1825c9f495550bce0f"
     },
     {
       "title": "India moves to protect $1tn export target from forced labor concerns - Nikkei Asia",
@@ -6004,7 +6111,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "f03b2bebef222a14a3"
@@ -6031,7 +6138,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "supply_and_labour_context",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "dc7bcaf4e57d170285"
@@ -6057,7 +6164,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "42b27cb3d14dcdbb51"
@@ -6111,7 +6218,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "6cd13db2c6fc166f4f"
@@ -6138,7 +6245,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "6040bd2cf6a4915f65"
@@ -6192,7 +6299,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
       "first_seen": "2026-11-26T04:13:40Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "94bed7ed78531f2f67"
@@ -6219,7 +6326,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-08T10:18:54Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "223105c10471587638"
@@ -6245,7 +6352,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-26T04:13:40Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "32f055272fc1ddb805"
@@ -6272,7 +6379,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-10T04:12:25Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "63016d5fb7c6d73c86"
@@ -6300,7 +6407,7 @@
       "screening_reason": "specific_hrdd_policy",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "af62107743bbb3ede1"
@@ -6326,7 +6433,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-21T17:40:32Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "37698257999e74f19e"
@@ -6354,7 +6461,7 @@
       "screening_reason": "incomplete_context",
       "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
       "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "c0c67f3619c5421741"
@@ -6380,7 +6487,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "fffaec85318847d23e"
@@ -6407,7 +6514,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "specific_hrdd_policy",
       "first_seen": "2026-11-20T03:34:50Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "9fc3f19e11df5e38b1"
@@ -6433,7 +6540,7 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "533cd6f3d76a7fe53b"
@@ -6459,147 +6566,41 @@
       "screening_status": "candidate_relevant",
       "screening_reason": "incomplete_context",
       "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
+      "retrieved_at": "2026-11-27T04:21:11Z",
       "pipeline_version": "collector-2026.11",
       "original_language": null,
       "id": "5106eff9668b5364ff"
-    },
-    {
-      "title": "EU Publishes Guidelines Ahead of Forced Labour Ban - International Tin Association",
-      "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPcjVtcGszdGs2RVM3VHU3eEl1dTYyUGczTTNTOHdEQmpsY254c2FHal9Gcm5QUUJGWGVHd21rQUdwcmVpUm5SMGJ6bE9tdGh2X0QzY2pUYTBVRi1nb1BTWlNKSWJhUXB3cmlnLUpkaWdjUDlDWmRtWTFYcTRTZHhIV3RNWkJ6MC1yWXp6ag?oc=5",
-      "published_at": "2026-07-09T07:00:00Z",
-      "source": "European forced labour & product rules",
-      "source_id": "forced-labour",
-      "discovery_query_id": "forced-labour",
-      "publisher_hint": "International Tin Association",
-      "publisher_provenance": "google_news_rss_unverified",
-      "publisher_verified": false,
-      "canonical_url": null,
-      "kind": "discovery",
-      "evidence_status": "Unverified discovery",
-      "topics": [
-        "forced-labour"
-      ],
-      "description": "News lead collected from a public feed.",
-      "screening_version": "keywords-2.1.1",
-      "screening_status": "candidate_relevant",
-      "screening_reason": "incomplete_context",
-      "first_seen": "2026-11-22T17:55:44Z",
-      "retrieved_at": "2026-11-26T04:13:40Z",
-      "pipeline_version": "collector-2026.11",
-      "original_language": null,
-      "id": "3cc05c23c0ee9c1753"
-    },
-    {
-      "title": "Bridging decoupling gaps: the role of NGOS in combating forced labor in global supply chains",
-      "url": "https://doi.org/10.1108/ijopm-09-2025-0952",
-      "published_at": "2026-07-09T00:00:00Z",
-      "source": "OpenAlex · Research: supplier governance and labour standards",
-      "source_id": "openalex-supplier-governance",
-      "discovery_query_id": "openalex-supplier-governance",
-      "publisher_hint": "International Journal of Operations & Production Management",
-      "publisher_verified": false,
-      "canonical_url": null,
-      "publisher_provenance": "openalex_source_venue_metadata",
-      "kind": "academic",
-      "evidence_status": "Bibliographic record",
-      "topics": [
-        "forced-labour",
-        "network",
-        "research"
-      ],
-      "doi": "10.1108/ijopm-09-2025-0952",
-      "screening_version": "keywords-2.1.1",
-      "screening_status": "candidate_relevant",
-      "screening_reason": "supply_and_labour_context",
-      "description": "OpenAlex bibliographic lead. Verify the DOI, publisher record and peer-review status independently.",
-      "first_seen": "2026-11-08T16:39:15Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
-      "pipeline_version": "collector-2026.11",
-      "original_language": null,
-      "id": "260c07e298a1bd6d97"
-    },
-    {
-      "title": "Due diligence essentials for gender in global supply chains - OECD",
-      "url": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxOdWhfa3p6SnlSYzg0d2pYUnJEWWNGcTlCZzZUYUM3RzNoOHcxd19YTzMtTFpEVG5UX2l0dFBBeTlhbnlLZERnUGpqYUQwWWtUMEhhNEQ3dXpyWmZhX0J1NTQwT0tTTkFZN2xiY3FjeVM3MUFxRERGNEgtUW9HOW5Cd2Fnczc1MmJTdnN5Z2FobktYN3FwYXF0TTBUbVJaTFVHeGJMeDhyTnZMdlg0QTQwTEJfSzJnYjBfcmVTS2FQMi1raVhFa0xDVEMzYVpWWldaRHVjY2czSnhMaWpJREZTQ0ZlSDREXzZaTEJmZGFIb2FzTUh6THJUUg?oc=5",
-      "published_at": "2026-07-08T07:00:00Z",
-      "source": "ILO & OECD responsible business conduct",
-      "source_id": "oecd-ilo",
-      "discovery_query_id": "oecd-ilo",
-      "publisher_hint": "OECD",
-      "publisher_provenance": "google_news_rss_unverified",
-      "publisher_verified": false,
-      "canonical_url": null,
-      "kind": "discovery",
-      "evidence_status": "Unverified discovery",
-      "topics": [
-        "network",
-        "policy"
-      ],
-      "description": "News lead collected from a public feed.",
-      "screening_version": "keywords-2.1.1",
-      "screening_status": "candidate_relevant",
-      "screening_reason": "incomplete_context",
-      "first_seen": "2026-11-16T02:23:03Z",
-      "retrieved_at": "2026-11-16T02:23:03Z",
-      "pipeline_version": "collector-2026.11",
-      "original_language": null,
-      "id": "d30c33609be4b47a3f"
-    },
-    {
-      "title": "Australian Dock Workers Demand 28-Hour Week, Same Pay, Over AI - SupplyChainBrain",
-      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNOHkwR1Rnb0JORFB2TnAtLVM5QzAzN3prUlE4VDE4MzVlbGFfYUc5ZmFpMDFqS1JNREJnZTRnaDlWeEZtc25UX3FINmh6elVocXU5ODgwNFhkSzNFZUJNbTB5N0ZFNkFabWhMWjhiVVpmZ3ZiWXpvSXhXR0FjVFozSXA1d0tyTnpMeEgyYkdScGhzVnFMczF3Umxsa0VWejVhcEloNURUSER0MkVi?oc=5",
-      "published_at": "2026-07-08T07:00:00Z",
-      "source": "Grievances, unions & remedy",
-      "source_id": "remedy",
-      "discovery_query_id": "remedy",
-      "publisher_hint": "SupplyChainBrain",
-      "publisher_provenance": "google_news_rss_unverified",
-      "publisher_verified": false,
-      "canonical_url": null,
-      "kind": "discovery",
-      "evidence_status": "Unverified discovery",
-      "topics": [
-        "worker-voice"
-      ],
-      "description": "News lead collected from a public feed.",
-      "screening_version": "keywords-2.1.1",
-      "screening_status": "candidate_relevant",
-      "screening_reason": "incomplete_context",
-      "first_seen": "2026-11-23T22:06:52Z",
-      "retrieved_at": "2026-11-26T19:42:58Z",
-      "pipeline_version": "collector-2026.11",
-      "original_language": null,
-      "id": "64e26ce055a0005842"
     }
   ],
-  "warnings": [],
+  "warnings": [
+    "academic-labour: HTTPError (see source connectivity and format)"
+  ],
   "retrieval_quality": {
     "screening_version": "keywords-2.1.1",
-    "candidate_count": 237,
-    "accepted_observations": 73,
-    "excluded_observations": 164,
-    "received_items": 689,
-    "unique_accepted_observations": 68,
-    "duplicate_observations": 5,
+    "candidate_count": 327,
+    "accepted_observations": 134,
+    "excluded_observations": 193,
+    "received_items": 751,
+    "unique_accepted_observations": 125,
+    "duplicate_observations": 9,
     "new_archived_records": 4,
     "retained_records": 240,
-    "academic_records_accepted": 46,
+    "academic_records_accepted": 44,
     "source_counts": [
       {
         "id": "eu-policy",
         "status": "ok",
-        "items": 0
+        "items": 29
       },
       {
         "id": "forced-labour",
         "status": "ok",
-        "items": 7
+        "items": 43
       },
       {
         "id": "worker-rights",
         "status": "ok",
-        "items": 4
+        "items": 3
       },
       {
         "id": "remedy",
@@ -6609,7 +6610,7 @@
       {
         "id": "accountability",
         "status": "ok",
-        "items": 5
+        "items": 4
       },
       {
         "id": "oecd-ilo",
@@ -6638,7 +6639,7 @@
       },
       {
         "id": "academic-labour",
-        "status": "ok",
+        "status": "failed",
         "items": 0
       },
       {
@@ -6649,10 +6650,10 @@
       {
         "id": "openalex-supplier-governance",
         "status": "ok",
-        "items": 25
+        "items": 23
       }
     ],
-    "candidate_archive_total": 1041,
+    "candidate_archive_total": 1061,
     "scope": "bounded news, official feed and bibliographic result windows"
   }
 }
